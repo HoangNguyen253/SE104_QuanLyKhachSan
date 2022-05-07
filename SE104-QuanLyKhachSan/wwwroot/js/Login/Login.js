@@ -40,6 +40,7 @@ signInButton.addEventListener('click', () => {
         xhr_login.timeout = 20000;
         xhr_login.onreadystatechange = function () {
             if (xhr_login.readyState == 4 && xhr_login.status == 200) {
+
                 let result = JSON.parse(xhr_login.response);
                 if (result == true) {
                     window.location.replace("https://localhost:5001/Home/Index")
