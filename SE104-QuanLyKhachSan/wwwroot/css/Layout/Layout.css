@@ -1,0 +1,446 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
+
+
+* {
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.name_of_hotel {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2.5rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.staff_info_field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+    .staff_info_field:hover {
+        background-color: #064e81;
+    }
+
+#avatar {
+    width: 2rem;
+    height: 2rem;
+    padding: 0.5rem;
+}
+
+.arrow_in_menu_burger.rotate_90_icon_arrow {
+    transform: rotate(-90deg);
+    transition: 0.5s;
+}
+
+/*=================== HEADER: begin ============*/
+.header_admin {
+    color: white;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #002b49;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    padding: 0 2rem;
+    box-shadow: 0 0.2rem 1rem 0 rgba(0, 0, 0, .25);
+    height: 8vh;
+    z-index: 1;
+    margin-bottom: 0.5vh;
+}
+
+.header_admin_left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#today {
+    font-weight: 500;
+}
+
+#time_now_id {
+    padding-left: 1rem;
+    font-weight: 500;
+}
+
+.header_admin_left div {
+    padding-right: 0.8rem;
+}
+
+#check_menu_burger_id {
+    display: none;
+}
+
+#check_menu_burger_icon_id {
+    cursor: pointer;
+}
+
+.dropdown_list_option_header_account_container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown_list_option_header_account {
+    position: absolute;
+    z-index: 2;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    width: 12vw;
+    border: 1px solid black;
+    color: black;
+}
+
+    .dropdown_list_option_header_account .option_name_header_account {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        border-bottom: 1px solid #c9c9c9;
+    }
+
+.option_name_header_account:hover {
+    background-color: #e4e4e4;
+}
+
+.option_name_header_account p {
+    font-size: 0.8rem;
+}
+
+.option_name_header_account img {
+    width: 1.2rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+/*=================== HEADER: end ============*/
+main {
+    height: 92vh;
+}
+
+/*=================== MENU: begin ============*/
+.menu_burger {
+    position: fixed;
+    top: 8.5vh;
+    width: 20%;
+    left: 0;
+    transition: all 0.5s;
+    height: 92vh;
+    background-color: white;
+    border: 3px solid #002B49;
+    overflow: scroll;
+}
+
+    .menu_burger::-webkit-scrollbar {
+        display: none;
+    }
+
+.user_type_field {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.2rem;
+    /* background-color: red; */
+}
+
+.option_list_in_burger {
+    margin-top: 0.2rem;
+    border-top: 1px solid #c9c9c9;
+}
+
+.option_name_icon {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 0.5fr;
+    align-items: center;
+    padding-left: 1rem;
+    border-left: 0.1rem solid #c9c9c9;
+    border-right: 0.1rem solid #c9c9c9;
+    border-bottom: 0.1rem solid #c9c9c9;
+    cursor: pointer;
+    transition: 0.5s;
+    color: white;
+    background-color: #002B49;
+}
+
+    .option_name_icon p, .option_name_icon img, .arrow_in_menu_burger {
+        pointer-events: none;
+    }
+
+    .option_name_icon p {
+        font-weight: 700;
+    }
+
+.arrow_in_menu_burger {
+    transition: 0.5s;
+}
+
+.arrow_in_menu_burger {
+    text-align: center;
+}
+
+.option_name_icon:hover {
+    padding-left: 1.5rem;
+}
+
+img.icon_item {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.selection_name_icon {
+    border-left: none;
+    display: flex;
+    align-items: center;
+    padding-left: 3.6rem;
+    border-bottom: 0.1rem solid #c9c9c9;
+    cursor: pointer;
+    transition: 0.5s;
+    background-color: white;
+    color: black;
+    transition: 0.3s;
+    height: 2.4rem;
+}
+
+    .selection_name_icon p {
+        padding-left: 0.4rem;
+        font-weight: 500;
+    }
+
+    .selection_name_icon p, .selection_name_icon img {
+        pointer-events: none;
+    }
+
+    .selection_name_icon.chosen_selection_menu_burger {
+        border-left: 0.4rem solid #002B49;
+        transition: 0.3s;
+    }
+
+        .selection_name_icon.chosen_selection_menu_burger p {
+            font-weight: 700;
+        }
+
+    .selection_name_icon:hover {
+        padding-left: 4rem;
+    }
+
+        .selection_name_icon:hover p {
+            font-weight: 700;
+        }
+
+    .option_name_icon p, .selection_name_icon p {
+        font-size: 0.9rem;
+    }
+/*=================== MENU: end ============*/
+
+/*=================== MAIN: begin ============*/
+.main_working_window {
+    padding: 0;
+    transition: all 0.5s;
+    margin-left: 20.5%;
+    height: 100%;
+    background-image: url(../../image/Layout/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: content-box;
+}
+/*=================== MAIN: end ============*/
+
+/*=================== POPUP PROFILE NHÂN VIÊN: begin ============*/
+.staff_profile_popup_window_container {
+    display: flex;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s ease;
+}
+
+    .staff_profile_popup_window_container.show {
+        pointer-events: auto;
+        opacity: 1;
+        transition: 0.5s ease;
+    }
+
+.staff_profile_popup_window {
+    width: 55vw;
+    position: relative;
+    max-height: 100vh;
+    top: -100vh;
+    transition: 0.3s;
+}
+
+.staff_profile_popup_window_container.show .staff_profile_popup_window {
+    top: 0;
+    transition: 0.3s;
+}
+
+.header_staff_profile_popup_window {
+    display: flex;
+    background-color: #002b49;
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header_name_staff_profile_popup_window {
+    font-weight: 500;
+    margin: 0.5rem;
+}
+
+.header_close_staff_profile_popup_window {
+    margin: 0.5rem;
+    cursor: pointer;
+    color: white;
+}
+
+.body_staff_profile_popup_window {
+    background-color: white;
+    padding-right: 3rem;
+}
+
+.content_staff_profile_popup_window {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+}
+
+.avatar_field_staff_profile_popup_window {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#avatar_img_staff_profile_popup_window {
+    padding-bottom: 1rem;
+}
+
+#btn_change_avatar_staff_profile_popup_window {
+    border: 0.2rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.3rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: 35%;
+    background-color: #002b49;
+    color: white;
+}
+
+    #btn_change_avatar_staff_profile_popup_window:active {
+        background-color: white;
+        color: #002b49;
+    }
+
+.name_part_info_staff_profile_popup_window {
+    font-weight: 700;
+    font-size: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.data_info_staff_profile_popup_window {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+
+    .data_info_staff_profile_popup_window p {
+        font-weight: 500;
+        font-size: 0.8rem;
+        width: 25%;
+    }
+
+.input_data_info_staff_profile_popup_window {
+    font-weight: 500;
+    font-size: 0.8rem;
+    border: 0.1rem solid black;
+    height: 1.6rem;
+    width: 45%;
+}
+
+select.input_data_info_staff_profile_popup_window {
+    height: 1.8rem;
+    width: 46%;
+}
+
+    select.input_data_info_staff_profile_popup_window option {
+        font-weight: 500;
+        font-size: 0.8rem;
+    }
+
+input:disabled, select:disabled {
+    background-color: #c9c9c9;
+}
+
+.work_info_staff_profile_popup_window .name_part_info_staff_profile_popup_window {
+    border-top: 2px solid black;
+}
+
+.function_field_staff_profile_popup_window {
+    border-top: 0.1rem solid #c9c9c9;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+#btn_save_admin_in_staff_profile_popup_window_id {
+    border: 0.1rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 6rem;
+    font-size: 0.8rem;
+    background-color: #002b49;
+    color: white;
+}
+
+    #btn_save_admin_in_staff_profile_popup_window_id:active {
+        background-color: white;
+        color: #002b49;
+    }
+
+#btn_cancel_admin_in_staff_profile_popup_window_id, #btn_changepass_admin_in_staff_profile_popup_window_id {
+    border: 0.1rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 6rem;
+    font-size: 0.8rem;
+    background-color: white;
+    color: #002b49;
+}
+
+    #btn_cancel_admin_in_staff_profile_popup_window_id:active, #btn_changepass_admin_in_staff_profile_popup_window_id:active {
+        background-color: #002b49;
+        color: white;
+    }
+
+#btn_changepass_admin_in_staff_profile_popup_window_id {
+    margin-left: 1rem;
+    width: 8rem;
+}
+/*=================== POPUP PROFILE NHÂN VIÊN: end ============*/

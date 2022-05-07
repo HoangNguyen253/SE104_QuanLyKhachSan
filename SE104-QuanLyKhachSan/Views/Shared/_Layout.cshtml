@@ -1,48 +1,242 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SE104_QuanLyKhachSan</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='~/css/Layout/Layout.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+            integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SE104_QuanLyKhachSan</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <header class="header_admin">
+        <div class="header_admin_left">
+            <div>
+                <input type="checkbox" id="check_menu_burger_id" checked>
+                <label for="check_menu_burger_id">
+                    <i class="fa fa-bars" style="font-size: 2.5rem;" id="check_menu_burger_icon_id"></i>
+                </label>
+            </div>
+            <p id='today'></p>
+            <script>
+                const timeElapsed = Date.now();
+                const today = new Date(timeElapsed);
+                document.getElementById('today').innerHTML = today.toDateString();
+            </script>
+        </div>
+        <div>
+            <img>
+            <a class="name_of_hotel" id="hotel_name_reload_home_id">Gloria</a>
+            <script>
+                document.getElementById('hotel_name_reload_home_id').onclick = function () {
+                    location.reload();
+                }
+            </script>
+        </div>
+        <div class="dropdown_list_option_header_account_container">
+            <div class="staff_info_field" id="staff_info_field_id">
+                <img id="avatar" src="~/image/Layout/account.png">
+                <p id='name_nhanvien'>Nguyễn Văn A</p>
+                <i class="fa fa-caret-down" style="font-size:2rem; margin-left: 0.5rem;"></i>
+            </div>
+            <div class="dropdown_list_option_header_account" id="dropdown_list_option_header_account_id">
+                <div class="option_name_header_account" id="xemthongtin_option_header_account_id">
+                    <img src="~/image/Layout/xemthongtincanhan.png">
+                    <p>Xem thông tin</p>
+                </div>
+                <div class="option_name_header_account">
+                    <img src="~/image/Layout/dangxuat.png">
+                    <p>Đăng xuất</p>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - SE104_QuanLyKhachSan - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+    </header>
+    <main>
+        <div class="menu_burger" id="menu_burger_id">
+            <div class="option_list_in_burger" id="staff_option_list_in_burger_id">
+                <div class="option_field_staff">
+                    <div class="option_name_icon" id="option_qltp_menu_burger_id">
+                        <img src="~/image/Layout/quanlythuephong.png" class="icon_item">
+                        <p>Quản lý thuê phòng</p>
+                        <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
+                    </div>
+                    <div id="selection_field_qltp_menu_burger_id">
+                        <div class="selection_name_icon" id="sdp_selection_name_icon_id">
+                            <p>Sơ đồ phòng</p>
+                        </div>
+                        <div class="selection_name_icon" id="dshoadon_selection_name_icon_id">
+                            <p>Danh sách hóa đơn</p>
+                        </div>
+                        <div class="selection_name_icon" id="tracuuthuephong_selection_name_icon_id">
+                            <p>Tra cứu các lần thuê phòng</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="option_field_staff">
+                    <div class="option_name_icon" id="option_qlnv_menu_burger_id">
+                        <img src="~/image/Layout/quanlynhanvien.png" class="icon_item">
+                        <p>Quản lý nhân viên</p>
+                        <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
+                    </div>
+                    <div id="selection_field_qlnv_menu_burger_id">
+                        <div class="selection_name_icon" id="tracuunhanvien_selection_name_icon_id">
+                            <p>Tra cứu nhân viên</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="option_field_staff">
+                    <div class="option_name_icon" id="option_qlphong_menu_burger_id">
+                        <img src="~/image/Layout/quanlyphong.png" class="icon_item">
+                        <p>Quản lý phòng</p>
+                        <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
+                    </div>
+                    <div id="selection_field_qlphong_menu_burger_id">
+                        <div class="selection_name_icon" id="danhsachphong_selection_name_icon_id">
+                            <p>Danh sách phòng</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="option_field_staff">
+                    <div class="option_name_icon" id="option_qldoanhthu_menu_burger_id">
+                        <img src="~/image/Layout/quanlydoanhthu.png" class="icon_item">
+                        <p>Quản lý doanh thu</p>
+                        <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
+                    </div>
+                    <div id="selection_field_qldoanhthu_menu_burger_id">
+                        <div class="selection_name_icon" id="doanhthutheoloaiphong_selection_name_icon_id">
+                            <p>Theo loại phòng</p>
+                        </div>
+                        <div class="selection_name_icon" id="doanhthutheochucvu_selection_name_icon_id">
+                            <p>Theo chức vụ</p>
+                        </div>
+                        <div class="selection_name_icon" id="doanhthubaocaotong_selection_name_icon_id">
+                            <p>Báo cáo tổng</p>
+                        </div>
+                        <div class="selection_name_icon" id="doanhthutinhluong_selection_name_icon_id">
+                            <p>Kết lương</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="option_field_staff">
+                    <div class="option_name_icon" id="option_qlhethong_menu_burger_id">
+                        <img src="~/image/Layout/quanlyhethong.png" class="icon_item">
+                        <p>Quản lý hệ thống</p>
+                        <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
+                    </div>
+                    <div id="selection_field_qlhethong_menu_burger_id">
+                        <div class="selection_name_icon" id="doanhthutheoloaiphong_selection_name_icon_id">
+                            <p>Thay đổi quy định</p>
+                        </div>
+                        <div class="selection_name_icon" id="doanhthutheochucvu_selection_name_icon_id">
+                            <p>Phân quyền</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main_working_window">
+            @RenderBody();
+            <!-- Popup xem thông tin cá nhân của nhân viên - begin -->
+            <div class="staff_profile_popup_window_container" id="staff_profile_popup_window_container_id">
+                <div class="staff_profile_popup_window">
+                    <div class="header_staff_profile_popup_window">
+                        <div class="header_name_staff_profile_popup_window">THÔNG TIN NHÂN VIÊN</div>
+                        <i class="fa fa-close header_close_staff_profile_popup_window" style="font-size: 1.5rem;"
+                           id="header_close_staff_profile_popup_window_id"></i>
+                    </div>
+                    <div class="body_staff_profile_popup_window">
+                        <div class="content_staff_profile_popup_window">
+                            <div class="avatar_field_staff_profile_popup_window">
+                                <img src="~/image/Layout/account.png" id="avatar_img_staff_profile_popup_window"
+                                     style="filter: invert(1);">
+                                <button id="btn_change_avatar_staff_profile_popup_window">Đổi</button>
+                            </div>
+                            <div class="information_field_staff_profile_popup_window">
+                                <div class="personal_info_staff_profile_popup_window">
+                                    <div class="name_part_info_staff_profile_popup_window">Thông tin cá nhân</div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Họ tên:</p>
+                                        <input type="text" class="input_data_info_staff_profile_popup_window"
+                                               value="Nguyễn Văn A">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>CCCD:</p>
+                                        <input type="text" class="input_data_info_staff_profile_popup_window"
+                                               value="3124512312">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Số điện thoại:</p>
+                                        <input type="tel" class="input_data_info_staff_profile_popup_window"
+                                               value="08765312">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Ngày sinh:</p>
+                                        <input type="date" class="input_data_info_staff_profile_popup_window"
+                                               value="2001-01-01">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Email:</p>
+                                        <input type="email" class="input_data_info_staff_profile_popup_window"
+                                               value="nguyenvana@gmail.com">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Giới tính:</p>
+                                        <select class="input_data_info_staff_profile_popup_window">
+                                            <option selected>Nam</option>
+                                            <option>Nữ</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="work_info_staff_profile_popup_window">
+                                    <div class="name_part_info_staff_profile_popup_window">Thông tin nhân viên</div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Mã chức vụ:</p>
+                                        <select class="input_data_info_staff_profile_popup_window" disabled>
+                                            <option selected>VS001</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                        </select>
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Lương:</p>
+                                        <input type="number" class="input_data_info_staff_profile_popup_window" disabled
+                                               value="3000000">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Ngày vào làm:</p>
+                                        <input type="date" class="input_data_info_staff_profile_popup_window" disabled
+                                               value="2001-01-01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="function_field_staff_profile_popup_window">
+                            <button id="btn_changepass_admin_in_staff_profile_popup_window_id">Đổi mật khẩu</button>
+                            <div>
+                                <button id="btn_save_admin_in_staff_profile_popup_window_id">Lưu</button>
+                                <button id="btn_cancel_admin_in_staff_profile_popup_window_id">Thoát</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Popup xem thông tin cá nhân của nhân viên - end -->
+
+        </div>
+
+
+
+    </main>
+    <script src="~/js/Layout/Layout.js"></script>
 </body>
+
 </html>
