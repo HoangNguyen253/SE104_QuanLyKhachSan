@@ -11,6 +11,8 @@ namespace SE104_QuanLyKhachSan.Controllers
 {
     public class HomeController : Controller
     {
+        const string SessionKeyUser = "_User";
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
