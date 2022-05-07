@@ -15,8 +15,6 @@
         $('#staff_profile_popup_window_container_id').removeClass("show");
     })
 
-
-
     document.getElementById("check_menu_burger_icon_id").addEventListener("click", () => {
         var t = document.getElementById("check_menu_burger_id").checked;
         if (t == true) {
@@ -58,4 +56,14 @@
     $('#option_qlhethong_menu_burger_id').click(function () {
         $('#selection_field_qlhethong_menu_burger_id').slideToggle(200);
     })
+
+
+    $('#sdp_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Home/SoDoPhong',
+            success: function (data) {
+                $("#main_working_window_id").html(data);
+            }
+        })
+    });
 })
