@@ -56,6 +56,12 @@ body {
     }
 }
 
+div[id|="error"] {
+    color: red;
+    padding: 5px 0;
+    text-align: left;
+}
+
 /*container start*/
 main {
     position: relative;
@@ -155,7 +161,7 @@ main {
                 border-radius: 4px;
             }
 
-        main .container div:last-child {
+        main .container .content > div:last-child {
             text-align: center;
         }
 

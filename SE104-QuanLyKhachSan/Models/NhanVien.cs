@@ -1,4 +1,6 @@
-﻿namespace SE104_QuanLyKhachSan.Models
+﻿using System;
+
+namespace SE104_QuanLyKhachSan.Models
 {
     public class NhanVien
     {
@@ -30,15 +32,15 @@
             set { hoTen = value; }
         }
 
-        private string gioiTinh;
-        public string GioiTinh
+        private byte gioiTinh;
+        public byte GioiTinh
         {
             get { return gioiTinh; }
             set { gioiTinh = value; }
         }
 
-        private string ngaySinh;
-        public string NgaySinh
+        private DateTime ngaySinh;
+        public DateTime NgaySinh
         {
             get { return ngaySinh; }
             set { ngaySinh = value; }
@@ -58,15 +60,15 @@
             set { soDienThoai = value; }
         }
 
-        private string ngayVaoLam;
-        public string NgayVaoLam
+        private DateTime ngayVaoLam;
+        public DateTime NgayVaoLam
         {
             get { return ngayVaoLam; }
             set { ngayVaoLam = value; }
         }
 
-        private string maChucVu;
-        public string MaChucVu
+        private ushort maChucVu;
+        public ushort MaChucVu
         {
             get { return maChucVu; }
             set { maChucVu = value; }
@@ -79,8 +81,8 @@
             set { hinhAnh = value; }
         }
 
-        private string luong;
-        public string Luong
+        private int luong;
+        public int Luong
         {
             get { return luong; }
             set { luong = value; }
