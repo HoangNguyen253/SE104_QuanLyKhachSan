@@ -23,9 +23,9 @@ namespace SE104_QuanLyKhachSan.Controllers
             return View();
         }
 
-        public IActionResult SoDoPhong()
+        public IActionResult Privacy()
         {
-            return PartialView();
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

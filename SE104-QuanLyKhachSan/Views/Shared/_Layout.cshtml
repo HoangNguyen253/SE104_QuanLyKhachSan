@@ -143,94 +143,96 @@
                 </div>
             </div>
         </div>
-        <div class="main_working_window" id="main_working_window_id">
+        <div class="main_working_window">
             @RenderBody();
-        </div>
-        <!-- Popup xem thông tin cá nhân của nhân viên - begin -->
-        <div class="staff_profile_popup_window_container" id="staff_profile_popup_window_container_id">
-            <div class="staff_profile_popup_window">
-                <div class="header_staff_profile_popup_window">
-                    <div class="header_name_staff_profile_popup_window">THÔNG TIN NHÂN VIÊN</div>
-                    <i class="fa fa-close header_close_staff_profile_popup_window" style="font-size: 1.5rem;"
-                       id="header_close_staff_profile_popup_window_id"></i>
-                </div>
-                <div class="body_staff_profile_popup_window">
-                    <div class="content_staff_profile_popup_window">
-                        <div class="avatar_field_staff_profile_popup_window">
-                            <img src="~/image/Layout/account.png" id="avatar_img_staff_profile_popup_window"
-                                 style="filter: invert(1);">
-                            <button id="btn_change_avatar_staff_profile_popup_window">Đổi</button>
-                        </div>
-                        <div class="information_field_staff_profile_popup_window">
-                            <div class="personal_info_staff_profile_popup_window">
-                                <div class="name_part_info_staff_profile_popup_window">Thông tin cá nhân</div>
-                                <div class="data_info_staff_profile_popup_window">
-                                    <p>Họ tên:</p>
-                                    <input type="text" class="input_data_info_staff_profile_popup_window"
-                                           value="Nguyễn Văn A">
-                                </div>
-                                <div class="data_info_staff_profile_popup_window">
-                                    <p>CCCD:</p>
-                                    <input type="text" class="input_data_info_staff_profile_popup_window"
-                                           value="3124512312">
-                                </div>
-                                <div class="data_info_staff_profile_popup_window">
-                                    <p>Số điện thoại:</p>
-                                    <input type="tel" class="input_data_info_staff_profile_popup_window"
-                                           value="08765312">
-                                </div>
-                                <div class="data_info_staff_profile_popup_window">
-                                    <p>Ngày sinh:</p>
-                                    <input type="date" class="input_data_info_staff_profile_popup_window"
-                                           value="2001-01-01">
-                                </div>
-                                <div class="data_info_staff_profile_popup_window">
-                                    <p>Email:</p>
-                                    <input type="email" class="input_data_info_staff_profile_popup_window"
-                                           value="nguyenvana@gmail.com">
-                                </div>
-                                <div class="data_info_staff_profile_popup_window">
-                                    <p>Giới tính:</p>
-                                    <select class="input_data_info_staff_profile_popup_window">
-                                        <option selected>Nam</option>
-                                        <option>Nữ</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="work_info_staff_profile_popup_window">
-                                <div class="name_part_info_staff_profile_popup_window">Thông tin nhân viên</div>
-                                <div class="data_info_staff_profile_popup_window">
-                                    <p>Mã chức vụ:</p>
-                                    <select class="input_data_info_staff_profile_popup_window" disabled>
-                                        <option selected>VS001</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                    </select>
-                                </div>
-                                <div class="data_info_staff_profile_popup_window">
-                                    <p>Lương:</p>
-                                    <input type="number" class="input_data_info_staff_profile_popup_window" disabled
-                                           value="3000000">
-                                </div>
-                                <div class="data_info_staff_profile_popup_window">
-                                    <p>Ngày vào làm:</p>
-                                    <input type="date" class="input_data_info_staff_profile_popup_window" disabled
-                                           value="2001-01-01">
-                                </div>
-                            </div>
-                        </div>
+            <!-- Popup xem thông tin cá nhân của nhân viên - begin -->
+            <div class="staff_profile_popup_window_container" id="staff_profile_popup_window_container_id">
+                <div class="staff_profile_popup_window">
+                    <div class="header_staff_profile_popup_window">
+                        <div class="header_name_staff_profile_popup_window">THÔNG TIN NHÂN VIÊN</div>
+                        <i class="fa fa-close header_close_staff_profile_popup_window" style="font-size: 1.5rem;"
+                           id="header_close_staff_profile_popup_window_id"></i>
                     </div>
-                    <div class="function_field_staff_profile_popup_window">
-                        <button id="btn_changepass_admin_in_staff_profile_popup_window_id">Đổi mật khẩu</button>
-                        <div>
-                            <button id="btn_save_admin_in_staff_profile_popup_window_id">Lưu</button>
-                            <button id="btn_cancel_admin_in_staff_profile_popup_window_id">Thoát</button>
+                    <div class="body_staff_profile_popup_window">
+                        <div class="content_staff_profile_popup_window">
+                            <div class="avatar_field_staff_profile_popup_window">
+                                <img src="~/image/Layout/account.png" id="avatar_img_staff_profile_popup_window"
+                                     style="filter: invert(1);">
+                                <button id="btn_change_avatar_staff_profile_popup_window">Đổi</button>
+                            </div>
+                            <div class="information_field_staff_profile_popup_window">
+                                <div class="personal_info_staff_profile_popup_window">
+                                    <div class="name_part_info_staff_profile_popup_window">Thông tin cá nhân</div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Họ tên:</p>
+                                        <input type="text" class="input_data_info_staff_profile_popup_window"
+                                               value="Nguyễn Văn A">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>CCCD:</p>
+                                        <input type="text" class="input_data_info_staff_profile_popup_window"
+                                               value="3124512312">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Số điện thoại:</p>
+                                        <input type="tel" class="input_data_info_staff_profile_popup_window"
+                                               value="08765312">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Ngày sinh:</p>
+                                        <input type="date" class="input_data_info_staff_profile_popup_window"
+                                               value="2001-01-01">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Email:</p>
+                                        <input type="email" class="input_data_info_staff_profile_popup_window"
+                                               value="nguyenvana@gmail.com">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Giới tính:</p>
+                                        <select class="input_data_info_staff_profile_popup_window">
+                                            <option selected>Nam</option>
+                                            <option>Nữ</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="work_info_staff_profile_popup_window">
+                                    <div class="name_part_info_staff_profile_popup_window">Thông tin nhân viên</div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Mã chức vụ:</p>
+                                        <select class="input_data_info_staff_profile_popup_window" disabled>
+                                            <option selected>VS001</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                        </select>
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Lương:</p>
+                                        <input type="number" class="input_data_info_staff_profile_popup_window" disabled
+                                               value="3000000">
+                                    </div>
+                                    <div class="data_info_staff_profile_popup_window">
+                                        <p>Ngày vào làm:</p>
+                                        <input type="date" class="input_data_info_staff_profile_popup_window" disabled
+                                               value="2001-01-01">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="function_field_staff_profile_popup_window">
+                            <button id="btn_changepass_admin_in_staff_profile_popup_window_id">Đổi mật khẩu</button>
+                            <div>
+                                <button id="btn_save_admin_in_staff_profile_popup_window_id">Lưu</button>
+                                <button id="btn_cancel_admin_in_staff_profile_popup_window_id">Thoát</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Popup xem thông tin cá nhân của nhân viên - end -->
+
         </div>
-        <!-- Popup xem thông tin cá nhân của nhân viên - end -->
+
 
 
     </main>
