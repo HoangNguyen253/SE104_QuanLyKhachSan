@@ -46,13 +46,15 @@
                     <img src="~/image/LoginPage/logo.png " alt="logo">
                     <p>Gloria</p>
                 </div>
-                <div class="field OldPass">
+                <div class="field username">
                     <div class="label">Mã nhân viên/CCCD/Email/SDT</div>
-                    <input type="text" placeholder="Tên đăng nhập">
+                    <input type="text" placeholder="Tên đăng nhập" id="username">
+                    <div id="error-username"></div>
                 </div>
-                <div class="field NewPass">
-                    <div class="label">Mật khẩu<span></span></div>
-                    <input type="text" placeholder="Mật khẩu ">
+                <div class="field password">
+                    <div class="label">Mật khẩu</div>
+                    <input type="text" placeholder="Mật khẩu" id="password">
+                    <div id="error-password"></div>
                 </div>
                 <div>
                     <button class="validate">Đăng nhập</button>
@@ -62,6 +64,6 @@
             
         </div>
     </main>
-    <script src="ViewInfo.js"></script>
+    <script src="~/js/Login/Login.js"></script>
 </body>
 </html>

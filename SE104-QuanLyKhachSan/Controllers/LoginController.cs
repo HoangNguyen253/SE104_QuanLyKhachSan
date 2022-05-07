@@ -16,6 +16,19 @@ namespace SE104_QuanLyKhachSan.Controllers
             }
             return View();
         }
+        public JsonResult CheckLogin (IFormCollection formLogin)
+        {
+            string userName = formLogin["userName"].ToString();
+            string password = formLogin["password"].ToString();
+            Database db  = new Database();
+            NhanVien nv = db.GetUser(userName, password);
+            if (nv == null)
+            {
+                return Json(false);
+            }
+            HttpContext.Session.Set<NhanVien>(SessionKeyUser, nv);
+            return Json(true);
+        }
     }
     public static class SessionExtensions
     {
