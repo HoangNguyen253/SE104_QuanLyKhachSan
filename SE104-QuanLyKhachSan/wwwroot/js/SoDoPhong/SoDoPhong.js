@@ -223,3 +223,5 @@ function Add_Info_Customer_Table() {
         e.value = '';
     })
 }
+
+
