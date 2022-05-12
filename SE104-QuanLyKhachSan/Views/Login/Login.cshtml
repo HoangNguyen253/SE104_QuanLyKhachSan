@@ -10,6 +10,7 @@
     <title>Đăng nhập</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='~/css/Login/Login.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='~/css/Loading/Loading.css'>
 </head>
 <body>
     <script>
@@ -35,6 +36,23 @@
             }
         }
         rain();
+    </script>
+    <div class="loading-container">
+        <div class="content">
+            <div class="i-container">
+            </div>
+        </div>
+    </div>
+    <script>
+        let amount = 5;
+        let iContainer = document.querySelector('.loading-container .content .i-container');
+        let i = 0;
+        while (i < amount) {
+            let drop = document.createElement('i');
+            drop.style.animationDelay = 0.2*(i+1) + 's';
+            iContainer.appendChild(drop);
+            i++;
+        }
     </script>
     <main>
         <div class="container">
