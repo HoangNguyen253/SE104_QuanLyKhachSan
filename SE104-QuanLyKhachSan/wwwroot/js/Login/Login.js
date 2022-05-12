@@ -2,11 +2,11 @@
 let userNameInput = document.querySelector('body main .container .content .username input');
 let passwordInput = document.querySelector('body main .container .content .password input');
 let signInButton = document.querySelector('body main .container .content div .validate');
-let loadingElement = {
-    loadingContainer: document.querySelector('body .loading-container'),
-    hide: function () { this.loadingContainer.style.display = 'none'; },
-    show: function () { this.loadingContainer.style.display = 'flex'; }
-};
+//let loadingElement = {
+//    loadingContainer: document.querySelector('body .loading-container'),
+//    hide: function () { this.loadingContainer.style.display = 'none'; },
+//    show: function () { this.loadingContainer.style.display = 'flex'; }
+//};
 
 /*------------------Function--------------------*/
 function checkInputIsEmpty() {
