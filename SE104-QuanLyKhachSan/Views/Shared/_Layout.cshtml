@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    NhanVien nhanVien_OnBoard = ViewData["nhanVien_OnBoard"] as NhanVien;
+}
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -64,7 +67,7 @@
         <div class="dropdown_list_option_header_account_container">
             <div class="staff_info_field" id="staff_info_field_id">
                 <img id="avatar" src="~/image/Layout/account.png">
-                <p id='name_nhanvien'>Nguyễn Văn A</p>
+                <p id='name_nhanvien'>@nhanVien_OnBoard.HoTen</p>
                 <i class="fa fa-caret-down" style="font-size:2rem; margin-left: 0.5rem;"></i>
             </div>
             <div class="dropdown_list_option_header_account" id="dropdown_list_option_header_account_id">
@@ -186,33 +189,42 @@
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Họ tên:</p>
                                     <input type="text" class="input_data_info_staff_profile_popup_window"
-                                           value="Nguyễn Văn A">
+                                           value="@nhanVien_OnBoard.HoTen">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>CCCD:</p>
                                     <input type="text" class="input_data_info_staff_profile_popup_window"
-                                           value="3124512312">
+                                           value="@nhanVien_OnBoard.CCCD">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Số điện thoại:</p>
                                     <input type="tel" class="input_data_info_staff_profile_popup_window"
-                                           value="08765312">
+                                           value="@nhanVien_OnBoard.SoDienThoai">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Ngày sinh:</p>
                                     <input type="date" class="input_data_info_staff_profile_popup_window"
-                                           value="2001-01-01">
+                                           value="@nhanVien_OnBoard.NgaySinh.ToString("yyyy-MM-dd")">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Email:</p>
                                     <input type="email" class="input_data_info_staff_profile_popup_window"
-                                           value="nguyenvana@gmail.com">
+                                           value="@nhanVien_OnBoard.Email">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Giới tính:</p>
                                     <select class="input_data_info_staff_profile_popup_window">
-                                        <option selected>Nam</option>
-                                        <option>Nữ</option>
+                                        @{ if (nhanVien_OnBoard.GioiTinh == 1)
+                                            {
+                                                <option value='1' selected>Nam</option>
+                                                <option value='0'>Nữ</option>
+                                            }
+                                            else
+                                            {
+                                                <option value='1'>Nam</option>
+                                                <option value='0' selected>Nữ</option>
+                                            }
+                                            }
                                     </select>
                                 </div>
                             </div>
@@ -221,20 +233,18 @@
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Mã chức vụ:</p>
                                     <select class="input_data_info_staff_profile_popup_window" disabled>
-                                        <option selected>VS001</option>
-                                        <option>2</option>
-                                        <option>3</option>
+                                        <option selected>@nhanVien_OnBoard.MaChucVu</option>
                                     </select>
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Lương:</p>
                                     <input type="number" class="input_data_info_staff_profile_popup_window" disabled
-                                           value="3000000">
+                                           value="@nhanVien_OnBoard.Luong">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Ngày vào làm:</p>
                                     <input type="date" class="input_data_info_staff_profile_popup_window" disabled
-                                           value="2001-01-01">
+                                           value="@nhanVien_OnBoard.NgayVaoLam.ToString("yyyy-MM-dd")">
                                 </div>
                             </div>
                         </div>

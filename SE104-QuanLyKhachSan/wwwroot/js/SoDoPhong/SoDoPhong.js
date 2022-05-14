@@ -224,4 +224,11 @@ function Add_Info_Customer_Table() {
     })
 }
 
+function Load_Data_For_SoDoPhong() {
+    let xhr_data_sdp = new XMLHttpRequest();
+    let url_data_sdp = "https://localhost:5001/SoDoPhong/LoadDataForSoDoPhong";
+    xhr_data_sdp.open("POST", url, true);
+    xhr_data_sdp.timeout = 50000;
+}
+
 
