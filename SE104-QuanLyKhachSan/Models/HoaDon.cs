@@ -18,11 +18,11 @@ namespace SE104_QuanLyKhachSan.Models
             set { thoiGianXuat = value; }
         }
 
-        private string maNhanVien;
-        public string MaNhanVien
+        private NhanVien nv;
+        public NhanVien NV
         {
-            get { return maNhanVien; }
-            set { maNhanVien = value; }
+            get { return nv; }
+            set { nv = value; }
         }
 
         private int tongSoTien;
