@@ -1,5 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
+using SE104_QuanLyKhachSan.Common;
 using System;
+using System.Collections.Generic;
 
 namespace SE104_QuanLyKhachSan.Models
 {
@@ -51,6 +53,71 @@ namespace SE104_QuanLyKhachSan.Models
                         return nv;
                     }
                     else return null;
+                }
+            }
+        }
+
+        public List<HoaDon> getAllBill()
+        {
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllBill, conn);
+                List<HoaDon> bills = new List<HoaDon>();
+                using (var result = cmd.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            HoaDon bill = new HoaDon();
+                            bill.MaHoaDon = Convert.ToInt32(result["MaHoaDon"]);
+                            bill.NV.HoTen = result["HoTen"].ToString();
+                            bill.ThoiGianXuat = Convert.ToDateTime(result["ThoiGianXuat"]);
+                            bill.TongSoTien = Convert.ToInt32(result["TongSoTien"]);
+                            bills.Add(bill);
+                        }
+                        conn.Close();
+                        return bills;
+                    }
+                    else
+                    {
+                        conn.Close();
+                        return null;
+                    }
+                }
+            }
+        }
+
+        public List<ChiTietHoaDon> getAllDetailBills()
+        {
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllDetailBills, conn);
+                List<ChiTietHoaDon> detailBills = new List<ChiTietHoaDon>();
+                using (var result = cmd.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            ChiTietHoaDon detail = new ChiTietHoaDon();
+                            detail.MaPhong = result["MaPhong"].ToString();
+                            detail.LoaiPhong.TenLoaiPhong = result["TenLoaiPhong"].ToString();
+                            detail.ThoiGianNhanPhong = Convert.ToDateTime(result["ThoiGianNhanPhong"]);
+                            detail.ThoiGianTraPhong = Convert.ToDateTime(result["ThoiGianTraPhong"]);
+                            detail.TrangThai = Convert.ToByte(result["TrangThai"]);
+                            detailBills.Add(detail);
+                        }
+                        conn.Close();
+                        return detailBills;
+                    }
+                    else
+                    {
+                        conn.Close();
+                        return null;
+                    }
                 }
             }
         }
