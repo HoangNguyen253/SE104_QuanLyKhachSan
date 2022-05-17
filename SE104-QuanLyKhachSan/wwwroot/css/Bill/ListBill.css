@@ -1,0 +1,473 @@
+:root {
+    --background-button: #fff;
+    --main-color: #002B49;
+}
+
+
+
+
+/*=================== MAIN: begin ============*/
+.list_bill_main_window{
+    padding: 0;
+    transition: all 0.5s;
+    margin-left: 20.5%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: content-box;
+}
+
+.main_window__taskbar {
+    height: 48px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    background-color: #002b49;
+}
+
+.main_window__taskbar button {
+    height: 36px; 
+    background-color: var(--background-button);
+    border: none;
+}
+
+.taskbar__add_button {
+    min-width: 132px;
+}
+
+.taskbar__search_button {
+    min-width: 52px;
+    margin-left: 20px;
+    margin-right: 28px;
+}
+
+
+.main_window__taskbar input {
+    height: 36px;
+    box-sizing: content-box;
+    border: none;
+    padding: 0;
+    padding-left: 4px;
+    padding-right: 8px;
+    margin-left: 20px;
+    outline: none;
+}
+
+.list_bill {
+    width: 100%;
+    margin-top: 2px;
+    border-collapse: collapse;
+}
+
+.list_bill_heading {
+    background-color: #0666A9;
+    height: 32px;
+    color: #fff;
+}
+
+.list_bill_body tr {
+    height: 48px;
+    border-bottom: 1px solid #C8C8C8;
+    text-align: center;
+}
+
+.data_cell {
+    font-size: 14px;
+}
+
+.bill_body_item__print_button {
+    border: none;
+    background-color: var(--main-color);
+    color: #fff;
+    height: 32px;
+    width: 52px;
+    font-size: 1.4rem;
+}
+
+.btn.bill_body_item__print_button:active {
+    background-color: #003960;
+}
+
+.context_menu {
+    display: none;
+    position: absolute;
+}
+
+.list_context {
+    background-color: #f5f5f5;
+    width: 180px;
+    border: 1px solid black;
+}
+
+.context_menu ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.context_menu ul li {
+    padding-bottom: 4px;
+    padding-top: 4px;
+    padding-left: 20px;
+    border-bottom: 1px solid #c8c8c8;
+}
+
+.context_menu ul li:hover {
+    background-color: #e5e5e5;
+}
+
+.context_menu ul li:last-child {
+    border-bottom: none;
+}
+
+.context_menu ul a {
+    text-decoration: none;
+    color:rgba(0, 100, 250, 0.8);
+    font-weight: 400;
+    height: 100%;
+    display: block;
+}
+
+
+/*======== POPUP ========*/
+@keyframes sliding {
+    from {
+        transform: translateY(-50%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slidingOut {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-100%);
+    }
+}
+
+.out {
+    animation: slidingOut 0.2s ease-out;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    z-index: 2;
+    animation: fadeIn 0.2s linear;
+}
+
+
+.popup__overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.popup__body {
+    margin: auto;
+    position: relative;
+    z-index: 3;
+}
+
+.popup__container {
+    border-radius: 4px;
+    width: 850px;
+    overflow: hidden;
+    animation: 0.3s sliding ease-out;
+    
+    background-color: #fff;
+    min-height: 600px;
+}
+
+#popup__add_bill_id {
+    display: none;
+}
+
+.popup_title_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 44px;
+    background-color: var(--main-color);
+    color: #fff;
+}
+
+.popup_title_container span {
+    margin-left: 16px;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+
+.fa.close-btn {
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.popup_title_container i {
+    margin-right: 16px;
+}
+
+.add_bill_content {
+    margin: 16px;
+}
+
+.content_heading {
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.content_info {
+    margin-bottom: 20px;
+}
+
+.heading_info, .heading_detail {
+    font-weight: 600;
+}
+
+.info_box, .box_date, .box_staff, .box_bill {
+    display: flex;
+}
+
+.info_box {
+    justify-content: space-between;
+    border-bottom: 2px solid #c8c8c8;
+}
+
+.label {
+
+    margin-right: 12px;
+}
+
+.label:first-child {
+    margin-left: 8px;
+}
+
+.info_box input {
+    height: 28px;
+    width: 120px;
+    align-self: center;
+    font-size: 14px;
+}
+
+.info_box input:last-child {
+    margin-right: 8px;
+}
+
+.add_room {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+.add_room button {
+    height: 24px;
+    min-width: 100px;
+    background-color: var(--main-color);
+    color: #fff;
+    border: none;
+}
+
+.add_room button:active {
+    color: #0666A9;
+}
+
+.add_room p {
+    margin: 0 16px 0 0;
+}
+
+.popup_box_input {
+    margin-right: 16px;
+}
+
+.popup_box_input input {
+    width: 240px;
+}
+
+.error_message, .success_message {
+    font-size: 10px;
+    text-align: center;
+    display: none;
+}
+
+.error_message {
+    color: red;
+}
+
+.success_message {
+    color: green;
+}
+
+.scroll_table {
+    height: 250px;
+    overflow: auto;
+    margin-top: calc(32px + 20px);
+}
+
+.list_room_detail_table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.scroll_table .list_room_detail_table thead {
+    background-color: var(--main-color);
+    color: #fff;
+    height: 32px;
+    width: 100%;
+}
+
+.list_room_detail_table .data_cell {
+    height: 40px;
+    text-align: center;
+    border-bottom: 1px solid #c8c8c8;
+}
+
+.add_bill_footer {
+    text-align: right;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.add_bill_footer button {
+    margin-left: 20px;
+    width: 100px;
+    height: 32px;
+    background-color: var(--main-color);
+    color: #fff;
+    border: none;
+}
+
+/* Popup Print Bill */
+#popup__print_bill {
+    display: none;
+    z-index: 5;
+}
+
+.wrapper_popup {
+    margin: 0 20px;
+}
+
+.popup_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup_header__img {
+    margin-top: 16px;
+    width: 240px;
+    object-fit: scale-down;
+}
+
+.info_of_hotel {
+    margin: 0 36px;
+    width: 100%;
+}
+
+.info_of_hotel span {
+    font-size: 16px;
+    text-align: justify;
+    line-height: 1.5rem;
+}
+
+.mail_of_hotel {
+    float: right;
+}
+
+.info_of_hotel p {
+    margin: 20px 0;
+    text-align: center;
+    cursor: default;
+}
+
+.popup_info {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.popup_info * {
+    font-size: 14px;
+}
+
+.info_customer_staff {
+    line-height: 1.5rem;
+}
+
+#table-wrapper {
+    position: relative;
+}
+  
+#table-scroll {
+    height: 250px;
+    overflow: auto;
+    margin-top: calc(32px + 12px);  /* margin with above element(12px) + 32px of thead */
+}
+
+#table-wrapper table thead{
+    position: absolute;
+    top: -32px;
+    background-color: #000;
+    width: 100%;
+}
+
+#table-wrapper table th {
+    font-size: 12px;
+    color: #fff;
+}
+
+.list_room_bill_table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.list_room_bill_table .data_cell{
+    height: 40px;
+    border-bottom: 1px solid #a5a5a5;
+    text-align: center;
+}
+
+.total_cost {
+    text-align: end;
+    font-size: 22px;
+    margin-right: 20px;
+}
+
+.popup_footer {
+    display: flex;
+    margin-bottom: 12px;
+    justify-content: end;
+    margin-right: 20px;
+}
+
+.popup_footer button {
+    width: 100px;
+}
+
+.popup_footer .print-btn {
+    margin-left: 20px;
+    background-color: var(--main-color);
+    color: #fff;
+    border: none;
+    padding: 0;
+}
+/*=================== MAIN: end ============*/
