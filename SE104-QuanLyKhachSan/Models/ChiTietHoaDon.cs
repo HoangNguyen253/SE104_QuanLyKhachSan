@@ -19,11 +19,11 @@ namespace SE104_QuanLyKhachSan.Models
             set { maPhong = value; }
         }
 
-        private LoaiPhong lp;
+        private LoaiPhong loaiPhong;
         public LoaiPhong LoaiPhong
         {
-            get { return lp; }
-            set { lp = value; }
+            get { return loaiPhong; }
+            set { loaiPhong = value; }
         }
 
         private int maHoaDon;
@@ -44,7 +44,7 @@ namespace SE104_QuanLyKhachSan.Models
         public DateTime ThoiGianTraPhong
         {
             get { return thoiGianTraPhong; }
-            set { thoiGianNhanPhong = value; }
+            set { thoiGianTraPhong = value; }
         }
 
         private int giaPhong;
