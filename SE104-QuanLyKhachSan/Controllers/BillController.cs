@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SE104_QuanLyKhachSan.Models;
 
 namespace SE104_QuanLyKhachSan.Controllers
 {
     public class BillController : Controller
     {
-        public IActionResult Index()
+        const string SessionKeyUser = "_User";
+
+        private readonly ILogger<BillController> _logger;
+
+        public BillController(ILogger<BillController> logger)
         {
-            return View();
+            _logger = logger;
         }
     }
 }

@@ -32,6 +32,16 @@ namespace SE104_QuanLyKhachSan.Controllers
             return PartialView();
         }
 
+        public IActionResult ListBill()
+        {
+            return PartialView();
+        }
+
+        public IActionResult ListDetail()
+        {
+            return PartialView();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
