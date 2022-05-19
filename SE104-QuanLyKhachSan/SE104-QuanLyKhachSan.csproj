@@ -7,13 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Bill\ListBill.cshtml" />
-    <Content Remove="Views\Bill\ListDetail.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Bill\ListBill.cshtml" />
-    <None Include="Views\Bill\ListDetail.cshtml" />
+    <None Include="Views\Home\ListBill.cshtml" />
+    <None Include="Views\Home\ListDetail.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

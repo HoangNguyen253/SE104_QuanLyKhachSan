@@ -8,11 +8,8 @@
 .list_detail_bill_main_window {
     padding: 0;
     transition: all 0.5s;
-    margin-left: 20.5%;
     height: 100%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-clip: content-box;
+    background-color: #fff;
 }
 
 .main_window__taskbar {
