@@ -1,0 +1,341 @@
+﻿.main_working_window {
+    padding: 0;
+    transition: all 0.5s;
+    margin-left: 20.5%;
+    height: 100%;
+    background-image: url(Icon/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: content-box;
+}
+
+.tracuunv_main_window {
+    display: block;
+}
+
+.tracuuphong_main_window {
+    display: block;
+}
+
+.main_working_window .tracuu_header {
+    width: 100%;
+    height: 50px;
+    background: #002B49;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+
+.main_working_window button {
+    cursor: pointer;
+}
+
+.main_working_window .tracuu_btn {
+    width: 152px;
+    height: 33px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.main_working_window select {
+    width: 152px;
+    height: 33px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.main_working_window .add_role {
+    float: left;
+    width: 70%;
+    height: 100%;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 14px;
+}
+
+.main_working_window .search {
+    width: 342.55px;
+    height: 33.33px;
+    float: right;
+    background-color: white;
+    margin-right: 24.11px;
+    margin-left: 16.44px;
+}
+
+.main_working_window input {
+    border: none;
+    width: 274.35px;
+    height: 19.05px;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.list_nv, .list_room {
+    width: 100%;
+    margin-top: 2px;
+    border-collapse: collapse;
+}
+
+.list_nv_heading, .list_room_heading {
+    background-color: #0666A9;
+    height: 32px;
+    color: #fff;
+}
+
+.list_nv_body tr, .list_room_body tr {
+    height: 48px;
+    border-bottom: 1px solid #C8C8C8;
+    text-align: center;
+}
+
+    .list_nv_body tr i, .list_room_body tr i {
+        font-size: 20px;
+    }
+
+.data_cell {
+    font-size: 14px;
+    width: fit-content;
+}
+
+.nv_body_item__angle_button {
+    border: none;
+    background-color: var(--main-color);
+    color: #fff;
+    height: 32px;
+    font-size: 1.4rem;
+    color: black;
+}
+
+.room_body_item__angle_button {
+    background: #9E0909;
+    border-radius: 3px;
+    width: 51px;
+    height: 24px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: white;
+    border: none;
+}
+
+.sua {
+    background: #186711;
+}
+
+
+.btn.nv_body_item__angle_button:active {
+    background-color: #003960;
+}
+
+i.fa-venus {
+    color: #FF3076;
+}
+
+i.fa-mars {
+    color: #83DEE9;
+}
+
+
+
+.staff_profile_popup_window_container {
+    display: flex;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s ease;
+}
+
+    .staff_profile_popup_window_container.show {
+        pointer-events: auto;
+        opacity: 1;
+        transition: 0.5s ease;
+    }
+
+.staff_profile_popup_window {
+    width: 55vw;
+    position: relative;
+    max-height: 100vh;
+    top: -100vh;
+    transition: 0.3s;
+}
+
+.staff_profile_popup_window_container.show .staff_profile_popup_window {
+    top: 0;
+    transition: 0.3s;
+}
+
+.header_staff_profile_popup_window {
+    display: flex;
+    background-color: #002b49;
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header_name_staff_profile_popup_window {
+    font-weight: 500;
+    margin: 0.5rem;
+}
+
+.header_close_staff_profile_popup_window {
+    margin: 0.5rem;
+    cursor: pointer;
+    color: white;
+}
+
+.body_staff_profile_popup_window {
+    background-color: white;
+    padding-right: 3rem;
+}
+
+.content_staff_profile_popup_window {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+}
+
+.avatar_field_staff_profile_popup_window {
+    display: flex;
+    flex-direction: column;
+    margin: 16px 0px;
+    align-items: center;
+}
+
+#avatar_img_staff_profile_popup_window {
+    padding-bottom: 1rem;
+}
+
+#btn_change_avatar_staff_profile_popup_window {
+    border: 0.2rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.3rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: 35%;
+    background-color: #002b49;
+    color: white;
+}
+
+    #btn_change_avatar_staff_profile_popup_window:active {
+        background-color: white;
+        color: #002b49;
+    }
+
+.name_part_info_staff_profile_popup_window {
+    font-weight: 700;
+    font-size: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.data_info_staff_profile_popup_window {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+
+    .data_info_staff_profile_popup_window p {
+        font-weight: 500;
+        font-size: 0.8rem;
+        width: 25%;
+    }
+
+.input_data_info_staff_profile_popup_window {
+    font-weight: 500;
+    font-size: 0.8rem;
+    border: 0.1rem solid black;
+    height: 1.6rem;
+    width: 45%;
+}
+
+select.input_data_info_staff_profile_popup_window {
+    height: 1.8rem;
+    width: 46%;
+}
+
+    select.input_data_info_staff_profile_popup_window option {
+        font-weight: 500;
+        font-size: 0.8rem;
+    }
+
+input:disabled, select:disabled {
+    background-color: #c9c9c9;
+}
+
+.work_info_staff_profile_popup_window .name_part_info_staff_profile_popup_window {
+    border-top: 2px solid black;
+}
+
+.function_field_staff_profile_popup_window {
+    border-top: 0.1rem solid #c9c9c9;
+    padding: 0.5rem;
+    text-align: right;
+}
+
+#btn_logout_admin_in_staff_profile_popup_window_id {
+    border: 0.1rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 15%;
+    font-size: 0.8rem;
+    background-color: #002b49;
+    color: white;
+}
+
+    #btn_logout_admin_in_staff_profile_popup_window_id:active {
+        background-color: white;
+        color: #002b49;
+    }
+
+.avatar_field_staff_profile_popup_window img {
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 86px;
+    width: 172px;
+    height: 172px;
+    margin-bottom: 16px;
+}
+
+.footer_staff_profile_popup_window {
+    background-color: white;
+    border-top: 1px solid #C8C8C8;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+    .footer_staff_profile_popup_window button {
+        width: 104px;
+        height: 34px;
+        margin-right: 18px;
+        background-color: white;
+        color: #002B49;
+        font-size: 13px;
+        font-family: 'Montserrat';
+        font-style: normal;
+        line-height: 16px;
+        border-radius: 10px;
+        border: 2px solid #002B49;
+        font-weight: bold;
+    }
+
+        .footer_staff_profile_popup_window button:hover {
+            background-color: #002B49;
+            color: white;
+        }

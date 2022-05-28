@@ -10,13 +10,24 @@ namespace SE104_QuanLyKhachSan.Models
             get { return maPhong; }
             set { maPhong = value; }
         }
-
-        private int maLoaiPhong
+        private int maLoaiPhong;
+        public int MaLoaiPhong
         {
             set { maLoaiPhong = value; }
             get { return maLoaiPhong; }
         }
-
+        private string tenLoaiPhong;
+        public string TenLoaiPhong
+        {
+            get { return tenLoaiPhong; }
+            set { tenLoaiPhong = value; }
+        }
+        private byte tang;
+        public byte Tang
+        {
+            get { return tang; }
+            set { tang = value; }
+        }
         private byte trangThai;
         public byte TrangThai
         {
@@ -30,5 +41,6 @@ namespace SE104_QuanLyKhachSan.Models
             get { return ghiChu; }
             set { ghiChu = value; }
         }
+          
     }
 }

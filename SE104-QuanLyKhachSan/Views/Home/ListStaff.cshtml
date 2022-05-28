@@ -1,0 +1,168 @@
+﻿<link rel='stylesheet' type='text/css' media='screen' href='~/css/ListStaff/ListStaff.css'>
+@{
+    Database db = new Database();
+    List<NhanVien> listNhanVien = ViewData["listNhanVien"] as List<NhanVien>;
+    listNhanVien = db.getAllDetailStaff();
+
+}
+  <div class="tracuunv_main_window">
+                <div id="tracuunhanvien_tool_bar" class="tracuu_header">
+                    <div class="add_role tracuu_header">
+                        <button type="button" class="tracuu_btn" id="tracuunv"> + Thêm mới</button>
+                        <select name="" id="">
+                            <option value="">SuperAdmin</option>
+                            <option value="">Receptionist</option>
+                            <option value="">Accountant</option>
+                        </select>
+                    </div>
+                    
+                    <div class="search tracuu_header">
+                        <input type="text" placeholder="Tìm kiếm">  
+                        <i class="fa fa-search"></i>
+                    </div>
+                </div>
+
+                <div class="main_window__table_nv">
+                    <table class="list_nv">
+                        <!-- Nhóm các column -->
+                        <colgroup>
+                            <col span="1" style="width: 5%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 5%">
+                        </colgroup>
+
+                        <!-- Content thead, tbody -->
+                     
+                        <thead class="list_nv_heading">
+                            <tr>
+                                <th scope="col" class="heading_cell"></th>
+                                <th scope="col" class="heading_cell">Mã nhân viên</th>
+                                <th scope="col" class="heading_cell">Tên nhân viên</th>
+                                <th scope="col" class="heading_cell">CCCD</th>
+                                <th scope="col" class="heading_cell">Ngày sinh</th>
+                                <th scope="col" class="heading_cell">Email</th>
+                                <th scope="col" class="heading_cell">Chức vụ</th>
+                                <th scope="col" class="heading_cell">Số điện thoại</th>
+                                <th scope="col" class="heading_cell">Lương</th>
+                                <th scope="col" class="heading_cell"></th>
+                            </tr>
+                        </thead>
+                          <tbody class="list_nv_body">
+                       
+                @{
+                    foreach (var pi in listNhanVien)
+                    {
+
+                <tr>
+                      @{if (@pi.GioiTinh != 1)
+                        {
+                            <td class="data_cell"><i class="fa fa-venus"></i></td>
+                        }
+                        }
+                         @{if(@pi.GioiTinh == 1)
+                        {
+                            <td class="data_cell"><i class="fa fa-mars"></i></td>
+                        }
+                        }
+ 
+                        <td class="data_cell"> @pi.MaNhanVien </td>
+                        <td class="data_cell">@pi.HoTen</td>
+                        <td class="data_cell">@pi.CCCD</td>
+                        <td class="data_cell">@pi.NgaySinh</td>
+                        <td class="data_cell">@pi.Email</td>
+                        <td class="data_cell">@pi.MaChucVu</td>
+                        <td class="data_cell">@pi.SoDienThoai</td>
+                        <td class="data_cell">@pi.Luong</td>
+                        <td class="data_cell">
+                            <button class="nv_body_item__angle_button btn">
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                    }
+
+                         
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+             <!-- popup_staff -->
+        <div class="staff_profile_popup_window_container" id="staff_profile_popup_window_container_id">
+            <div class="staff_profile_popup_window">
+                <div class="header_staff_profile_popup_window">
+                    <div class="header_name_staff_profile_popup_window">THÔNG TIN NHÂN VIÊN</div>
+                    <i class="fa fa-close header_close_staff_profile_popup_window" style="font-size: 1.5rem;" id="header_close_staff_profile_popup_window_id"></i>
+                </div>
+
+                <div class="body_staff_profile_popup_window">
+                    <div class="content_staff_profile_popup_window">
+                        <div class="avatar_field_staff_profile_popup_window">
+                            <img src="Icon/account.png" id="avatar_img_staff_profile_popup_window">
+                            <button id="btn_change_avatar_staff_profile_popup_window">Đổi</button>
+                        </div>
+                        <div class="information_field_staff_profile_popup_window">
+                            <div class="personal_info_staff_profile_popup_window">
+                                <div class="name_part_info_staff_profile_popup_window">Thông tin cá nhân</div>
+                                <div class="data_info_staff_profile_popup_window">
+                                    <p>Họ tên:</p>
+                                    <input type="text" class="input_data_info_staff_profile_popup_window">
+                                </div>
+                                <div class="data_info_staff_profile_popup_window">
+                                    <p>CCCD:</p>
+                                    <input type="number" class="input_data_info_staff_profile_popup_window">
+                                </div>
+                                <div class="data_info_staff_profile_popup_window">
+                                    <p>Số điện thoại:</p>
+                                    <input type="number" class="input_data_info_staff_profile_popup_window">
+                                </div>
+                                <div class="data_info_staff_profile_popup_window">
+                                    <p>Ngày sinh:</p>
+                                    <input type="date" class="input_data_info_staff_profile_popup_window">
+                                </div>
+                                <div class="data_info_staff_profile_popup_window">
+                                    <p>Email:</p>
+                                    <input type="email" class="input_data_info_staff_profile_popup_window">
+                                </div>
+                                <div class="data_info_staff_profile_popup_window">
+                                    <p>Giới tính:</p>
+                                    <select name="" id="" class="input_data_info_staff_profile_popup_window">
+                                        <option value="">Nam</option>
+                                        <option value="">Nữ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="work_info_staff_profile_popup_window">
+                                <div class="name_part_info_staff_profile_popup_window">Thông tin nhân viên</div>
+                                <div class="data_info_staff_profile_popup_window">
+                                    <p>Mã chức vụ:</p>
+                                    <select class="input_data_info_staff_profile_popup_window">
+                                        <option selected>VS001</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                    </select>
+                                </div>
+                                <div class="data_info_staff_profile_popup_window">
+                                    <p>Lương:</p>
+                                    <input type="number" class="input_data_info_staff_profile_popup_window">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer_staff_profile_popup_window">
+                    <button type="button">Thêm</button>
+                    <button id = "close_popup_window_staff_button" type="button">Thoát</button>
+                </div>
+            </div>
+        </div>
+ <script src="~/js/ListStaff/ListStaff.js"></script>
