@@ -1,4 +1,4 @@
-﻿$(document).ready(function (e) {
+$(document).ready(function (e) {
     // dropdown option của tài khoản trên thanh header
     $('#dropdown_list_option_header_account_id').hide();
     $('#staff_info_field_id').click(function () {
@@ -67,12 +67,12 @@
         })
     });
 
+
     $('#dshoadon_selection_name_icon_id').click(function() {
         $.ajax({
             url: '/Home/ListBill',
             success: function (data, status) {
                 $('#main_working_window_id').html(data);
-                console.log(status);
             }
         })
     });
@@ -80,6 +80,15 @@
     $('#tracuuthuephong_selection_name_icon_id').click(function() {
         $.ajax({
             url: '/Home/ListDetail',
+            success: function (data, status) {
+                $('#main_working_window_id').html(data);
+
+            }
+        })
+    });
+    $('#tracuunhanvien_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Home/ListStaff',
             success: function (data, status) {
                 $('#main_working_window_id').html(data);
                 console.log(status);
@@ -90,12 +99,23 @@
     $('#doanhthutheoloaiphong_selection_name_icon_id').click(function () {
         $.ajax({
             url: '/Home/DTtheoLoaiPhong',
-            success: function (data, status) {
+                      success: function (data, status) {
                 $('#main_working_window_id').html(data);
                 console.log(status);
             }
         })
     });
+
+    $('#danhsachphong_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Home/ListRoom',
+                      success: function (data, status) {
+                $('#main_working_window_id').html(data);
+                console.log(status);
+            }
+        })
+    });
+
 
     $('#doanhthutinhluong_selection_name_icon_id').click(function () {
         $.ajax({
@@ -130,6 +150,5 @@
             }
         })
     });
-
 
 })
