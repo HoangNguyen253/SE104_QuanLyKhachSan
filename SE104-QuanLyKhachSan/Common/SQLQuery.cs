@@ -2,7 +2,7 @@
 {
     public class SQLQuery
     {
-        public static string getAllBill =   " select                                    " +
+        public static string getAllBill = " select                                    " +
                                             "     hd.MaHoaDon                           " +
                                             "     , nv.HoTen                            " +
                                             "     , hd.ThoiGianXuat                     " +
@@ -26,14 +26,19 @@
         public static string getAllDetailStaff = " SELECT								    " +
                                                    "     *                                     " +
                                                    " FROM                                      " +
-                                                   " nhanvien            ";
+                                                   " nhanvien nv, chucvu cv where nv.MaChucVu = cv.MaChucVu            ";
         public static string getAllDetailRoom = " SELECT								    " +
                                                  "     *                                     " +
                                                  " from                                      " +
                                                  "     phong p                          " +
                                                  "     join loaiphong lp                " +
                                                  "     on lp.MaLoaiPhong = p.MaLoaiPhong; ";
-        public static string postNewRoom = " insert	into phong (maphong, maloaiphong, tang, trangthai, ghichu) values (@MaPhong, @MaLoaiPhong, @Tang, @TrangThai, @GhiChu)";
+        public static string postNewRoom = "insert into phong(MaPhong, MaLoaiPhong, Tang, TrangThai, GhiChu) values (@MaPhong, @MaLoaiPhong, @Tang, @TrangThai, @GhiChu)";
+        public static string postNewStaff = "insert into nhanvien(MaNhanVien,MatKhau,CCCD,HoTen,GioiTinh,NgaySinh,Email,SoDienThoai,NgayVaoLam,MaChucVu,HinhAnh,Luong) values " +
+                                              "(@MaNhanVien,@MatKhau,@CCCD,@HoTen,@GioiTinh,@NgaySinh,@Email,@SoDienThoai,@NgayVaoLam,@MaChucVu,@HinhAnh,@Luong)";
         public static string getAllRoomStyle = "select * from loaiphong";
+        public static string getAllDetailRoles = "select * from chucvu";
+        public static string getChosenStaff = "select * from nhanvien where MaNhanVien = @MaNhanVien";
+        public static string deleteRoom = "delete from phong where MaPhong = @MaPhong";
     }
 }

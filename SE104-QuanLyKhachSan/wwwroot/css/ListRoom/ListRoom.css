@@ -7,6 +7,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-clip: content-box;
+    overflow: auto;
 }
 
 .tracuunv_main_window {
@@ -45,6 +46,7 @@
     font-size: 20px;
 }
 
+
 .main_working_window .add_role {
     float: left;
     width: 70%;
@@ -57,6 +59,23 @@
 
 .main_working_window .search {
     width: 342.55px;
+    height: 33.33px;
+    float: right;
+    background-color: white;
+    margin-right: 24.11px;
+    margin-left: 16.44px;
+}
+#TenLoaiPhong_ {
+    width: 500px;
+    height: 33.33px;
+    float: right;
+    background-color: white;
+    margin-right: 24.11px;
+    margin-left: 16.44px;
+}
+
+#TrangThai_ {
+    width: 500px;
     height: 33.33px;
     float: right;
     background-color: white;
@@ -76,6 +95,8 @@
     width: 100%;
     margin-top: 2px;
     border-collapse: collapse;
+    overflow: auto;
+
 }
 
 .list_nv_heading, .list_room_heading {
@@ -88,6 +109,7 @@
     height: 48px;
     border-bottom: 1px solid #C8C8C8;
     text-align: center;
+    overflow: auto
 }
 
     .list_nv_body tr i, .list_room_body tr i {
@@ -153,7 +175,9 @@ i.fa-mars {
     opacity: 0;
     pointer-events: none;
     transition: 0.5s ease;
+    overflow: auto;
 }
+
 
     .room_profile_popup_window_container.show {
         pointer-events: auto;
@@ -221,10 +245,10 @@ i.fa-mars {
     }
 
     .code_room_profile_popup_window input {
-        background: #C4C4C4;
         border: 1px solid #000000;
         box-sizing: border-box;
         padding-left: 11px;
+        width: 197px;
     }
 
 #code_room_profile_popup_window {
@@ -260,22 +284,23 @@ i.fa-mars {
         width: 78px;
     }
 
-input.input_data_info_staff_profile_popup_window {
+input.input_data_info_room_profile_popup_window {
     width: 197px;
     height: 27px;
     background: #FFFFFF;
     border: 1px solid #000000;
     box-sizing: border-box;
-    padding-left: 11px;
+
 }
 
-select.input_data_info_staff_profile_popup_window {
+select.input_data_info_room_profile_popup_window {
     width: 197px;
     height: 27px;
     background: #FFFFFF;
     border: 1px solid #000000;
     box-sizing: border-box;
-    padding-left: 5px;
+    margin-left: 10px;
+ 
 }
 
 .footer_room_profile_popup_window {
