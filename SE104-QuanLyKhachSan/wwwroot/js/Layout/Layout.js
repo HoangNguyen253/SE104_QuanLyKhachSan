@@ -80,6 +80,22 @@
             url: '/Permission/Index',
             success: function (data) {
                 $("#main_working_window_id").html(data);
+
+    $('#dshoadon_selection_name_icon_id').click(function() {
+        $.ajax({
+            url: '/Home/ListBill',
+            success: function (data, status) {
+                $('#main_working_window_id').html(data);
+                console.log(status);
+            }
+        })
+    });
+    $('#tracuuthuephong_selection_name_icon_id').click(function() {
+        $.ajax({
+            url: '/Home/ListDetail',
+            success: function (data, status) {
+                $('#main_working_window_id').html(data);
+                console.log(status);
             }
         })
     });

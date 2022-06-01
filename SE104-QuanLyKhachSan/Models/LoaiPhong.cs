@@ -1,4 +1,5 @@
-﻿namespace SE104_QuanLyKhachSan.Models
+using System;
+namespace SE104_QuanLyKhachSan.Models
 {
     public class LoaiPhong
     {

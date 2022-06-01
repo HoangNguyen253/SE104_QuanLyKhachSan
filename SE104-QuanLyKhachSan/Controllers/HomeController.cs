@@ -22,10 +22,22 @@ namespace SE104_QuanLyKhachSan.Controllers
 
         public IActionResult Index()
         {
+            NhanVien nhanVien_OnBoard = HttpContext.Session.Get<NhanVien>(SessionKeyUser);
+            ViewData["nhanVien_OnBoard"] = nhanVien_OnBoard;
             return View();
         }
 
         public IActionResult SoDoPhong()
+        {
+            return PartialView();
+        }
+
+        public IActionResult ListBill()
+        {
+            return PartialView();
+        }
+
+        public IActionResult ListDetail()
         {
             return PartialView();
         }

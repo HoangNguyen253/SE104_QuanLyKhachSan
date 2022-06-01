@@ -1,0 +1,220 @@
+:root {
+    --background-button: #fff;
+    --main-color: #002B49;
+}
+
+
+/*=================== MAIN: begin ============*/
+.list_detail_bill_main_window {
+    padding: 0;
+    transition: all 0.5s;
+    height: 100%;
+    background-color: #fff;
+}
+
+.main_window__taskbar {
+    height: 48px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    background-color: #002b49;
+}
+
+.main_window__taskbar button {
+    height: 36px; 
+    background-color: var(--background-button);
+    border: none;
+}
+
+.taskbar__add_button {
+    min-width: 132px;
+}
+
+.taskbar__search_button {
+    min-width: 52px;
+    margin-left: 20px;
+    margin-right: 28px;
+}
+
+
+.main_window__taskbar input {
+    height: 36px;
+    box-sizing: content-box;
+    border: none;
+    padding: 0;
+    padding-left: 4px;
+    padding-right: 8px;
+    margin-left: 20px;
+    outline: none;
+}
+
+.list_rent_table {
+    border-collapse: collapse;
+    margin-top: 2px;
+    width: 100%;
+}
+
+.table_heading {
+    background-color: #0666a9;
+    height: 32px;
+    color: #fff;
+}
+
+.table_body tr {
+    height: 48px;
+    border-bottom: 1px solid #c8c8c8;
+    text-align: center;
+}
+
+.data_cell {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.context_menu {
+    display: none;
+    position: absolute;
+}
+
+.list_context {
+    background-color: #f5f5f5;
+    width: 180px;
+    border: 1px solid black;
+}
+
+.context_menu ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.context_menu ul li {
+    padding-bottom: 4px;
+    padding-top: 4px;
+    padding-left: 20px;
+    border-bottom: 1px solid #c8c8c8;
+}
+
+.context_menu ul li:hover {
+    background-color: #e5e5e5;
+    cursor: pointer;
+}
+
+.context_menu ul li:last-child {
+    border-bottom: none;
+}
+
+.context_menu ul li {
+    text-decoration: none;
+    color:rgba(0, 100, 250, 0.8);
+    font-weight: 400;
+    height: 100%;
+    display: block;
+}
+
+/* ======== POPUP ========= */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes sliding {
+    from {
+        transform: translateY(-50%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    z-index: 2;
+    animation: fadeIn 0.2s linear;
+}
+
+.popup_overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.popup_body {
+    margin: auto;
+    position: relative;
+    z-index: 3;
+}
+
+.popup_container {
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 1000px;
+    border: 2px solid #333;
+    animation: 0.3s sliding ease-out;
+}
+
+#rent_room_info_popup {
+    display: none;
+    width: 100%;
+}
+
+.popup_wrapper {
+    box-sizing: border-box;
+    padding: 16px;
+    width: 100%;
+}
+
+.popup_header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.popup_header p {
+    color: #0666A9;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 12px 0;
+}
+
+.popup_content {
+    margin-top: 12px;
+    margin-bottom: 24px;
+}
+
+#rent_room_info_table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#rent_room_info_table thead {
+    background-color: #000;
+    width: 100%;
+}
+
+#rent_room_info_table th {
+    color: #fff;
+    font-size: 12px;
+}
+
+#rent_room_info_table .data_cell {
+    height: 40px;
+    border-bottom: 1px solid #959595;
+    text-align: center;
+}
+
+/*=================== MAIN: end ============*/
