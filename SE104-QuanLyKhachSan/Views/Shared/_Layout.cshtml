@@ -1,7 +1,4 @@
-﻿@{
-    NhanVien nhanVien_OnBoard = ViewData["nhanVien_OnBoard"] as NhanVien;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -12,7 +9,8 @@
     <link rel='stylesheet' type='text/css' media='screen' href='~/css/Layout/Layout.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='~/css/Loading/Loading.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
@@ -68,8 +66,8 @@
         </div>
         <div class="dropdown_list_option_header_account_container">
             <div class="staff_info_field" id="staff_info_field_id">
-                <img id="avatar" src="~/image/Layout/account.png">
-                <p id='name_nhanvien'>@nhanVien_OnBoard.HoTen</p>
+                <img id="avatar">
+                <p id='name_nhanvien'></p>
                 <i class="fa fa-caret-down" style="font-size:2rem; margin-left: 0.5rem;"></i>
             </div>
             <div class="dropdown_list_option_header_account" id="dropdown_list_option_header_account_id">
@@ -77,7 +75,7 @@
                     <img src="~/image/Layout/xemthongtincanhan.png">
                     <p>Xem thông tin</p>
                 </div>
-                <div class="option_name_header_account">
+                <div class="option_name_header_account" onclick="LogoutNhanVien()">
                     <img src="~/image/Layout/dangxuat.png">
                     <p>Đăng xuất</p>
                 </div>
@@ -181,8 +179,8 @@
                 <div class="body_staff_profile_popup_window">
                     <div class="content_staff_profile_popup_window">
                         <div class="avatar_field_staff_profile_popup_window">
-                            <img src="~/image/Layout/account.png" id="avatar_img_staff_profile_popup_window"
-                                 style="filter: invert(1);">
+                            <img id="avatar_img_staff_profile_popup_window">
+                            <input type='file' onchange="readURL(this);" id="fileUpload" style="display: none;" />
                             <button id="btn_change_avatar_staff_profile_popup_window">Đổi</button>
                         </div>
                         <div class="information_field_staff_profile_popup_window">
@@ -190,43 +188,29 @@
                                 <div class="name_part_info_staff_profile_popup_window">Thông tin cá nhân</div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Họ tên:</p>
-                                    <input type="text" class="input_data_info_staff_profile_popup_window"
-                                           value="@nhanVien_OnBoard.HoTen">
+                                    <input type="text" class="input_data_info_staff_profile_popup_window" onkeyup="IsEnableSave(this.value,'hoTen')">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>CCCD:</p>
-                                    <input type="text" class="input_data_info_staff_profile_popup_window"
-                                           value="@nhanVien_OnBoard.CCCD">
+                                    <input type="text" class="input_data_info_staff_profile_popup_window" onkeyup="IsEnableSave(this.value,'cccd')">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Số điện thoại:</p>
-                                    <input type="tel" class="input_data_info_staff_profile_popup_window"
-                                           value="@nhanVien_OnBoard.SoDienThoai">
+                                    <input type="tel" class="input_data_info_staff_profile_popup_window" onkeyup="IsEnableSave(this.value,'sdt')">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Ngày sinh:</p>
-                                    <input type="date" class="input_data_info_staff_profile_popup_window"
-                                           value="@nhanVien_OnBoard.NgaySinh.ToString("yyyy-MM-dd")">
+                                    <input type="date" class="input_data_info_staff_profile_popup_window" onchange="IsEnableSave(this.value,'ngaySinh')">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Email:</p>
-                                    <input type="email" class="input_data_info_staff_profile_popup_window"
-                                           value="@nhanVien_OnBoard.Email">
+                                    <input type="email" class="input_data_info_staff_profile_popup_window" onkeyup="IsEnableSave(this.value,'email')">
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Giới tính:</p>
-                                    <select class="input_data_info_staff_profile_popup_window">
-                                        @{ if (nhanVien_OnBoard.GioiTinh == 1)
-                                            {
-                                                <option value='1' selected>Nam</option>
-                                                <option value='0'>Nữ</option>
-                                            }
-                                            else
-                                            {
-                                                <option value='1'>Nam</option>
-                                                <option value='0' selected>Nữ</option>
-                                            }
-                                            }
+                                    <select class="input_data_info_staff_profile_popup_window" onchange="IsEnableSave(this.value,'gioiTinh')">
+                                        <option value=1>Nam</option>
+                                        <option value=0>Nữ</option>
                                     </select>
                                 </div>
                             </div>
@@ -234,27 +218,23 @@
                                 <div class="name_part_info_staff_profile_popup_window">Thông tin nhân viên</div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Mã chức vụ:</p>
-                                    <select class="input_data_info_staff_profile_popup_window" disabled>
-                                        <option selected>@nhanVien_OnBoard.MaChucVu</option>
-                                    </select>
+                                    <input type="text" class="input_data_info_staff_profile_popup_window" disabled>
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Lương:</p>
-                                    <input type="number" class="input_data_info_staff_profile_popup_window" disabled
-                                           value="@nhanVien_OnBoard.Luong">
+                                    <input type="number" class="input_data_info_staff_profile_popup_window" disabled>
                                 </div>
                                 <div class="data_info_staff_profile_popup_window">
                                     <p>Ngày vào làm:</p>
-                                    <input type="date" class="input_data_info_staff_profile_popup_window" disabled
-                                           value="@nhanVien_OnBoard.NgayVaoLam.ToString("yyyy-MM-dd")">
+                                    <input type="date" class="input_data_info_staff_profile_popup_window" disabled>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="function_field_staff_profile_popup_window">
-                        <button id="btn_changepass_admin_in_staff_profile_popup_window_id">Đổi mật khẩu</button>
+                        <button id="btn_changepass_admin_in_staff_profile_popup_window_id" onclick="OpenChangePassPopup()">Đổi mật khẩu</button>
                         <div>
-                            <button id="btn_save_admin_in_staff_profile_popup_window_id">Lưu</button>
+                            <button id="btn_save_admin_in_staff_profile_popup_window_id" onclick="Update_Info_Staff()">Lưu</button>
                             <button id="btn_cancel_admin_in_staff_profile_popup_window_id">Thoát</button>
                         </div>
                     </div>
@@ -262,10 +242,283 @@
             </div>
         </div>
         <!-- Popup xem thông tin cá nhân của nhân viên - end -->
+        @*Toast Message - begin*@
+        <div id="toast_container">
+        </div>
+        @*Toast Message - end*@
 
+        @*Popup thay đổi mật khẩu - begin*@
+        <div class="change_pass_popup_container" id="change_pass_popup_container_id">
+            <div class="change_pass_popup">
+                <div class="header_change_pass_popup">
+                    <div class="header_name_change_pass_popup">ĐỔI MẬT KHẨU</div>
+                    <i class="fa fa-close header_close_change_pass_popup" style="font-size: 1.5rem;" id="header_close_change_pass_popup_id" onclick="CloseChangePassPopup()"></i>
+                </div>
+                <div class="body_change_pass_popup">
+                    <div class="content_change_pass_popup">
+                        <p>Mật khẩu cũ(<span>*</span>): </p>
+                        <input type="password">
+                        <p>Mật khẩu mới(<span>*</span>): </p>
+                        <input type="password" onblur="CheckValidPass(this.value)" onkeyup="IsEnableChangeButton(this.value)">
+                        <p>Xác nhận mật khẩu(<span>*</span>): </p>
+                        <input type="password">
+                        <p style="grid-column: span 2; font-style:italic; color: red; margin: 0; padding:0;">Lưu ý: Mật khẩu phải có độ dài từ 8 đến 32 kí tự.</p>
+                    </div>
+                    <div class="function_change_pass_popup">
+                        <button id="btn_confirm_change_pass_popup" onclick="ChangePassForStaff()">Đổi mật khẩu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*Popup thay đổi mật khẩu - end*@
 
     </main>
     <script src="~/js/Layout/Layout.js"></script>
+    <script>
+        RenderInfoStaff();
+        var _curNhanVien = {
+            maNhanVien: "",
+            matKhau: "",
+            cccd: "",
+            hoTen: "",
+            gioiTinh: null,
+            ngaySinh: "",
+            email: "",
+            soDienThoai: "",
+            ngayVaoLam: "",
+            maChucVu: "",
+            hinhAnh: "",
+            luong: 0
+        }
+        function RenderInfoStaff() {
+            let myPromise = new Promise(function (myResolve) {
+                let xhr_Render_Info_Staff = new XMLHttpRequest();
+                let url_Render_Info_Staff = "https://localhost:5001/Home/GetStaffOnBoard";
+                xhr_Render_Info_Staff.open("POST", url_Render_Info_Staff, true);
+                xhr_Render_Info_Staff.timeout = 5000;
+                xhr_Render_Info_Staff.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        myResolve(JSON.parse(this.response));
+
+                    }
+                }
+                xhr_Render_Info_Staff.send();
+            })
+            myPromise.then(function (value) {
+                let infoStaff = value;
+                $("#staff_info_field_id #avatar").attr("src", infoStaff["hinhAnh"]);
+                $("#staff_info_field_id #name_nhanvien").html(infoStaff["hoTen"]);
+                $("#avatar_img_staff_profile_popup_window").attr("src", infoStaff["hinhAnh"]);
+                let infoStaffInput = $(".personal_info_staff_profile_popup_window input");
+                _curNhanVien.maNhanVien = infoStaff["maNhanVien"];
+                _curNhanVien.hoTen = infoStaffInput[0].value = infoStaff["hoTen"];
+                _curNhanVien.cccd = infoStaffInput[1].value = infoStaff["cccd"];
+                _curNhanVien.soDienThoai = infoStaffInput[2].value = infoStaff["soDienThoai"];
+                _curNhanVien.ngaySinh = infoStaffInput[3].value = infoStaff["ngaySinh"].substr(0, 10);
+                _curNhanVien.email = infoStaffInput[4].value = infoStaff["email"];
+                $(".personal_info_staff_profile_popup_window select").first().val(infoStaff["gioiTinh"]).change();
+                _curNhanVien.gioiTinh = infoStaff["gioiTinh"];
+
+                let workStaffInput = $(".work_info_staff_profile_popup_window input")
+                _curNhanVien.maChucVu = workStaffInput[0].value = infoStaff["maChucVu"];
+                _curNhanVien.luong = workStaffInput[1].value = infoStaff["luong"];
+                _curNhanVien.ngayVaoLam = workStaffInput[2].value = infoStaff["ngayVaoLam"].substr(0, 10);
+                _curNhanVien.hinhAnh = infoStaff["hinhAnh"];
+                _curNhanVien.matKhau = infoStaff["matKhau"];
+            })
+        }
+        function readURL(input) {
+            var formData = new FormData();
+            formData.append('file', input.files[0]);
+
+            let xhr_uploadImage = new XMLHttpRequest();
+            let url_uploadImage = "https://localhost:5001/Home/UploadImage";
+            xhr_uploadImage.open("POST", url_uploadImage, true);
+            xhr_uploadImage.timeout = 50000;
+            xhr_uploadImage.onreadystatechange = function () {
+                if (xhr_uploadImage.readyState == 4 && xhr_uploadImage.status == 200) {
+                    document.getElementById("avatar_img_staff_profile_popup_window").setAttribute('src', xhr_uploadImage.responseText);
+                    document.querySelector("#staff_info_field_id #avatar").setAttribute('src', xhr_uploadImage.responseText);
+                }
+            }
+            xhr_uploadImage.send(formData);
+            console.log(input.files[0]);
+        }
+        $(function () {
+            $('#btn_change_avatar_staff_profile_popup_window').click(function () {
+                $('#fileUpload').trigger('click');
+            });
+        });
+        function LogoutNhanVien() {
+            window.location.replace("https://localhost:5001/Home/LogOutNhanVien");
+        }
+
+        function EnableFunctionButton(e) {
+            if (e.hasClass("enabled")) return;
+            else e.addClass("enabled");
+        }
+        function DisableFunctionButton(e) {
+            if (e.hasClass("enabled")) e.removeClass("enabled");
+            else return;
+        }
+        function IsEnableSave(dataField, fieldName) {
+            switch (fieldName) {
+                case 'hoTen':
+                    if (dataField.localeCompare(_curNhanVien.hoTen) != 0 && dataField != null) EnableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    else DisableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    break;
+                case 'cccd':
+                    if (dataField != _curNhanVien.cccd && dataField != null) EnableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    else DisableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    break;
+                case 'sdt':
+                    if (dataField != _curNhanVien.soDienThoai && dataField != null) EnableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    else DisableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    break;
+                case 'ngaySinh':
+                    if (dataField != _curNhanVien.ngaySinh && dataField != null) EnableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    else DisableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    break;
+                case 'email':
+                    if (dataField != _curNhanVien.email && dataField != null) EnableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    else DisableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    break;
+                case 'gioiTinh':
+                    if (dataField != _curNhanVien.gioiTinh) EnableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    else DisableFunctionButton($("#btn_save_admin_in_staff_profile_popup_window_id"));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function Update_Info_Staff() {
+            let myPromise = new Promise(function (myResolve) {
+                if ($('#staff_profile_popup_window_container_id').hasClass("show")) {
+                    let maNhanVien = _curNhanVien.maNhanVien;
+                    let thongTinNhanVien = $('.data_info_staff_profile_popup_window input');
+                    let gioiTinhNhanVien = $('.data_info_staff_profile_popup_window select').first();
+                    if (thongTinNhanVien != null && gioiTinhNhanVien != null) {
+                        let form_DataNhanVien = new FormData();
+                        form_DataNhanVien.append("maNhanVien", maNhanVien);
+                        form_DataNhanVien.append("hoTen", thongTinNhanVien[0].value);
+                        form_DataNhanVien.append("cccd", thongTinNhanVien[1].value);
+                        form_DataNhanVien.append("sdt", thongTinNhanVien[2].value);
+                        form_DataNhanVien.append("ngaySinh", thongTinNhanVien[3].value);
+                        form_DataNhanVien.append("email", thongTinNhanVien[4].value);
+                        form_DataNhanVien.append("gioiTinh", gioiTinhNhanVien.val());
+
+                        let xhr_Update_Data_Staff = new XMLHttpRequest();
+                        let url_Update_Data_Staff = "https://localhost:5001/Home/UpdateInfoStaff";
+                        xhr_Update_Data_Staff.open("POST", url_Update_Data_Staff, true);
+                        xhr_Update_Data_Staff.timeout = 5000;
+                        xhr_Update_Data_Staff.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                let result = this.responseText;
+                                myResolve(result);
+                            }
+                        }
+                        xhr_Update_Data_Staff.send(form_DataNhanVien);
+                    }
+                    else myResolve("No Data");
+                }
+                else myResolve("");
+            });
+            myPromise.then(function (value) {
+                let result = value;
+                if (result == "success") {
+                    toastMessage({ title: "Thành công!", message: "Cập nhật thông tin nhân viên thành công!", type: "success" });
+                    $('#staff_profile_popup_window_container_id').removeClass("show");
+                    RenderInfoStaff();
+                }
+                else if (result == "fail") {
+                    toastMessage({ title: "Thất bại!", message: "Cập nhật thông tin nhân viên thất bại!", type: "fail" });
+                }
+                else if (result == "") {
+                    toastMessage({ title: "Thất bại!", message: "Đã xảy ra lỗi!", type: "fail" });
+                }
+                else if (result == "No Data") {
+                    toastMessage({ title: "Thất bại!", message: "Không có thông tin!", type: "fail" });
+                }
+            });
+        }
+
+        function OpenChangePassPopup() {
+            if (!$('#change_pass_popup_container_id').hasClass("show")) {
+                $('#change_pass_popup_container_id').addClass("show");
+            }
+        };
+        function CloseChangePassPopup() {
+            if ($('#change_pass_popup_container_id').hasClass("show")) {
+                $('#change_pass_popup_container_id').removeClass("show");
+                if ($("#btn_confirm_change_pass_popup").hasClass("enabled"))
+                    $("#btn_confirm_change_pass_popup").removeClass("enabled");
+                let _pass = $(".content_change_pass_popup input");
+                _pass[0].value = "";
+                _pass[1].value = "";
+                _pass[2].value = "";
+            }
+        }
+        function ChangePassForStaff() {
+            let _pass = $(".content_change_pass_popup input");
+            if (/.{8,32}/.test(_pass[1].value)) {
+                if (_pass[1].value != _pass[2].value) {
+                    toastMessage({ title: "Cảnh báo!", message: "Mật khẩu mới không trùng khớp!", type: "fail" });
+                }
+                else {
+                    if (_pass[0].value != _curNhanVien.matKhau) {
+                        toastMessage({ title: "Cảnh báo!", message: "Mật khẩu cũ không chính xác!", type: "fail" });
+                    }
+                    else {
+                        let maNhanVien = _curNhanVien.maNhanVien;
+                        let form_ChangePass = new FormData();
+                        form_ChangePass.append("maNhanVien", maNhanVien);
+                        form_ChangePass.append("pass", _pass[2].value);
+
+                        let xhr_Change_Pass_Staff = new XMLHttpRequest();
+                        let url_Change_Pass_Staff = "https://localhost:5001/Home/ChangePassStaff";
+                        xhr_Change_Pass_Staff.open("POST", url_Change_Pass_Staff, true);
+                        xhr_Change_Pass_Staff.timeout = 5000;
+                        xhr_Change_Pass_Staff.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                let result = this.responseText;
+                                if (result == "success") {
+                                    toastMessage({ title: "Thành công!", message: "Cập nhật mật khẩu thành công!", type: "success" });
+                                    _curNhanVien.matKhau = _pass[2].value;
+                                    if ($("#btn_confirm_change_pass_popup").hasClass("enabled"))
+                                        $("#btn_confirm_change_pass_popup").removeClass("enabled");
+                                    CloseChangePassPopup();
+                                }
+                                else {
+                                    toastMessage({ title: "Thất bại!", message: "Cập nhật mật khẩu thất bại!", type: "fail" });
+                                }
+                            }
+                        }
+                        xhr_Change_Pass_Staff.send(form_ChangePass);
+                    }
+                }
+            }
+            else {
+                return;
+            }
+        }
+        function CheckValidPass(pass) {
+            let pattern = /.{8,32}/;
+            if (!pattern.test(pass)) {
+                toastMessage({ title: "Cảnh báo!", message: "Mật khẩu phải có độ dài từ 8-32 ký tự!", type: "fail" });
+            }
+        }
+        function IsEnableChangeButton(pass) {
+            if (!/.{8,32}/.test(pass)) {
+                if ($("#btn_confirm_change_pass_popup").hasClass("enabled"))
+                    $("#btn_confirm_change_pass_popup").removeClass("enabled");
+            }
+            else {
+                if (!$("#btn_confirm_change_pass_popup").hasClass("enabled"))
+                    $("#btn_confirm_change_pass_popup").addClass("enabled");
+            };
+        }
+    </script>
 </body>
 
 </html>
