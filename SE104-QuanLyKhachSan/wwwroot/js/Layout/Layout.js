@@ -86,4 +86,25 @@ $(document).ready(function (e) {
             }
         })
     });
+    $('#tracuunhanvien_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Home/ListStaff',
+            success: function (data, status) {
+                $('#main_working_window_id').html(data);
+                console.log(status);
+            }
+        })
+    });
+    $('#danhsachphong_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Home/ListRoom',
+            success: function (data, status) {
+                $('#main_working_window_id').html(data);
+                console.log(status);
+            }
+        })
+    });
+
+
+   
 })

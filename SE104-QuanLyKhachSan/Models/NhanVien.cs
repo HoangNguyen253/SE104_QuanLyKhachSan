@@ -73,6 +73,12 @@ namespace SE104_QuanLyKhachSan.Models
             get { return maChucVu; }
             set { maChucVu = value; }
         }
+        private string tenChucVu;
+        public string TenChucVu
+        {
+            get { return tenChucVu; }
+            set { tenChucVu = value; }
+        }
 
         private string hinhAnh;
         public string HinhAnh
