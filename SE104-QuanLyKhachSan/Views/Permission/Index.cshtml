@@ -1,0 +1,50 @@
+﻿
+<link rel='stylesheet' type='text/css' media='screen' href='~/css/Permission/Permission.css'>
+@{
+    List<PhanQuyen> phanQuyens = ViewData["ListPhanQuyen"] as List<PhanQuyen>;
+    List<Quyen> quyens = ViewData["ListQuyen"] as List<Quyen>;
+    List<ChucVu> chucVus = ViewData["ListChucVu"] as List<ChucVu>;
+    <div class="permission-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Chức vụ</th>
+                    @for (int i = 0; i<quyens.Count ; i++)
+                    {
+                        <th>@quyens[i].TenQuyen</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i<chucVus.Count; i++)
+                {
+                   <tr machucvu='@chucVus[i].MaChucVu'>
+                        <td>@chucVus[i].TenChucVu</td>
+                        @for (int j = 0; j < quyens.Count; j++) {
+                            string isChecked = "";
+                            string isDisabled = "";
+                            for (int k = 0; k < phanQuyens.Count; k++)
+                            {
+                                
+                                if (chucVus[i].MaChucVu == 1)
+                                {
+                                    isDisabled = "disabled";
+                                }
+                                if (chucVus[i].MaChucVu == phanQuyens[k].MaChucVu && phanQuyens[k].MaQuyen == quyens[j].MaQuyen)
+                                {
+                                    isChecked = "checked";
+                                    break;
+                                }
+                            }
+                            <td><input maquyen='@quyens[j].MaQuyen' @isChecked @isDisabled type="checkbox"></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="footer">
+            <button class="blue-button"><img src="~/image/Permission/check.png" alt="check image">Lưu thay đổi</button>
+        </div>
+    </div>
+}
+<script src="/js/Permission/Permission.js"></script>

@@ -1,6 +1,6 @@
-﻿using System;
-
+using System;
 namespace SE104_QuanLyKhachSan.Models
+
 {
     public class LoaiKhachHang
     {

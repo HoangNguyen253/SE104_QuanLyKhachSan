@@ -67,6 +67,20 @@
         })
     });
 
+    $('#thaydoiquydinh_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Regulation/Index',
+            success: function (data) {
+                $("#main_working_window_id").html(data);
+            }
+        })
+    });
+    $('#phanquyen_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Permission/Index',
+            success: function (data) {
+                $("#main_working_window_id").html(data);
+
     $('#dshoadon_selection_name_icon_id').click(function() {
         $.ajax({
             url: '/Home/ListBill',
@@ -76,7 +90,6 @@
             }
         })
     });
-
     $('#tracuuthuephong_selection_name_icon_id').click(function() {
         $.ajax({
             url: '/Home/ListDetail',
