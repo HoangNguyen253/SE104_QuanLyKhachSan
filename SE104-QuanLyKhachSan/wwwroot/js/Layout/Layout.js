@@ -1,4 +1,4 @@
-﻿$(document).ready(function (e) {
+$(document).ready(function (e) {
     // dropdown option của tài khoản trên thanh header
     $('#dropdown_list_option_header_account_id').hide();
     $('#staff_info_field_id').click(function () {
@@ -67,35 +67,22 @@
         })
     });
 
-    $('#thaydoiquydinh_selection_name_icon_id').click(function () {
-        $.ajax({
-            url: '/Regulation/Index',
-            success: function (data) {
-                $("#main_working_window_id").html(data);
-            }
-        })
-    });
-    $('#phanquyen_selection_name_icon_id').click(function () {
-        $.ajax({
-            url: '/Permission/Index',
-            success: function (data) {
-                $("#main_working_window_id").html(data);
 
     $('#dshoadon_selection_name_icon_id').click(function() {
         $.ajax({
             url: '/Home/ListBill',
             success: function (data, status) {
                 $('#main_working_window_id').html(data);
-                console.log(status);
             }
         })
     });
+
     $('#tracuuthuephong_selection_name_icon_id').click(function() {
         $.ajax({
             url: '/Home/ListDetail',
             success: function (data, status) {
                 $('#main_working_window_id').html(data);
-                console.log(status);
+
             }
         })
     });

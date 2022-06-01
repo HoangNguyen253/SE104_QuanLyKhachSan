@@ -34,11 +34,20 @@ namespace SE104_QuanLyKhachSan.Controllers
 
         public IActionResult ListBill()
         {
+
+            NhanVien nhanVien_OnBoard = HttpContext.Session.Get<NhanVien>(SessionKeyUser);
+            ViewData["nhanVien_OnBoard"] = nhanVien_OnBoard;
+            Database db = new Database();
+            List<HoaDon> listBill = db.GetAllBill();
+            ViewData["listBill"] = listBill;
             return PartialView();
         }
 
         public IActionResult ListDetail()
         {
+            Database db = new Database();
+            List<ChiTietHoaDon> listDetails = db.GetAllDetailBills();
+            ViewData["listDetails"] = listDetails;
             return PartialView();
         }
 
