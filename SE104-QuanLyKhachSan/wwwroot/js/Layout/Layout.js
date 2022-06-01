@@ -72,7 +72,6 @@
             url: '/Home/ListBill',
             success: function (data, status) {
                 $('#main_working_window_id').html(data);
-                console.log(status);
             }
         })
     });
@@ -82,7 +81,6 @@
             url: '/Home/ListDetail',
             success: function (data, status) {
                 $('#main_working_window_id').html(data);
-                console.log(status);
             }
         })
     });
