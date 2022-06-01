@@ -2,6 +2,24 @@
 {
     public class SQLQuery
     {
+        //Trí - begin
+        public static string getAllDoanhThuThang = " SELECT                                    " +
+                                                   "  bc.MaBCDoanhThu                    " +
+                                                   "  , bc.ThangBaoCao                    " +
+                                                   " , bc.ThoiGianLap                    " +
+                                                   " , bc.TongTien                    " +
+                                                   "   FROM                               " +
+                                                   "     baocaodoanhthuthang bc         ";
+        public static string getAllDetailDoanhThuThang = " SELECT                                    " +
+                                            " bc.MaBCDoanhThu                    " +
+                                            " bc.MaLoaiPhong                     " +
+                                            " lc.TenLoaiPhong                   " +
+                                            " ,bc.ThoiGianLap                    " +
+                                            "  FROM                               " +
+                                            "     ctbcdoanhthuthang bc, loaiphong lp         " +
+                                            "   where bc.MaLoaiPhong = lp.MaLoaiPhong       ";
+        //Trí - end
+        //Nghĩa - begin
         public static string getAllBill = " select                                    " +
                                             "     hd.MaHoaDon                           " +
                                             "     , hd.MaNhanVien                       " +
@@ -18,52 +36,16 @@
                                                 "     cthd.*                                            " +
                                                 " FROM                                                  " +
                                                 "     chitiethoadon cthd LEFT JOIN phong p              " +
-                                                "         ON cthd.MaPhong = p.MaPhong JOIN loaiphong lp " +
-                                                "         ON p.MaLoaiPhong = lp.MaLoaiPhong				";
-
-        public static string getAllDoanhThuThang = " SELECT                                    " +
-                                            "  bc.MaBCDoanhThu                    " +
-                                            "  , bc.ThangBaoCao                    " +
-                                            " , bc.ThoiGianLap                    " +
-                                            " , bc.TongTien                    " +
-                                            "   FROM                               " +
-                                            "     baocaodoanhthuthang bc         ";
-        public static string getAllDetailDoanhThuThang = " SELECT                                    " +
-                                            " bc.MaBCDoanhThu                    " +
-                                            " bc.MaLoaiPhong                     " +
-                                            " lc.TenLoaiPhong                   " + 
-                                            " ,bc.ThoiGianLap                    " +
-                                            "  FROM                               " +
-                                            "     ctbcdoanhthuthang bc, loaiphong lp         " +
-                                            "   where bc.MaLoaiPhong = lp.MaLoaiPhong       ";
-
-        public static string getAllDetailStaff = " SELECT								    " +
-                                                   "     *                                     " +
-                                                   " FROM                                      " +
-                                                   " nhanvien nv, chucvu cv where nv.MaChucVu = cv.MaChucVu            ";
-        public static string getAllDetailRoom = " SELECT								    " +
-                                                 "     *                                     " +
-                                                 " from                                      " +
-                                                 "     phong p                          " +
-                                                 "     join loaiphong lp                " +
-                                                 "     on lp.MaLoaiPhong = p.MaLoaiPhong; ";
-        public static string postNewRoom = "insert into phong(MaPhong, MaLoaiPhong, Tang, TrangThai, GhiChu) values (@MaPhong, @MaLoaiPhong, @Tang, @TrangThai, @GhiChu)";
-        public static string postNewStaff = "insert into nhanvien(MaNhanVien,MatKhau,CCCD,HoTen,GioiTinh,NgaySinh,Email,SoDienThoai,NgayVaoLam,MaChucVu,HinhAnh,Luong) values " +
-                                              "(@MaNhanVien,@MatKhau,@CCCD,@HoTen,@GioiTinh,@NgaySinh,@Email,@SoDienThoai,@NgayVaoLam,@MaChucVu,@HinhAnh,@Luong)";
-        public static string getAllRoomStyle = "select * from loaiphong";
-        public static string getAllDetailRoles = "select * from chucvu";
-        public static string getChosenStaff = "select * from nhanvien where MaNhanVien = @MaNhanVien";
-        public static string deleteRoom = "delete from phong where MaPhong = @MaPhong";
                                                 "         ON cthd.MaPhong = p.MaPhong                   ";
 
-        public static string getNV =    " SELECT				 "
+        public static string getNV = " SELECT				 "
                                       + "     *                  "
                                       + " FROM                   "
                                       + "     nhanvien           "
                                       + " WHERE                  "
                                       + "     MaNhanVien = @maNV ";
 
-        public static string getLPByMP =  " SELECT                                      "
+        public static string getLPByMP = " SELECT                                      "
                                         + "     lp.*                                    "
                                         + " FROM                                        "
                                         + "     loaiphong lp                            "
@@ -72,28 +54,28 @@
                                         + " WHERE                                       "
                                         + "     p.MaPhong = @MaPhong            ";
 
-        public static string getDetailById =  " SELECT                   "
+        public static string getDetailById = " SELECT                   "
                                             + "     *                    "
                                             + " FROM                     "
                                             + "     chitiethoadon ct     "
                                             + " WHERE                    "
                                             + "     MaHoaDon = @maHoaDon ";
 
-        public static string getDetailByDetailId =    " SELECT               "
+        public static string getDetailByDetailId = " SELECT               "
                                                     + "     *                "
                                                     + " FROM                 "
                                                     + "     chitiethoadon    "
                                                     + " WHERE                "
                                                     + "     MaCTHD = @maCTHD ";
 
-        public static string getListSoLuong =     " SELECT                  "
+        public static string getListSoLuong = " SELECT                  "
                                                 + "     *                   "
                                                 + " FROM                    "
                                                 + "     soluongkhachthue    "
                                                 + " WHERE                   "
                                                 + "     MaCTHD = @maCTHD	";
 
-        public static string getNullDetailByRoomID =  " SELECT                                              "
+        public static string getNullDetailByRoomID = " SELECT                                              "
                                                     + "     *                                               "
                                                     + " FROM                                                "
                                                     + "     chitiethoadon ct                                "
@@ -102,7 +84,7 @@
                                                     + "     AND MaHoaDon IS NULL                            "
                                                     + "     AND TrangThai = 0                               ";
 
-        public static string insertPendingBill =      " INSERT                     "
+        public static string insertPendingBill = " INSERT                     "
                                                     + " INTO hoadon(               "
                                                     + "     MaNhanVien             "
                                                     + "     , TongSoTien           "
@@ -110,7 +92,7 @@
                                                     + " )                          "
                                                     + " VALUES (NULL, 0, '') ";
 
-        public static string getHoaDon =  " SELECT                      "
+        public static string getHoaDon = " SELECT                      "
                                         + "     ThoiGianXuat            "
                                         + "     , MaNhanVien            "
                                         + "     , TongSoTien            "
@@ -120,27 +102,27 @@
                                         + " WHERE                       "
                                         + "     MaHoaDon = @maHoaDon	";
 
-        public static string getPendingBillID =   " SELECT             "
+        public static string getPendingBillID = " SELECT             "
                                                 + "     MaHoaDon       "
                                                 + " FROM               "
                                                 + "     hoadon         "
                                                 + " WHERE              "
                                                 + "     TongSoTien = 0 ";
 
-        public static string updateBillIdForDetail =  " UPDATE chitiethoadon            "
+        public static string updateBillIdForDetail = " UPDATE chitiethoadon            "
                                                     + " SET MaHoaDon = @maHoaDon        "
                                                     + "     , TongTienPhong = @tongTien "
                                                     + "     , PhuThuCICO = @phuThuCICO  "
                                                     + "     , TrangThai = 1             "
                                                     + " WHERE MaCTHD = @maCT            ";
 
-        public static string deletePendingBill =  " DELETE              "
+        public static string deletePendingBill = " DELETE              "
                                                 + " FROM                "
                                                 + "     hoadon          "
                                                 + " WHERE               "
                                                 + "     TongSoTien = 0; ";
 
-        public static string updateBillInfor =    " UPDATE hoadon                           "
+        public static string updateBillInfor = " UPDATE hoadon                           "
                                                 + " SET                                     "
                                                 + "     ThoiGianXuat = @thoiGianXuat        "
                                                 + "     , MaNhanVien = @maNV                "
@@ -149,14 +131,14 @@
                                                 + " WHERE                                   "
                                                 + "     MaHoaDon = @id;						";
 
-        public static string getListKhachThue =   " SELECT               "
+        public static string getListKhachThue = " SELECT               "
                                                 + "     *                "
                                                 + " FROM                 "
                                                 + "     khachthue        "
                                                 + " WHERE                "
                                                 + "     MaCTHD = @maCTHD ";
-    
-        public static string getCheckInCheckOutDetail =   " SELECT                  "
+
+        public static string getCheckInCheckOutDetail = " SELECT                  "
                                                         + "     ThoiGianNhanPhong   "
                                                         + "     , ThoiGianTraPhong  "
                                                         + " FROM                    "
@@ -164,14 +146,14 @@
                                                         + " WHERE                   "
                                                         + "     MaCTHD = @maCTHD    ";
         // Field ThoiGianCheckOut cua khach co null
-        public static string updateCheckOutKhach =    " UPDATE khachthue                    "
+        public static string updateCheckOutKhach = " UPDATE khachthue                    "
                                                     + " SET                                 "
                                                     + "     ThoiGianCheckOut = @thoiGianCO  "
                                                     + " WHERE                               "
                                                     + "     MaCTHD = @maCTHD                "
                                                     + "     AND ThoiGianCheckOut = NULL		";
 
-        public static string countKhachNN =   " SELECT                                                  "
+        public static string countKhachNN = " SELECT                                                  "
                                             + "     COUNT(*) AS KhachNN                                 "
                                             + " FROM                                                    "
                                             + "     khachthue                                           "
@@ -185,7 +167,7 @@
                                             + "     AND CAST(ThoiGianCheckIn AS DATE) <= @thoiGianCO	";
 
 
-        public static string countKhachNoiDia =   " SELECT                                                  "
+        public static string countKhachNoiDia = " SELECT                                                  "
                                                 + "     COUNT(*) AS KhachNoiDia                             "
                                                 + " FROM                                                    "
                                                 + "     khachthue                                           "
@@ -198,7 +180,7 @@
                                                 + "     )                                                   "
                                                 + "     AND CAST(ThoiGianCheckIn AS DATE) <= @thoiGianCO	";
 
-        public static string getGiaPhongByDetailID =      " SELECT                                                  "
+        public static string getGiaPhongByDetailID = " SELECT                                                  "
                                                         + "     lp.GiaTienCoBan                                     "
                                                         + " FROM                                                    "
                                                         + "     chitiethoadon ct                                    "
@@ -208,7 +190,7 @@
                                                         + " WHERE                                                   "
                                                         + "     ct.MaCTHD = @maCTHD 								";
 
-        public static string getPhuThuTheoSoLuong =   " SELECT                                  "
+        public static string getPhuThuTheoSoLuong = " SELECT                                  "
                                                     + "     TiLePhuThu                          "
                                                     + " FROM                                    "
                                                     + "     phuthu                              "
@@ -220,7 +202,7 @@
                                                     + " LIMIT                                   "
                                                     + "     1									";
 
-        public static string getHeSoLKH =     " SELECT                                                  			"
+        public static string getHeSoLKH = " SELECT                                                  			"
                                             + "     MAX(HeSoPhuThu) AS HeSo                                   		"
                                             + " FROM                                                    			"
                                             + "     phuthulkh                                           			"
@@ -231,7 +213,7 @@
                                             + "         OR (MaLoaiKhachHang = 1 AND SoLuongApDung = @soKhachND)  	"
                                             + "     )																";
 
-        public static string insertSLKT =     " INSERT                  "
+        public static string insertSLKT = " INSERT                  "
                                             + " INTO soluongkhachthue(  "
                                             + "     SoKhachThue         "
                                             + "     , SoKhachNN         "
@@ -255,17 +237,38 @@
                                             + "     , @maCTHD           "
                                             + " );						";
 
-        public static string deleteDetailByID =   " DELETE                  "
+        public static string deleteDetailByID = " DELETE                  "
                                                 + " FROM                    "
                                                 + "     chitiethoadon       "
                                                 + " WHERE                   "
                                                 + "     MaCTHD = @maCTHD   ;";
 
-        public static string updateCancelStatusDetail =   " UPDATE chitiethoadon    "
+        public static string updateCancelStatusDetail = " UPDATE chitiethoadon    "
                                                         + " SET                     "
                                                         + "     TrangThai = 3       "
                                                         + " WHERE                   "
                                                         + "     MaCTHD = @maCTHD   ;";
+        //Nghĩa - end
+
+        //Hiếu - begin
+        public static string getAllDetailStaff = " SELECT								    " +
+                                                  "     *                                     " +
+                                                  " FROM                                      " +
+                                                  " nhanvien nv, chucvu cv where nv.MaChucVu = cv.MaChucVu            ";
+        public static string getAllDetailRoom = " SELECT								    " +
+                                                 "     *                                     " +
+                                                 " from                                      " +
+                                                 "     phong p                          " +
+                                                 "     join loaiphong lp                " +
+                                                 "     on lp.MaLoaiPhong = p.MaLoaiPhong; ";
+        public static string postNewRoom = "insert into phong(MaPhong, MaLoaiPhong, Tang, TrangThai, GhiChu) values (@MaPhong, @MaLoaiPhong, @Tang, @TrangThai, @GhiChu)";
+        public static string postNewStaff = "insert into nhanvien(MaNhanVien,MatKhau,CCCD,HoTen,GioiTinh,NgaySinh,Email,SoDienThoai,NgayVaoLam,MaChucVu,HinhAnh,Luong) values " +
+                                              "(@MaNhanVien,@MatKhau,@CCCD,@HoTen,@GioiTinh,@NgaySinh,@Email,@SoDienThoai,@NgayVaoLam,@MaChucVu,@HinhAnh,@Luong)";
+        public static string getAllRoomStyle = "select * from loaiphong";
+        public static string getAllDetailRoles = "select * from chucvu";
+        public static string getChosenStaff = "select * from nhanvien where MaNhanVien = @MaNhanVien";
+        public static string deleteRoom = "delete from phong where MaPhong = @MaPhong";
+        //Hiếu - end
 
     }
 }

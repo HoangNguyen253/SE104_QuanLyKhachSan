@@ -69,41 +69,6 @@ $(document).ready(function (e) {
         });
     });
 
-/*    Toast Message Function: begin*/
-function toastMessage({ title = '', message = '', type = 'success', duration = 3500 }) {
-    let toastContainer = document.getElementById("toast_container");
-
-    if (toastContainer) {
-        let toastNotification = document.createElement('div');
-        let icon = {
-            success: "fa-check",
-            fail: "fa-exclamation"
-        }
-        let delay = (duration / 1000).toFixed(2);
-        let timeOutRemoveID = setTimeout(function () {
-            toastContainer.removeChild(toastNotification);
-        }, duration + 500)
-        toastNotification.classList.add("toast_notification", "toast_" + type);
-        toastNotification.style.animation = "slideInLeft cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s, slideinRight linear 0.2s " + delay + "s forwards";
-        toastNotification.innerHTML = '<div class="toast_content">' +
-            '<i class="fas fa-solid ' + icon[type] + ' check"></i>' +
-            '<div class="toast_message">' +
-            '<span class="toast_text toast_text_1">' + title + '</span>' +
-            '<span class="toast_text toast_text_2">' + message + '</span>' +
-            '</div>' +
-            '<i class="fa-solid fa-xmark close"></i>' +
-            '<div class="toast_progress"></div>' +
-            '</div>';
-        toastNotification.querySelector(".close").onclick = function () {
-            toastContainer.removeChild(toastNotification);
-            clearTimeout(timeOutRemoveID);
-        }
-        toastNotification.querySelector(".toast_progress").style.setProperty("--toastBeforeAnimation", "progress " + delay + "s linear forwards");
-        toastContainer.appendChild(toastNotification);
-    }
-}
-/*    Toast Message Function: end*/
-
 
     $('#dshoadon_selection_name_icon_id').click(function() {
         $.ajax({
@@ -189,3 +154,37 @@ function toastMessage({ title = '', message = '', type = 'success', duration = 3
     });
 
 })
+/*    Toast Message Function: begin*/
+function toastMessage({ title = '', message = '', type = 'success', duration = 3500 }) {
+    let toastContainer = document.getElementById("toast_container");
+
+    if (toastContainer) {
+        let toastNotification = document.createElement('div');
+        let icon = {
+            success: "fa-check",
+            fail: "fa-exclamation"
+        }
+        let delay = (duration / 1000).toFixed(2);
+        let timeOutRemoveID = setTimeout(function () {
+            toastContainer.removeChild(toastNotification);
+        }, duration + 500)
+        toastNotification.classList.add("toast_notification", "toast_" + type);
+        toastNotification.style.animation = "slideInLeft cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s, slideinRight linear 0.2s " + delay + "s forwards";
+        toastNotification.innerHTML = '<div class="toast_content">' +
+            '<i class="fas fa-solid ' + icon[type] + ' check"></i>' +
+            '<div class="toast_message">' +
+            '<span class="toast_text toast_text_1">' + title + '</span>' +
+            '<span class="toast_text toast_text_2">' + message + '</span>' +
+            '</div>' +
+            '<i class="fa-solid fa-xmark close"></i>' +
+            '<div class="toast_progress"></div>' +
+            '</div>';
+        toastNotification.querySelector(".close").onclick = function () {
+            toastContainer.removeChild(toastNotification);
+            clearTimeout(timeOutRemoveID);
+        }
+        toastNotification.querySelector(".toast_progress").style.setProperty("--toastBeforeAnimation", "progress " + delay + "s linear forwards");
+        toastContainer.appendChild(toastNotification);
+    }
+}
+/*    Toast Message Function: end*/
