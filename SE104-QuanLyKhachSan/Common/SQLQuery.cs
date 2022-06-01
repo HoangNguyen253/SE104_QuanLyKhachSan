@@ -23,5 +23,20 @@
                                                 "     chitiethoadon cthd LEFT JOIN phong p              " +
                                                 "         ON cthd.MaPhong = p.MaPhong JOIN loaiphong lp " +
                                                 "         ON p.MaLoaiPhong = lp.MaLoaiPhong				";
+        public static string getAllDoanhThuThang = " SELECT                                    " +
+                                            "  bc.MaBCDoanhThu                    " +
+                                            "  , bc.ThangBaoCao                    " +
+                                            " , bc.ThoiGianLap                    " +
+                                            " , bc.TongTien                    " +
+                                            "   FROM                               " +
+                                            "     baocaodoanhthuthang bc         ";
+        public static string getAllDetailDoanhThuThang = " SELECT                                    " +
+                                            " bc.MaBCDoanhThu                    " +
+                                            " bc.MaLoaiPhong                     " +
+                                            " lc.TenLoaiPhong                   " + 
+                                            " ,bc.ThoiGianLap                    " +
+                                            "  FROM                               " +
+                                            "     ctbcdoanhthuthang bc, loaiphong lp         " +
+                                            "   where bc.MaLoaiPhong = lp.MaLoaiPhong       ";
     }
 }

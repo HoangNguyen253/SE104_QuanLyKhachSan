@@ -1,0 +1,190 @@
+﻿.ChiTietDoanhThuThang_container {
+    padding: 0;
+    transition: all 0.5s;
+  /*  margin-left: 20.5%;*/
+    height: 100%;
+    overflow: scroll;
+}
+/*=================== MAIN: end ============*/
+.Sdt_email {
+    display: flex;
+    left: 0;
+    margin-top: 30px;
+}
+
+
+
+.col {
+    float: left;
+}
+
+.col-half {
+    width: 50%;
+}
+
+.radius_corner {
+    border-radius: 10px;
+}
+
+
+.ChiTietDoanhThuThang_container {
+    padding: 5px;
+    overflow-y: scroll;
+}
+
+.filter_container {
+    height: 50px;
+    display: flex;
+    background-color: #002b49;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 20px;
+}
+
+    .filter_container .btn {
+        border-radius: 8px;
+        margin-left: 10px;
+        margin-right: 10px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+    }
+
+
+.ChiTietDoanhThuThang_container .ChiTietDoanhThu_container .header_report {
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+}
+
+.avatar_img_staff_profile_popup_window {
+    width: 1rem;
+    height: 1rem;
+}
+
+.ChiTietDoanhThu_container {
+    margin-top: 10px;
+}
+
+.detail_header_report {
+    margin-left: 100px;
+    /* margin-right: ; */
+}
+
+.avatar_field_staff_profile_popup_window {
+    /* background-color: #000; */
+    /*background-color: aqua;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.name_hotel {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 25%;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-family: 'Serif';
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ChiTietDoanhThu_container .title_report {
+    margin-top: 20px;
+}
+
+.center_page {
+    text-align: center;
+}
+
+.right_align {
+    margin-left: 40%;
+}
+
+.signature {
+    margin-top: 50px;
+    font-weight: bold;
+}
+
+
+.ChiTietDoanhThu_container .date_report {
+    margin-bottom: 30px;
+}
+
+.table_doanhthu_container {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu {
+    width: 100%;
+}
+
+    .ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu tbody tr {
+        border-collapse: collapse;
+        border-bottom: 1px solid #000;
+    }
+
+
+
+.ChiTietDoanhThu_container .table_doanhthu_container table {
+    border-collapse: collapse;
+    border-radius: 10px;
+}
+
+
+
+.ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu thead {
+    background-color: #000;
+    color: #fff;
+}
+
+    .ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu thead th {
+        font-size: larger;
+        font-weight: bold;
+    }
+
+.table_doanhthu_container .table_doanhthu tr {
+    height: 50px;
+}
+
+.table_doanhthu_container .table_doanhthu tbody
+
+.ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu th, td {
+    text-align: center;
+    border-left: none;
+    border-right: none;
+}
+
+.ChiTietDoanhThuThang_container .ChiTietDoanhThu_container .date {
+    margin-top: 50px;
+}
+
+.ChiTietDoanhThuThang_container {
+    z-index: 1;
+    margin:;
+    background: #fff;
+    overflow: hidden;
+    min-height: 500px;
+}
+
+
+.main_working_window {
+    overflow: scroll;
+}

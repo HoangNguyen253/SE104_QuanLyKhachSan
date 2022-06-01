@@ -12,7 +12,7 @@ namespace SE104_QuanLyKhachSan.Controllers
         {
             if (HttpContext.Session.Get<NhanVien>(SessionKeyUser) != null)
             {
-                return Redirect("/Home/Index");
+                return Redirect("/Home/DTtheoLoaiPhong");
             }
             return View();
         }
