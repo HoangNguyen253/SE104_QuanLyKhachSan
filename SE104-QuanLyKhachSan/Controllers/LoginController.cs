@@ -19,6 +19,10 @@ namespace SE104_QuanLyKhachSan.Controllers
 
         public IActionResult Login()
         {
+            if (HttpContext.Session.Get<NhanVien>(SessionKeyUser) != null)
+            {
+                return Redirect("/Home/DTtheoLoaiPhong");
+            }
             return View();
         }
         public JsonResult CheckLogin (IFormCollection formLogin)

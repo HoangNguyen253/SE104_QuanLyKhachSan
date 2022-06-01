@@ -1,0 +1,287 @@
+﻿/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
+*{
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+} */
+
+.staff_profile_popup_window_container {
+    display: flex;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s ease;
+}
+
+    .staff_profile_popup_window_container.show {
+        pointer-events: auto;
+        opacity: 1;
+        transition: 0.5s ease;
+    }
+
+.staff_profile_popup_window {
+    width: 55vw;
+    position: relative;
+    max-height: 100vh;
+    top: -100vh;
+    transition: 0.3s;
+}
+
+.staff_profile_popup_window_container.show .staff_profile_popup_window {
+    top: 0;
+    transition: 0.3s;
+}
+
+.header_staff_profile_popup_window {
+    display: flex;
+    background-color: #002b49;
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header_name_staff_profile_popup_window {
+    font-weight: 500;
+    margin: 0.5rem;
+    font-size: larger;
+}
+
+.header_close_staff_profile_popup_window {
+    margin: 0.5rem;
+    cursor: pointer;
+    color: white;
+}
+
+#NoteInput {
+    resize: none;
+}
+
+.body_staff_profile_popup_window {
+    background-color: white;
+    padding-right: 3rem;
+}
+
+.content_staff_profile_popup_window {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+}
+
+.avatar_field_staff_profile_popup_window {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#avatar_img_staff_profile_popup_window {
+    padding-bottom: 1rem;
+}
+
+#btn_change_avatar_staff_profile_popup_window {
+    border: 0.2rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.3rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: 45%;
+    background-color: #002b49;
+    color: white;
+}
+
+    #btn_change_avatar_staff_profile_popup_window:active {
+        background-color: white;
+        color: #002b49;
+    }
+
+.name_part_info_staff_profile_popup_window {
+    font-weight: 700;
+    font-size: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.data_info_staff_profile_popup_window {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+
+    .data_info_staff_profile_popup_window p {
+        font-weight: 500;
+        font-size: 0.8rem;
+        width: 25%;
+    }
+
+.input_data_info_staff_profile_popup_window {
+    font-weight: 500;
+    font-size: 0.8rem;
+    border: 0.1rem solid black;
+    height: 1.6rem;
+    width: 45%;
+}
+
+select.input_data_info_staff_profile_popup_window {
+    height: 1.8rem;
+    width: 46%;
+}
+
+    select.input_data_info_staff_profile_popup_window option {
+        font-weight: 500;
+        font-size: 0.8rem;
+    }
+
+input:disabled, select:disabled {
+    background-color: #c9c9c9;
+}
+
+.work_info_staff_profile_popup_window .name_part_info_staff_profile_popup_window {
+    border-top: 2px solid black;
+}
+
+.function_field_staff_profile_popup_window {
+    border-top: 0.1rem solid #c9c9c9;
+    padding: 0.5rem;
+    text-align: right;
+}
+
+#btn_logout_admin_in_staff_profile_popup_window_id {
+    border: 0.1rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 15%;
+    font-size: 0.8rem;
+    background-color: #002b49;
+    color: white;
+}
+
+    #btn_logout_admin_in_staff_profile_popup_window_id:active {
+        background-color: white;
+        color: #002b49;
+    }
+
+.staff_profile_popup_window .staff_info {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .staff_profile_popup_window .staff_info .maNhanVien_container {
+        display: flex;
+    }
+
+    .staff_profile_popup_window .staff_info .staff_name_container {
+        display: flex;
+    }
+
+.body_staff_profile_popup_window .Info_Luong_container {
+    border-top: 1px solid #000;
+    margin-right: 40%;
+    margin-top: 10px;
+    font-size: larger;
+}
+
+.field_container {
+    margin-top: 10px;
+}
+
+.body_staff_profile_popup_window .field_container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input_container::after {
+    content: "VNĐ"; /* £ */
+}
+
+.input_container {
+    font-size: larger;
+}
+
+.body_staff_profile_popup_window .staff_info {
+    font-size: larger;
+    padding-top: 10px;
+}
+
+.font_style {
+    font-size: xx-large;
+    font-weight: bold;
+    align-items: flex-end;
+}
+
+.staff_info .maNhanVien_container {
+    align-items: center;
+}
+
+.staff_info .staff_name_container {
+    align-items: center;
+}
+
+#NoteInput {
+    height: 100px;
+    width: 280px;
+    font-size: large;
+}
+
+#ThuongInput {
+    font-size: large;
+}
+
+#PhatInput {
+    font-size: large;
+}
+
+.NoteField .NoteLabel {
+    margin-right: 25%;
+}
+
+.Info_Luong_container .TongLuong_Container {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #000;
+    margin-top: 10px;
+    padding-top: 5px;
+}
+
+.staff_profile_popup_window .navigate_container {
+    display: block;
+    width: 100%;
+    background-color: #fff;
+    height: 50px;
+}
+
+    .staff_profile_popup_window .navigate_container .navigate_btn {
+        float: right;
+        position: relative;
+        padding-left: 20px;
+        padding-right: 20px;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+.btn_popup {
+    background-color: transparent;
+    border-radius: 10px;
+    margin-right: 10px;
+    font-size: large;
+    font-weight: bold;
+    padding: 5px;
+}
+
+    .btn_popup:hover {
+        cursor: pointer;
+        background-color: #002b49;
+        color: #fff;
+    }

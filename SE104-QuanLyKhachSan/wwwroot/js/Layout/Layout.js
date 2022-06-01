@@ -95,10 +95,21 @@ $(document).ready(function (e) {
             }
         })
     });
+
+    $('#doanhthutheoloaiphong_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Home/DTtheoLoaiPhong',
+                      success: function (data, status) {
+                $('#main_working_window_id').html(data);
+                console.log(status);
+            }
+        })
+    });
+
     $('#danhsachphong_selection_name_icon_id').click(function () {
         $.ajax({
             url: '/Home/ListRoom',
-            success: function (data, status) {
+                      success: function (data, status) {
                 $('#main_working_window_id').html(data);
                 console.log(status);
             }
@@ -106,5 +117,38 @@ $(document).ready(function (e) {
     });
 
 
+    $('#doanhthutinhluong_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Home/DotLuong',
+            success: function (data, status) {
+                $('#main_working_window_id').html(data);
+                console.log(status);
+            }
+        })
+    });
+
    
+    $('#doanhthutheochucvu_selection_name_icon_id').click(function () {
+        var timeElapsed = Date.now();
+        var today = new Date(timeElapsed);
+        
+        $.ajax({
+            url: '/Home/LuongChucVu?Thang=' + today.toDateString(),
+            success: function (data, status) {
+                $('#main_working_window_id').html(data);
+                console.log(status);
+            }
+        })
+    });
+
+    $('#doanhthubaocaotong_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Home/ThongKeDoanhThu',
+            success: function (data, status) {
+                $('#main_working_window_id').html(data);
+                console.log(status);
+            }
+        })
+    });
+
 })

@@ -1,0 +1,88 @@
+﻿@{
+    List<BaoCaoLuongChucVu> list_bccv =  ViewData["list_bccv"] as List<BaoCaoLuongChucVu>;
+    string Thang = ViewData["Thang"] as string;
+}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ <link rel='stylesheet' type='text/css' media='screen' href='~/css/Report/LuongChucVu.css'>
+ <div class="TraLuongTheoChucVu_container">
+            <!-- Code ở đây  -->
+           <div class="filter_container">
+                <ul class="nav">
+                    <li class="btn radius_corner" id="datepicker_btn">
+                        <!-- <a href="">01/2021</a> -->
+                        <input type="month" id="month_picker_id" value='2022-05' >    
+                        <scipt>
+                            
+                            
+                        </scipt>
+                    </li>
+                    <li class="btn radius_corner" id="ShowReport_btn_id">Xem báo cáo</li>
+                    <li class="btn radius_corner" id="PrintReport_btn_id">In báo cáo</li>
+                </ul> 
+            </div>
+            <div class="ChiTietDoanhThu_container" id="ChiTietDoanhThu_container_id">
+                <div class="header_report">
+                    <div class="avatar_field_staff_profile_popup_window">
+                        <img src="~/image/ReportPage/account.png" id="avatar_img_staff_profile_popup_window" style="filter: invert(1);">
+                    </div>
+                    <div class="detail_header_report">
+                        <div class="name_hotel">Gloria</div>
+                        <div class="address_hotel">Địa chỉ: 3730 South Las Vegas Boulevard Las Vegas, NV 89158 </div>
+                        <div class="Sdt_email">
+                            <div class="sdt_hotel col col-half">SĐT: 0123456789</div>
+                            <div class="mail_hotel col col-half">Email: gloria@gmail.com</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="title_report center_page title">Bảng báo cáo lương theo chức vụ</div>
+                <div class="date_report center_page title">Tháng @Thang</div>
+                <div class="table_doanhthu_container">
+                    <table class="table_doanhthu">
+                        <thead>
+                            <div class="header_table">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Chức vụ</th>
+                                    <th>Chi lương</th>
+                                    <th>Tỉ lệ</th>
+                                </tr>
+                            </div>
+
+                        </thead>
+                        <tbody>
+                           @* <tr>
+                                <td>1</td>
+                                <td>Standard</td>
+                                <td>250.500.000 VNĐ</td>
+                                <td>80%</td>
+                            </tr>*@
+
+                             @{
+                                    if(list_bccv != null)
+                                    {
+                                        for(int i = 0; i < list_bccv.Count; i++)
+                                                    {
+                                                        <tr>
+                                                            <td>@(i+1)</td>
+                                                            <td>@list_bccv[i].TenChucVu</td>
+                                                            <td>@list_bccv[i].TongLuong VNĐ</td>
+                                                            <td>@list_bccv[i].TiLe</td>
+                                                         </tr>
+                                                    }
+                                    }
+                                    
+                                
+                        
+                             }
+                        </tbody>
+                    </table>
+                </div>
+                <div id="date_createReport" class="date center_page right_align">TP Hồ Chí Minh, ngày 10 tháng 03 năm 2021</div>
+                <div class="position center_page right_align">Giám đốc tài chính</div>
+                <div class="signature center_page right_align">Nguyễn Văn B</div>
+            </div>
+        </div>
+
+<script src="~/js/Report/LuongChucVu.js"></script>
