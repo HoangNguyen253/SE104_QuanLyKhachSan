@@ -8,11 +8,20 @@ namespace SE104_QuanLyKhachSan.Controllers
     public class LoginController : Controller
     {
         const string SessionKeyUser = "_User";
+        //public IActionResult Login()
+        //{
+        //    if (HttpContext.Session.Get<NhanVien>(SessionKeyUser) != null)
+        //    {
+        //        return Redirect("/Home/Index");
+        //    }
+        //    return View();
+        //}
+
         public IActionResult Login()
         {
             if (HttpContext.Session.Get<NhanVien>(SessionKeyUser) != null)
             {
-                return Redirect("/Home/Index");
+                return Redirect("/Home/DTtheoLoaiPhong");
             }
             return View();
         }

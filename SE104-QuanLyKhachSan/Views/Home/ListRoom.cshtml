@@ -1,0 +1,271 @@
+﻿<link rel='stylesheet' type='text/css' media='screen' href='~/css/ListRoom/ListRoom.css'>
+@{
+    Database db = new Database();
+    Database db2 = new Database();
+    List<LoaiPhong> listLoaiPhong = ViewData["listLoaiPhong"] as List<LoaiPhong>;
+    List<Phong> listPhong = ViewData["listPhong"] as List<Phong>;
+    listPhong = db.getAllDetailRoom();
+    listLoaiPhong = db2.getAllRoomStyle();
+}
+ <form class="tracuuphong_main_window" method="post">
+
+                <div id="tracuuphong_tool_bar" class="tracuu_header">
+                    <div class="add_role tracuu_header">
+                        <button type="button" class="tracuu_btn" id="tracuuphong"> + Thêm mới</button>
+                    </div>
+
+                    <select name="" id="TrangThai_">
+                         <option value="">All states</option>
+            @{
+
+                for(int k = 0; k<= 5; k++)
+                {
+
+                    
+                        var trangThai = "";
+                        switch (k)
+                        {
+
+                            case 0:
+                                {
+                                    trangThai = "Phòng trống";
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    trangThai = "Đang thuê";
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    trangThai = "Đang sửa chữa";
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    trangThai = "Khách ra ngoài";
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    trangThai = "Đang dọn dẹp";
+                                    break;
+                                }
+                            case 5:
+                                {
+                                    trangThai = "Không hoạt động";
+                                    break;
+                                }
+
+                        }
+                    
+                    <option value=@trangThai>@trangThai</option>
+
+                }
+            }
+
+
+            </select>
+                    <select name="" id="TenLoaiPhong_">
+                @{
+                    <option value="">All types of rooms</option>
+                    foreach (var pi in listLoaiPhong)
+                    {
+                    <option value=@pi.TenLoaiPhong>@pi.TenLoaiPhong</option>
+                }
+            }
+
+
+        </select>
+        <div class="search tracuu_header">
+            <input type="text" placeholder="Tìm kiếm" id="TimKiem">  
+            <i class="fa fa-search"></i>
+        </div>
+    </div>
+
+    <div class="main_window__table_room">
+        <table class="list_room" id="myTable">
+            <!-- Nhóm các column -->
+            <colgroup>
+                <col span="1" style="width: 20%">
+                <col span="1" style="width: 20%">
+                <col span="1" style="width: 10%">
+                <col span="1" style="width: 20%">
+                <col span="1" style="width: 20%">
+                <col span="1" style="width: 10%">
+                <col span="1" style="width: 5%">
+            </colgroup>
+
+            <!-- Content thead, tbody -->
+            <thead class="list_room_heading">
+                <tr>
+                    <th scope="col" class="heading_cell">Mã phòng</th>
+                    <th scope="col" class="heading_cell">Loại phòng</th>
+                    <th scope="col" class="heading_cell">Tầng</th>
+                    <th scope="col" class="heading_cell">Trạng thái</th>
+                    <th scope="col" class="heading_cell">Ghi chú</th>
+                    <th scope="col" class="heading_cell"></th>
+                    <th scope="col" class="heading_cell"></th>
+                </tr>
+            </thead>
+
+            <tbody class="list_room_body">
+                @{
+                    int i = 0;
+                    foreach (var pi in listPhong)
+                    {
+                        i++;
+                        var trangThai = "";
+                        switch (@pi.TrangThai)
+                        {
+                         
+                              case 0:
+                                {
+                                    trangThai = "Phòng trống";
+                                    break;
+                                }
+                              case 1:
+                                {
+                                    trangThai = "Đang thuê";
+                                    break;
+                                }
+                              case 2:
+                                {
+                                    trangThai = "Đang sửa chữa";
+                                    break;
+                                }
+                              case 3:
+                                {
+                                    trangThai = "Khách ra ngoài";
+                                    break;
+                                }
+                              case 4:
+                                {
+                                    trangThai = "Đang dọn dẹp";
+                                    break;
+                                }
+                              case 5:
+                                {
+                                    trangThai = "Không hoạt động";
+                                    break;
+                                }
+
+                        }
+
+                        <tr>
+                        <td class="data_cell">@pi.MaPhong</td>
+                        <td class="data_cell">@pi.TenLoaiPhong</td> 
+                        <td class="data_cell">@pi.Tang</td>
+                        <td class="data_cell">@trangThai</td>
+                        <td class="data_cell">@pi.GhiChu</td>
+                       <!-- <td class="data_cell">
+                            <button class="room_body_item__angle_button btn sua">
+                                Sửa
+                            </button>
+                        </td>
+                        <td class="data_cell">
+                            <button class="room_body_item__angle_button btn xoa" value=@pi.MaPhong >
+                                Xóa
+                            </button>
+                        </td> -->
+                    </tr>
+                    }
+                }
+                         
+                        </tbody>
+                    </table>
+                </div>
+
+  </form>
+
+          <!-- popup_room -->
+        <form class="room_profile_popup_window_container" id="room_profile_popup_window_container_id"  method = "POST">
+          <div class="room_profile_popup_window">
+                <div class="header_room_profile_popup_window">
+                    <div class="header_name_room_profile_popup_window">Thêm phòng</div>
+                    <i class="fa fa-close header_close_room_profile_popup_window" style="font-size: 1.5rem;" id="header_close_room_profile_popup_window_id"></i>
+                </div>
+
+                <div class="body_room_profile_popup_window">
+                    <div class="content_room_profile_popup_window">
+                        <div class="code_room_profile_popup_window" id="code_room_profile_popup_window">
+                            <p>Mã phòng:</p>
+
+                            <input type="number" name="MaPhong" id="MaPhong" required>
+
+                        </div>
+                        
+                        <div class="information_field_room_profile_popup_window">
+                            <div class="info_room_profile_popup_window">
+                                <div class="name_part_info_room_profile_popup_window">Thông tin phòng</div>
+                            </div>
+                            
+                            <div class="data_info_room_profile_popup_window_container">
+
+                                <div class="data_info_room_profile_popup_window">
+                                    <p>Tầng:</p>
+
+                                    <input type="number" class="input_data_info_room_profile_popup_window" name="Tang" id="Tang" required>
+                                
+                                </div>
+
+                                <div class="data_info_room_profile_popup_window">
+                                    <p>Trạng thái:</p>
+
+                                    <select class="input_data_info_room_profile_popup_window" name="TrangThai" id="TrangThai"> 
+
+                                        <option value=0>Phòng trống</option>
+                                        <option value=1>Đang thuê </option>
+                                        <option value=2>Đang sửa chữa </option>
+                                        <option value=3>Khách ra ngoài </option>
+                                        <option value=4>Đang dọn dẹp </option>
+                                        <option value=5>Không hoạt động </option>
+
+                                    </select>
+                                 
+                                </div>
+
+                                <div class="data_info_room_profile_popup_window">
+                                    <p>Số phòng:</p>
+                                    <input type="number" id="SoPhong" class="input_data_info_room_profile_popup_window" name="SoPhong" required>
+                                </div>
+
+                                <div class="data_info_room_profile_popup_window">
+                                    <p>Ghi chú:</p>
+                                    <input type="text" name="GhiChu" id="GhiChu"  placeholder="Ghi chú" class="input_data_info_room_profile_popup_window" required>
+                                </div>
+
+                                <div class="data_info_room_profile_popup_window">
+                                    <p>Loại phòng:</p>
+                                    <select name="LoaiPhong" id="LoaiPhong" class="input_data_info_room_profile_popup_window">
+                                @{
+
+                                    foreach (var pi in listLoaiPhong)
+                                    {
+
+                                        <option value=@pi.MaLoaiPhong>@pi.TenLoaiPhong</option>
+                                                  
+                                    }                     
+                                }
+     
+                                    </select>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="footer_room_profile_popup_window">
+                    <button  id="add_info_popup_window_room_button"  name="btn_add_room"> Thêm </button>
+                    <button id = "close_popup_window_room_button">Thoát</button>
+                </div>
+            </div>
+           
+        </form>
+  <script src="~/js/ListRoom/ListRoom.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+
+     

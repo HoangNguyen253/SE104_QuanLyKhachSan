@@ -1,0 +1,76 @@
+﻿/*=================== CONTAINER: begin ============*/
+.main_working_window {
+    padding: 0;
+    transition: all 0.5s;
+    margin-left: 20.5%;
+    height: 100%;
+    background-color: #ededed;
+    width: calc(100% - 20.5%);
+}
+
+    .main_working_window table {
+        width: 100%;
+        background-color: #ffffff;
+        text-align: center;
+        border-collapse: collapse;
+    }
+
+        .main_working_window table thead {
+            background-color: #0666A9;
+            color: #ffffff;
+        }
+
+        .main_working_window table th {
+            border: 1px solid white;
+            padding: 8px 0;
+        }
+
+        .main_working_window table td {
+            border: 1px solid black;
+            padding: 5px 0;
+        }
+
+    .main_working_window .permission-container .footer {
+        text-align: center;
+        padding: 20px;
+    }
+
+        .main_working_window .permission-container .footer img {
+            width: 13px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+/*=================== CONTAINER: end ============*/
+
+input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+}
+input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+
+input[type="checkbox"]:hover:disabled {
+    cursor: not-allowed;
+}
+
+.blue-button {
+    background-color: #002b49;
+    color: #ffffff;
+    border: 2px solid #002b49;
+    border-radius: 4px;
+    padding: 7px 15px;
+    margin-right: 10px;
+}
+
+    .blue-button:hover {
+        cursor: pointer;
+        background-color: #000000;
+        border: 2px solid #000000;
+    }
+
+    .blue-button:active {
+        background-color: #223746;
+        border: 2px solid #223746;
+    }

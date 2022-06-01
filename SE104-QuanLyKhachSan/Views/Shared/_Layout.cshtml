@@ -7,18 +7,39 @@
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='~/css/Layout/Layout.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='~/css/Loading/Loading.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
             integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
     <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
 </head>
 
 <body>
+    <div class="loading-container">
+        <div class="content">
+            <div class="i-container">
+            </div>
+        </div>
+    </div>
+    <script>
+        let amount = 5;
+        let iContainer = document.querySelector('.loading-container .content .i-container');
+        let i = 0;
+        while (i < amount) {
+            let drop = document.createElement('i');
+            drop.style.animationDelay = 0.2*(i+1) + 's';
+            iContainer.appendChild(drop);
+            i++;
+        }
+    </script>
+    <script src="~/js/Loading/Loading.js"></script>
     <header class="header_admin">
         <div class="header_admin_left">
             <div>
@@ -134,10 +155,10 @@
                         <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
                     </div>
                     <div id="selection_field_qlhethong_menu_burger_id">
-                        <div class="selection_name_icon" id="doanhthutheoloaiphong_selection_name_icon_id">
+                        <div class="selection_name_icon" id="thaydoiquydinh_selection_name_icon_id">
                             <p>Thay đổi quy định</p>
                         </div>
-                        <div class="selection_name_icon" id="doanhthutheochucvu_selection_name_icon_id">
+                        <div class="selection_name_icon" id="phanquyen_selection_name_icon_id">
                             <p>Phân quyền</p>
                         </div>
                     </div>

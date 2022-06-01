@@ -37,7 +37,7 @@ body {
     overflow: hidden;
 }
 
-    body i {
+    body > i {
         position: absolute;
         height: 200px;
         background: linear-gradient(transparent, #fff);

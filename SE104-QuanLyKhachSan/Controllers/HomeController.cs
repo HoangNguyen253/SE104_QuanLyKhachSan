@@ -89,10 +89,190 @@ namespace SE104_QuanLyKhachSan.Controllers
             return PartialView();
         }
 
+        public IActionResult ListBill()
+        {
+
+            NhanVien nhanVien_OnBoard = HttpContext.Session.Get<NhanVien>(SessionKeyUser);
+            ViewData["nhanVien_OnBoard"] = nhanVien_OnBoard;
+            Database db = new Database();
+            List<HoaDon> listBill = db.GetAllBill();
+            ViewData["listBill"] = listBill;
+            return PartialView();
+        }
+
+        public IActionResult ListDetail()
+        {
+            Database db = new Database();
+            List<ChiTietHoaDon> listDetails = db.GetAllDetailBills();
+            ViewData["listDetails"] = listDetails;
+            return PartialView();
+        }
+        public IActionResult ListStaff()
+        {
+            return PartialView();
+        }
+        public IActionResult ListRoom()
+        {
+            return PartialView();
+        }
+
+        public IActionResult DTtheoLoaiPhong()
+        {
+            Database db = new Database();
+            List<BaoCaoDoanhThuThang> list_bcdt = db.getAllBCDTThang();
+            ViewData["list_bcdt"] = list_bcdt;
+            return PartialView();
+        }
+
+        public IActionResult DotLuong()
+        {
+            Database db =  new Database(); 
+            List<DotLuong> list_dotluong = db.getAllDotLuong();
+            ViewData["list_dotluong"] = list_dotluong;
+            return PartialView();
+        }
+
+
+        public IActionResult LuongChucVu(string Thang)
+        {
+            Database db = new Database();
+            DateTime dt = DateTime.Parse(Thang);
+            List<BaoCaoLuongChucVu> list_bccv = db.getAllBaoCaoLuongChucVu(dt);
+            ViewData["Thang"] = dt.ToString("MM/yyyy"); 
+            ViewData["list_bccv"] = list_bccv;
+            return PartialView();
+        }
+
+        public IActionResult ThongKeDoanhThu()
+        {
+            
+            return PartialView();
+        }
+
+        public IActionResult ChiTietDotLuong(string MaBCDL, string ThangBaoCao, string NgayLap = "")
+        {
+            var mabc = System.Convert.ToInt32(MaBCDL);
+            Database db = new Database();
+            List<ChiTietDotTraLuong> list_dtl = null;
+            if (NgayLap == "")
+                list_dtl = db.getDetailDotTraLuongbyID(mabc);
+            else
+                list_dtl = db.getDetailDotTraLuongbyMonth(NgayLap);
+            ViewData["list_dtl"] = list_dtl;
+            ViewData["ThangBaoCao"] = ThangBaoCao;
+            return PartialView();
+        }
+
+
+        public IActionResult ChiTietDoanhThuPhong(string MaBCDoanhThu, string ThangBaoCao ,string Thang = "")
+        {
+            var mabc = System.Convert.ToInt32(MaBCDoanhThu);
+            Database db = new Database();
+            List<ChiTietBaoCaoDoanhThuThang> list_dt = new List<ChiTietBaoCaoDoanhThuThang>();
+            
+            if (Thang == "")
+                list_dt = db.getDetailBCDTThangbyID(mabc);
+            else
+                list_dt = db.getDetailBCDTThangbyMonth(Thang); 
+            ViewData["list_dt"] = list_dt;
+           
+            ViewData["ThangBaoCao"] = ThangBaoCao;
+            
+            return PartialView();
+        }
+
+        public int RemoveMonthReport(string MaBC)
+        {
+
+            int MaBCDoanhThu = System.Convert.ToInt32(MaBC);
+            Database db = new Database();
+            int isSucces = db.XoaBaoCaoDoanhThuThang(MaBCDoanhThu);
+            return isSucces;
+        }
+        public int AddMonthReport(string ThangBC, string NgayLap)
+        {
+            Database db = new Database();
+            DateTime thangbc = DateTime.ParseExact(ThangBC, "dd-MM-yyyy", null);
+            DateTime ngaylap = DateTime.Parse(NgayLap);
+            return db.UpdateCTBCDTThang(thangbc, ngaylap); 
+        }
+
+
+        public int AddDotLuongReport(string NgayTraLuong, string NgayLap)
+        {
+            Database db = new Database();
+            DateTime ngaytraluong = DateTime.ParseExact(NgayTraLuong, "dd-MM-yyyy", null);
+            DateTime ngaylap = DateTime.Parse(NgayLap);
+            return db.UpdateCTDotLuong(ngaytraluong, ngaylap);
+        }
+        public int RemoveDotLuong(string MaBCDL)
+        {
+            int MaDotLuong = System.Convert.ToInt32(MaBCDL);
+            Database db = new Database();
+            int isSucces = db.XoaBaoCaoDotLuong(MaDotLuong);
+            return isSucces;
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public JsonResult addRoom(IFormCollection formAdd)
+        {
+            Phong newRoom = new Phong();
+            Database database = new Database();
+
+            newRoom.GhiChu = formAdd["GhiChu"].ToString();
+            newRoom.MaPhong = formAdd["MaPhong"].ToString();
+            newRoom.Tang = Convert.ToByte(formAdd["Tang"]);
+            newRoom.TrangThai = Convert.ToByte(formAdd["TrangThai"]);
+            newRoom.MaLoaiPhong = int.Parse(formAdd["LoaiPhong"]);
+            return Json(database.postNewRoom(newRoom));
+
+        }
+        public JsonResult addStaff(IFormCollection formAdd)
+        {
+            NhanVien newStaff = new NhanVien();
+            Database database = new Database();
+
+            newStaff.MaNhanVien = formAdd["MaNhanVien"].ToString();
+            newStaff.MatKhau = formAdd["MatKhau"].ToString();
+            newStaff.CCCD = formAdd["CCCD"].ToString();
+            newStaff.HoTen = formAdd["HoTen"].ToString();
+            newStaff.GioiTinh = Convert.ToByte(formAdd["GioiTinh"]);
+            newStaff.NgaySinh = DateTime.Parse(formAdd["NgaySinh"]);
+            newStaff.Email = formAdd["Email"].ToString();
+            newStaff.SoDienThoai = formAdd["SoDienThoai"].ToString();
+            newStaff.NgayVaoLam = DateTime.Parse(formAdd["NgayVaoLam"]);
+            newStaff.MaChucVu = Convert.ToByte(formAdd["MaChucVu"]);
+            newStaff.Luong = Convert.ToInt32(formAdd["Luong"]);
+
+            newStaff.HinhAnh = (formAdd["NgaySinh"]).ToString();
+            return Json(database.postNewStaff(newStaff));
+
+        }
+        /* public JsonResult getStaff(IFormCollection formAdd)
+         {
+             NhanVien getStaff = new NhanVien();
+             Database database = new Database();
+
+             getStaff.MaNhanVien = formAdd["MaNhanVien"].ToString();
+
+             return Json(database.getChosenStaff(getStaff.MaNhanVien));
+
+         }*/
+
+       /* public JsonResult delPhong(IFormCollection formAdd)
+        {
+            Phong phong = new Phong();
+            Database database = new Database();
+
+            phong.MaPhong = formAdd["MaPhong"].ToString();
+
+            return Json(database.deleteRoom(phong.MaPhong));
+
+        }*/
     }
 }

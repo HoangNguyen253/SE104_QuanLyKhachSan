@@ -1,0 +1,375 @@
+﻿.CTDTL_container {
+    padding: 0;
+    transition: all 0.5s;
+   /* margin-left: 20.5%;*/
+    height: 100%;
+    /* background-image: url(Icon/background.jpg); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: content-box;
+}
+/*=================== MAIN: end ============*/
+
+/*==============================================*/
+.CTDTL_container {
+    padding: 5px;
+}
+
+
+#date_control {
+    border: none;
+    width: 100px;
+}
+
+ul, li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+header, nav {
+    display: block;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.filter_container {
+    position: relative;
+    left: 0;
+    right: 0;
+    background: #002B49;
+    height: 60px;
+}
+
+    .filter_container .nav {
+        float: right;
+        position: relative;
+        padding-left: 20px;
+        padding-right: 20px;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+        .filter_container .nav ul {
+            list-style-type: none;
+            margin: 0;
+            background-color: #333333;
+        }
+
+        .filter_container .nav li {
+            border: 1px solid black;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            margin-left: 5px;
+            background-color: white;
+            padding: 10px;
+        }
+
+            .filter_container .nav li a {
+                text-decoration: none;
+            }
+
+.calendar-icon {
+    float: right;
+    margin-left: 30px;
+}
+
+#datepicker_btn {
+    padding-top: 10px;
+    padding-bottom: 12px;
+}
+
+.Report_main .list_container ul {
+    list-style-type: none;
+    overflow: hidden;
+    width: 100%;
+}
+
+.Report_main .list_container li {
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.Report_main .Title {
+    font-size: x-large;
+    font-weight: bold;
+    margin-left: -600px;
+    margin-top: 15px;
+}
+
+
+
+.Report_main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+    .Report_main .Title {
+        margin-bottom: 20px;
+    }
+
+
+
+    .Report_main .list_container {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+
+.list .list_content {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: aquamarine;
+    box-shadow: 2px 2px #888888;
+}
+
+.list_content {
+    border: 1px solid #000;
+    font-size: 200;
+}
+
+    .list_content .report-date {
+        margin-right: 300px;
+        font-size: larger;
+        margin-left: 20px;
+    }
+
+    .list_content .date-create-report {
+        font-size: smaller;
+        margin-right: 20px;
+    }
+
+.del_btn {
+    font-size: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.radius_corner {
+    border-radius: 10px;
+}
+
+.CTDTL_container {
+    overflow: scroll;
+}
+
+.ChiTietDoanhThu_container {
+    margin-top: 10px;
+}
+
+.detail_header_report {
+    margin-left: 100px;
+    /* margin-right: ; */
+}
+
+.avatar_field_staff_profile_popup_window {
+    /* background-color: #000; */
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.name_hotel {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 25%;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-family: 'Serif';
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ChiTietDoanhThu_container .title_report {
+    margin-top: 20px;
+}
+
+.center_page {
+    text-align: center;
+}
+
+.right_align {
+    margin-left: 40%;
+}
+
+.signature {
+    margin-top: 50px;
+    font-weight: bold;
+}
+
+
+.ChiTietDoanhThu_container .date_report {
+    margin-bottom: 30px;
+}
+
+.CTDTL_container .table_doanhthu_container {
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu {
+    width: 100%;
+}
+
+    .ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu tbody tr {
+        border-collapse: collapse;
+        border-bottom: 1px solid #000;
+    }
+
+
+
+.ChiTietDoanhThu_container .table_doanhthu_container table {
+    border-collapse: collapse;
+    border-radius: 10px;
+}
+
+
+
+.ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu thead {
+    background-color: #000;
+    color: #fff;
+}
+
+    .ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu thead th {
+        font-size: larger;
+        font-weight: bold;
+    }
+
+.table_doanhthu_container .table_doanhthu tr {
+    height: 50px;
+}
+
+.table_doanhthu_container .table_doanhthu tbody
+
+.ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu th, td {
+    text-align: center;
+    border-left: none;
+    border-right: none;
+}
+
+.CTDTL_container .ChiTietDoanhThu_container .header_report {
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+}
+
+.avatar_img_staff_profile_popup_window {
+    width: 1rem;
+    height: 1rem;
+}
+
+.print_btn {
+    border: none;
+    cursor: pointer;
+}
+
+.btn {
+    cursor: pointer;
+}
+
+.CTDTL_container .filter_container .create_report {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+#search_NhanVien_btn {
+    border: none;
+    background-color: #fff;
+}
+
+*:focus {
+    outline: none;
+}
+
+.CTDTL_container .ChiTietDotTraLuong_container .title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.ChiTietDotTraLuong_container .table_doanhthu_container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ChiTietDotTraLuong_container .table_doanhthu_container thead {
+    background-color: #0666A9;
+    color: #fff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ChiTietDotTraLuong_container .table_doanhthu_container tr {
+    height: 50px;
+}
+
+#Edit_btn {
+    border-radius: 5px;
+    color: #fff;
+    background-color: green;
+    cursor: pointer;
+}
+
+.table_doanhthu_container .table_luong tbody tr {
+    border-collapse: collapse;
+    border-bottom: 1px solid #000;
+}
+
+.ChiTietDotTraLuong_container .title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.CTDTL_container {
+    z-index: 1;
+    margin:;
+    background: #fff;
+    overflow: scroll;
+    min-height: 500px;
+}
+
+.main_working_window {
+    overflow: hidden;
+}
+
+.filter_container {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    display: flex;
+    background-color: #002b49;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 20px;
+}
+
+    .filter_container .btn {
+        border-radius: 8px;
+        margin-left: 10px;
+        margin-right: 10px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+        background-color: #fff;
+        padding: 5px;
+    }

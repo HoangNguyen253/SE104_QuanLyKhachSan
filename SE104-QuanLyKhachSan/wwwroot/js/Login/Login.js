@@ -2,6 +2,11 @@
 let userNameInput = document.querySelector('body main .container .content .username input');
 let passwordInput = document.querySelector('body main .container .content .password input');
 let signInButton = document.querySelector('body main .container .content div .validate');
+//let loadingElement = {
+//    loadingContainer: document.querySelector('body .loading-container'),
+//    hide: function () { this.loadingContainer.style.display = 'none'; },
+//    show: function () { this.loadingContainer.style.display = 'flex'; }
+//};
 
 /*------------------Function--------------------*/
 function checkInputIsEmpty() {
@@ -28,6 +33,7 @@ passwordInput.addEventListener('input', function () {
 });
 
 signInButton.addEventListener('click', () => {
+    loadingElement.show();
     if (checkInputIsEmpty()) {
 
         let formLogin = new FormData();
@@ -40,7 +46,7 @@ signInButton.addEventListener('click', () => {
         xhr_login.timeout = 20000;
         xhr_login.onreadystatechange = function () {
             if (xhr_login.readyState == 4 && xhr_login.status == 200) {
-
+                loadingElement.hide();
                 let result = JSON.parse(xhr_login.response);
                 if (result == true) {
                     window.location.replace("https://localhost:5001/Home/Index")

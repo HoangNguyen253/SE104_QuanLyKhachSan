@@ -1,0 +1,62 @@
+﻿@{
+    List<BaoCaoDoanhThuThang> list_bcdt = ViewData["list_bcdt"] as List<BaoCaoDoanhThuThang>;
+   
+}
+
+
+<link rel='stylesheet' type='text/css' media='screen' href='~/css/Report/DoanhThuTheoLoaiPhong.css'>
+<div class="DTtheoloaiphong_container">
+            <!-- Code ở đây  -->
+            <div class="filter_container">
+                <ul class="nav">
+                    <li class="btn radius_corner" id="datepicker_btn">
+                        <!-- <a href="">01/2021</a> -->
+                        <input type="month" id="month_picker" >                  
+                    </li>
+                    <li class="btn radius_corner" id="CreateReport_btn_id">Tạo báo cáo</li>
+                    <li class="btn radius_corner" id="ShowReport_btn_id">Xem báo cáo</li>
+                </ul> 
+            </div>
+            <div class="Report_main">
+                <div class="Title">Các báo cáo doanh thu</div>
+                <div class="list_container">
+                    <ul class="list" id="list_content_id"> 
+                        @*<li>   
+                            <span class="list_content">
+                                <span class="report-date">Tháng 05/2021</span>
+                                <span class="date-create-report">Thời gian lập: 10/6/2021</span>
+                            </span>       
+        
+                            <span class="del_btn">
+                                <i class="fa fa-trash"></i>
+                            </span>             
+                        </li>*@
+                        @{
+                            if (list_bcdt != null)
+                            {
+                                foreach (var item in list_bcdt)
+                                {
+                                    <li id="@item.MaBCDoanhThu"> 
+                                        <span class="list_content" id="list_BaoCaoDoanhThu_id">
+                                            <span id="report_MaBC" style="display: none">@item.MaBCDoanhThu</span>
+                                            <span class="report-date">Tháng 
+                                                <span id="report_date_id">
+                                                    @item.ThangBaoCao.ToString("MM/yyyy") </span>
+                                                </span> 
+                                            <span class="date-create-report">Thời gian lập: @item.ThoiGianLap.ToString("dd/MM/yyyy") </span>
+                                        </span>       
+
+                                        <span class="del_btn" id="del_btn_id">
+                                            <i class="fa fa-trash"></i>
+                                        </span>
+                                    </li>
+                                }
+                            }
+
+                                }             
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+<script src="~/js/Report/DoanhThuTheoLoaiPhong.js"></script>

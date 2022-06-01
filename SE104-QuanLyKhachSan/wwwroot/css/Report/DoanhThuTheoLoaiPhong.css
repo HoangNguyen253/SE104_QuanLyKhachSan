@@ -1,0 +1,171 @@
+﻿
+
+#date_control {
+    border: none;
+    width: 100px;
+}
+
+ul, li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+header, nav {
+    display: block;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.filter_container {
+    position: relative;
+    left: 0;
+    right: 0;
+    background: #002B49;
+    height: 50px;
+}
+
+    .filter_container .nav {
+        float: right;
+        position: relative;
+        padding-left: 20px;
+        padding-right: 20px;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+        .filter_container .nav ul {
+            list-style-type: none;
+            margin: 0;
+            background-color: #333333;
+        }
+
+        .filter_container .nav li {
+            border: 1px solid black;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            margin-left: 5px;
+            background-color: white;
+            padding: 10px;
+        }
+
+            .filter_container .nav li a {
+                text-decoration: none;
+            }
+
+.calendar-icon {
+    float: right;
+    margin-left: 30px;
+}
+
+
+
+.Report_main .list_container ul {
+    list-style-type: none;
+    overflow: hidden;
+    width: 100%;
+}
+
+.Report_main .list_container li {
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.Report_main .Title {
+    font-size: x-large;
+    font-weight: bold;
+    margin-left: -600px;
+    margin-top: 15px;
+}
+
+
+
+.Report_main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+    .Report_main .Title {
+        margin-bottom: 20px;
+    }
+
+
+
+    .Report_main .list_container {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+
+.list .list_content {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    box-shadow: 2px 2px #888888;
+}
+
+.list_content {
+    border: 1px solid #000;
+    font-size: 200;
+}
+
+#report_date_id {
+    font-size: large;
+}
+
+.list_content .report-date {
+    margin-right: 300px;
+    font-size: larger;
+    margin-left: 20px;
+}
+
+    .list_content .date-create-report {
+        font-size: smaller;
+        margin-right: 20px;
+    }
+
+.del_btn {
+    font-size: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.radius_corner {
+    border-radius: 10px;
+}
+
+    .radius_corner:hover {
+        border-color: aqua;
+        cursor: pointer;
+    }
+
+
+
+    #datepicker_btn {
+        padding: 7px;
+    }
+
+.list .del_btn:hover {
+    cursor: pointer;
+    color: #888888;
+}
+
+.list .list_content:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.DTtheoloaiphong_container {
+    z-index: 1;
+    margin:;
+    background: #fff;
+    overflow: hidden;
+    min-height: 500px;
+}
+
+.main_working_window {
+    overflow: scroll;
+}
