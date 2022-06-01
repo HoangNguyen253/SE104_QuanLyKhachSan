@@ -1,6 +1,6 @@
 ﻿namespace SE104_QuanLyKhachSan.Models
 {
-    public class ChucVu
+    public class PhanQuyen
     {
         private int maChucVu;
         public int MaChucVu
@@ -8,18 +8,23 @@
             get { return maChucVu; }
             set { maChucVu = value; }
         }
-
         private string tenChucVu;
         public string TenChucVu
         {
             get { return tenChucVu; }
             set { tenChucVu = value; }
         }
-        private byte daXoa;
-        public byte DaXoa
+        private int maQuyen;
+        public int MaQuyen
         {
-            get { return daXoa; }
-            set { daXoa = value; }
+            get { return maQuyen; }
+            set { maQuyen = value; }
+        }
+        private string tenQuyen;
+        public string TenQuyen
+        {
+            get { return tenQuyen; }
+            set { tenQuyen = value; }
         }
     }
 }

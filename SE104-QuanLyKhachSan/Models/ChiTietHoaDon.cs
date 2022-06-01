@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SE104_QuanLyKhachSan.Models
 {
@@ -26,8 +27,8 @@ namespace SE104_QuanLyKhachSan.Models
             set { loaiPhong = value; }
         }
 
-        private int maHoaDon;
-        public int MaHoaDon
+        private int? maHoaDon;
+        public int? MaHoaDon
         {
             get { return maHoaDon; }
             set { maHoaDon = value; }
@@ -45,6 +46,27 @@ namespace SE104_QuanLyKhachSan.Models
         {
             get { return thoiGianTraPhong; }
             set { thoiGianTraPhong = value; }
+        }
+
+        private List<KhachThue> dsKhachThue;
+        public List<KhachThue> DsKhachThue
+        {
+            get { return dsKhachThue; }
+            set { dsKhachThue = value; }
+        }
+
+        private List<SoLuongKhachThue> dsSoLuong;
+        public List<SoLuongKhachThue> DsSoLuong
+        {
+            set { dsSoLuong = value; }
+            get { return dsSoLuong; }
+        }
+
+        private int phuThuCICO;
+        public int PhuThuCICO
+        {
+            get { return phuThuCICO; }
+            set { phuThuCICO = value; }
         }
 
         private int giaPhong;

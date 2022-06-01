@@ -1,15 +1,20 @@
+@{
+    List<ChiTietHoaDon> listDetails = ViewData["listDetails"] as List<ChiTietHoaDon>;
+}
+
 <link rel='stylesheet' type='text/css' media='screen' href='~/css/Bill/TraCuuChoThue.css'>
+<script src="~/js/Bill/ListDetail.js"></script>
 <div class="list_detail_bill_main_window">
     <div class="main_window__taskbar">
         <input type="date" name="" id="">
-        <input type="text" name="" id="" placeholder="Mã hoá đơn">
-        <button class="taskbar__search_button btn">
+        <input type="text" name="" id="text-filter" placeholder="Mã hoá đơn">
+        <button class="taskbar__search_button btn" id="filter-btn">
             <i class="fa fa-search" aria-hidden="true"></i>
         </button>
     </div>
 
     <div class="list_rent_container">
-        <table class="list_rent_table">
+        <table class="list_rent_table" id="list-rent-bill-id">
             <!-- Group columns -->
             <colgroup>
                 <col span="1" style="width: 10%;">
@@ -31,45 +36,42 @@
                     <th scope="col" class="heading_cell">Trạng thái</th>
                 </tr>
             </thead>
-            <tbody class="table_body">
-                <tr>
+            <tbody class="table_body" id="table-body-id">
+                @*<tr>
                     <td class="data_cell">1<a href="https://google.com"></a></td>
-                    <td class="data_cell">0201</td>
+                    <td class="data_cell">0102</td>
                     <td class="data_cell">Standard</td>
                     <td class="data_cell">05/01/2001 12:00 AM</td>
                     <td class="data_cell">05/01/2001 12:00 AM</td>
                     <td class="data_cell">Ra ngoài</td>
-                </tr>
-
-                <tr>
-                    <td class="data_cell">1<a href="https://facebook.com"></a></td>
-                    <td class="data_cell">0201</td>
-                    <td class="data_cell">Standard</td>
-                    <td class="data_cell">05/01/2001 12:00 AM</td>
-                    <td class="data_cell">05/01/2001 12:00 AM</td>
-                    <td class="data_cell">Ra ngoài</td>
-                </tr>
-
-                <tr>
-                    <td class="data_cell">1<a href="https://youtube.com"></a></td>
-                    <td class="data_cell">0201</td>
-                    <td class="data_cell">Standard</td>
-                    <td class="data_cell">05/01/2001 12:00 AM</td>
-                    <td class="data_cell">05/01/2001 12:00 AM</td>
-                    <td class="data_cell">Ra ngoài</td>
-                </tr>
+                </tr>*@
+                @{if(listDetails != null) {
+                    @foreach(ChiTietHoaDon ct in listDetails) {
+                        <tr>
+                            <td class="data_cell">@ct.MaCTHD</td>
+                            <td class="data_cell">@ct.MaPhong</td>
+                            <td class="data_cell">@ct.LoaiPhong.TenLoaiPhong</td>
+                            <td class="data_cell">@ct.ThoiGianNhanPhong</td>
+                            <td class="data_cell">@ct.ThoiGianTraPhong</td>
+                            @{
+                                string[] status = { "Chưa thanh toán", "Đã thanh toán", "Khách ra ngoài", "Bỏ phòng" };
+                            }
+                            <td class="data_cell">@status[ct.TrangThai]</td>
+                        </tr>
+                    }
+                }}
             </tbody>
         </table>
 
         <!-- Context Menu -->
-        <div id="contextMenu" class="context_menu">
+        <div id="contextMenuDetail" class="context_menu">
             <ul class="list_context">
                 <li id="payment">Thanh toán</li>
                 <li id="change_room">Thay đổi khách ở</li>
                 <li id="status">Hiện trạng</li>
                 <li id="out_of_room">Khách ra ngoài</li>
                 <li id="destroy_booking">Bỏ phòng</li>
-                <li id="cancel_booking">Huỷ thuê phòng</li>
+                <li id="delete_booking">Huỷ thuê phòng</li>
             </ul>
         </div>
     </div>
@@ -87,35 +89,27 @@
                     <div class="wrapper_table">
                         <table id="rent_room_info_table">
                             <colgroup>
-                                <col span="1" width="5%">
-                                <col span="1" width="10%">
-                                <col span="1" width="10%">
-                                <col span="1" width="10%">
-                                <col span="1" width="10%">
-                                <col span="1" width="10%">
-                                <col span="1" width="10%">
-                                <col span="1" width="10%">
                                 <col span="1" width="10%">
                                 <col span="1" width="15%">
+                                <col span="1" width="15%">
+                                <col span="1" width="20%">
+                                <col span="1" width="20%">
+                                <col span="1" width="20%">
                             </colgroup>
                         
                             <thead>
                                 <tr>
-                                    <th scope="col" class="heading_table" width="5%">#</th>
-                                    <th scope="col" class="heading_table" width="10%">Phòng</th>
-                                    <th scope="col" class="heading_table" width="10%">Số người thuê</th>
-                                    <th scope="col" class="heading_table" width="10%">Số ngày thuê</th>
-                                    <th scope="col" class="heading_table" width="10%">Phụ thu</th>
-                                    <th scope="col" class="heading_table" width="10%">Đơn giá</th>
-                                    <th scope="col" class="heading_table" width="10%">Thành tiền</th>
-                                    <th scope="col" class="heading_table" width="10%">Phụ thu CICO</th>
-                                    <th scope="col" class="heading_table" width="10%">Tổng cộng</th>
-                                    <th scope="col" class="heading_table" width="15%">Trạng thái</th>
+                                    <th scope="col" class="heading_table" width="10%">Mã</th>
+                                    <th scope="col" class="heading_table" width="15%">Phòng</th>
+                                    <th scope="col" class="heading_table" width="15%">Đơn giá</th>
+                                    <th scope="col" class="heading_table" width="20%">Phụ thu CICO</th>
+                                    <th scope="col" class="heading_table" width="20%">Tổng cộng</th>
+                                    <th scope="col" class="heading_table" width="20%">Trạng thái</th>
                                 </tr>
                             </thead>
                         
-                            <tbody>
-                                <tr>
+                            <tbody id="body-status">
+                                @*<tr>
                                     <td class="data_cell" rowspan="3">1</td>
                                     <td class="data_cell" rowspan="3">0105</td>
                                     <td class="data_cell">2</td>
@@ -139,8 +133,8 @@
                                     <td class="data_cell">3</td>
                                     <td class="data_cell">100.000</td>
                                     <td class="data_cell">100.000</td>
-                                    <td class="data_cell">100.000</td>
-                                </tr>
+
+                                </tr>*@
                             </tbody>
                         </table>
                     </div>
@@ -149,4 +143,3 @@
         </div>
     </div>
 </div>
-<script src="~/js/Bill/ListDetail.js"></script>

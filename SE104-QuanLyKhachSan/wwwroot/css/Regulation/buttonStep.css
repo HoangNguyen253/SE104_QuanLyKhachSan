@@ -1,0 +1,28 @@
+.buttonStep {
+    font-size: 0;
+}
+.buttonStep span{
+    text-align: center;
+    display: inline-block;
+    width: 50px;
+    font-size: 1rem;
+    border: 1px solid #002b49;
+    padding: 2px 0;
+}
+.buttonStep button{
+    width: 25px;
+    height: 25px;
+    border: none;
+    font-size: 1rem;
+    color: white;
+    background-color: #002b49;
+}
+
+.buttonStep button:hover {
+    cursor: pointer;
+    background-color: #000000;
+}
+
+.buttonStep button:active {
+    background-color: #223746;
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SE104_QuanLyKhachSan.Models
 {
@@ -37,6 +38,13 @@ namespace SE104_QuanLyKhachSan.Models
         {
             get { return doiTuongThanhToan; }
             set { doiTuongThanhToan = value; }
+        }
+
+        private List<ChiTietHoaDon> chiTiet;
+        public List<ChiTietHoaDon> ChiTiet
+        {
+            get { return chiTiet; }
+            set { chiTiet = value; }
         }
     }
 }
