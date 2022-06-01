@@ -1,4 +1,4 @@
-﻿$(document).ready(function (ev) {
+$(document).ready(function (ev) {
     
     var table = document.getElementsByClassName("list_rent_table")[0];
     document.onclick = hideContextMenu;

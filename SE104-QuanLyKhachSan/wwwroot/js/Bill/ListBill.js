@@ -1,4 +1,4 @@
-﻿$(document).ready(function (e) {
+$(document).ready(function (e) {
     // List of variables
     let popupCoverAddBill = document.getElementById("popup_id");
     let popupAddBill = document.getElementById("popup__add_bill_id");
@@ -80,6 +80,7 @@
             popupCoverAddBill.style.display = 'none';
         }
     }
+
 
     // Variable to render content add room id
     var contentRoomID =

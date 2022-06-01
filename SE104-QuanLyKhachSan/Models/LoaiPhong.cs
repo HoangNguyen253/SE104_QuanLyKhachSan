@@ -1,5 +1,4 @@
-﻿using System;
-
+using System;
 namespace SE104_QuanLyKhachSan.Models
 {
     public class LoaiPhong
@@ -32,5 +31,4 @@ namespace SE104_QuanLyKhachSan.Models
             set { daXoa = value; }
         }
     }
-
 }
