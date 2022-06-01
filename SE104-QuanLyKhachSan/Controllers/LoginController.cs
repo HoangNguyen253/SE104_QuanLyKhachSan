@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using SE104_QuanLyKhachSan.Models;
+using Newtonsoft.Json;
 
 namespace SE104_QuanLyKhachSan.Controllers
 {
@@ -43,4 +43,5 @@ namespace SE104_QuanLyKhachSan.Controllers
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
     }
+
 }

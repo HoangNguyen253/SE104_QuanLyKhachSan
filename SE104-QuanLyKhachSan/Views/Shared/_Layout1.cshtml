@@ -1,0 +1,13 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+    @RenderSection("content", true)
+    @if (IsSectionDefined("script"))
+    {
+        @RenderSection("script", false)
+    }
+</body>
+</html>

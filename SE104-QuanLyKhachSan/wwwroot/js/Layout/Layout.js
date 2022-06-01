@@ -7,6 +7,7 @@
     $('#xemthongtin_option_header_account_id').click(function () {
         $('#staff_profile_popup_window_container_id').addClass("show");
         $('#dropdown_list_option_header_account_id').slideToggle(100);
+        RenderInfoStaff();
     })
     $('#header_close_staff_profile_popup_window_id').click(function () {
         $('#staff_profile_popup_window_container_id').removeClass("show");
@@ -58,12 +59,51 @@
     })
 
 
+
     $('#sdp_selection_name_icon_id').click(function () {
         $.ajax({
             url: '/Home/SoDoPhong',
             success: function (data) {
                 $("#main_working_window_id").html(data);
             }
-        })
+        });
+    });
+    $('#dshoadon_selection_name_icon_id').click(function () {
+        $("#main_working_window_id").html("");
     });
 })
+
+/*    Toast Message Function: begin*/
+function toastMessage({ title = '', message = '', type = 'success', duration = 3500 }) {
+    let toastContainer = document.getElementById("toast_container");
+
+    if (toastContainer) {
+        let toastNotification = document.createElement('div');
+        let icon = {
+            success: "fa-check",
+            fail: "fa-exclamation"
+        }
+        let delay = (duration / 1000).toFixed(2);
+        let timeOutRemoveID = setTimeout(function () {
+            toastContainer.removeChild(toastNotification);
+        }, duration + 500)
+        toastNotification.classList.add("toast_notification", "toast_" + type);
+        toastNotification.style.animation = "slideInLeft cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s, slideinRight linear 0.2s " + delay + "s forwards";
+        toastNotification.innerHTML = '<div class="toast_content">' +
+            '<i class="fas fa-solid ' + icon[type] + ' check"></i>' +
+            '<div class="toast_message">' +
+            '<span class="toast_text toast_text_1">' + title + '</span>' +
+            '<span class="toast_text toast_text_2">' + message + '</span>' +
+            '</div>' +
+            '<i class="fa-solid fa-xmark close"></i>' +
+            '<div class="toast_progress"></div>' +
+            '</div>';
+        toastNotification.querySelector(".close").onclick = function () {
+            toastContainer.removeChild(toastNotification);
+            clearTimeout(timeOutRemoveID);
+        }
+        toastNotification.querySelector(".toast_progress").style.setProperty("--toastBeforeAnimation", "progress " + delay + "s linear forwards");
+        toastContainer.appendChild(toastNotification);
+    }
+}
+/*    Toast Message Function: end*/

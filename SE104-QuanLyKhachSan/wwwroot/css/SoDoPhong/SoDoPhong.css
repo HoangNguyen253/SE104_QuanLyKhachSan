@@ -397,11 +397,7 @@
         height: 1.7rem;
     }
 
-    .data_thongtindatphong_receive_room_window_green input[type=date]::-webkit-calendar-picker-indicator {
-        margin-left: 0;
-    }
-
-    .data_thongtindatphong_receive_room_window_green input[type=date] {
+    .data_thongtindatphong_receive_room_window_green input[type=datetime-local] {
         width: 56%;
     }
 
@@ -423,8 +419,13 @@ input:disabled {
     width: 20%;
 }
 
-.thoigiannhanphong_receive_room_window_green input[type=date] {
-    width: 15%;
+.thoigiannhanphong_receive_room_window_green input[type=datetime-local] {
+    width: 18%;
+}
+
+.receive_room_window_green_container.thaydoikhacho .thoigiannhanphong_receive_room_window_green input[type=datetime-local] {
+    pointer-events: none;
+    background-color: #c9c9c9;
 }
 
 #btn_add_info_customer_receivephong_green {
