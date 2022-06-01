@@ -1,0 +1,411 @@
+table, th, td {
+    border-collapse: collapse;
+}
+
+input {
+    padding: 5px 10px;
+    border: 1px solid black;
+}
+
+b {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+
+.green-button {
+    background-color: #186711;
+    color: #ffffff;
+    border: 2px solid #186711;
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-right: 10px;
+}
+.green-button:hover {
+    cursor: pointer;
+    background-color: #1f4b19;
+    border: 2px solid #1f4b19;
+}
+.green-button:active {
+    background-color: #0a2807;
+    border: 2px solid #0a2807;
+}
+
+    .green-button:disabled {
+        background-color: #868686;
+        border: 2px solid #868686;
+    }
+
+    .green-button:hover:disabled {
+        cursor: not-allowed;
+        background-color: #868686;
+        border: 2px solid #868686;
+    }
+
+    .green-button:active:disabled {
+        background-color: #868686;
+        border: 2px solid #868686;
+    }
+
+
+
+.red-button:hover {
+    cursor: pointer;
+    background-color: #5f1717;
+    border: 2px solid #5f1717;
+}
+.red-button:active {
+    background-color: #360606;
+    border: 2px solid #360606;
+
+}
+.red-button {
+    background-color: #9E0909;
+    color: #ffffff;
+    border: 2px solid #9E0909;
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-right: 10px;
+
+}
+
+.red-button:disabled {
+    background-color: #868686;
+    border: 2px solid #868686;
+}
+
+.red-button:hover:disabled {
+    cursor: not-allowed;
+    background-color: #868686;
+    border: 2px solid #868686;
+}
+
+.red-button:active:disabled {
+    background-color: #868686;
+    border: 2px solid #868686;
+}
+
+.blue-button {
+    background-color: #002b49;
+    color: #ffffff;
+    border: 2px solid #002b49;
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-right: 10px;
+}
+.blue-button:hover {
+    cursor: pointer;
+    background-color: #000000;
+    border: 2px solid #000000;
+}
+.blue-button:active {
+    background-color: #223746;
+    border: 2px solid #223746;
+}
+
+    .blue-button:disabled {
+        background-color: #868686;
+        border: 2px solid #868686;
+    }
+
+    .blue-button:hover:disabled {
+        cursor: not-allowed;
+        background-color: #868686;
+        border: 2px solid #868686;
+    }
+
+    .blue-button:active:disabled {
+        background-color: #868686;
+        border: 2px solid #868686;
+    }
+
+.cancel-button {
+    background-color: #ffffff;
+    color: #002b49;
+    border: 2px solid #002b49;
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-right: 10px;
+}
+.cancel-button:hover {
+    cursor: pointer;
+    background-color: #002b49;
+    color: #ffffff;
+}
+.cancel-button:active {
+    background-color: #223746;
+    color: #ffffff;
+    border: 2px solid #223746;
+}
+/*=================== CONTAINER: begin ============*/
+.main_working_window{
+    padding: 0;
+    transition: all 0.5s;
+    margin-left: 20.5%;
+    height: 100%;
+    background-color: #ededed;
+    width: calc(100% - 20.5%);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 3px;
+    align-content: start;
+    transition-delay: 0.5;
+}
+/*=================== CONTAINER: end ============*/
+
+/*=================== REGULATION-ITEM: begin ============*/
+.main_working_window .regulation-item{
+    background-color: #ffffff;
+    text-align: center;
+    padding: 10px 10px;
+    box-shadow: 3px 3px 5px #C5C5C5;
+    transition: 0.15s;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.main_working_window .regulation-item:hover{
+    background-color: #ededed;
+    cursor: pointer;
+}
+
+.main_working_window .regulation-item:active{
+    background-color: #C5C5C5;
+    cursor: pointer;
+}
+
+.main_working_window .regulation-item > * {
+    pointer-events: none;
+}
+
+.main_working_window .regulation-item img {
+    width: 50px;
+}
+
+.main_working_window.menu-hide {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+/*=================== REGULATION-ITEM: end ============*/
+/*=================== POPUP-LOAIPHONG: start ============*/
+@keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+
+@keyframes scrollFromTop {
+    from {top: -100vh;} 
+    to {top: 0;}
+}
+
+.main_working_window .popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.8);
+    animation: fadeIn;
+    animation-duration: 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+    .main_working_window .popup-container .popup::-webkit-scrollbar {
+        display: none;
+    }
+    .main_working_window .popup-container .popup {
+        max-width: 80%;
+        max-height: 100%;
+        position: relative;
+        animation: scrollFromTop;
+        animation-duration: 0.5s;
+        display: none;
+        overflow-y: scroll;
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+.header-popup {
+    background-color: #002b49;
+    padding: 0 10px;
+    color: #ffffff;
+    line-height: 24px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+}
+
+.header-popup i {  
+    font-size: 1.5rem;
+}
+.header-popup i:hover {  
+    cursor: pointer;
+    color: #C5C5C5;
+}
+
+.content-popup {
+    background-color: #ffffff;
+    padding: 10px 30px;
+}
+
+.content-popup .information{
+    border-bottom: 1px solid #C5C5C5;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.content-popup .CICO{
+    border-bottom: 1px solid #C5C5C5;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.content-popup .CICO:hover{
+    background-color: #e2e2e2;
+    cursor: pointer;
+}
+
+.content-popup .CICO:active{
+    background-color: #ababab;
+}
+
+.main_working_window .popup-container .popup .content-popup table {
+    width: 100%;
+    text-align: center;
+}
+
+.main_working_window .popup-container .popup .content-popup table td {
+    padding: 5px;
+}
+.main_working_window .popup-container .popup .content-popup table .header-table {
+    background-color: #0666A9;
+    color: #ffffff;
+}
+.main_working_window .popup-container .popup .content-popup table .item-table {
+    border-bottom: 1px solid black;
+}
+.main_working_window .popup-container .popup .content-popup .add-new {
+    padding: 10px;
+}
+.footer-popup {
+    background-color: #ffffff;
+    text-align: right;
+    padding: 10px 0;
+    padding-right: 10px;
+    border-top: 1px solid #C5C5C5;
+}
+
+.sub-popup-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+
+    animation: fadeIn;
+    animation-duration: 0.5s;
+}
+
+.sub-popup-container .sub-popup {
+    position: relative;
+    display: none;
+    max-width: 50%;
+
+    animation: scrollFromTop;
+    animation-duration: 0.5s;
+}
+.sub-popup .content-popup tr td{
+    padding-right: 20px;
+    padding-bottom: 10px;
+}
+
+.confirm-popup-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    animation: fadeIn;
+    animation-duration: 0.5s;
+}
+.confirm-popup-container .confirm-popup {
+    display: none;
+    max-width: 30%;
+    position: relative;
+
+    animation: scrollFromTop;
+    animation-duration: 0.5s;
+}
+.confirm-popup-container .confirm-popup .content-popup .message {
+    padding-bottom: 15px;
+}
+/*=================== POPUP-LOAIPHONG: end ============*/
+
+@keyframes changeColor {
+    from {
+        background-color: #a8a8a8;
+    }
+
+    to {
+        background-color: #ffffff;
+    }
+}
+
+@keyframes changeColorFuture {
+    from {
+        background-color: #00548f;
+    }
+
+    to {
+        background-color: #bce4ff;
+    }
+}
+
+.popup .just-add {
+    animation: changeColor;
+    animation-duration: 5s;
+}
+
+.popup .future {
+    background-color: #bce4ff;
+}
+
+.popup .future-just-add {
+    animation: changeColorFuture;
+    animation-duration: 5s;
+}
