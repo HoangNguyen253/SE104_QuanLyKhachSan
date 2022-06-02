@@ -1,9 +1,4 @@
-﻿var month = (today.getMonth() + 1);               
-if (month < 10) 
-   month = "0" + month;
-console.log(month);
-document.getElementById("month_picker_id").value =    today.getFullYear() + "-" + month ;
-
+﻿
 var printBtn = document.getElementById("PrintReport_btn_id");
 
 printBtn.addEventListener('click', () => {

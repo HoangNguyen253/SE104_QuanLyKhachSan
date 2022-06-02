@@ -1,16 +1,22 @@
-﻿
+﻿@{
+    ThongKeDoanhThu thongke = ViewData["thongke"] as ThongKeDoanhThu;
+}
+
 <link rel='stylesheet' type='text/css' media='screen' href='~/css/Report/ThongKeDoanhThu.css'>
 <div class="ThongKeDoanhThu_container">
-            <div class="filter_container">
-                <button type="button" class="back_btn btn"> <img src="Icon/back.png" height ="30" width="30" /></button>
-                <button type="button" class="print_btn btn"> <img src="Icon/print.png" height ="30" width="30" /></button>
-                <!-- <i class="fa fa-caret-left header_return_staff_profile_popup_window btn" style="font-size: 1.5rem;" id="header_return_staff_profile_popup_window_id"></i>
-                <i class="fa fa-print header_print_staff_profile_popup_window btn" style="font-size: 1.5rem;" id="header_print_staff_profile_popup_window_id"></i>
-             -->
+           <div class="filter_container">
+                <ul class="navigate">
+                    <li class="btn radius_corner" id="datepicker_btn">
+                        <!-- <a href="">01/2021</a> -->
+                        <input type="month" id="month_picker_id" >    
+                    </li>
+                    <li class="btn radius_corner" id="ShowReport_btn_id">Xem báo cáo</li>
+                    <li class="btn radius_corner" id="PrintReport_btn_id">In báo cáo</li>
+                </ul> 
             </div>
-            <div class="ChiTietDoanhThu_container">
+            <div class="ChiTietDoanhThu_container" id="ThongKeDoanhThu_container_id">
                 <div class="header_report">
-                    <div class="~/image/ReportPage/account.png" id="avatar_img_staff_profile_popup_window" style="filter: invert(1);"> 
+                    <div class="~/image/ReportPage/account.png" id="avatar_field_staff_profile_popup_window" style="filter: invert(1);"> 
                     </div>
                     <div class="detail_header_report">
                         <div class="name_hotel">Gloria</div>
@@ -22,7 +28,7 @@
                     </div>
                 </div>
                 <div class="title_report center_page title">Bảng báo cáo doanh thu các loại phòng</div>
-                <div class="date_report center_page title">Tháng 2/2021</div>
+                <div class="date_report center_page title">Tháng @thongke.ThangBaoCao.ToString("MM/yyyy")</div>
                 <div class="table_content">
                     <div class="table_Thu_container">
                         <div class="table_ThuLabel label">Bảng thu</div>
@@ -40,17 +46,11 @@
                                 <tbody>
                                     <tr>
                                         <td>1</td>
-                                        <td>Standard</td>
-                                        <td>250.500.000 VNĐ</td>
+                                        <td>Phòng khách sạn</td>
+                                        <td> @thongke.TienThu VNĐ</td>
                                         
                                     </tr>
-
-                                <tr>
-                                    <td>1</td>
-                                    <td>Standard</td>
-                                    <td>250.500.000 VNĐ</td>
-                             
-                                </tr>
+                 
                                 </tbody>
                          </table>
                     </div>
@@ -71,7 +71,7 @@
                                 <tr>
                                     <td>1</td>
                                     <td>Standard</td>
-                                    <td>250.500.000 VNĐ</td>
+                                    <td> @thongke.TienChi VNĐ</td>
 
                                 </tr>
                             </tbody>
@@ -79,9 +79,20 @@
                     </div>
                     
                 </div>
-                <div class="date center_page right_align">TP Hồ Chí Minh, ngày 10 tháng 03 năm 2021</div>
-                <div class="position center_page right_align">Giám đốc tài chính</div>
-                <div class="signature center_page right_align">Nguyễn Văn B</div>
+                <div class="footter_report">
+                    <div id="thuchi_id">
+                        <div id="TongThu_id" class="font_size_template">-Tổng thu: @thongke.TienThu VNĐ</div>
+                        <div id="TongChi_id" class="font_size_template">-Tổng chi: @thongke.TienThu VNĐ</div>
+                        <div id="LoiNhuan_id" class="font_size_template">-Lợi nhuận: @thongke.LoiNhuan VNĐ</div>
+                    </div>
+                    <div id="signature_id"> 
+                        <div class="date center_page right_align">TP Hồ Chí Minh, ngày @DateTime.Now.Day tháng @DateTime.Now.Month năm @DateTime.Now.Year</div>
+                        <div class="position center_page right_align">Giám đốc tài chính</div>
+                        <div class="signature center_page right_align">Nguyễn Văn B</div>
+                    </div>
+                </div>
+                
+                
             </div>
         </div>
         <script src="~/js/Report/ThongKeDoanhThu.js"></script>

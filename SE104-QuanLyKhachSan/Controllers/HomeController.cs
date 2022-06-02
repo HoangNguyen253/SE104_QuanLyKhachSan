@@ -143,9 +143,12 @@ namespace SE104_QuanLyKhachSan.Controllers
             return PartialView();
         }
 
-        public IActionResult ThongKeDoanhThu()
+        public IActionResult ThongKeDoanhThu(string ThangBaoCao)
         {
-            
+            Database db = new Database();
+            DateTime dt = DateTime.Parse(ThangBaoCao);
+            ThongKeDoanhThu thongke = db.GetThuChi(dt);
+            ViewData["thongke"] = thongke;
             return PartialView();
         }
 
@@ -171,7 +174,7 @@ namespace SE104_QuanLyKhachSan.Controllers
             if (NgayLap == "")
                 list_dtl = db.getDetailDotTraLuongbyID(mabc);
             else
-                list_dtl = db.getDetailDotTraLuongbyMonth(NgayLap);
+                list_dtl = db.getDetailDotTraLuongbyMonth(ThangBaoCao);
             ViewData["list_dtl"] = list_dtl;
             ViewData["ThangBaoCao"] = ThangBaoCao;
             return PartialView();

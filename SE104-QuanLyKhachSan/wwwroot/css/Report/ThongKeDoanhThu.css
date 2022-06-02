@@ -73,7 +73,7 @@
 
 .avatar_field_staff_profile_popup_window {
     /* background-color: #000; */
-   /* background-color: aqua;*/
+    /* background-color: aqua;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -224,9 +224,558 @@
     z-index: 1;
     margin:;
     background: #fff;
+    overflow: scroll;
+}
+
+.main_working_window {
+    overflow: hidden;
+}
+
+.footter_report {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#thuchi_id {
+    margin-left: 15%;
+    font-size: x-large;
+}
+
+#signature_id {
+    margin-right: 15%;
+    text-align: center;
+    justify-content: center;
+}
+
+.font_size_template {
+    font-size: x-large;
+    margin-top: 10px;
+}
+
+.ThongKeDoanhThu_container .footter_report {
+    margin-top: 20px;
+}
+
+
+.filter_container {
+    position: relative;
+    left: 0;
+    right: 0;
+    background: #002B49;
+    height: 60px;
+}
+
+    .filter_container .navigate {
+        float: right;
+        position: relative;
+        padding-left: 20px;
+        padding-right: 20px;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+        .filter_container .navigate ul {
+            list-style-type: none;
+            margin: 0;
+            background-color: #333333;
+        }
+
+        .filter_container .navigate li {
+            border: 1px solid black;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            margin-left: 5px;
+            background-color: white;
+            padding: 10px;
+        }
+
+            .filter_container .navigate li a {
+                text-decoration: none;
+            }
+
+.ThongKeDoanhThu_container {
+    padding: 0;
+    transition: all 0.5s;
+    /* margin-left: 20.5%;*/
+    height: 100%;
+    /* background-image: url(Icon/background.jpg); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: content-box;
+}
+
+.ThongKeDoanhThu_container {
+    padding: 5px;
+}
+
+
+#date_control {
+    border: none;
+    width: 100px;
+}
+
+ul, li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+header, nav {
+    display: block;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.filter_container {
+    position: relative;
+    left: 0;
+    right: 0;
+    background: #002B49;
+    height: 60px;
+}
+
+    .filter_container .navigate {
+        float: right;
+        position: relative;
+        padding-left: 20px;
+        padding-right: 20px;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+        .filter_container .navigate ul {
+            list-style-type: none;
+            margin: 0;
+            background-color: #333333;
+        }
+
+        .filter_container .navigate li {
+            border: 1px solid black;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            margin-left: 5px;
+            background-color: white;
+            padding: 10px;
+        }
+
+            .filter_container .navigate li a {
+                text-decoration: none;
+            }
+
+.calendar-icon {
+    float: right;
+    margin-left: 30px;
+}
+
+#datepicker_btn {
+    padding-top: 10px;
+    padding-bottom: 12px;
+}
+
+.Report_main .list_container ul {
+    list-style-type: none;
+    overflow: hidden;
+    width: 100%;
+}
+
+.Report_main .list_container li {
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.Report_main .Title {
+    font-size: x-large;
+    font-weight: bold;
+    margin-left: -600px;
+    margin-top: 15px;
+}
+
+
+
+.Report_main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+    .Report_main .Title {
+        margin-bottom: 20px;
+    }
+
+
+
+    .Report_main .list_container {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+
+.list .list_content {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    /*background-color: aquamarine;*/
+    /*color: #fff;*/
+    box-shadow: 2px 2px #888888;
+}
+
+.list_content {
+    border: 1px solid #000;
+    font-size: 200;
+}
+
+    .list_content .report-date {
+        margin-right: 300px;
+        font-size: larger;
+        margin-left: 20px;
+    }
+
+    .list_content .date-create-report {
+        font-size: smaller;
+        margin-right: 20px;
+    }
+
+.del_btn {
+    font-size: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.radius_corner {
+    border-radius: 10px;
+}
+
+.ThongKeDoanhThu_container {
+    overflow: scroll;
+}
+
+.ChiTietDoanhThu_container {
+    margin-top: 10px;
+}
+
+.detail_header_report {
+    margin-left: 100px;
+    /* margin-right: ; */
+}
+
+.avatar_field_staff_profile_popup_window {
+    /* background-color: #000; */
+    /* background-color: aqua;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.name_hotel {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 25%;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-family: 'Serif';
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ChiTietDoanhThu_container .title_report {
+    margin-top: 20px;
+}
+
+.center_page {
+    text-align: center;
+}
+
+.right_align {
+    margin-left: 40%;
+}
+
+.signature {
+    margin-top: 50px;
+    font-weight: bold;
+}
+
+
+.ChiTietDoanhThu_container .date_report {
+    margin-bottom: 30px;
+}
+
+.table_doanhthu_container {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu {
+    width: 100%;
+}
+
+    .ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu tbody tr {
+        border-collapse: collapse;
+        border-bottom: 1px solid #000;
+    }
+
+
+
+.ChiTietDoanhThu_container .table_doanhthu_container table {
+    border-collapse: collapse;
+    border-radius: 10px;
+}
+
+
+
+.ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu thead {
+    background-color: #000;
+    color: #fff;
+}
+
+    .ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu thead th {
+        font-size: larger;
+        font-weight: bold;
+    }
+
+.table_doanhthu_container .table_doanhthu tr {
+    height: 50px;
+}
+
+.table_doanhthu_container .table_doanhthu tbody
+
+.ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu th, td {
+    text-align: center;
+    border-left: none;
+    border-right: none;
+}
+
+.ThongKeDoanhThu_container .ChiTietDoanhThu_container .header_report {
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+}
+
+.avatar_img_staff_profile_popup_window {
+    width: 1rem;
+    height: 1rem;
+}
+
+.print_btn {
+    border: none;
+    cursor: pointer;
+}
+
+.btn {
+    cursor: pointer;
+}
+
+.ThongKeDoanhThu_container .filter_container .create_report {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+#date_createReport {
+    margin-top: 20px;
+}
+
+.ThongKeDoanhThu_container {
+    z-index: 1;
+    margin:;
+    background: #fff;
     overflow: hidden;
 }
 
 .main_working_window {
     overflow: scroll;
+}
+
+
+
+
+#date_control {
+    border: none;
+    width: 100px;
+}
+
+ul, li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+header, nav {
+    display: block;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.filter_container {
+    position: relative;
+    left: 0;
+    right: 0;
+    background: #002B49;
+    height: 50px;
+}
+
+    .filter_container .navigate {
+        float: right;
+        position: relative;
+        padding-left: 20px;
+        padding-right: 20px;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+        .filter_container .navigate ul {
+            list-style-type: none;
+            margin: 0;
+            background-color: #333333;
+        }
+
+        .filter_container .navigate li {
+            border: 1px solid black;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            margin-left: 5px;
+            background-color: white;
+            padding: 10px;
+        }
+
+            .filter_container .navigate li a {
+                text-decoration: none;
+            }
+
+.calendar-icon {
+    float: right;
+    margin-left: 30px;
+}
+
+
+
+.Report_main .list_container ul {
+    list-style-type: none;
+    overflow: hidden;
+    width: 100%;
+}
+
+.Report_main .list_container li {
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.Report_main .Title {
+    font-size: x-large;
+    font-weight: bold;
+    margin-left: -600px;
+    margin-top: 15px;
+}
+
+
+
+.Report_main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+    .Report_main .Title {
+        margin-bottom: 20px;
+    }
+
+
+
+    .Report_main .list_container {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+
+.list .list_content {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    box-shadow: 2px 2px #888888;
+}
+
+.list_content {
+    border: 1px solid #000;
+    font-size: 200;
+}
+
+    .list_content .report-date {
+        margin-right: 300px;
+        font-size: larger;
+        margin-left: 20px;
+    }
+
+    .list_content .date-create-report {
+        font-size: smaller;
+        margin-right: 20px;
+    }
+
+.del_btn {
+    font-size: 28px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.radius_corner {
+    border-radius: 10px;
+}
+
+    .radius_corner:hover {
+        border-color: aqua;
+        cursor: pointer;
+    }
+
+
+
+#datepicker_btn {
+    padding: 7px;
+}
+
+.list .del_btn:hover {
+    cursor: pointer;
+    color: #888888;
+}
+
+.list .list_content:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.DTtheoloaiphong_container {
+    z-index: 1;
+    margin:;
+    background: #fff;
+    overflow: hidden;
+    min-height: 500px;
+}
+
+.main_working_window {
+    overflow: scroll;
+}
+
+.navigate {
+    float: right;
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }

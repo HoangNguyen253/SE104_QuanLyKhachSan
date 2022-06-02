@@ -88,13 +88,21 @@ taoRP.addEventListener('click', () => {
                 var result = xhr_login.response;
                 console.log(result);
                 loadingElement.hide();
-                if (result == 1)
+                if (result == 1) {
                     toastMessage({ title: "Thành công!", message: "Tạo báo cáo thành công!", type: "success" });
+                    $.ajax({
+                        url: '/Home/DotLuong',
+                        success: function (data, status) {
+                            $('#main_working_window_id').html(data);
+                            console.log(status);
+                        }
+                    })
+                }       
                 else
                     toastMessage({ title: "Thất bại!", message: "Tạo báo cáo thất bại!", type: "fail" });
                 ;
             }
-        }
+        }  
         xhr_login.send();
     }
     else {

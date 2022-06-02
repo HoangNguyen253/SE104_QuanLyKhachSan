@@ -103,6 +103,17 @@ header, nav {
     margin-top: 15px;
 }
 
+#ThangBaoCao_id {
+    font-size: x-large;
+    font-weight: bold;
+    font-family: 'Serif';
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 
 
 .Report_main {

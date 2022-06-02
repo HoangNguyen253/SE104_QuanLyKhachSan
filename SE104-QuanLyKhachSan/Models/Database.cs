@@ -2773,7 +2773,7 @@ namespace SE104_QuanLyKhachSan.Models
 
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
-                string str = " SELECT  traluong.MaNhanVien , nhanvien.HoTen , chucvu.TenChucVu, nhanvien.CCCD , `Thuong`, `Phat`, `GhiChu`, `SoTien` ,nhanvien.GioiTinh FROM traluong, nhanvien, chucvu, dottraluong WHERE traluong.MaDotTraLuong = dottraluong.MaDotTraLuong AND nhanvien.MaNhanVien = traluong.MaNhanVien AND traluong.MaChucVu = chucvu.MaChucVu AND Month(dottraluong.NgayTraLuong) = @thang AND YEAR(dottraluong.NgayTraLuong) = @nam ";
+                string str = "  SELECT dottraluong.MaDotTraLuong , traluong.MaNhanVien , nhanvien.HoTen , chucvu.TenChucVu, nhanvien.CCCD , `Thuong`, `Phat`, `GhiChu`, `SoTien` ,nhanvien.GioiTinh FROM traluong, nhanvien, chucvu, dottraluong WHERE traluong.MaDotTraLuong = dottraluong.MaDotTraLuong AND nhanvien.MaNhanVien = traluong.MaNhanVien AND traluong.MaChucVu = chucvu.MaChucVu AND Month(dottraluong.NgayTraLuong) = @thang AND YEAR(dottraluong.NgayTraLuong) = @nam ";
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("nam", dt.Year);
@@ -2787,16 +2787,18 @@ namespace SE104_QuanLyKhachSan.Models
                         while (result.Read())
                         {
 
-                            ChiTietDotTraLuong bill = new ChiTietDotTraLuong();              
+                            ChiTietDotTraLuong bill = new ChiTietDotTraLuong();
                            
+                            bill.MaDotTraLuong = Convert.ToInt32(result["MaNhanVien"]); 
                             bill.MaNhanVien = result["MaNhanVien"].ToString();
-                            bill.MaChucVu = Convert.ToInt32(result["MaChucVu"]);
+                            bill.TenNhanVien = result["HoTen"].ToString();
+                            bill.TenChucVu = result["TenChucVu"].ToString();
+                            bill.CCCD = result["CCCD"].ToString();
                             bill.Thuong = Convert.ToInt32(result["Thuong"]);
                             bill.Phat = Convert.ToInt32(result["Thuong"]);
                             bill.GhiChu = result["GhiChu"].ToString();
                             bill.SoTien = Convert.ToInt32(result["SoTien"]);
                             bill.GioiTinh = Convert.ToInt32(result["GioiTinh"]);
-
                             bills.Add(bill);
                         }
                         conn.Close();
@@ -3177,7 +3179,58 @@ namespace SE104_QuanLyKhachSan.Models
            return 0;
         }
 
+        public ThongKeDoanhThu GetThuChi(DateTime ThangBaoCao)
+        {
+            ThongKeDoanhThu th = new ThongKeDoanhThu();
+            th.TienThu = th.TienChi = th.LoiNhuan = 0;
+            th.ThangBaoCao = ThangBaoCao;
 
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+                string str = " SELECT TongTienPhong  FROM chitiethoadon , hoadon WHERE chitiethoadon.MaHoaDon = hoadon.MaHoaDon AND Year(hoadon.ThoiGianXuat) = @nam AND Month(hoadon.ThoiGianXuat) = @thang  ";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("thang", ThangBaoCao.Month);
+                cmd.Parameters.AddWithValue("nam", ThangBaoCao.Year);
+
+                using (var result = cmd.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            th.TienThu += Convert.ToInt32(result["TongTienPhong"]);
+                        }
+                    }
+                }
+
+            }
+
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                string str = " SELECT traluong.SoTien FROM `traluong` , dottraluong WHERE traluong.MaDotTraLuong = dottraluong.MaDotTraLuong AND Year(dottraluong.NgayTraLuong) = @nam AND Month(dottraluong.NgayTraLuong) = @thang  ";
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("nam", ThangBaoCao.Year);
+                cmd.Parameters.AddWithValue("thang", ThangBaoCao.Month);
+
+                List<int> Tien = new List<int>();
+                using (var result = cmd.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            th.TienChi += Convert.ToInt32(result["SoTien"]);
+                        }
+                    }
+                }
+            }
+
+            th.LoiNhuan = th.TienChi - th.TienChi;
+
+            return th;       
+        }   
         //Trí - end
         #endregion
     }

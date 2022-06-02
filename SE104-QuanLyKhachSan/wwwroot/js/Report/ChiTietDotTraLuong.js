@@ -67,8 +67,18 @@ document.getElementById("Update_btn").addEventListener('click', () => {
         xhr_Update_Data_Staff.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let result = this.responseText;
-                if (result => 1)
+                if (result => 1) {
                     toastMessage({ title: "Thành công!", message: "Cập nhật thành công", type: "success" });
+                    var madottraluong = edit_btn[0].parentElement.id;
+                    var t = document.getElementById("ThangBaoCao_id").innerHTML;
+                    $.ajax({
+                        url: '/Home/ChiTietDotLuong?MaBCDL=' + madottraluong + "&ThangBaoCao=" + t,
+                        success: function (data, status) {
+                            $('#main_working_window_id').html(data);
+                            console.log(status);
+                        }
+                    });
+                }        
                 else
                     toastMessage({ title: "Thất bại!", message: "Cập nhật thất bại", type: "fail" });
             }

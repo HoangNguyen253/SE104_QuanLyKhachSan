@@ -58,7 +58,7 @@ header, nav {
 
         .filter_container .nav li {
             border: 1px solid black;
-            float: left;
+     
             text-align: center;
             text-decoration: none;
             margin-left: 5px;
@@ -471,3 +471,4 @@ header, nav {
 .main_working_window {
     overflow: scroll;
 }
+
