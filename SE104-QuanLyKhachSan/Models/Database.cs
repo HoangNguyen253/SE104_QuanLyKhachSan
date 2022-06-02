@@ -9,6 +9,7 @@ namespace SE104_QuanLyKhachSan.Models
 {
     public class Database
     {
+        #region general
         public string ConnectionString { get; set; }
         public Database()
         {
@@ -58,7 +59,9 @@ namespace SE104_QuanLyKhachSan.Models
                 }
             }
         }
+        #endregion
 
+        #region Vinh
         //Vinh - begin
 
         public List<object> LoadDataForSoDoPhong()
@@ -437,7 +440,9 @@ namespace SE104_QuanLyKhachSan.Models
         }
 
         //Vinh - end
+        #endregion
 
+        #region Nguyên
         //Nguyên - begin
         public List<LoaiPhong> GetLoaiPhong()
         {
@@ -1625,7 +1630,9 @@ namespace SE104_QuanLyKhachSan.Models
             }
         }
         //Nguyên - end
+        #endregion
 
+        #region Nghĩa
         //Nghĩa - begin
         struct ThongKeKhach
         {
@@ -2311,7 +2318,9 @@ namespace SE104_QuanLyKhachSan.Models
         }
 
         //Nghĩa - end
+        #endregion
 
+        #region Hiếu
         //Hiếu - begin
         public List<NhanVien> getAllDetailStaff()
         {
@@ -2581,8 +2590,9 @@ namespace SE104_QuanLyKhachSan.Models
 
         }
         //Hiếu - end
+        #endregion
 
-
+        #region Trí
         //Trí - begin
         public List<BaoCaoDoanhThuThang> getAllBCDTThang()
         {
@@ -2733,7 +2743,7 @@ namespace SE104_QuanLyKhachSan.Models
                         while (result.Read())
                         {
                             ChiTietDotTraLuong bill = new ChiTietDotTraLuong();
-
+                            bill.MaDotTraLuong = MaBC;
                             bill.MaNhanVien = result["MaNhanVien"].ToString();
                             bill.TenNhanVien = result["HoTen"].ToString();
                             bill.TenChucVu = result["TenChucVu"].ToString();
@@ -2777,15 +2787,15 @@ namespace SE104_QuanLyKhachSan.Models
                         while (result.Read())
                         {
 
-                            ChiTietDotTraLuong bill = new ChiTietDotTraLuong();
-                            bill.MaDotTraLuong = Convert.ToInt32(result["MaDotTraLuong"]);
+                            ChiTietDotTraLuong bill = new ChiTietDotTraLuong();              
+                           
                             bill.MaNhanVien = result["MaNhanVien"].ToString();
                             bill.MaChucVu = Convert.ToInt32(result["MaChucVu"]);
                             bill.Thuong = Convert.ToInt32(result["Thuong"]);
                             bill.Phat = Convert.ToInt32(result["Thuong"]);
                             bill.GhiChu = result["GhiChu"].ToString();
                             bill.SoTien = Convert.ToInt32(result["SoTien"]);
-
+                            bill.GioiTinh = Convert.ToInt32(result["GioiTinh"]);
 
                             bills.Add(bill);
                         }
@@ -3147,6 +3157,28 @@ namespace SE104_QuanLyKhachSan.Models
             }
             return 0;
         }
+
+        public int UpdateLuongStaf(ChiTietDotTraLuong info_staff)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = " UPDATE `traluong` SET `Thuong`= @thuong ,`Phat`= @phat ,`GhiChu`= @ghichu,`SoTien`= @sotien WHERE traluong.MaDotTraLuong = @madot AND traluong.MaNhanVien = @manv ";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("thuong", info_staff.Thuong);
+                cmd.Parameters.AddWithValue("phat", info_staff.Phat);
+                cmd.Parameters.AddWithValue("ghichu", info_staff.GhiChu);
+                cmd.Parameters.AddWithValue("sotien", info_staff.SoTien);
+                cmd.Parameters.AddWithValue("madot", info_staff.MaDotTraLuong);
+                cmd.Parameters.AddWithValue("manv", info_staff.MaNhanVien);
+                int result = cmd.ExecuteNonQuery();
+                return result;
+            }
+           return 0;
+        }
+
+
         //Trí - end
+        #endregion
     }
 }

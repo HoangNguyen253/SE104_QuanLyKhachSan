@@ -66,7 +66,7 @@ $(document).ready(function (e) {
             var tukhoa = $(this).val().toLowerCase();
             var tukhoa2 = $('#TenChucVu_').val().toLowerCase();
             $('#myTableStaff tbody tr').filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(tukhoa2) > -1 && $(this).text().toLowerCase().indexOf(tukhoa) > -1);
+                $(this).toggle( $(this).text().toLowerCase().indexOf(tukhoa2) > -1 && $(this).text().toLowerCase().indexOf(tukhoa) > -1 );
             });
         });
     });

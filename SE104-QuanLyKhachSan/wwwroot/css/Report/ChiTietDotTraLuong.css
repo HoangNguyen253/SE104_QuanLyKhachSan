@@ -16,6 +16,8 @@
 }
 
 
+
+
 #date_control {
     border: none;
     width: 100px;
@@ -40,7 +42,7 @@ header, nav {
     left: 0;
     right: 0;
     background: #002B49;
-    height: 60px;
+    height: 40px;
 }
 
     .filter_container .nav {
@@ -166,14 +168,14 @@ header, nav {
     /* margin-right: ; */
 }
 
-.avatar_field_staff_profile_popup_window {
+/*.avatar_field_staff_profile_popup_window {*/
     /* background-color: #000; */
-    background-color: aqua;
+    /*background-color: aqua;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
+}*/
 
 .name_hotel {
     font-family: 'Cinzel Decorative', cursive;
@@ -373,3 +375,4 @@ header, nav {
         background-color: #fff;
         padding: 5px;
     }
+

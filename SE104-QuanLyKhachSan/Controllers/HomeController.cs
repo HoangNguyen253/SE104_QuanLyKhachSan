@@ -149,6 +149,20 @@ namespace SE104_QuanLyKhachSan.Controllers
             return PartialView();
         }
 
+        public int UpdateLuongStaff(IFormCollection form)
+        {
+            Database db = new Database();
+            ChiTietDotTraLuong info_Staf = new ChiTietDotTraLuong();
+            info_Staf.MaDotTraLuong = Convert.ToInt32(form["MaDotTraLuong"]);
+            info_Staf.MaNhanVien = (form["MaNhanVien"]).ToString();
+            info_Staf.Thuong = Convert.ToInt32(form["Thuong"]);
+            info_Staf.Phat = Convert.ToInt32(form["Phat"]);
+            info_Staf.GhiChu = form["GhiChu"].ToString(); 
+            info_Staf.SoTien = Convert.ToInt32(form["SoTien"]);
+            db.UpdateLuongStaf(info_Staf);
+            return db.UpdateLuongStaf(info_Staf);
+        }
+
         public IActionResult ChiTietDotLuong(string MaBCDL, string ThangBaoCao, string NgayLap = "")
         {
             var mabc = System.Convert.ToInt32(MaBCDL);
