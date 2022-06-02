@@ -143,10 +143,27 @@ namespace SE104_QuanLyKhachSan.Controllers
             return PartialView();
         }
 
-        public IActionResult ThongKeDoanhThu()
+        public IActionResult ThongKeDoanhThu(string ThangBaoCao)
         {
-            
+            Database db = new Database();
+            DateTime dt = DateTime.Parse(ThangBaoCao);
+            ThongKeDoanhThu thongke = db.GetThuChi(dt);
+            ViewData["thongke"] = thongke;
             return PartialView();
+        }
+
+        public int UpdateLuongStaff(IFormCollection form)
+        {
+            Database db = new Database();
+            ChiTietDotTraLuong info_Staf = new ChiTietDotTraLuong();
+            info_Staf.MaDotTraLuong = Convert.ToInt32(form["MaDotTraLuong"]);
+            info_Staf.MaNhanVien = (form["MaNhanVien"]).ToString();
+            info_Staf.Thuong = Convert.ToInt32(form["Thuong"]);
+            info_Staf.Phat = Convert.ToInt32(form["Phat"]);
+            info_Staf.GhiChu = form["GhiChu"].ToString(); 
+            info_Staf.SoTien = Convert.ToInt32(form["SoTien"]);
+            db.UpdateLuongStaf(info_Staf);
+            return db.UpdateLuongStaf(info_Staf);
         }
 
         public IActionResult ChiTietDotLuong(string MaBCDL, string ThangBaoCao, string NgayLap = "")
@@ -157,7 +174,7 @@ namespace SE104_QuanLyKhachSan.Controllers
             if (NgayLap == "")
                 list_dtl = db.getDetailDotTraLuongbyID(mabc);
             else
-                list_dtl = db.getDetailDotTraLuongbyMonth(NgayLap);
+                list_dtl = db.getDetailDotTraLuongbyMonth(ThangBaoCao);
             ViewData["list_dtl"] = list_dtl;
             ViewData["ThangBaoCao"] = ThangBaoCao;
             return PartialView();

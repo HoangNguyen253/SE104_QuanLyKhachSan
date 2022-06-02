@@ -16,6 +16,8 @@
 }
 
 
+
+
 #date_control {
     border: none;
     width: 100px;
@@ -40,7 +42,7 @@ header, nav {
     left: 0;
     right: 0;
     background: #002B49;
-    height: 60px;
+    height: 40px;
 }
 
     .filter_container .nav {
@@ -99,6 +101,17 @@ header, nav {
     font-weight: bold;
     margin-left: -600px;
     margin-top: 15px;
+}
+
+#ThangBaoCao_id {
+    font-size: x-large;
+    font-weight: bold;
+    font-family: 'Serif';
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 
@@ -166,14 +179,14 @@ header, nav {
     /* margin-right: ; */
 }
 
-.avatar_field_staff_profile_popup_window {
+/*.avatar_field_staff_profile_popup_window {*/
     /* background-color: #000; */
-    background-color: aqua;
+    /*background-color: aqua;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
+}*/
 
 .name_hotel {
     font-family: 'Cinzel Decorative', cursive;
@@ -373,3 +386,4 @@ header, nav {
         background-color: #fff;
         padding: 5px;
     }
+

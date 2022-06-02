@@ -37,11 +37,11 @@ for (let i = 0; i < del.length; i++) {
                     
                     var result = xhr_login.response;
                     if (result) {
-                        console.log("Xóa thành công");
+                        toastMessage({ title: "Thành công!", message: "Xóa thành công", type: "success" });
                         del[i].parentElement.remove();
                     }
                     else
-                        console.log("Xóa thất bại");
+                        toastMessage({ title: "Thất bại!", message: "Xóa thất bại", type: "fail" });
                 }
 
             }
@@ -68,7 +68,7 @@ showRP.addEventListener('click', () => {
         })
     }
     else {
-        alert("Vui lòng chọn tháng");
+        toastMessage({ title: "Alert!", message: "Vui lòng chọn tháng", type: "fail"});
     }
 });
 
@@ -91,16 +91,25 @@ taoRP.addEventListener('click', () => {
                 var result = xhr_login.response;
                 console.log(result);
                 loadingElement.hide();
-                if (result == 1)
-                    alert("Thêm thành công");
+                if (result == 1) {
+                    toastMessage({ title: "Thành công!", message: "Tạo báo cáo thành công!", type: "success" });
+                    $.ajax({
+                        url: '/Home/DTtheoLoaiPhong',
+                        success: function (data, status) {
+                            $('#main_working_window_id').html(data);
+                            console.log(status);
+                        }
+                    })
+                }
+                   
                 else
-                    alert("Thêm thất bại");
+                    toastMessage({ title: "Thất bại!", message: "Tạo báo cáo thất bại!", type: "fail" });
 ;           }
         }
         xhr_login.send();
     }   
     else {
-        alert("Vui lòng chọn tháng!");
+        toastMessage({ title: "Alert", message: "Vui lòng chọn tháng", type: "fail" });
     }
 });
 

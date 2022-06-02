@@ -29,7 +29,7 @@ document.getElementById("XemLuong_id").addEventListener('click', () => {
         })
     }
     else {
-        alert("Vui lòng chọn tháng");
+        toastMessage({ title: "Alert", message: "Vui lòng chọn tháng", type: "fail" });
     }
 });
 
@@ -88,16 +88,24 @@ taoRP.addEventListener('click', () => {
                 var result = xhr_login.response;
                 console.log(result);
                 loadingElement.hide();
-                if (result == 1)
-                    alert("Tạo thành công");
+                if (result == 1) {
+                    toastMessage({ title: "Thành công!", message: "Tạo báo cáo thành công!", type: "success" });
+                    $.ajax({
+                        url: '/Home/DotLuong',
+                        success: function (data, status) {
+                            $('#main_working_window_id').html(data);
+                            console.log(status);
+                        }
+                    })
+                }       
                 else
-                    alert("Tạo thất bại");
+                    toastMessage({ title: "Thất bại!", message: "Tạo báo cáo thất bại!", type: "fail" });
                 ;
             }
-        }
+        }  
         xhr_login.send();
     }
     else {
-        alert("Vui lòng chọn tháng!");
+        toastMessage({ title: "Alert", message: "Vui lòng chọn tháng", type: "fail" });
     }
 });

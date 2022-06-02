@@ -6,7 +6,7 @@
     font-weight: 500;
 } */
 
-.staff_profile_popup_window_container {
+.staff_info_container {
     display: flex;
     background-color: rgba(0,0,0,0.5);
     align-items: center;
@@ -22,13 +22,13 @@
     transition: 0.5s ease;
 }
 
-    .staff_profile_popup_window_container.show {
+    .staff_info_container.show {
         pointer-events: auto;
         opacity: 1;
         transition: 0.5s ease;
     }
 
-.staff_profile_popup_window {
+.staff_info {
     width: 55vw;
     position: relative;
     max-height: 100vh;
@@ -36,12 +36,12 @@
     transition: 0.3s;
 }
 
-.staff_profile_popup_window_container.show .staff_profile_popup_window {
+.staff_info_container.show .staff_info {
     top: 0;
     transition: 0.3s;
 }
 
-.header_staff_profile_popup_window {
+.header_staff_info {
     display: flex;
     background-color: #002b49;
     color: white;
@@ -50,13 +50,13 @@
     width: 100%;
 }
 
-.header_name_staff_profile_popup_window {
+.header_name {
     font-weight: 500;
     margin: 0.5rem;
     font-size: larger;
 }
 
-.header_close_staff_profile_popup_window {
+.header_close {
     margin: 0.5rem;
     cursor: pointer;
     color: white;
@@ -66,7 +66,7 @@
     resize: none;
 }
 
-.body_staff_profile_popup_window {
+.body_staff_info {
     background-color: white;
     padding-right: 3rem;
 }
@@ -172,20 +172,20 @@ input:disabled, select:disabled {
         color: #002b49;
     }
 
-.staff_profile_popup_window .staff_info {
+.staff_info .staff_info {
     display: flex;
     justify-content: space-between;
 }
 
-    .staff_profile_popup_window .staff_info .maNhanVien_container {
+    .staff_info .staff_info .maNhanVien_container {
         display: flex;
     }
 
-    .staff_profile_popup_window .staff_info .staff_name_container {
+    .staff_info .staff_info .staff_name_container {
         display: flex;
     }
 
-.body_staff_profile_popup_window .Info_Luong_container {
+.body_staff_info .Info_Luong_container {
     border-top: 1px solid #000;
     margin-right: 40%;
     margin-top: 10px;
@@ -196,7 +196,7 @@ input:disabled, select:disabled {
     margin-top: 10px;
 }
 
-.body_staff_profile_popup_window .field_container {
+.body_staff_info .field_container {
     display: flex;
     justify-content: space-between;
 }
@@ -209,13 +209,13 @@ input:disabled, select:disabled {
     font-size: larger;
 }
 
-.body_staff_profile_popup_window .staff_info {
+.body_staff_info .staff_info {
     font-size: larger;
     padding-top: 10px;
 }
 
 .font_style {
-    font-size: xx-large;
+    font-size: x-large;
     font-weight: bold;
     align-items: flex-end;
 }
@@ -254,14 +254,14 @@ input:disabled, select:disabled {
     padding-top: 5px;
 }
 
-.staff_profile_popup_window .navigate_container {
+.staff_info .navigate_container {
     display: block;
     width: 100%;
     background-color: #fff;
     height: 50px;
 }
 
-    .staff_profile_popup_window .navigate_container .navigate_btn {
+    .staff_info .navigate_container .navigate_btn {
         float: right;
         position: relative;
         padding-left: 20px;

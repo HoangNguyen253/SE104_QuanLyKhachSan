@@ -10,16 +10,18 @@
 <div class="CTDTL_container">
             <!-- Code ở đây  -->
             <div class="filter_container">
-                <button type="button" class="btn" id="back_btn_id"> <img src="~/image/ReportPage/back.png" height ="25" width="25" /></button>
-                <div class="inline">
-                    <!-- <input id="search_input_id" class="btn" type="search" placeholder="Search by name"> -->
-                    <button type="button" class="btn" id="print_btn_id"> <img src="~/image/ReportPage/print.png" height ="25" width="25" /></button>  
+                <button type="button" class="btn" id="back_btn_id"> <img src="~/image/ReportPage/back.png" height ="20" width="20" /></button>
+                <div>
+                    <input id="search_input_id" class="btn" type="text" placeholder="Search by name" height="39">
+                    <button type="button" class="btn" id="print_btn_id"> <img src="~/image/ReportPage/print.png" height ="20" width="20" /></button>  
                 </div>                
             </div>
             <div class="ChiTietDotTraLuong_container">
                 <div class="title">
-                    Bảng lương tháng @ThangBaoCao
-
+                    Bảng lương tháng
+                    <span id="ThangBaoCao_id">
+                        @ThangBaoCao
+                    </span>
                 </div>
                 <div class="table_doanhthu_container">
                     <table class="table_luong" id="table_luong_id">
@@ -88,7 +90,7 @@
                                     <td>@item.Phat</td>
                                     <td>@item.SoTien</td>
                                     <td>@item.GhiChu</td>
-                                    <td>
+                                    <td id="@item.MaDotTraLuong">
                                         <button id="Edit_btn" type="button">
                                             Sửa
                                         </button>
@@ -103,61 +105,62 @@
             </div>
 
         </div>
-        <form class="staff_profile_popup_window_container" id="staff_profile_popup_window_container_id" method="POST">
-            <div class="staff_profile_popup_window">
-                <div class="header_staff_profile_popup_window">
-                    <div class="header_name_staff_profile_popup_window">CHỈNH SỬA LƯƠNG</div>
-                    <i class="fa fa-close header_close_staff_profile_popup_window" style="font-size: 1.5rem;" id="header_close_staff_profile_popup_window_id"></i>
+<form class="staff_info_container" id="staff_info_container_id" method="POST">
+    <div class="staff_info">
+        <div class="header_staff_info">
+            <div class="header_name">CHỈNH SỬA LƯƠNG</div>
+            <i class="fa fa-close header_close" style="font-size: 1.5rem;" id="header_close_id"></i>
+        </div>
+        <div class="body_staff_info">
+            <div class="staff_info">
+                <div class="maNhanVien_container">
+                    <div>Mã nhân viên: </div>
+                    <div class="manhanvien font_style" id="manhanvien_id"></div>
                 </div>
-                <div class="body_staff_profile_popup_window">
-                    <div class="staff_info">
-                        <div class="maNhanVien_container">
-                            <div>Mã nhân viên: </div>
-                            <div class="manhanvien font_style" id="manhanvien_id">123456</div>
-                        </div>
-                        <div class="staff_name_container">
-                            <div>Họ tên: </div>
-                            <div class="staff_name font_style" id="tennhanvien_id">Taalkdasjljdasjlk</div>
-                        </div>
-                    </div>
-                    <div class="Info_Luong_container ">
-                        <div class="ThuongField field_container">
-                            <div class="ThuongLabel">Thưởng</div>
-                            <div class="input_container">
-                                <input id="ThuongInput_id" type="number"/>
-                            </div>       
-                        </div>
-                        <div class="PhatField field_container">
-                            <div class="PhatLabel">Phạt</div>
-                            <div class="input_container">
-                                <input id="PhatInput_id" type="number"/>
-                            </div>       
-                        </div>
-                        <div class="NoteField field_container">
-                            <div class="NoteLabel" id="">Ghi chú</div>
-                            <div>
-                                <textarea name="" id="NoteInput_id" cols="30" rows="10"></textarea>
-                            </div>       
-                        </div>
-    
-                        <div class="TongLuong_Container">
-                            <div class="LuongLabel">Lương</div>
-                            <div class="input_container">
-                                <input id="PhatInput" type="text" disabled value="1,000,000"/>
-                            </div> 
-                        </div>
-    
-                    </div>          
+                <div class="staff_name_container">
+                    <div>Họ tên: </div>
+                    <div class="staff_name font_style" id="tennhanvien_id">Taalkdasjljdasjlk</div>
                 </div>
-                <div class="navigate_container">
-                    <div class="navigate_btn">
-                        <button class="btn_popup" id="Update_btn" type="button">Cập nhật</button>
-                        <button class="btn_popup" id="Cancel_btn" type="button">Hủy</button>
-                    </div>
-                </div>
-    
             </div>
-    
-        </form>
+            <div class="Info_Luong_container ">
+                <div class="ThuongField field_container">
+                    <div class="ThuongLabel">Thưởng</div>
+                    <div class="input_container">
+                        <input id="ThuongInput_id" type="number" onkeyup="CalcTienLuong(this.value,'thuong')"/>
+                    </div>       
+                </div>
+                <div class="PhatField field_container">
+                    <div class="PhatLabel">Phạt</div>
+                    <div class="input_container">
+                        <input id="PhatInput_id" type="number" onkeyup="CalcTienLuong(this.value,'phat')"/>
+                    </div>       
+                </div>
+                <div class="NoteField field_container">
+                    <div class="NoteLabel" id="">Ghi chú</div>
+                    <div>
+                        <textarea name="" id="NoteInput_id" cols="30" rows="10"></textarea>
+                    </div>       
+                </div>
+                
+
+                <div class="TongLuong_Container">
+                    <div class="LuongLabel">Lương</div>
+                    <div class="input_container">
+                        <input id="TongLuong_input_id" type="number" disabled />
+                    </div> 
+                </div>
+
+            </div>          
+        </div>
+        <div class="navigate_container">
+            <div class="navigate_btn">
+                <button class="btn_popup" id="Update_btn" type="button">Cập nhật</button>
+                <button class="btn_popup" id="Cancel_btn" type="button">Hủy</button>
+            </div>
+        </div>
+
+    </div>
+
+</form>
  <script src="~/js/Report/PopupEdit.js"></script>
  <script src="~/js/Report/ChiTietDotTraLuong.js"></script>
