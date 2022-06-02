@@ -153,6 +153,24 @@ $(document).ready(function (e) {
         })
     });
 
+    $('#thaydoiquydinh_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Regulation/Index',
+            success: function (data, status) {
+                $('#main_working_window_id').html(data);
+            }
+        })
+    });
+
+    $('#phanquyen_selection_name_icon_id').click(function () {
+        $.ajax({
+            url: '/Permission/Index',
+            success: function (data, status) {
+                $('#main_working_window_id').html(data);
+            }
+        })
+    });
+
 })
 /*    Toast Message Function: begin*/
 function toastMessage({ title = '', message = '', type = 'success', duration = 3500 }) {

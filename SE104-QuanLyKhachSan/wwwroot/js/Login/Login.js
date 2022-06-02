@@ -52,7 +52,7 @@ signInButton.addEventListener('click', () => {
                     window.location.replace("https://localhost:5001/Home/Index")
                 }
                 else {
-                    alert('Đăng nhập thất bại: sai tài khoản hoặc mật khẩu');
+                    document.getElementById('error-password').innerHTML = 'Đăng nhập thất bại: sai tài khoản hoặc mật khẩu';
                 }
             }
         }

@@ -44,11 +44,11 @@ function resetEventListenerForChangeButtonInPopup() {
 }
 
 function HIDEbuttonChangeInPopup() {
-    buttonChangeInPopup.style.display = "none";
+    popup.querySelector(".footer-popup button.blue-button").style.display = "none";
 }
 
 function SHOWbuttonChangeInPopup() {
-    buttonChangeInPopup.style.display = "inline";
+    popup.querySelector(".footer-popup button.blue-button").style.display = "inline";
     resetEventListenerForChangeButtonInPopup();
 }
 
@@ -275,7 +275,7 @@ function updateAndAddLoaiPhongClick(item, isUpdate) {
     let buttonSubmit = subPopup.querySelector(".footer-popup .blue-button");
     buttonSubmit.disabled = false;
 
-
+    inputTenLoaiPhong.focus();
     if (isUpdate == true) {
         buttonSubmit.disabled = true;
         inputTenLoaiPhong.addEventListener("input", () => {
@@ -300,7 +300,7 @@ function updateAndAddLoaiPhongClick(item, isUpdate) {
         let tenLoaiPhong = inputTenLoaiPhong.value;
         let giaTienCoBan = inputGiaTienCoBan.value;
         if (tenLoaiPhong == "" || giaTienCoBan == 0) {
-            alert('Trường giá tiền và tên loại phòng không được phép trống!')
+            toastMessage({ title: 'Lỗi', message: 'Trường giá tiền và tên loại phòng không được phép trống!', type: 'fail', duration: 3500 })
         } else {
             if (maLoaiPhong != null) {
                 updateLoaiPhong(maLoaiPhong, tenLoaiPhong, giaTienCoBan).then(
@@ -309,7 +309,7 @@ function updateAndAddLoaiPhongClick(item, isUpdate) {
                             loadPopupLoaiPhong();
                             closeSubPopup();
                         } else {
-                            alert("Lỗi! Sửa không thành công. Đã có loại phòng như vậy trong hệ thống.")
+                            toastMessage({ title: 'Sửa thất bại', message: 'Đã có loại phòng ' + tenLoaiPhong + ' trong hệ thống.', type: 'fail', duration: 3500 });
                         }
                     }
                 );
@@ -321,7 +321,7 @@ function updateAndAddLoaiPhongClick(item, isUpdate) {
                             
                             closeSubPopup();
                         } else {
-                            alert("Lỗi! Thêm không thành công. Đã có loại phòng như vậy trong hệ thống.")
+                            toastMessage({ title: 'Thêm thất bại', message: 'Đã có loại phòng ' + tenLoaiPhong + ' trong hệ thống.', type: 'fail', duration: 3500 })
                         }
                     }
                 );
@@ -476,6 +476,7 @@ function loadPopupLoaiPhong() {
                                 closeConfirmPopup();
                                 if (value == "true") {
                                     let child = DRB.parentElement.parentElement.parentElement;
+                                    let tenLoaiPhong = child.querySelectorAll("td")[1].innerHTML;
                                     let parent = child.parentElement;
                                     parent.removeChild(child);
 
@@ -483,9 +484,10 @@ function loadPopupLoaiPhong() {
                                         DontHaveRoomType();
                                     }
                                     resetSTT(parent);
+                                    toastMessage({ title: 'Thành công', message: 'Xóa thành công loại phòng ' + tenLoaiPhong, type: 'success', duration: 3500 });
                                 }
                                 else {
-                                    alert("Lỗi");
+                                    toastMessage({ title: 'Lỗi', message: 'Xóa không thành công', type: 'fail', duration: 3500 });
                                 }
                             }
                         );
@@ -501,7 +503,7 @@ function loadPopupLoaiPhong() {
             dataLoaiPhongSave = dataLoaiPhong;
         },
         function (error) { //fail
-            alert("Lỗi");
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy thông tin loại phòng thất bại', type: 'fail', duration: 3500 });
         }
     );
 }
@@ -619,7 +621,7 @@ function updateAndAddLoaiKhachHangClick(item, isUpdate) {
     let buttonSubmit = subPopup.querySelector(".footer-popup .blue-button");
     buttonSubmit.disabled = false;
 
-
+    inputTenLoaiLoaiKH.focus();
     if (isUpdate == true) {
         buttonSubmit.disabled = true;
         inputTenLoaiLoaiKH.addEventListener("input", () => {
@@ -636,7 +638,7 @@ function updateAndAddLoaiKhachHangClick(item, isUpdate) {
         let maLoaiKhachHang = subPopup.querySelector(".content-popup .table-container table").getAttribute("maloaikhachhang");
         let tenLoaiKhachHang = subPopup.querySelector(".content-popup .table-container table input.ten-loai-khach-hang").value;
         if (tenLoaiKhachHang == "") {
-            alert('Trường tên loại phòng không được phép trống!')
+            toastMessage({ title: 'Lỗi', message: 'Trường tên loại phòng không được phép trống!', type: 'fail', duration: 3500 });
         } else {
             if (maLoaiKhachHang != null) {
                 updateLoaiKhachHang(maLoaiKhachHang, tenLoaiKhachHang).then(
@@ -645,7 +647,7 @@ function updateAndAddLoaiKhachHangClick(item, isUpdate) {
                             loadPopupLoaiKhachHang();
                             closeSubPopup();
                         } else {
-                            alert("Lỗi! Sửa không thành công. Đã có loại khách hàng như vậy trong hệ thống.")
+                            toastMessage({ title: 'Sửa thất bại', message: 'Đã có loại khách hàng ' + tenLoaiKhachHang + ' trong hệ thống.', type: 'fail', duration: 3500 });
                         }
                     }
                 );
@@ -657,7 +659,7 @@ function updateAndAddLoaiKhachHangClick(item, isUpdate) {
                             loadPopupLoaiKhachHang();
                             closeSubPopup();
                         } else {
-                            alert("Lỗi! Đã có loại khách hàng như vậy trong hệ thống.")
+                            toastMessage({ title: 'Thêm thất bại', message: 'Đã có loại khách hàng ' + tenLoaiKhachHang + ' trong hệ thống.', type: 'fail', duration: 3500 });
                         }
                     }
                 );
@@ -804,6 +806,7 @@ function loadPopupLoaiKhachHang() {
                                 closeConfirmPopup();
                                 if (value == "true") {
                                     let child = DRB.parentElement.parentElement.parentElement;
+                                    let tenLoaiKhachHang = child.querySelectorAll("td")[1].innerHTML;
                                     let parent = child.parentElement;
                                     parent.removeChild(child);
 
@@ -811,9 +814,12 @@ function loadPopupLoaiKhachHang() {
                                         DontHaveCustomerType();
                                     }
                                     resetSTT(parent);
+                                    toastMessage({ title: 'Thành công', message: 'Xóa thành công loại khách hàng ' + tenLoaiKhachHang, type: 'success', duration: 3500 });
+
                                 }
                                 else {
-                                    alert("Lỗi");
+                                    toastMessage({ title: 'Lỗi', message: 'Xóa không thành công.', type: 'fail', duration: 3500 });
+
                                 }
                             }
                         );
@@ -830,7 +836,7 @@ function loadPopupLoaiKhachHang() {
 
             dataLoaiKhachHangSave = dataLoaiKhachHang;
         }, function (error) {
-            alert("Lỗi");
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy thông tin loại khách hàng thất bại', type: 'fail', duration: 3500 });
         }
     );
 }
@@ -949,20 +955,21 @@ listRegulation[2].addEventListener("click", (e) => {
                 updateSoKhachToiDa(soKhachToiDaNew).then(
                     function (value) {
                         if (value * 1 == 1) {
-                            alert("Update số khách tối đa thành công");
+                            toastMessage({ title: 'Sửa thành công', message: 'Sửa số khách tối đa thành công', type: 'success', duration: 3500 });
                             closePopup();
                         } else {
                             if (value * 1 == 2) {
-                                alert("Lỗi! Tồn tại loại phụ thu có số khách áp dụng lớn hơn số khách tối đa mới");
+                                toastMessage({ title: 'Sửa thất bại', message: 'Tồn tại loại phụ thu có số khách áp dụng lớn hơn số khách tối đa mới', type: 'fail', duration: 3500 });
                             } else {
-                                alert("Lỗi! Sửa không thành công!");
+
+                                toastMessage({ title: 'Lỗi', message: 'Sửa không thành công.', type: 'fail', duration: 3500 });
                             }
                         }
                     }
                 );
             });
         }, function (error) {
-            alert(error);
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy về số khách tối đa thất bại', type: 'fail', duration: 3500 });
         }
     );
     
@@ -1018,7 +1025,6 @@ function insertPhuThuSoKhach(soKhachApDung, tiLePhuThu, thoiGianApDung) {
             loadingElement.hide();
             if (xhr.readyState == 4 && xhr.status == 200) {
                 let result = xhr.responseText;
-                console.log(result);
                 resolve(result);
             }
         }
@@ -1122,7 +1128,7 @@ function updateAndAddPhuThuClick(item, isUpdate, soKhachToiDa) {
         inputNgayApDung.addEventListener("input", (e) => {
             if (new Date(e.target.value) < new Date()) {
                 e.target.value = convertDDMMYYYYHHMMSStoDateTimeInputFormat(new Date().toLocaleString("en-GB"));
-                //alert
+                toastMessage({ title: 'Lỗi', message: 'Thời gian áp dụng phải lớn hơn hoặc bằng hiện tại', type: 'fail', duration: 3500 });
             }
         });
     }
@@ -1187,7 +1193,7 @@ function updateAndAddPhuThuClick(item, isUpdate, soKhachToiDa) {
             thoiGianApDung = subPopup.querySelector(".content-popup .table-container table input.input-check").value.replace(/T/g, " ");
         }
         if (tiLePhuThu == 0) {
-            alert('Trường tỉ lệ phụ thu không được phép trống hoặc bằng 0!')
+            toastMessage({ title: 'Lỗi', message: 'Trường tỉ lệ phụ thu không được phép trống hoặc bằng 0!', type: 'fail', duration: 3500 });
         } else {
             if (isUpdate == true) {
                 updatePhuThuSoKhach(soKhachApDung, tiLePhuThu, thoiGianApDung, maPhuThu).then(
@@ -1196,23 +1202,22 @@ function updateAndAddPhuThuClick(item, isUpdate, soKhachToiDa) {
                             loadPopupChangePhuThu(soKhachToiDa);
                             closeSubPopup();
                         } else {
-                            alert("Lỗi! Đã có phụ thu tương tự trong hệ thống.")
+                            toastMessage({ title: 'Sửa thất bại', message: 'Đã có phụ thu ' + soKhachApDung + ' người trong hệ thống', type: 'fail', duration: 3500 });
                         }
                     }
                 );
             } else {
                 insertPhuThuSoKhach(soKhachApDung, tiLePhuThu, thoiGianApDung).then(
                     function (value) {
-                        console.log(value);
 
                         if (value == "true") {
                             loadPopupChangePhuThu(soKhachToiDa);
                             closeSubPopup();
                         } else {
-                            alert("Lỗi! Đã có phụ thu tương tự trong hệ thống!")
+                            toastMessage({ title: 'Thêm thất bại', message: 'Đã có phụ thu ' + soKhachApDung + ' người trong hệ thống', type: 'fail', duration: 3500 });
                         }
                     }, function (value) {
-                        alert("Lỗi kết nối");
+                        toastMessage({ title: 'Lỗi kết nối', message: 'Thêm phụ thu thất bại', type: 'fail', duration: 3500 });
                     }
                 );
             }
@@ -1390,9 +1395,10 @@ function loadPopupChangePhuThu(soKhachToiDa) {
                                         DontHavePhuThuSoKhach();
                                     }
                                     resetSTT(parent);
+                                    toastMessage({ title: 'Xóa thành công', message: 'Xóa phụ thu thành công', type: 'success', duration: 3500 });
                                 }
                                 else {
-                                    alert("Lỗi");
+                                    toastMessage({ title: 'Lỗi', message: 'Xóa phụ thu thất bại', type: 'fail', duration: 3500 });
                                 }
                             }
                         );
@@ -1409,7 +1415,7 @@ function loadPopupChangePhuThu(soKhachToiDa) {
             dataSave = dtpt;
 
         }, function (error) {
-            alert("Lỗi! Lấy danh sách phụ thu thất bại")
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy danh sách phụ thu thất bại', type: 'fail', duration: 3500 });
         }
     );
 }
@@ -1424,7 +1430,7 @@ listRegulation[3].addEventListener("click", () => {
 
             loadPopupChangePhuThu(soKhachToiDa);
         }, function (error) {
-            alert("Lỗi! Lấy thông tin số khách tối đa thất bại")
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy thông tin số khách tối đa thất bại', type: 'fail', duration: 3500 });
         }
     );
     
@@ -1493,7 +1499,7 @@ function updateAndAddHeSoPhuThuClick(item, isUpdate, soKhachToiDa, maLoaiKhach) 
             let dataLoaiKhachHang = dtlkh;
 
             if ((dataLoaiKhachHang == null || dataLoaiKhachHang.length == 0) && !isUpdate) {
-                alert("Chưa có loại khách hàng nào để áp dụng.");
+                toastMessage({ title: 'Không thể thêm', message: 'Chưa có loại khách hàng nào để áp dụng.', type: 'fail', duration: 3500 });
                 closeSubPopup();
                 return;
             }
@@ -1614,7 +1620,7 @@ function updateAndAddHeSoPhuThuClick(item, isUpdate, soKhachToiDa, maLoaiKhach) 
                 subPopup.querySelector(".input-check").addEventListener("input", (e) => {
                     if (new Date(e.target.value) < new Date()) {
                         e.target.value = convertDDMMYYYYHHMMSStoDateTimeInputFormat(new Date().toLocaleString("en-GB"));
-                        //alert
+                        toastMessage({ title: 'Lỗi', message: 'Thời gian áp dụng phải lớn hơn hoặc bằng hiện tại', type: 'fail', duration: 3500 });
                     }
                 });
             }
@@ -1696,7 +1702,7 @@ function updateAndAddHeSoPhuThuClick(item, isUpdate, soKhachToiDa, maLoaiKhach) 
                     thoiGianApDung = inputNgayApDung.value.replace(/T/g, " ");
                 }
                 if (heSoPhuThu == 0) {
-                    alert('Trường hệ số phụ thu không được phép trống hoặc bằng 0!')
+                    toastMessage({ title: 'Lỗi', message: 'Trường hệ số phụ thu không được phép trống hoặc bằng 0.', type: 'fail', duration: 3500 });
                 } else {
                     if (isUpdate == true) {
                         updateHeSoPhuThu(maLoaiKhachHang, soLuongApDung, heSoPhuThu, thoiGianApDung, maHeSoPhuThu).then(
@@ -1705,7 +1711,7 @@ function updateAndAddHeSoPhuThuClick(item, isUpdate, soKhachToiDa, maLoaiKhach) 
                                     loadChangeHeSoPhuThu(soKhachToiDa);
                                     closeSubPopup();
                                 } else {
-                                    alert("Lỗi! Đã có hệ số phụ thu tương tự trong hệ thống.")
+                                    toastMessage({ title: 'Sửa thất bại', message: 'Đã có phụ thu tương tự trong hệ thống', type: 'fail', duration: 3500 });
                                 }
                             }
                         );
@@ -1716,7 +1722,7 @@ function updateAndAddHeSoPhuThuClick(item, isUpdate, soKhachToiDa, maLoaiKhach) 
                                     loadChangeHeSoPhuThu(soKhachToiDa);
                                     closeSubPopup();
                                 } else {
-                                    alert("Lỗi! Đã có hệ số phụ thu tương tự trong hệ thống!")
+                                    toastMessage({ title: 'Thêm thất bại', message: 'Đã có phụ thu tương tự trong hệ thống', type: 'fail', duration: 3500 });
                                 }
                             }
                         );
@@ -1725,7 +1731,7 @@ function updateAndAddHeSoPhuThuClick(item, isUpdate, soKhachToiDa, maLoaiKhach) 
                 }
             })
         }, function (error) {
-            alert("Lỗi! Lấy thông tin khách hàng không thành công!")
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy thông tin loại khách hàng không thành công', type: 'fail', duration: 3500 });
         }
     );
 }
@@ -1842,7 +1848,7 @@ function loadChangeHeSoPhuThu(soKhachToiDa){
             let count = 0;
             let items = "";
             let oneTypeOfLKH = "";
-            let firstItemofType = "";
+            let firstItemofType= "";
             let firstIsFuture = "";
             let firstIsJustAdd = "";
             let firstMaPTLKH = "";
@@ -1875,7 +1881,7 @@ function loadChangeHeSoPhuThu(soKhachToiDa){
                 }
                 count++;
                 if (count == 1) {
-                    firstItemofType = ">" + dataHeSoPhuThu[i]["tenLoaiKhachHang"] + "</td>" +
+                    firstItemofType= ">" + dataHeSoPhuThu[i]["tenLoaiKhachHang"] + "</td>" +
                         "<td class='content-item'>" + dataHeSoPhuThu[i]["soLuongApDung"] + "</td>" +
                         "<td class='content-item'>" + dataHeSoPhuThu[i]["heSoPhuThu"] + "</td>" +
                         "<td class='content-item'>" + (date).toLocaleString('en-GB') + "</td>" +
@@ -1958,9 +1964,10 @@ function loadChangeHeSoPhuThu(soKhachToiDa){
                                 closeConfirmPopup();
                                 if (value == "true") {
                                     loadChangeHeSoPhuThu(soKhachToiDa);
+                                    toastMessage({ title: 'Xóa thành công', message: 'Xóa hệ số phụ thu thành công', type: 'success', duration: 3500 });
                                 }
                                 else {
-                                    alert("Lỗi. Xóa không thành công");
+                                    toastMessage({ title: 'Lỗi', message: 'Xóa hệ số phụ thu không thành công', type: 'fail', duration: 3500 });
                                 }
                             }
                         );
@@ -1975,7 +1982,7 @@ function loadChangeHeSoPhuThu(soKhachToiDa){
             });
             dataHeSoSave = dths;
         }, function (error) {
-            alert("Lỗi kết nối! Vui lòng thử lại sau!");
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy về danh sách hệ số phụ thu thất bại', type: 'fail', duration: 3500 });
         }
     );
 }
@@ -1989,7 +1996,7 @@ listRegulation[4].addEventListener("click", (e) => {
 
             loadChangeHeSoPhuThu(soKhachToiDa, false);
         }, function (error) {
-            alert("Lỗi! Lấy thông tin số khách tối đa thất bại")
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy thông tin số khách tối đa thất bại', type: 'fail', duration: 3500 });
         }
     );
 });
@@ -2193,7 +2200,7 @@ function updateAndAddCICOClick(item, isUpdate, info, maLoaiPhuThu) {
                 subPopup.querySelector(".input-check").addEventListener("input", (e) => {
                     if (new Date(e.target.value) < new Date()) {
                         e.target.value = convertDDMMYYYYHHMMSStoDateTimeInputFormat(new Date().toLocaleString("en-GB"));
-                        //alert
+                        toastMessage({ title: 'Lỗi', message: 'Thời gian áp dụng phải lớn hơn hoặc bằng hiện tại', type: 'fail', duration: 3500 });
                     }
                 });
             }
@@ -2275,7 +2282,7 @@ function updateAndAddCICOClick(item, isUpdate, info, maLoaiPhuThu) {
                     thoiGianApDung = inputNgayApDung.value.replace(/T/g, " ");
                 }
                 if (tiLePhuThu == 0) {
-                    alert('Trường tỉ lệ phụ thu không được phép trống hoặc bằng 0!')
+                    toastMessage({ title: 'Lỗi', message: 'Trường tỉ lệ phụ thu không được trống hoặc bằng 0', type: 'fail', duration: 3500 });
                 } else {
                     if (isUpdate == true) {
                         updatePhuThuCICO(maLoaiPhuThuNew, soLuongApDung, tiLePhuThu, thoiGianApDung, maPhuThu).then(
@@ -2284,7 +2291,7 @@ function updateAndAddCICOClick(item, isUpdate, info, maLoaiPhuThu) {
                                     loadChangeCICO();
                                     closeSubPopup();
                                 } else {
-                                    alert("Lỗi! Đã có phụ thu check in/out tương tự trong hệ thống.")
+                                    toastMessage({ title: 'Sửa thất bại', message: 'Đã có phụ thu check in/out tương tự trong hệ thống', type: 'fail', duration: 3500 });
                                 }
                             }
                         );
@@ -2295,7 +2302,7 @@ function updateAndAddCICOClick(item, isUpdate, info, maLoaiPhuThu) {
                                     loadChangeCICO();
                                     closeSubPopup();
                                 } else {
-                                    alert("Lỗi! Đã có phụ thu check in/out tương tự trong hệ thống!")
+                                    toastMessage({ title: 'Thêm thất bại', message: 'Đã có phụ thu check in/out tương tự trong hệ thống', type: 'fail', duration: 3500 });
                                 }
                             }
                         );
@@ -2304,7 +2311,7 @@ function updateAndAddCICOClick(item, isUpdate, info, maLoaiPhuThu) {
                 }
             })
         }, function (error) {
-            alert("Lỗi! Không tìm thấy loại phụ thu check in/out");
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy về loại phụ thu thất bại', type: 'fail', duration: 3500 });
         }
     );
 }
@@ -2390,11 +2397,13 @@ function updateTimeCheckInCheckOut (checkIn, checkOut) {
                 if (success == "true") {
                     closeSubPopup();
                     loadChangeCICO();
+                    toastMessage({ title: 'Sửa thành công', message: 'Sửa giờ thành công', type: 'success', duration: 3500 });
+
                 } else {
-                    alert("Lỗi! Sửa giờ không thành công");
+                    toastMessage({ title: 'Lỗi', message: 'Sửa giờ check in/out thất bại', type: 'fail', duration: 3500 });
                 }
             }, function (error) {
-                alert("Lỗi! Sửa giờ không thành công");
+                toastMessage({ title: 'Lỗi kết nối', message: 'Sửa giờ check in/out thất bại', type: 'fail', duration: 3500 });
             }
         );
     });
@@ -2665,9 +2674,10 @@ function loadChangeCICO() {
                                         closeConfirmPopup();
                                         if (value == "true") {
                                             loadChangeCICO();
+                                            toastMessage({ title: 'Xóa thành công', message: 'Xóa phụ thu check in/out thành công', type: 'success', duration: 3500 });
                                         }
                                         else {
-                                            alert("Lỗi");
+                                            toastMessage({ title: 'Lỗi', message: 'Xóa phụ thu check in/out không thành công', type: 'fail', duration: 3500 });
                                         }
                                     }
                                 );
@@ -2691,11 +2701,11 @@ function loadChangeCICO() {
                     dataCICOSave = dataPhuThuCICO;
 
                 }, function (error) {
-                    alert("Lỗi! Lấy dữ liệu phụ thu check in/out không thành công!");
+                    toastMessage({ title: 'Lỗi kết nối', message: 'Lấy phụ thu check in/out không thành công', type: 'fail', duration: 3500 });
                 }
             );
-        }, function (error) {;
-            alert('Lỗi! Lấy dữ liệu giờ check in/out không thành công!');
+        }, function (error) {
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy dữ liệu giờ check in/out không thành công', type: 'fail', duration: 3500 });
         }
     );
 }
@@ -2811,6 +2821,7 @@ function updateAndAddChucVuClick(item, isUpdate) {
     let buttonSubmit = subPopup.querySelector(".footer-popup .blue-button");
     buttonSubmit.disabled = false;
 
+    inputTenChucVu.focus();
     if (isUpdate == true) {
         buttonSubmit.disabled = true;
         inputTenChucVu.addEventListener("input", () => {
@@ -2827,7 +2838,7 @@ function updateAndAddChucVuClick(item, isUpdate) {
         let maChucVu= subPopup.querySelector(".content-popup .table-container table").getAttribute("machucvu");
         let tenChucVu= subPopup.querySelector(".content-popup .table-container table input.ten-chuc-vu").value;
         if (tenChucVu == "") {
-            alert('Trường tên chức vụ không được phép trống!')
+            toastMessage({ title: 'Lỗi', message: 'Trường tên chức vụ không được phép trống', type: 'fail', duration: 3500 });
         } else {
             if (maChucVu != null) {
                 updateChucVu(maChucVu, tenChucVu).then(
@@ -2836,7 +2847,7 @@ function updateAndAddChucVuClick(item, isUpdate) {
                             loadPopupChucVu();
                             closeSubPopup();
                         } else {
-                            alert("Lỗi! Sửa không thành công. Đã có chức vụ này.")
+                            toastMessage({ title: 'Sửa thất bại', message: 'Đã có chức vụ ' + tenChucVu, type: 'fail', duration: 3500 });
                         }
                     }
                 );
@@ -2847,7 +2858,7 @@ function updateAndAddChucVuClick(item, isUpdate) {
                             loadPopupChucVu();
                             closeSubPopup();
                         } else {
-                            alert("Lỗi! Thêm không thành công. Đã có chức vụ này.")
+                            toastMessage({ title: 'Thêm thất bại', message: 'Đã có chức vụ ' + tenChucVu, type: 'fail', duration: 3500 });
                         }
                     }
                 );
@@ -2997,12 +3008,14 @@ function loadPopupChucVu() {
                     confirmButton.addEventListener('click', () => {
                         deleteChucVuConfirm(DRB.parentElement.parentElement.parentElement.getAttribute("machucvu")).then(
                             function (value) {
+                                let tenChucVu = DRB.parentElement.parentElement.parentElement.querySelectorAll("td")[1].innerHTML;
                                 closeConfirmPopup();
                                 if (value == "true") {
                                     loadPopupChucVu();
+                                    toastMessage({ title: 'Xóa thành công', message: 'Xóa chức vụ ' + tenChucVu + ' thành công', type: 'success', duration: 3500 });
                                 }
                                 else {
-                                    alert("Lỗi! Xóa không thành công!");
+                                    toastMessage({ title: 'Lỗi', message: 'Xóa chức vụ ' + tenChucVu + ' thất bại', type: 'fail', duration: 3500 });
                                 }
                             }
                         );
@@ -3020,7 +3033,7 @@ function loadPopupChucVu() {
 
             dataChucVuSave = dataChucVu;
         }, function (error) {
-            alert("Lỗi! Lấy dữ liệu chức vụ không thành công.")
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy dữ liệu chức vụ thất bại', type: 'fail', duration: 3500 });
         }
     );
 }
@@ -3103,7 +3116,7 @@ listRegulation[7].addEventListener("click", (e) => {
             let inputLuongToiThieuVung = popup.querySelector(".content-popup input");
             let buttonSubmit = popup.querySelector(".footer-popup button.blue-button");
             buttonSubmit.disabled = true;
-
+            inputLuongToiThieuVung.focus();
             inputLuongToiThieuVung.addEventListener("input", () => {
                 if (inputLuongToiThieuVung.value == lttv) {
                     buttonSubmit.disabled = true;
@@ -3116,22 +3129,22 @@ listRegulation[7].addEventListener("click", (e) => {
             popup.querySelector(".footer-popup button.blue-button").addEventListener("click", () => {
                 let luongToiThieuVungNew = inputLuongToiThieuVung.value;
                 if (luongToiThieuVungNew == 0) {
-                    alert("Lương tối thiểu vùng không thể trống hoặc bằng 0");
+                    toastMessage({ title: 'Lỗi', message: 'Lương tối thiểu vùng không được phép trống hoặc bằng 0', type: 'fail', duration: 3500 });
                     return;
                 }
                 updateLuongToiThieuVung(luongToiThieuVungNew).then(
                     function (value) {
                         if (value == "true") {
-                            alert("Update lương tối thiểu vùng thành công");
+                            toastMessage({ title: 'Sửa thành công', message: 'Sửa lương tối thiểu vùng thành công', type: 'success', duration: 3500 });
                             closePopup();
                         } else {
-                            alert("Lỗi! Thay đổi lương tối thiểu vùng không thành công");
+                            toastMessage({ title: 'Lỗi', message: 'Sửa lương tối thiểu vùng thất bại', type: 'fail', duration: 3500 });
                         }
                     }
                 );
             });
         }, function (error) {
-            alert("Lỗi! Lấy dữ liệu lương tối thiểu vùng không thành công!");
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy dữ liệu lương tối thiểu vùng thất bại', type: 'fail', duration: 3500 });
         }
     );
     

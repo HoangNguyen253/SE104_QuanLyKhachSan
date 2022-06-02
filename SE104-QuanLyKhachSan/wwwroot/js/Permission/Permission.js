@@ -47,15 +47,12 @@ submitButton.addEventListener("click", () => {
     submitPermission(stringPermission).then(
         function (success) {
             if (success == "true") {
-                alert("Phân quyền thành công!");
+                toastMessage({ title: 'Thành công', message: 'Phân quyền thành công', type: 'success', duration: 3500 });
             } else {
-                alert("Lỗi! Phân quyền không thành công!");
-
+                toastMessage({ title: 'Lỗi', message: 'Phân quyền thất bại', type: 'success', duration: 3500 });
             }
         }, function (error) {
-            console.log(error);
-
-            alert("Lỗi đường truyền!");
+            toastMessage({ title: 'Lỗi đường truyền', message: 'Phân quyền thất bại', type: 'success', duration: 3500 });
         }
     );
 })

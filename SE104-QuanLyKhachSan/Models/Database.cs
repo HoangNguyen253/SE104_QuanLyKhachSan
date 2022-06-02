@@ -531,7 +531,6 @@ namespace SE104_QuanLyKhachSan.Models
                                         "WHERE NOT EXISTS(SELECT * " +
                                                                   "FROM loaiphong " +
                                                                   "WHERE TenLoaiPhong=@tenLoaiPhong " +
-                                                                  "AND GiaTienCoBan=@giaTienCoBan " +
                                                                   "AND DaXoa=0) ;";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
@@ -864,8 +863,9 @@ namespace SE104_QuanLyKhachSan.Models
                                                                                         "WHERE PT2.MaLoaiPhuThu = 1 " +
                                                                                             "AND PT1.SoLuongApDung = PT2.SoLuongApDung " +
                                                                                             "AND PT2.ThoiGianApDung <= @now) " +
-                                                                  "AND PT1.ThoiGianApDung <= @now AND PT1.TiLePhuThu <> 0) " +
+                                                                  "AND PT1.ThoiGianApDung <= @now AND PT1.TiLePhuThu <> 0 AND @thoiGianApDung <= @now) " +
                                                               "OR (PT1.ThoiGianApDung > @now " +
+                                                                  "AND @thoiGianApDung > @now " +
                                                                   "AND TiLePhuThu= @tiLePhuThu " +
                                                                   "AND ThoiGianApDung=@thoiGianApDung))) ";
 
