@@ -109,12 +109,20 @@
                                                 + " WHERE              "
                                                 + "     TongSoTien = 0 ";
 
+        // Sua 2-6-2022
         public static string updateBillIdForDetail = " UPDATE chitiethoadon            "
                                                     + " SET MaHoaDon = @maHoaDon        "
                                                     + "     , TongTienPhong = @tongTien "
                                                     + "     , PhuThuCICO = @phuThuCICO  "
                                                     + "     , TrangThai = 1             "
                                                     + " WHERE MaCTHD = @maCT            ";
+
+        public static string updateTimeCO = " UPDATE chitiethoadon                "
+                                            + " SET                                 "
+                                            + "     ThoiGianTraPhong = @thoiGianCO  "
+                                            + " WHERE                               "
+                                            + "     MaCTHD = @maCT					";
+
 
         public static string deletePendingBill = " DELETE              "
                                                 + " FROM                "
@@ -151,7 +159,7 @@
                                                     + "     ThoiGianCheckOut = @thoiGianCO  "
                                                     + " WHERE                               "
                                                     + "     MaCTHD = @maCTHD                "
-                                                    + "     AND ThoiGianCheckOut = NULL		";
+                                                    + "     AND ThoiGianCheckOut IS NULL		";
 
         public static string countKhachNN = " SELECT                                                  "
                                             + "     COUNT(*) AS KhachNN                                 "
@@ -189,18 +197,50 @@
                                                         + "         ON p.MaLoaiPhong = lp.MaLoaiPhong               "
                                                         + " WHERE                                                   "
                                                         + "     ct.MaCTHD = @maCTHD 								";
+        // Sua 2-6-2022
 
         public static string getPhuThuTheoSoLuong = " SELECT                                  "
                                                     + "     TiLePhuThu                          "
                                                     + " FROM                                    "
                                                     + "     phuthu                              "
                                                     + " WHERE                                   "
+                                                    + "     MaLoaiPhuThu = 1 AND                "
                                                     + "     SoLuongApDung = @soLuong            "
                                                     + "     AND ThoiGianApDung <= @thoiGianCI   "
                                                     + " ORDER BY                                "
                                                     + "     ThoiGianApDung DESC                 "
                                                     + " LIMIT                                   "
                                                     + "     1									";
+        // Begin: Them 2-6-2022
+        public static string getPhuThuCI = " SELECT                                              "
+                                            + "     TiLePhuThu                                      "
+                                            + " FROM                                                "
+                                            + "     phuthu                                          "
+                                            + " WHERE                                               "
+                                            + "     MaLoaiPhuThu = 2                                "
+                                            + "     AND CAST(ThoiGianApDung AS DATE) <= @thoiGianCI "
+                                            + "     AND SoLuongApDung >= @soGio                     "
+                                            + " ORDER BY                                            "
+                                            + "     SoLuongApDung ASC                               "
+                                            + "     , ThoiGianApDung DESC                           "
+                                            + " LIMIT                                               "
+                                            + "     1												";
+
+        public static string getPhuThuCO = " SELECT                                              "
+                                            + "     TiLePhuThu                                      "
+                                            + " FROM                                                "
+                                            + "     phuthu                                          "
+                                            + " WHERE                                               "
+                                            + "     MaLoaiPhuThu = 3                                "
+                                            + "     AND CAST(ThoiGianApDung AS DATE) <= @thoiGianCO "
+                                            + "     AND SoLuongApDung >= @soGio                     "
+                                            + " ORDER BY                                            "
+                                            + "     SoLuongApDung ASC                               "
+                                            + "     , ThoiGianApDung DESC                           "
+                                            + " LIMIT                                               "
+                                            + "     1												";
+
+        // End: Them 2-6-2022
 
         public static string getHeSoLKH = " SELECT                                                  			"
                                             + "     MAX(HeSoPhuThu) AS HeSo                                   		"

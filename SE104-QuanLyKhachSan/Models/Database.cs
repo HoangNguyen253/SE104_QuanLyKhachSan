@@ -1744,7 +1744,14 @@ namespace SE104_QuanLyKhachSan.Models
                             detail.MaPhong = result["MaPhong"].ToString();
                             detail.LoaiPhong = GetLPByMP(detail.MaPhong);
                             detail.ThoiGianNhanPhong = Convert.ToDateTime(result["ThoiGianNhanPhong"]);
-                            detail.ThoiGianTraPhong = Convert.ToDateTime(result["ThoiGianTraPhong"]);
+                            if (result["ThoiGianTraPhong"] == DBNull.Value)
+                            {
+                                detail.ThoiGianTraPhong = Convert.ToDateTime(null);
+                            }
+                            else
+                            {
+                                detail.ThoiGianTraPhong = Convert.ToDateTime(result["ThoiGianTraPhong"]);
+                            }
                             detail.TrangThai = Convert.ToByte(result["TrangThai"]);
                             if (result["MaHoaDon"] == DBNull.Value)
                             {
@@ -1907,22 +1914,26 @@ namespace SE104_QuanLyKhachSan.Models
             pendingList = new List<ChiTietHoaDon>();
         }
 
+        // Sua 2-6-2022
         public double PhuThuCI(DateTime thoiGianNhanPhong)
         {
             if (thoiGianNhanPhong.Hour < 14)
             {
-                if (Math.Abs(thoiGianNhanPhong.Hour - 14) <= 3)
+                double ketqua = 0;
+                int soGio = 14 - thoiGianNhanPhong.Hour;
+                MySqlConnection conn = new MySqlConnection(ConnectionString);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(SQLQuery.getPhuThuCI, conn);
+                cmd.Parameters.AddWithValue("thoiGianCI", thoiGianNhanPhong.ToString("yyyy-MM-dd"));
+                cmd.Parameters.AddWithValue("soGio", soGio);
+                var result = cmd.ExecuteReader();
+                if (result.HasRows)
                 {
-                    return 0.3;
+                    result.Read();
+                    ketqua = Convert.ToDouble((Convert.ToDouble(result["TiLePhuThu"])) / 100);
                 }
-                else if (thoiGianNhanPhong.Hour - 14 <= 5)
-                {
-                    return 0.5;
-                }
-                else
-                {
-                    return 1;
-                }
+                conn.Close();
+                return ketqua;
             }
             else
             {
@@ -1934,18 +1945,21 @@ namespace SE104_QuanLyKhachSan.Models
         {
             if (thoiGianTraPhong.Hour > 12)
             {
-                if (Math.Abs(thoiGianTraPhong.Hour - 12) < 3)
+                double ketqua = 0;
+                int soGio = thoiGianTraPhong.Hour - 12;
+                MySqlConnection conn = new MySqlConnection(ConnectionString);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(SQLQuery.getPhuThuCO, conn);
+                cmd.Parameters.AddWithValue("thoiGianCO", thoiGianTraPhong.ToString("yyyy-MM-dd"));
+                cmd.Parameters.AddWithValue("soGio", soGio);
+                var result = cmd.ExecuteReader();
+                if (result.HasRows)
                 {
-                    return 0.3;
+                    result.Read();
+                    ketqua = Convert.ToDouble((Convert.ToDouble(result["TiLePhuThu"])) / 100);
                 }
-                else if (Math.Abs(thoiGianTraPhong.Hour - 12) <= 5)
-                {
-                    return 0.5;
-                }
-                else
-                {
-                    return 1;
-                }
+                conn.Close();
+                return ketqua;
             }
             else { return 0; }
         }
@@ -1972,6 +1986,11 @@ namespace SE104_QuanLyKhachSan.Models
                     {
                         int totalDetail = 0;
                         int mact = detail.MaCTHD;
+                        MySqlCommand cmdUpdateCO = new MySqlCommand(SQLQuery.updateTimeCO, conn);
+                        cmdUpdateCO.Parameters.AddWithValue("thoiGianCO", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        cmdUpdateCO.Parameters.AddWithValue("maCT", mact);
+                        cmdUpdateCO.ExecuteNonQuery();
+
                         List<SoLuongKhachThue> listSLKT = ConvertToSLKT(mact);
                         foreach (SoLuongKhachThue luongKhach in listSLKT)
                         {
@@ -2147,7 +2166,7 @@ namespace SE104_QuanLyKhachSan.Models
             {
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(SQLQuery.updateCheckOutKhach, conn);
-                cmd.Parameters.AddWithValue("thoiGianCO", DateTime.Now);
+                cmd.Parameters.AddWithValue("thoiGianCO", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.Parameters.AddWithValue("maCTHD", maCTHD);
                 cmd.ExecuteNonQuery();
 

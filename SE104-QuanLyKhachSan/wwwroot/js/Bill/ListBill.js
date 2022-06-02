@@ -11,7 +11,7 @@ $(document).ready(function (e) {
     let listPrintBtn = document.getElementsByClassName('bill_body_item__print_button');
 
     var countRoom = 0;
-    
+
 
     // Add new bill
     document.getElementById("add_bill_btn").addEventListener("click", () => {
@@ -29,13 +29,13 @@ $(document).ready(function (e) {
         });
         $('#tbody-add-room').empty();
         if (popupCoverAddBill.style.display == "flex") {
-            popupCoverAddBill.style.display = "none";    
+            popupCoverAddBill.style.display = "none";
             popupAddBill.style.display = "none";
         }
     }
 
     // StopPropation when click
-    popupAddBill.onclick = function(e) {
+    popupAddBill.onclick = function (e) {
         e.stopPropagation();
     }
 
@@ -49,7 +49,7 @@ $(document).ready(function (e) {
         btn.onclick = () => {
             if (popupAddBill.style.display == "block") {
                 popupAddBill.style.display = "none";
-                popupCoverAddBill.style.display = "none"; 
+                popupCoverAddBill.style.display = "none";
             }
         }
     }
@@ -219,6 +219,7 @@ $(document).ready(function (e) {
                                             }
                                         }
                                         $('#body-bill').append(str);
+                                        $('#bill-id').text(maHoaDon);
                                         $('#staff-name-bill').text(result.nv.hoTen);
                                         $('#name-customer-bill').text(result.doiTuongThanhToan);
                                         $('#total-bill').text(tongTien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
@@ -227,7 +228,7 @@ $(document).ready(function (e) {
                                         let rowTable =
                                             `<tr>
                                                 <td class="data_cell">${maHoaDon}</td>
-                                                <td class="data_cell">${result.nv.HoTen}</td>
+                                                <td class="data_cell">${result.nv.hoTen}</td>
                                                 <td class="data_cell">${result.thoiGianXuat.replace('T', ' ')}</td>
                                                 <td class="data_cell">${result.doiTuongThanhToan}</td>
                                                 <td class="data_cell">&#8363;${tongTien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
@@ -238,6 +239,7 @@ $(document).ready(function (e) {
                                                 </td>
                                             </tr>`;
                                         $('#list-bill-body-id').append(rowTable);
+                                        listPrintBtn = document.getElementsByClassName('bill_body_item__print_button');
                                     }
                                 })
                             }
@@ -298,7 +300,7 @@ $(document).ready(function (e) {
                                     <td class="data_cell" rowspan="${luongKhach}">${chiTiet[i].tongTienPhong.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} đ</td>`
                             }
                             str += `</tr>`;
-                        }                        
+                        }
                     }
                     $('#body-bill').html(str);
                     $('#bill-id').text(maHoaDon);
