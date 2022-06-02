@@ -68,9 +68,9 @@ document.getElementById("Update_btn").addEventListener('click', () => {
             if (this.readyState == 4 && this.status == 200) {
                 let result = this.responseText;
                 if (result => 1)
-                    console.log(1);
+                    toastMessage({ title: "Thành công!", message: "Cập nhật thành công", type: "success" });
                 else
-                    console.log(0);
+                    toastMessage({ title: "Thất bại!", message: "Cập nhật thất bại", type: "fail" });
             }
         }
         document.getElementById("staff_info_container_id").classList.remove('show');

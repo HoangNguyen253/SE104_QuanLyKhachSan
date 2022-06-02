@@ -29,7 +29,7 @@ document.getElementById("XemLuong_id").addEventListener('click', () => {
         })
     }
     else {
-        alert("Vui lòng chọn tháng");
+        toastMessage({ title: "Alert", message: "Vui lòng chọn tháng", type: "fail" });
     }
 });
 
@@ -89,15 +89,15 @@ taoRP.addEventListener('click', () => {
                 console.log(result);
                 loadingElement.hide();
                 if (result == 1)
-                    alert("Tạo thành công");
+                    toastMessage({ title: "Thành công!", message: "Tạo báo cáo thành công!", type: "success" });
                 else
-                    alert("Tạo thất bại");
+                    toastMessage({ title: "Thất bại!", message: "Tạo báo cáo thất bại!", type: "fail" });
                 ;
             }
         }
         xhr_login.send();
     }
     else {
-        alert("Vui lòng chọn tháng!");
+        toastMessage({ title: "Alert", message: "Vui lòng chọn tháng", type: "fail" });
     }
 });
