@@ -31,25 +31,8 @@
     overflow-y: scroll;
 }
 
-.filter_container {
-    height: 50px;
-    display: flex;
-    background-color: #002b49;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    font-size: 20px;
-}
 
-    .filter_container .btn {
-        border-radius: 8px;
-        margin-left: 10px;
-        margin-right: 10px;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        cursor: pointer;
-    }
+
 
 
 .ThongKeDoanhThu_container .ChiTietDoanhThu_container .header_report {
@@ -256,45 +239,6 @@
     margin-top: 20px;
 }
 
-
-.filter_container {
-    position: relative;
-    left: 0;
-    right: 0;
-    background: #002B49;
-    height: 60px;
-}
-
-    .filter_container .navigate {
-        float: right;
-        position: relative;
-        padding-left: 20px;
-        padding-right: 20px;
-        top: 50%;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-
-        .filter_container .navigate ul {
-            list-style-type: none;
-            margin: 0;
-            background-color: #333333;
-        }
-
-        .filter_container .navigate li {
-            border: 1px solid black;
-            float: left;
-            text-align: center;
-            text-decoration: none;
-            margin-left: 5px;
-            background-color: white;
-            padding: 10px;
-        }
-
-            .filter_container .navigate li a {
-                text-decoration: none;
-            }
-
 .ThongKeDoanhThu_container {
     padding: 0;
     transition: all 0.5s;
@@ -335,7 +279,7 @@ header, nav {
     left: 0;
     right: 0;
     background: #002B49;
-    height: 60px;
+    height: 30px;
 }
 
     .filter_container .navigate {
@@ -762,20 +706,64 @@ header, nav {
     z-index: 1;
     margin:;
     background: #fff;
-    overflow: hidden;
+    overflow: scroll;
     min-height: 500px;
 }
 
 .main_working_window {
-    overflow: scroll;
+    overflow: hidden;
 }
 
-.navigate {
-    float: right;
+
+
+.header_thongke_container {
+    height: 50px;
+    background-color: #002b49;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 20px;
     position: relative;
-    padding-left: 20px;
-    padding-right: 20px;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    background: #002B49;
+    height: 50px;
 }
+
+    .header_thongke_container .btn {
+        border-radius: 8px;
+        margin-left: 10px;
+        margin-right: 10px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .header_thongke_container .navigate {
+        float: right;
+        position: relative;
+        padding-left: 20px;
+        padding-right: 20px;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+        .header_thongke_container .navigate ul {
+            list-style-type: none;
+            margin: 0;
+            background-color: #333333;
+        }
+
+        .header_thongke_container .navigate li {
+            border: 1px solid black;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            margin-left: 5px;
+            background-color: white;
+            padding: 10px;
+        }
+
+            .header_thongke_container .navigate li a {
+                text-decoration: none;
+            }
