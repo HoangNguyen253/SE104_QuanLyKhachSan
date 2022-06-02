@@ -28,9 +28,9 @@ for (let i = 0; i < edit_btn.length; i++) {
         madottraluong = edit_btn[i].parentElement.id;
         manhanvien = edit_btn[i].parentElement.parentElement.children[1].innerHTML;
         var hoten = edit_btn[i].parentElement.parentElement.children[2].innerHTML;
-        var thuong = edit_btn[i].parentElement.parentElement.children[5].innerHTML;
-        var phat = edit_btn[i].parentElement.parentElement.children[6].innerHTML;
-        var sotien = edit_btn[i].parentElement.parentElement.children[7].innerHTML;
+        var thuong = ThuongBanDau = edit_btn[i].parentElement.parentElement.children[5].innerHTML;
+        var phat = PhatBanDau = edit_btn[i].parentElement.parentElement.children[6].innerHTML;
+        var sotien = TongLuong = edit_btn[i].parentElement.parentElement.children[7].innerHTML;
         var ghichu = edit_btn[i].parentElement.parentElement.children[8].innerHTML;
 
         let workStaffInput = $(".Info_Luong_container input");
@@ -99,7 +99,25 @@ $(document).ready(function () {
 });
 
 
+let ThuongBanDau = 0;
+let PhatBanDau = 0;
+let TongLuong = 0;
 
+
+function CalcTienLuong(sotien, method) {
+    
+    console.log(ThuongBanDau);
+    switch (method) {
+        case 'thuong':
+            if(document.getElementById("ThuongInput_id").value)
+                document.getElementById("TongLuong_input_id").value = (parseInt(TongLuong) - parseInt(ThuongBanDau) + parseInt(document.getElementById("ThuongInput_id").value) );
+            break;
+        case 'phat':
+            if (document.getElementById("PhatInput_id").value)
+                document.getElementById("TongLuong_input_id").value = (parseInt(TongLuong) + parseInt(PhatBanDau) - parseInt(document.getElementById("PhatInput_id").value));
+            break;
+    }
+}
 
 
 

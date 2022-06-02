@@ -126,13 +126,13 @@
                 <div class="ThuongField field_container">
                     <div class="ThuongLabel">Thưởng</div>
                     <div class="input_container">
-                        <input id="ThuongInput_id" type="number"/>
+                        <input id="ThuongInput_id" type="number" onkeyup="CalcTienLuong(this.value,'thuong')"/>
                     </div>       
                 </div>
                 <div class="PhatField field_container">
                     <div class="PhatLabel">Phạt</div>
                     <div class="input_container">
-                        <input id="PhatInput_id" type="number"/>
+                        <input id="PhatInput_id" type="number" onkeyup="CalcTienLuong(this.value,'phat')"/>
                     </div>       
                 </div>
                 <div class="NoteField field_container">
@@ -141,11 +141,12 @@
                         <textarea name="" id="NoteInput_id" cols="30" rows="10"></textarea>
                     </div>       
                 </div>
+                
 
                 <div class="TongLuong_Container">
                     <div class="LuongLabel">Lương</div>
                     <div class="input_container">
-                        <input id="PhatInput" type="text" disabled value="1,000,000"/>
+                        <input id="TongLuong_input_id" type="number" disabled />
                     </div> 
                 </div>
 
