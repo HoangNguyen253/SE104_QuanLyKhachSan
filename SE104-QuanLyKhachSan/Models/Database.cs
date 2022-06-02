@@ -1799,7 +1799,13 @@ namespace SE104_QuanLyKhachSan.Models
                         detail.ThoiGianTraPhong = Convert.ToDateTime(result["ThoiGianTraPhong"]);
                         detail.GhiChu = result["GhiChu"].ToString();
                         detail.GiaPhong = Convert.ToInt32(result["GiaPhong"]);
-                        detail.PhuThuCICO = Convert.ToInt32(result["PhuThuCICO"]);
+                        if(result["PhuThuCICO"] == DBNull.Value)
+                        {
+                            detail.PhuThuCICO = Convert.ToInt32(null);
+                        } else
+                        {
+                            detail.PhuThuCICO = Convert.ToInt32(result["PhuThuCICO"]);
+                        }
                         detail.TongTienPhong = Convert.ToInt32(result["TongTienPhong"]);
                         detail.TrangThai = Convert.ToByte(result["TrangThai"]);
                         details.Add(detail);
