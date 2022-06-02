@@ -1866,7 +1866,13 @@ namespace SE104_QuanLyKhachSan.Models
                     ct.LoaiPhong = lp;
                     ct.MaHoaDon = null;
                     ct.ThoiGianNhanPhong = Convert.ToDateTime(result["ThoiGianNhanPhong"]);
-                    ct.ThoiGianTraPhong = Convert.ToDateTime(result["ThoiGianTraPhong"]);
+                    if(result["ThoiGianTraPhong"] == DBNull.Value)
+                    {
+                        ct.ThoiGianTraPhong = Convert.ToDateTime(null);
+                    } else
+                    {
+                        ct.ThoiGianTraPhong = Convert.ToDateTime(result["ThoiGianTraPhong"]);
+                    }
                     ct.GiaPhong = Convert.ToInt32(result["GiaPhong"]);
                     ct.GhiChu = result["GhiChu"].ToString();
                     ct.TongTienPhong = Convert.ToInt32(result["TongTienPhong"]);
