@@ -123,6 +123,12 @@
                                             + " WHERE                               "
                                             + "     MaCTHD = @maCT					";
 
+        public static string updatePayRoom =  " UPDATE phong            "
+                                            + " SET                     "
+                                            + "     TrangThai = 0       "
+                                            + " WHERE                   "
+                                            + "     MaPhong = @maPhong	";
+
 
         public static string deletePendingBill = " DELETE              "
                                                 + " FROM                "
