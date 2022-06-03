@@ -2005,10 +2005,17 @@ namespace SE104_QuanLyKhachSan.Models
                     {
                         int totalDetail = 0;
                         int mact = detail.MaCTHD;
+                        string maPhong = detail.MaPhong;
+
                         MySqlCommand cmdUpdateCO = new MySqlCommand(SQLQuery.updateTimeCO, conn);
                         cmdUpdateCO.Parameters.AddWithValue("thoiGianCO", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         cmdUpdateCO.Parameters.AddWithValue("maCT", mact);
                         cmdUpdateCO.ExecuteNonQuery();
+
+                        MySqlCommand cmdUpdatePayRoom = new MySqlCommand(SQLQuery.updatePayRoom, conn);
+                        cmdUpdatePayRoom.Parameters.AddWithValue("maPhong", maPhong);
+                        cmdUpdatePayRoom.ExecuteNonQuery();
+
 
                         List<SoLuongKhachThue> listSLKT = ConvertToSLKT(mact);
                         foreach (SoLuongKhachThue luongKhach in listSLKT)
@@ -2285,7 +2292,18 @@ namespace SE104_QuanLyKhachSan.Models
                         cmd.Parameters.AddWithValue("thoiGianCI", checkInString);
                         var phuthu = cmd.ExecuteReader();
                         phuthu.Read();
-                        history.PhuThu = Convert.ToInt32(phuthu["TiLePhuThu"]);
+                        if(!phuthu.HasRows)
+                        {
+                            history.PhuThu = 0;
+                        }
+                        else
+                        {
+                            if (phuthu["TiLePhuThu"] == DBNull.Value)
+                            {
+                                history.PhuThu = Convert.ToInt32(0);
+                            } else 
+                                history.PhuThu = Convert.ToInt32(phuthu["TiLePhuThu"]);
+                        }
                         phuthu.Close();
                     }
 
@@ -2296,7 +2314,7 @@ namespace SE104_QuanLyKhachSan.Models
                     cmd.Parameters.AddWithValue("soKhachND", Convert.ToByte(key[0].ToString()));
                     var heso = cmd.ExecuteReader();
                     heso.Read();
-                    if (heso != null)
+                    if (heso["HeSo"] != DBNull.Value)
                     {
                         history.HeSoKhach = (float)Convert.ToDouble(heso["HeSo"]);
                     }
