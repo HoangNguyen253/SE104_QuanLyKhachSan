@@ -86,18 +86,15 @@
                             <td class="data_cell"> @pi.MaNhanVien </td>
                             <td class="data_cell">@pi.HoTen</td>
                             <td class="data_cell">@pi.CCCD</td>
-                            <td class="data_cell">@pi.NgaySinh</td>
+                            <td class="data_cell">@pi.NgaySinh.ToLongDateString()</td>
                             <td class="data_cell">@pi.Email</td>
                             <td class="data_cell">@pi.TenChucVu</td>
                             <td class="data_cell">@pi.SoDienThoai</td>
                             <td class="data_cell">@pi.Luong</td>
                             <td class="data_cell" >
-                              <!--  <button class="nv_body_item__angle_button btn" value=@pi.MaNhanVien id="button_profile">
-                    {
-                        nv = db.getChosenStaff(pi.MaNhanVien);
-                    }
+                                <button class="nv_body_item__angle_button btn">
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                </button> -->
+                                </button> 
                             </td>
                         </tr>
                     }

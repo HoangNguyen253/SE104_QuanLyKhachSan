@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -34,7 +35,7 @@
         let i = 0;
         while (i < amount) {
             let drop = document.createElement('i');
-            drop.style.animationDelay = 0.2*(i+1) + 's';
+            drop.style.animationDelay = 0.2 * (i + 1) + 's';
             iContainer.appendChild(drop);
             i++;
         }
@@ -83,88 +84,112 @@
         </div>
     </header>
     <main>
-        <div class="menu_burger" id="menu_burger_id">
-            <div class="option_list_in_burger" id="staff_option_list_in_burger_id">
-                <div class="option_field_staff">
-                    <div class="option_name_icon" id="option_qltp_menu_burger_id">
-                        <img src="~/image/Layout/quanlythuephong.png" class="icon_item">
-                        <p>Quản lý thuê phòng</p>
-                        <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
-                    </div>
-                    <div id="selection_field_qltp_menu_burger_id">
-                        <div class="selection_name_icon" id="sdp_selection_name_icon_id">
-                            <p>Sơ đồ phòng</p>
+        @{
+            string permissionPerNhanVien = Context.Session.GetString("_Permission");
+            <div class="menu_burger" id="menu_burger_id">
+                <div class="option_list_in_burger" id="staff_option_list_in_burger_id">
+                    @if (permissionPerNhanVien.IndexOf('1') != -1)
+                    {
+                        <div class="option_field_staff">
+                            <div class="option_name_icon" id="option_qltp_menu_burger_id">
+                                <img src="~/image/Layout/quanlythuephong.png" class="icon_item">
+                                <p>Quản lý thuê phòng</p>
+                                <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
+                            </div>
+                            <div id="selection_field_qltp_menu_burger_id">
+                                <div class="selection_name_icon" id="sdp_selection_name_icon_id">
+                                    <p>Sơ đồ phòng</p>
+                                </div>
+                                <div class="selection_name_icon" id="dshoadon_selection_name_icon_id">
+                                    <p>Danh sách hóa đơn</p>
+                                </div>
+                                <div class="selection_name_icon" id="tracuuthuephong_selection_name_icon_id">
+                                    <p>Tra cứu các lần thuê phòng</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="selection_name_icon" id="dshoadon_selection_name_icon_id">
-                            <p>Danh sách hóa đơn</p>
+                    }
+                    @if (permissionPerNhanVien.IndexOf('3') != -1)
+                    {
+                        <div class="option_field_staff">
+                            <div class="option_name_icon" id="option_qlnv_menu_burger_id">
+                                <img src="~/image/Layout/quanlynhanvien.png" class="icon_item">
+                                <p>Quản lý nhân viên</p>
+                                <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
+                            </div>
+                            <div id="selection_field_qlnv_menu_burger_id">
+                                <div class="selection_name_icon" id="tracuunhanvien_selection_name_icon_id">
+                                    <p>Tra cứu nhân viên</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="selection_name_icon" id="tracuuthuephong_selection_name_icon_id">
-                            <p>Tra cứu các lần thuê phòng</p>
+                    }
+                    @if (permissionPerNhanVien.IndexOf('2') != -1)
+                    {
+                        <div class="option_field_staff">
+                            <div class="option_name_icon" id="option_qlphong_menu_burger_id">
+                                <img src="~/image/Layout/quanlyphong.png" class="icon_item">
+                                <p>Quản lý phòng</p>
+                                <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
+                            </div>
+                            <div id="selection_field_qlphong_menu_burger_id">
+                                <div class="selection_name_icon" id="danhsachphong_selection_name_icon_id">
+                                    <p>Danh sách phòng</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="option_field_staff">
-                    <div class="option_name_icon" id="option_qlnv_menu_burger_id">
-                        <img src="~/image/Layout/quanlynhanvien.png" class="icon_item">
-                        <p>Quản lý nhân viên</p>
-                        <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
-                    </div>
-                    <div id="selection_field_qlnv_menu_burger_id">
-                        <div class="selection_name_icon" id="tracuunhanvien_selection_name_icon_id">
-                            <p>Tra cứu nhân viên</p>
+                    }
+                    @if (permissionPerNhanVien.IndexOf('4') != -1)
+                    {
+                        <div class="option_field_staff">
+                            <div class="option_name_icon" id="option_qldoanhthu_menu_burger_id">
+                                <img src="~/image/Layout/quanlydoanhthu.png" class="icon_item">
+                                <p>Quản lý doanh thu</p>
+                                <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
+                            </div>
+                            <div id="selection_field_qldoanhthu_menu_burger_id">
+                                <div class="selection_name_icon" id="doanhthutheoloaiphong_selection_name_icon_id">
+                                    <p>Theo loại phòng</p>
+                                </div>
+                                <div class="selection_name_icon" id="doanhthutheochucvu_selection_name_icon_id">
+                                    <p>Theo chức vụ</p>
+                                </div>
+                                <div class="selection_name_icon" id="doanhthubaocaotong_selection_name_icon_id">
+                                    <p>Báo cáo tổng</p>
+                                </div>
+                                <div class="selection_name_icon" id="doanhthutinhluong_selection_name_icon_id">
+                                    <p>Kết lương</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="option_field_staff">
-                    <div class="option_name_icon" id="option_qlphong_menu_burger_id">
-                        <img src="~/image/Layout/quanlyphong.png" class="icon_item">
-                        <p>Quản lý phòng</p>
-                        <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
-                    </div>
-                    <div id="selection_field_qlphong_menu_burger_id">
-                        <div class="selection_name_icon" id="danhsachphong_selection_name_icon_id">
-                            <p>Danh sách phòng</p>
+                    }
+                    @if (permissionPerNhanVien.IndexOf('5') != -1 && permissionPerNhanVien.IndexOf('6') != -1)
+                    {
+                        <div class="option_field_staff">
+                            <div class="option_name_icon" id="option_qlhethong_menu_burger_id">
+                                <img src="~/image/Layout/quanlyhethong.png" class="icon_item">
+                                <p>Quản lý hệ thống</p>
+                                <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
+                            </div>
+                            <div id="selection_field_qlhethong_menu_burger_id">
+                                @if (permissionPerNhanVien.IndexOf('5') != -1)
+                                {
+                                    <div class="selection_name_icon" id="thaydoiquydinh_selection_name_icon_id">
+                                        <p>Thay đổi quy định</p>
+                                    </div>
+                                }
+                                @if (permissionPerNhanVien.IndexOf('6') != -1)
+                                {
+                                    <div class="selection_name_icon" id="phanquyen_selection_name_icon_id">
+                                        <p>Phân quyền</p>
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="option_field_staff">
-                    <div class="option_name_icon" id="option_qldoanhthu_menu_burger_id">
-                        <img src="~/image/Layout/quanlydoanhthu.png" class="icon_item">
-                        <p>Quản lý doanh thu</p>
-                        <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
-                    </div>
-                    <div id="selection_field_qldoanhthu_menu_burger_id">
-                        <div class="selection_name_icon" id="doanhthutheoloaiphong_selection_name_icon_id">
-                            <p>Theo loại phòng</p>
-                        </div>
-                        <div class="selection_name_icon" id="doanhthutheochucvu_selection_name_icon_id">
-                            <p>Theo chức vụ</p>
-                        </div>
-                        <div class="selection_name_icon" id="doanhthubaocaotong_selection_name_icon_id">
-                            <p>Báo cáo tổng</p>
-                        </div>
-                        <div class="selection_name_icon" id="doanhthutinhluong_selection_name_icon_id">
-                            <p>Kết lương</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="option_field_staff">
-                    <div class="option_name_icon" id="option_qlhethong_menu_burger_id">
-                        <img src="~/image/Layout/quanlyhethong.png" class="icon_item">
-                        <p>Quản lý hệ thống</p>
-                        <i class="fa fa-caret-left arrow_in_menu_burger" style="font-size:2rem"></i>
-                    </div>
-                    <div id="selection_field_qlhethong_menu_burger_id">
-                        <div class="selection_name_icon" id="thaydoiquydinh_selection_name_icon_id">
-                            <p>Thay đổi quy định</p>
-                        </div>
-                        <div class="selection_name_icon" id="phanquyen_selection_name_icon_id">
-                            <p>Phân quyền</p>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
-        </div>
+        }
         <div class="main_working_window" id="main_working_window_id">
             @RenderBody()
         </div>

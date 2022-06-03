@@ -8,23 +8,16 @@ namespace SE104_QuanLyKhachSan.Controllers
     public class LoginController : Controller
     {
         const string SessionKeyUser = "_User";
-        //public IActionResult Login()
-        //{
-        //    if (HttpContext.Session.Get<NhanVien>(SessionKeyUser) != null)
-        //    {
-        //        return Redirect("/Home/Index");
-        //    }
-        //    return View();
-        //}
-
+        const string SessionKeyPermission = "_Permission";
         public IActionResult Login()
         {
             if (HttpContext.Session.Get<NhanVien>(SessionKeyUser) != null)
             {
-                return Redirect("/Home/DTtheoLoaiPhong");
+                return Redirect("/Home/Index");
             }
             return View();
         }
+
         public JsonResult CheckLogin (IFormCollection formLogin)
         {
             string userName = formLogin["userName"].ToString();
@@ -36,6 +29,9 @@ namespace SE104_QuanLyKhachSan.Controllers
                 return Json(false);
             }
             HttpContext.Session.Set<NhanVien>(SessionKeyUser, nv);
+            string permissionPerNhanVien = db.GetPhanQuyenForSession(nv.MaChucVu);
+            HttpContext.Session.SetString(SessionKeyPermission, permissionPerNhanVien);
+            ViewData["permissionPerNhanVien"] = permissionPerNhanVien;
             return Json(true);
         }
     }
