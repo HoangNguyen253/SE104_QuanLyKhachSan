@@ -40,6 +40,10 @@ namespace SE104_QuanLyKhachSan.Controllers
             {
                 isSuccess = database.UpdateStatusForRoom(maPhong, 1);
             }
+            else if (trangThai == "returned")
+            {
+                isSuccess = database.UpdateStatusForRoom(maPhong, 4);
+            }
             return (isSuccess == true) ? "Success" : "Fail";
         }
         public string UpdateStatusForCTHD(string maPhong, string trangThai)

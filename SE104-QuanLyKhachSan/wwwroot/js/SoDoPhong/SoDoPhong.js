@@ -209,7 +209,7 @@ function Load_Data_For_SoDoPhong() {
 function rightclick_occupiedroom() {
     let e = window.event;
     let context_menu_sdp = document.getElementById("context_menu_sdp_id");
-    context_menu_sdp.querySelector("ul").innerHTML = "<li><p>Thanh toán</p></li><li id='thaydoikhacho_function_id'><p>Thay đổi khách ở</p></li><li><p>Hiện trạng</p></li><li id='bophong_function_id'><p>Bỏ phòng</p></li><li id='khachrangoai_function_id'><p>Khách ra ngoài</p></li>";
+    context_menu_sdp.querySelector("ul").innerHTML = "<li id='thanhtoan_function_id'><p>Thanh toán</p></li><li id='thaydoikhacho_function_id'><p>Thay đổi khách ở</p></li><li><p>Hiện trạng</p></li><li id='bophong_function_id'><p>Bỏ phòng</p></li><li id='khachrangoai_function_id'><p>Khách ra ngoài</p></li>";
     context_menu_sdp.style.display = "block";
     context_menu_sdp.style.left = e.clientX + "px";
     context_menu_sdp.style.top = e.clientY + "px";
@@ -219,7 +219,7 @@ function rightclick_occupiedroom() {
     $('#bophong_function_id').click(function () {
         Update_KhachBoPhong_For_CTHD(e.target).then(function (value) {
             let status = value;
-            if (status) Convert_To_Available_Room(e.target)
+            if (status) Convert_To_Returned_Room(e.target)
             else {
                 toastMessage({ title: "Thất bại!", message: "Đã xảy ra lỗi!", type: "fail" });
             }
@@ -227,6 +227,9 @@ function rightclick_occupiedroom() {
     });
     $('#thaydoikhacho_function_id').click(function () {
         Open_ThayDoiKhachO_Popup(e.target);
+    })
+    $('#thanhtoan_function_id').click(function () {
+        $('#dshoadon_selection_name_icon_id').trigger("click");
     })
 }
 function rightclick_availableroom() {
@@ -270,7 +273,7 @@ function rightclick_outedroom() {
     $('#bophong_function_id').click(function () {
         Update_KhachBoPhong_For_CTHD(e.target).then(function (value) {
             let status = value;
-            if (status) Convert_To_Available_Room(e.target)
+            if (status) Convert_To_Returned_Room(e.target)
             else {
                 toastMessage({ title: "Thất bại!", message: "Đã xảy ra lỗi!", type: "fail" });
             }
@@ -290,6 +293,39 @@ function rightclick_fixedroom() {
 }
 // Context menu của sơ đồ phòng - end
 
+function Convert_To_Returned_Room(e) {
+    let maPhong = e.getAttribute("maPhong");
+    let xhr_Update_Returned_Status_Room = new XMLHttpRequest();
+    let url_Update_Returned_Status_Room = "https://localhost:5001/SoDoPhong/UpdateStatusForRoom?maPhong=" + maPhong + "&trangThai=returned";
+    xhr_Update_Returned_Status_Room.open("POST", url_Update_Returned_Status_Room, true);
+    xhr_Update_Returned_Status_Room.timeout = 5000;
+    xhr_Update_Returned_Status_Room.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let statusResponse = this.responseText;
+            if (statusResponse == "Success") {
+                toastMessage({ title: "Thành công!", message: "Phòng " + maPhong + " đang dọn dẹp!", type: "success" });
+                // Đổi giao diện của trạng thái
+                if (e.classList.contains("outed_room"))
+                    e.classList.remove("outed_room");
+                else if (e.classList.contains("occupied_room"))
+                    e.classList.remove("occupied_room");
+                e.classList.add("returned_room");
+                e.querySelector(".room_status_in_list").innerHTML = "Đang dọn dẹp";
+                e.querySelector(".room_status_icon p").innerHTML = "Dọn dẹp";
+                e.addEventListener('contextmenu', function (ev) {
+                    ev.stopPropagation();
+                    ev.preventDefault();
+                    rightclick_returnedroom();
+                    return false;
+                }, false);
+            }
+            else {
+                toastMessage({ title: "Thất bại!", message: "Đã xảy ra lỗi!", type: "fail" });
+            }
+        }
+    }
+    xhr_Update_Returned_Status_Room.send();
+}
 function Convert_To_Fixed_Room(e) {
     let maPhong = e.getAttribute("maPhong");
     let xhr_Update_Fixed_Status_Room = new XMLHttpRequest();

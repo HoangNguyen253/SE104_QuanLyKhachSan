@@ -36,143 +36,165 @@ $(document).ready(function (e) {
         });
     });
 
-    $('#selection_field_qltp_menu_burger_id').hide();
-    $('#selection_field_qlnv_menu_burger_id').hide();
-    $('#selection_field_qlphong_menu_burger_id').hide();
-    $('#selection_field_qldoanhthu_menu_burger_id').hide();
-    $('#selection_field_qlhethong_menu_burger_id').hide();
+    let qltpSelectionField = document.querySelector("#selection_field_qltp_menu_burger_id");
+    if (qltpSelectionField != null) {
+        $('#selection_field_qltp_menu_burger_id').hide();
 
-    $('#option_qltp_menu_burger_id').click(function () {
-        $('#selection_field_qltp_menu_burger_id').slideToggle(200);
-    })
-    $('#option_qlnv_menu_burger_id').click(function () {
-        $('#selection_field_qlnv_menu_burger_id').slideToggle(200);
-    })
-    $('#option_qlphong_menu_burger_id').click(function () {
-        $('#selection_field_qlphong_menu_burger_id').slideToggle(200);
-    })
-    $('#option_qldoanhthu_menu_burger_id').click(function () {
-        $('#selection_field_qldoanhthu_menu_burger_id').slideToggle(200);
-    })
-    $('#option_qlhethong_menu_burger_id').click(function () {
-        $('#selection_field_qlhethong_menu_burger_id').slideToggle(200);
-    })
+        $('#option_qltp_menu_burger_id').click(function () {
+            $('#selection_field_qltp_menu_burger_id').slideToggle(200);
+        })
 
-
-
-    $('#sdp_selection_name_icon_id').click(function () {
-        $.ajax({
-            url: '/Home/SoDoPhong',
-            success: function (data) {
-                $("#main_working_window_id").html(data);
-            }
+        $('#sdp_selection_name_icon_id').click(function () {
+            $.ajax({
+                url: '/Home/SoDoPhong',
+                success: function (data) {
+                    $("#main_working_window_id").html(data);
+                }
+            });
         });
-    });
 
+        $('#dshoadon_selection_name_icon_id').click(function () {
+            $.ajax({
+                url: '/Home/ListBill',
+                success: function (data, status) {
+                    $('#main_working_window_id').html(data);
+                }
+            })
+        });
 
-    $('#dshoadon_selection_name_icon_id').click(function() {
-        $.ajax({
-            url: '/Home/ListBill',
-            success: function (data, status) {
-                $('#main_working_window_id').html(data);
-            }
+        $('#tracuuthuephong_selection_name_icon_id').click(function () {
+            $.ajax({
+                url: '/Home/ListDetail',
+                success: function (data, status) {
+                    $('#main_working_window_id').html(data);
+
+                }
+            })
+        });
+    }
+    let qlnvSelectionField = document.querySelector("#selection_field_qlnv_menu_burger_id");
+    if (qlnvSelectionField != null) {
+        $('#selection_field_qlnv_menu_burger_id').hide();
+        $('#option_qlnv_menu_burger_id').click(function () {
+            $('#selection_field_qlnv_menu_burger_id').slideToggle(200);
         })
-    });
 
-    $('#tracuuthuephong_selection_name_icon_id').click(function() {
-        $.ajax({
-            url: '/Home/ListDetail',
-            success: function (data, status) {
-                $('#main_working_window_id').html(data);
-
-            }
+        $('#tracuunhanvien_selection_name_icon_id').click(function () {
+            $.ajax({
+                url: '/Home/ListStaff',
+                success: function (data, status) {
+                    $('#main_working_window_id').html(data);
+                    console.log(status);
+                }
+            })
+        });
+    }
+    let qlphongSelectionField = document.querySelector("#selection_field_qlphong_menu_burger_id");
+    if (qlphongSelectionField != null) {
+        $('#selection_field_qlphong_menu_burger_id').hide();
+        $('#option_qlphong_menu_burger_id').click(function () {
+            $('#selection_field_qlphong_menu_burger_id').slideToggle(200);
         })
-    });
-    $('#tracuunhanvien_selection_name_icon_id').click(function () {
-        $.ajax({
-            url: '/Home/ListStaff',
-            success: function (data, status) {
-                $('#main_working_window_id').html(data);
-                console.log(status);
-            }
+
+        $('#danhsachphong_selection_name_icon_id').click(function () {
+            $.ajax({
+                url: '/Home/ListRoom',
+                success: function (data, status) {
+                    $('#main_working_window_id').html(data);
+                    console.log(status);
+                }
+            })
+        });
+    }
+    let qldoanhthuSelectionField = document.querySelector("#selection_field_qldoanhthu_menu_burger_id");
+    if (qldoanhthuSelectionField != null) {
+        $('#selection_field_qldoanhthu_menu_burger_id').hide();
+        $('#option_qldoanhthu_menu_burger_id').click(function () {
+            $('#selection_field_qldoanhthu_menu_burger_id').slideToggle(200);
         })
-    });
 
-    $('#doanhthutheoloaiphong_selection_name_icon_id').click(function () {
-        $.ajax({
-            url: '/Home/DTtheoLoaiPhong',
-                      success: function (data, status) {
-                $('#main_working_window_id').html(data);
-                console.log(status);
-            }
-        })
-    });
+        $('#doanhthutheoloaiphong_selection_name_icon_id').click(function () {
+            $.ajax({
+                url: '/Home/DTtheoLoaiPhong',
+                success: function (data, status) {
+                    $('#main_working_window_id').html(data);
+                    console.log(status);
+                }
+            })
+        });
 
-    $('#danhsachphong_selection_name_icon_id').click(function () {
-        $.ajax({
-            url: '/Home/ListRoom',
-                      success: function (data, status) {
-                $('#main_working_window_id').html(data);
-                console.log(status);
-            }
-        })
-    });
+        $('#doanhthutinhluong_selection_name_icon_id').click(function () {
+            $.ajax({
+                url: '/Home/DotLuong',
+                success: function (data, status) {
+                    $('#main_working_window_id').html(data);
+                    console.log(status);
+                }
+            })
+        });
 
 
-    $('#doanhthutinhluong_selection_name_icon_id').click(function () {
-        $.ajax({
-            url: '/Home/DotLuong',
-            success: function (data, status) {
-                $('#main_working_window_id').html(data);
-                console.log(status);
-            }
-        })
-    });
+        $('#doanhthutheochucvu_selection_name_icon_id').click(function () {
+            var timeElapsed = Date.now();
+            var today = new Date(timeElapsed);
 
-   
-    $('#doanhthutheochucvu_selection_name_icon_id').click(function () {
-        var timeElapsed = Date.now();
-        var today = new Date(timeElapsed);
-        
-        $.ajax({
-            url: '/Home/LuongChucVu?Thang=' + today.toDateString(),
-            success: function (data, status) {
-                $('#main_working_window_id').html(data);
-                console.log(status);
-            }
-        })
-    });
+            $.ajax({
+                url: '/Home/LuongChucVu?Thang=' + today.toDateString(),
+                success: function (data, status) {
+                    $('#main_working_window_id').html(data);
+                    console.log(status);
+                }
+            })
+        });
 
-    $('#doanhthubaocaotong_selection_name_icon_id').click(function () {
-        var timeElapsed = Date.now();
-        var today = new Date(timeElapsed);
-        $.ajax({
-            url: '/Home/ThongKeDoanhThu?ThangBaoCao=' + today.toDateString(),
-            success: function (data, status) {
-                $('#main_working_window_id').html(data);
-                console.log(status);
-            }
-        })
-    });
+        $('#doanhthubaocaotong_selection_name_icon_id').click(function () {
+            $.ajax({
+                url: '/Home/ThongKeDoanhThu',
+                success: function (data, status) {
+                    $('#main_working_window_id').html(data);
+                    console.log(status);
+                }
+            })
+        });
+    }
 
-    $('#thaydoiquydinh_selection_name_icon_id').click(function () {
-        $.ajax({
-            url: '/Regulation/Index',
-            success: function (data, status) {
-                $('#main_working_window_id').html(data);
-            }
-        })
-    });
+    let qlhethongSelectionField = document.querySelector("#selection_field_qlhethong_menu_burger_id");
+    if (qlhethongSelectionField != null) {
+        $('#selection_field_qlhethong_menu_burger_id').hide();
+        let qlhethongOption = document.querySelector("#option_qlhethong_menu_burger_id");
 
-    $('#phanquyen_selection_name_icon_id').click(function () {
-        $.ajax({
-            url: '/Permission/Index',
-            success: function (data, status) {
-                $('#main_working_window_id').html(data);
-            }
-        })
-    });
+        if (qlhethongOption != null) {
+            $('#option_qlhethong_menu_burger_id').click(function () {
+                $('#selection_field_qlhethong_menu_burger_id').slideToggle(200);
+            })
+        }
 
+        let thayDoiQuyDinhSelection = document.querySelector("#thaydoiquydinh_selection_name_icon_id");
+        if (thayDoiQuyDinhSelection != null) {
+            $('#thaydoiquydinh_selection_name_icon_id').click(function () {
+                $.ajax({
+                    url: '/Regulation/Index',
+                    success: function (data, status) {
+                        $('#main_working_window_id').html(data);
+                    }
+                })
+            });
+        }
+
+        let phanquyenSelection = document.querySelector("#phanquyen_selection_name_icon_id");
+        if (phanquyenSelection != null) {
+            $('#phanquyen_selection_name_icon_id').click(function () {
+                $.ajax({
+                    url: '/Permission/Index',
+                    success: function (data, status) {
+                        $('#main_working_window_id').html(data);
+                    }
+                })
+            });
+        }
+
+
+    }
 })
 /*    Toast Message Function: begin*/
 function toastMessage({ title = '', message = '', type = 'success', duration = 3500 }) {
