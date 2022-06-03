@@ -86,5 +86,57 @@ $(document).ready(function (e) {
     });
 })
 
+var listMaNhanVien = document.querySelectorAll('#MaNhanVien').value;
+var listCCCD = document.querySelectorAll('#CCCD').value;
+function validateForm() {
+    var maNhanVien = document.getElementById("MaNhanVien").value;
+    var matKhau = document.getElementById("MatKhau").value;
+    var CCCD = document.getElementById("CCCD").value;
+    var hoTen = document.getElementById("HoTen").value;
+    var ngaySinh = document.getElementById("NgaySinh").value;
+    var soDienThoai = document.getElementById("SoDienThoai").value;
+    var ngayVaoLam = document.getElementById("NgayVaoLam").value;
+    var luong = document.getElementById("Luong").value;
+
+    for (let i = 0; i < listMaNhanVien.length; i++)
+    {
+        if (maNhanVien == listMaNhanVien[i]) {
+            toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Đã tồn tại mã nhân viên', type: 'fail', duration: 3500 });
+            return false;
+        }
+       
+    }
+    for (let i = 0; i < listCCCD.length; i++) {
+        if (maNhanVien == listCCCD[i]) {
+            toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Đã tồn tại CCCD', type: 'fail', duration: 3500 });
+            return false;
+        }
+
+    }
+
+    if (matKhau.length < 8) {
+        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Mật khẩu phải trên 8 ký tự', type: 'fail', duration: 3500 });
+        return false;
+    }
+    if (ngaySinh > ngayVaoLam) {
+        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Ngày sinh phải nhỏ hơn ngày vào làm', type: 'fail', duration: 3500 });
+        return false;
+    }
+    if (ngaySinh > today || ngayVaoLam > today) {
+        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Ngày sinh và ngày vào làm phải nhỏ hơn ngày hôm nay', type: 'fail', duration: 3500 });
+        return false;
+    }
+    if (soDienThoai.length < 10 || soDienThoai.length > 11  ) {
+        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Số điện thoại không hợp lệ', type: 'fail', duration: 3500 });
+        return false;
+    }
+    if (luong < 0) {
+        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Lương không hợp lệ', type: 'fail', duration: 3500 });
+        return false;
+    }
+
+ 
+}
+
 
 

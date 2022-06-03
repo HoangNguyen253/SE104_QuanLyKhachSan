@@ -2468,14 +2468,8 @@ namespace SE104_QuanLyKhachSan.Models
                 cmd.Parameters.AddWithValue("Tang", ph.Tang);
                 cmd.Parameters.AddWithValue("TrangThai", ph.TrangThai);
                 cmd.Parameters.AddWithValue("GhiChu", ph.GhiChu);
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    //Form thành công
-                }
-                else
-                {
-                    //Form báo lỗi: trùng id/ Tầng không quá 255
-                }
+                cmd.ExecuteNonQuery();
+             
                 conn.Close();
             }
             return null;
@@ -2500,14 +2494,8 @@ namespace SE104_QuanLyKhachSan.Models
                 cmd.Parameters.AddWithValue("MaChucVu", nv.MaChucVu);
                 cmd.Parameters.AddWithValue("HinhAnh", nv.HinhAnh);
                 cmd.Parameters.AddWithValue("Luong", nv.Luong);
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    //Form thành công
-                }
-                else
-                {
-                    //Form báo lỗi:
-                }
+                cmd.ExecuteNonQuery();
+               
                 conn.Close();
             }
             return null;
@@ -2593,26 +2581,45 @@ namespace SE104_QuanLyKhachSan.Models
             }
         }
 
-        public object deleteRoom(string ph)
+        public int XoaPhong(string MaPhong)
         {
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SQLQuery.deleteRoom, conn);
-                cmd.Parameters.AddWithValue("MaPhong", ph);
-
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    //Form thành công
-                }
-                else
-                {
-                    //Form báo lỗi: trùng id/ Tầng không quá 255
-                }
+                string str = " DELETE FROM Phong where MaPhong = @MaPhong  ;";
+                           
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("MaPhong", MaPhong);
+                int check = cmd.ExecuteNonQuery();
                 conn.Close();
+                return check;
             }
-            return null;
 
+        }
+        public bool UpdatePhong(string maPhong, int maLoaiPhong, int tang, int trangThai, string ghiChu)
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+
+                string queryString = "UPDATE PHONG " +
+                    "SET maLoaiPhong=@maLoaiPhong, Tang=@tang, TrangThai = @trangThai, GhiChu = @ghiChu" +
+                    "WHERE MaPhong=@maPhong ";
+
+                MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
+                cmd.Parameters.AddWithValue("maLoaiPhong", maLoaiPhong);
+                cmd.Parameters.AddWithValue("maPhong", maPhong);
+                cmd.Parameters.AddWithValue("trangThai", trangThai);
+                cmd.Parameters.AddWithValue("ghiChu", ghiChu);
+                cmd.Parameters.AddWithValue("tang",tang);
+
+                int isSuccess = cmd.ExecuteNonQuery();
+                if (isSuccess == 1)
+                {
+                    return true;
+                }
+                return false;
+            }
         }
         //Hiếu - end
         #endregion

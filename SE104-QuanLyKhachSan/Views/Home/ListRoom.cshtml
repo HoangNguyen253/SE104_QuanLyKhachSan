@@ -1,4 +1,5 @@
 ﻿<link rel='stylesheet' type='text/css' media='screen' href='~/css/ListRoom/ListRoom.css'>
+
 @{
     Database db = new Database();
     Database db2 = new Database();
@@ -112,63 +113,66 @@
             <tbody class="list_room_body">
                 @{
                     int i = 0;
-                    foreach (var pi in listPhong)
+                    if (listPhong != null)
                     {
-                        i++;
-                        var trangThai = "";
-                        switch (@pi.TrangThai)
+                        foreach (var pi in listPhong)
                         {
-                         
-                              case 0:
-                                {
-                                    trangThai = "Phòng trống";
-                                    break;
-                                }
-                              case 1:
-                                {
-                                    trangThai = "Đang thuê";
-                                    break;
-                                }
-                              case 2:
-                                {
-                                    trangThai = "Đang sửa chữa";
-                                    break;
-                                }
-                              case 3:
-                                {
-                                    trangThai = "Khách ra ngoài";
-                                    break;
-                                }
-                              case 4:
-                                {
-                                    trangThai = "Đang dọn dẹp";
-                                    break;
-                                }
-                              case 5:
-                                {
-                                    trangThai = "Không hoạt động";
-                                    break;
-                                }
+                            i++;
+                            var trangThai = "";
+                            switch (@pi.TrangThai)
+                            {
 
+                                case 0:
+                                    {
+                                        trangThai = "Phòng trống";
+                                        break;
+                                    }
+                                case 1:
+                                    {
+                                        trangThai = "Đang thuê";
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        trangThai = "Đang sửa chữa";
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        trangThai = "Khách ra ngoài";
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        trangThai = "Đang dọn dẹp";
+                                        break;
+                                    }
+                                case 5:
+                                    {
+                                        trangThai = "Không hoạt động";
+                                        break;
+                                    }
+
+                            }
+
+                            <tr>
+                                <td class="data_cell">@pi.MaPhong</td>
+                                <td class="data_cell">@pi.TenLoaiPhong</td> 
+                                <td class="data_cell">@pi.Tang</td>
+                                <td class="data_cell">@trangThai</td>
+                                <td class="data_cell">@pi.GhiChu</td>
+                               <!-- <td class="data_cell" id="pi.MaPhong">
+                                    <button class="room_body_item__angle_button btn sua" id="edit_room">
+                                        Sửa
+                                    </button>
+                                </td> -->
+                                <td class="data_cell" id="@pi.MaPhong">
+                                    <button class="room_body_item__angle_button btn xoa" id="del_room">
+                                        Xóa
+                                    </button>
+                                </td> 
+                            </tr>
                         }
-
-                        <tr>
-                        <td class="data_cell">@pi.MaPhong</td>
-                        <td class="data_cell">@pi.TenLoaiPhong</td> 
-                        <td class="data_cell">@pi.Tang</td>
-                        <td class="data_cell">@trangThai</td>
-                        <td class="data_cell">@pi.GhiChu</td>
-                       <!-- <td class="data_cell">
-                            <button class="room_body_item__angle_button btn sua">
-                                Sửa
-                            </button>
-                        </td>
-                        <td class="data_cell">
-                            <button class="room_body_item__angle_button btn xoa" value=@pi.MaPhong >
-                                Xóa
-                            </button>
-                        </td> -->
-                    </tr>
                     }
                 }
                          
@@ -179,7 +183,7 @@
   </form>
 
           <!-- popup_room -->
-        <form class="room_profile_popup_window_container" id="room_profile_popup_window_container_id"  method = "POST">
+        <form class="room_profile_popup_window_container" id="room_profile_popup_window_container_id" onsubmit="return validateForm()"  method = "POST">
           <div class="room_profile_popup_window">
                 <div class="header_room_profile_popup_window">
                     <div class="header_name_room_profile_popup_window">Thêm phòng</div>
@@ -259,12 +263,63 @@
                 </div>
 
                 <div class="footer_room_profile_popup_window">
-                    <button  id="add_info_popup_window_room_button"  name="btn_add_room"> Thêm </button>
+                    <button  id="add_info_popup_window_room_button"  name="btn_add_room" type="submit"> Thêm </button>
                     <button id = "close_popup_window_room_button">Thoát</button>
                 </div>
             </div>
            
         </form>
+
+
+ @*<div class='regulation-item'>
+  
+        <p>Phòng</p>
+</div> 
+            <div class='popup-container'>
+                <div class='popup'>
+                    <div class='header-popup'>
+                        <div></div>
+                        <i class='fa fa-close'></i>
+                    </div>
+                    <div class='content-popup'>
+                    </div>
+                    <div class='footer-popup'>
+                        <button class='blue-button'>Thay đổi</button>
+                        <button class='cancel-button'>Hủy</button>
+                    </div>
+                </div>
+                <div class='sub-popup-container'>
+                    <div class='sub-popup'>
+                        <div class='header-popup'>
+                            <div></div>
+                            <i class='fa fa-close'></i>
+                        </div>
+                        <div class='content-popup'>
+                            
+                        </div>
+                        <div class='footer-popup'>
+                            <button class='blue-button'>Thay đổi</button>
+                            <button class='cancel-button'>Hủy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='confirm-popup-container'>
+                <div class='confirm-popup'>
+                    <div class='header-popup'>
+                        <div></div>
+                        <i class='fa fa-close'></i>
+                    </div>
+                    <div class='content-popup'>
+                        <div class='message'>
+                        </div>
+                    </div>
+                    <div class='footer-popup'>
+                        <button class='blue-button'>Xóa</button>
+                        <button class='cancel-button'>Hủy</button>
+                    </div>
+                </div>
+            </div>*@
   <script src="~/js/ListRoom/ListRoom.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
 

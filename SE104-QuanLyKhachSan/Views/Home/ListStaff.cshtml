@@ -18,7 +18,7 @@
                                 <option value="">All roles</option>
                     foreach (var pi in listChucVu)
                     {
-                       <option value=@pi.TenChucVu>@pi.TenChucVu</option>
+                        <option value=@pi.TenChucVu>@pi.TenChucVu</option>
                     }
                 }
 
@@ -67,41 +67,46 @@
             <tbody class="list_nv_body">
 
                 @{
+                    if (listNhanVien != null)
+                    {
+                        for (int k = 0; k <= listNhanVien.Count - 1; k++)
+                        {
+                            var @pi = listNhanVien[k];
+                            <tr>
+                                @{
+                                    if (@pi.GioiTinh != 1)
+                                    {
+                                        <td class="data_cell"><i class="fa fa-venus"></i></td>
+                                    }
+                                }
+                                @{
+                                    if (@pi.GioiTinh == 1)
+                                    {
+                                        <td class="data_cell"><i class="fa fa-mars"></i></td>
+                                    }
+                                }
 
-                    for(int k = 0 ; k <= listNhanVien.Count - 1; k++)
-                    {
-                        var @pi = listNhanVien[k];
-                                            <tr>
-                                @{if (@pi.GioiTinh != 1)
-            {
-                                                        <td class="data_cell"><i class="fa fa-venus"></i></td>
-            }
-                                }
-                                @{if(@pi.GioiTinh == 1)
-            {
-                                                        <td class="data_cell"><i class="fa fa-mars"></i></td>
-            }
-                                }
-                     
-                            <td class="data_cell"> @pi.MaNhanVien </td>
-                            <td class="data_cell">@pi.HoTen</td>
-                            <td class="data_cell">@pi.CCCD</td>
-                            <td class="data_cell">@pi.NgaySinh</td>
-                            <td class="data_cell">@pi.Email</td>
-                            <td class="data_cell">@pi.TenChucVu</td>
-                            <td class="data_cell">@pi.SoDienThoai</td>
-                            <td class="data_cell">@pi.Luong</td>
-                            <td class="data_cell" >
-                              <!--  <button class="nv_body_item__angle_button btn" value=@pi.MaNhanVien id="button_profile">
-                    {
-                        nv = db.getChosenStaff(pi.MaNhanVien);
-                    }
+                                <td class="data_cell"> @pi.MaNhanVien </td>
+                                <td class="data_cell">@pi.HoTen</td>
+                                <td class="data_cell">@pi.CCCD</td>
+                                <td class="data_cell">@pi.NgaySinh.ToLongDateString()</td>
+                                <td class="data_cell">@pi.Email</td>
+                                <td class="data_cell">@pi.TenChucVu</td>
+                                <td class="data_cell">@pi.SoDienThoai</td>
+                                <td class="data_cell">@pi.Luong</td>
+                                <td class="data_cell" >
+                                    <!--  <button class="nv_body_item__angle_button btn" value=@pi.MaNhanVien id="button_profile">
+                                    {
+                                    nv = db.getChosenStaff(pi.MaNhanVien);
+                                    }
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                </button> -->
-                            </td>
-                        </tr>
+                                    </button> -->
+                                </td>
+                            </tr>
+                        }
                     }
-                    }
+                }
+
 
                         </tbody>
                     </table>
@@ -109,7 +114,7 @@
             </div>
       
      <!-- popup_add_staff -->
-        <form name="formAddStaff" class="staff_profile_popup_add_window_container" id="staff_profile_popup_add_window_container_id" method="POST">
+        <form name="formAddStaff" class="staff_profile_popup_add_window_container" id="staff_profile_popup_add_window_container_id" onsubmit="return validateForm()" method="POST">
             <div class="staff_profile_popup_add_window">
                 <div class="header_staff_profile_popup_add_window">
                     <div class="header_name_staff_profile_popup_add_window">THÔNG TIN NHÂN VIÊN</div>
@@ -196,12 +201,13 @@
                 </div>
 
                 <div class="footer_staff_profile_popup_add_window">
-                    <button id="add_info_popup_add_window_staff_button">Thêm</button>
+                    <button id="add_info_popup_add_window_staff_button" type="submit">Thêm</button>
                     <button id = "close_popup_add_window_staff_button">Thoát</button>
                 </div>
             </div>
         </form>
-             
+ 
+
          <!-- Popup xem thông tin cá nhân của nhân viên - begin -->  
          <!--<div class="staff_profile_popup_window_container_" id="staff_profile_popup_window_container_id_">
             <div class="staff_profile_popup_window_">

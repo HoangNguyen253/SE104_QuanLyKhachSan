@@ -270,26 +270,25 @@ namespace SE104_QuanLyKhachSan.Controllers
             return Json(database.postNewStaff(newStaff));
 
         }
-        /* public JsonResult getStaff(IFormCollection formAdd)
-         {
-             NhanVien getStaff = new NhanVien();
-             Database database = new Database();
 
-             getStaff.MaNhanVien = formAdd["MaNhanVien"].ToString();
-
-             return Json(database.getChosenStaff(getStaff.MaNhanVien));
-
-         }*/
-
-       /* public JsonResult delPhong(IFormCollection formAdd)
+        public int RemoveRoom(string MaPhong)
         {
-            Phong phong = new Phong();
-            Database database = new Database();
+            Database db = new Database();
+            int isSucces = db.XoaPhong(MaPhong);
+            return isSucces;
+        }
 
-            phong.MaPhong = formAdd["MaPhong"].ToString();
+        public string UpdatePhong(string maPhong, int maLoaiPhong, int tang, int trangThai, string ghiChu)
+        {
+            Database db = new Database();
+            if (db.UpdatePhong(maPhong, maLoaiPhong, tang, trangThai, ghiChu)) return "true";
+            return "false";
+        }
+        public JsonResult GetPhong()
+        {
+            Database db = new Database();
+            return Json(db.getAllDetailRoom());
+        }
 
-            return Json(database.deleteRoom(phong.MaPhong));
-
-        }*/
     }
 }

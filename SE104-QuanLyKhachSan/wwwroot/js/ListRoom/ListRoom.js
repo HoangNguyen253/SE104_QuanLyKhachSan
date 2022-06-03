@@ -82,5 +82,68 @@
       
 })
 
+var edit = document.querySelectorAll('#del_room');
+
+for (let i = 0; i < edit.length; i++) {
+    edit[i].addEventListener('click', () => {
+        var answer = window.confirm("Bạn có muốn xóa");
+        if (answer) {
+
+            var xhr_login = new XMLHttpRequest();
+            let url_login = "https://localhost:5001/Home/RemoveRoom?MaPhong=" + edit[i].parentElement.id;
+            xhr_login.open("GET", url_login, true);
+            xhr_login.timeout = 20000;
+            xhr_login.onreadystatechange = function () {
+
+                if (xhr_login.readyState == 4 && xhr_login.status == 200) {
+
+                    var result = xhr_login.response;
+                    if (result) {
+                        toastMessage({ title: "Thành công!", message: "Xóa thành công", type: "success" });
+                        edit[i].parentElement.remove();
+                    }
+                    else
+                        toastMessage({ title: "Thất bại!", message: "Xóa thất bại", type: "fail" });
+                }
+
+            }
+            xhr_login.send();
+        }
+    });
+}
+
+var listMaPhong = document.querySelectorAll('#MaPhong').value;
+
+function validateForm() {
+   
+    
+        var maPhong= document.getElementById("MaPhong").value;
+        var tang = document.getElementById("Tang").value;
+        var soPhong = document.getElementById("SoPhong").value;
+
+
+        for (let i = 0; i < listMaPhong.length; i++) {
+            if (maPhong == listMaPhong[i]) {
+                toastMessage({ title: 'Lỗi Thêm Phòng', message: 'Đã tồn tại mã phòng', type: 'fail', duration: 3500 });
+                return false;
+            }
+
+         }
+    if (tang >= 100 || tang <= 0) {
+        toastMessage({ title: 'Lỗi Thêm Phòng', message: 'Tầng nằm trong khoảng (0;100)', type: 'fail', duration: 3500 });
+        return false;
+    }
+    if (soPhong <= 0) {
+        toastMessage({ title: 'Lỗi Thêm Phòng', message: 'Số phòng phải dương', type: 'fail', duration: 3500 });
+        return false;
+    }
+}
+
+
+
+
+//----1. loai phong: end
+
+
 
 
