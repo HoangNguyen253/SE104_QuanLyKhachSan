@@ -2626,6 +2626,7 @@ namespace SE104_QuanLyKhachSan.Models
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllDoanhThuThang, conn);
                 List<BaoCaoDoanhThuThang> bills = new List<BaoCaoDoanhThuThang>();
+                //lấy danh sách báo cáo có tiền
                 using (var result = cmd.ExecuteReader())
                 {
                     if (result.HasRows)
@@ -2638,16 +2639,15 @@ namespace SE104_QuanLyKhachSan.Models
                             bill.ThoiGianLap = Convert.ToDateTime(result["ThoiGianLap"]);
                             bill.TongTien = Convert.ToInt32(result["TongTien"]);
                             bills.Add(bill);
-                        }
-                        conn.Close();
+                        }         
                         return bills;
                     }
                     else
                     {
-                        conn.Close();
                         return null;
                     }
                 }
+                
             }
         }
 
@@ -2898,7 +2898,7 @@ namespace SE104_QuanLyKhachSan.Models
 
             if (IsBCDTThangExist(ThangBaoCao) == 1)
                 return 0;
-
+            //tạo khóabc
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
@@ -2911,7 +2911,7 @@ namespace SE104_QuanLyKhachSan.Models
                 conn.Close();
 
             }
-
+            //tìm khóa đã tạo
             int maBC = 0;
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
@@ -2934,7 +2934,7 @@ namespace SE104_QuanLyKhachSan.Models
                 conn.Close();
             }
 
-
+            //chọn ra loại phòng có trong cthd
             List<ChiTietBaoCaoDoanhThuThang> list_CTBC = new List<ChiTietBaoCaoDoanhThuThang>();
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
@@ -2963,6 +2963,32 @@ namespace SE104_QuanLyKhachSan.Models
                 conn.Close();
             }
 
+            //chọn ra tất cả loại phòng còn hoạt động
+            List<ChiTietBaoCaoDoanhThuThang> list_lp = new List<ChiTietBaoCaoDoanhThuThang>();
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+                string str = "SELECT `MaLoaiPhong`, `TenLoaiPhong` FROM `loaiphong` WHERE loaiphong.DaXoa = 0 ";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd = new MySqlCommand(str, conn);
+                using (var result = cmd.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            ChiTietBaoCaoDoanhThuThang bill = new ChiTietBaoCaoDoanhThuThang();
+                            bill.MaBCDoanhThu = maBC;
+                            bill.MaLoaiPhong = Convert.ToInt32(result["MaLoaiPhong"]);
+                            bill.TenLoaiPhong = (result["TenLoaiPhong"]).ToString();
+                            bill.SoTien = 0;
+                            bill.TiLe = 0;
+                            list_lp.Add(bill);
+                        }
+                    }
+                }
+                conn.Close();
+            }
 
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
@@ -2973,14 +2999,31 @@ namespace SE104_QuanLyKhachSan.Models
                     tongTien += item.SoTien;
                 }
 
-                foreach (var item in list_CTBC)
+                for (int i = 0; i < list_lp.Count; i++)
+                {
+                    for (int j = 0; j < list_CTBC.Count; j++)
+                    {
+                        if(list_lp[i].MaLoaiPhong == list_CTBC[j].MaLoaiPhong)
+                        {
+                            list_lp[i].SoTien = list_CTBC[j].SoTien;
+                            list_lp[i].TiLe = list_lp[i].SoTien / tongTien * 100;
+                        }
+                        else
+                        {
+                            list_lp[i].SoTien = 0;
+                            list_lp[i].TiLe = 0;
+                        }
+                    }
+                }
+
+                foreach (var item in list_lp)
                 {
                     string str = " INSERT INTO `ctbcdoanhthuthang`(`MaBCDoanhThu`, `MaLoaiPhong`, `SoTien`, `TiLe`) VALUES (@mabcdoanhthu, @malp, @sotien, @tile) ";
                     MySqlCommand cmd = new MySqlCommand(str, conn);
                     cmd.Parameters.AddWithValue("mabcdoanhthu", item.MaBCDoanhThu);
                     cmd.Parameters.AddWithValue("malp", item.MaLoaiPhong);
                     cmd.Parameters.AddWithValue("sotien", item.SoTien);
-                    cmd.Parameters.AddWithValue("tile", item.SoTien * 100 / tongTien);
+                    cmd.Parameters.AddWithValue("tile", item.TiLe);
                     cmd.ExecuteNonQuery();
                 }
                 conn.Close();
@@ -2991,16 +3034,38 @@ namespace SE104_QuanLyKhachSan.Models
 
         public List<BaoCaoLuongChucVu> getAllBaoCaoLuongChucVu(DateTime dt)
         {
+            //lấy list chức vụ còn xài
+            List<BaoCaoLuongChucVu> list_chucvu = new List<BaoCaoLuongChucVu>();
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+                string str = " SELECT `MaChucVu`, `TenChucVu` FROM `chucvu` WHERE chucvu.DaXoa = 0 ";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                using (var result = cmd.ExecuteReader())
+                {
+                    while (result.Read())
+                    {
+                        BaoCaoLuongChucVu bil = new BaoCaoLuongChucVu();
+                        bil.MaChucVu = Convert.ToInt32(result["MaChucVu"]);
+                        bil.TenChucVu = (result["TenChucVu"]).ToString();
+                        bil.TongLuong = 0;
+                        bil.TiLe = 0;
+                        list_chucvu.Add(bil);
+                    }
+                }
+            }
+
+            //list nv thực tế
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
 
-                string str = " SELECT cv.TenChucVu , SUM(tl.SoTien) as SoTien FROM traluong tl, dottraluong dtl, chucvu cv WHERE tl.MaDotTraLuong = dtl.MaDotTraLuong AND cv.MaChucVu = tl.MaChucVu AND Year(dtl.NgayTraLuong) = @nam AND Month(dtl.NgayTraLuong) = @thang GROUP BY tl.MaChucVu ";
+                string str = " SELECT tl.MaChucVu, cv.TenChucVu , SUM(tl.SoTien) as SoTien FROM traluong tl, dottraluong dtl, chucvu cv WHERE tl.MaDotTraLuong = dtl.MaDotTraLuong AND cv.MaChucVu = tl.MaChucVu AND Year(dtl.NgayTraLuong) = @nam AND Month(dtl.NgayTraLuong) = @thang GROUP BY tl.MaChucVu ";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("nam", dt.Year);
                 cmd.Parameters.AddWithValue("thang", dt.Month);
 
-                List<BaoCaoLuongChucVu> bills = new List<BaoCaoLuongChucVu>();
+                List<BaoCaoLuongChucVu> list_chucvucotraluong = new List<BaoCaoLuongChucVu>();
                 using (var result = cmd.ExecuteReader())
                 {
                     if (result.HasRows)
@@ -3008,22 +3073,35 @@ namespace SE104_QuanLyKhachSan.Models
                         while (result.Read())
                         {
                             BaoCaoLuongChucVu bil = new BaoCaoLuongChucVu();
+                            bil.MaChucVu = Convert.ToInt32(result["MaChucVu"]);
                             bil.TenChucVu = (result["TenChucVu"]).ToString();
                             bil.TongLuong = Convert.ToInt32(result["SoTien"]);
                             bil.TiLe = 0;
-                            bills.Add(bil);
+                            list_chucvucotraluong.Add(bil);
                         }
                         int TongTien = 0;
-                        foreach (var item in bills)
+                        foreach (var item in list_chucvucotraluong)
                         {
                             TongTien += item.TongLuong;
                         }
-                        foreach (var item in bills)
+                        for (int i = 0; i < list_chucvu.Count; i++)
                         {
-                            item.TiLe = Math.Round(item.TongLuong * 1.0 * 100 / TongTien, 0);
+                            for (int j = 0; j < list_chucvucotraluong.Count; j++)
+                            {
+                                if (list_chucvu[i].MaChucVu == list_chucvucotraluong[j].MaChucVu)
+                                {
+                                    list_chucvu[i].TongLuong = list_chucvucotraluong[j].TongLuong;
+                                    list_chucvu[i].TiLe = list_chucvucotraluong[j].TongLuong/ TongTien * 100;
+                                }
+                                else
+                                {
+                                    list_chucvu[i].TongLuong = 0;
+                                    list_chucvu[i].TiLe = 0;
+                                }
+                            }
                         }
                         conn.Close();
-                        return bills;
+                        return list_chucvu;
                     }
                     else
                     {
