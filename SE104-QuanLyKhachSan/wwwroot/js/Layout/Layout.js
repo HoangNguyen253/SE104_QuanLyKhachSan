@@ -118,6 +118,21 @@ $(document).ready(function (e) {
         })
     });
 
+<<<<<<< Updated upstream
+=======
+        $('#doanhthubaocaotong_selection_name_icon_id').click(function () {
+            let timeElapsed = Date.now();
+            let today = new Date(timeElapsed);
+            $.ajax({
+                url: '/Home/ThongKeDoanhThu?ThangBaoCao=' + today.toDateString(),
+                success: function (data, status) {
+                    $('#main_working_window_id').html(data);
+                    console.log(status);
+                }
+            })
+        });
+    }
+>>>>>>> Stashed changes
 
     $('#doanhthutinhluong_selection_name_icon_id').click(function () {
         $.ajax({
