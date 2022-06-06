@@ -2459,18 +2459,28 @@ namespace SE104_QuanLyKhachSan.Models
 
         public object postNewRoom(Phong ph)
         {
+       
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SQLQuery.postNewRoom, conn);
-                cmd.Parameters.AddWithValue("MaPhong", ph.MaPhong);
-                cmd.Parameters.AddWithValue("MaLoaiPhong", ph.MaLoaiPhong);
-                cmd.Parameters.AddWithValue("Tang", ph.Tang);
-                cmd.Parameters.AddWithValue("TrangThai", ph.TrangThai);
-                cmd.Parameters.AddWithValue("GhiChu", ph.GhiChu);
-                cmd.ExecuteNonQuery();
-             
-                conn.Close();
+                
+                try
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(SQLQuery.postNewRoom, conn);
+                    cmd.Parameters.AddWithValue("MaPhong", ph.MaPhong);
+                    cmd.Parameters.AddWithValue("MaLoaiPhong", ph.MaLoaiPhong);
+                    cmd.Parameters.AddWithValue("Tang", ph.Tang);
+                    cmd.Parameters.AddWithValue("SoPhong", ph.SoPhong);
+                    cmd.Parameters.AddWithValue("TrangThai", ph.TrangThai);
+                    cmd.Parameters.AddWithValue("GhiChu", ph.GhiChu);
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch (Exception ex)
+                {
+                  
+                
+                }
             }
             return null;
 
@@ -2479,24 +2489,32 @@ namespace SE104_QuanLyKhachSan.Models
         {
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SQLQuery.postNewStaff, conn);
+                try
+                {
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(SQLQuery.postNewStaff, conn);
 
-                cmd.Parameters.AddWithValue("MaNhanVien", nv.MaNhanVien);
-                cmd.Parameters.AddWithValue("MatKhau", nv.MatKhau);
-                cmd.Parameters.AddWithValue("CCCD", nv.CCCD);
-                cmd.Parameters.AddWithValue("HoTen", nv.HoTen);
-                cmd.Parameters.AddWithValue("GioiTinh", nv.GioiTinh);
-                cmd.Parameters.AddWithValue("NgaySinh", nv.NgaySinh);
-                cmd.Parameters.AddWithValue("Email", nv.Email);
-                cmd.Parameters.AddWithValue("SoDienThoai", nv.SoDienThoai);
-                cmd.Parameters.AddWithValue("NgayVaoLam", nv.NgayVaoLam);
-                cmd.Parameters.AddWithValue("MaChucVu", nv.MaChucVu);
-                cmd.Parameters.AddWithValue("HinhAnh", nv.HinhAnh);
-                cmd.Parameters.AddWithValue("Luong", nv.Luong);
-                cmd.ExecuteNonQuery();
-               
-                conn.Close();
+                    cmd.Parameters.AddWithValue("MaNhanVien", nv.MaNhanVien);
+                    cmd.Parameters.AddWithValue("MatKhau", nv.MatKhau);
+                    cmd.Parameters.AddWithValue("CCCD", nv.CCCD);
+                    cmd.Parameters.AddWithValue("HoTen", nv.HoTen);
+                    cmd.Parameters.AddWithValue("GioiTinh", nv.GioiTinh);
+                    cmd.Parameters.AddWithValue("NgaySinh", nv.NgaySinh);
+                    cmd.Parameters.AddWithValue("Email", nv.Email);
+                    cmd.Parameters.AddWithValue("SoDienThoai", nv.SoDienThoai);
+                    cmd.Parameters.AddWithValue("NgayVaoLam", nv.NgayVaoLam);
+                    cmd.Parameters.AddWithValue("MaChucVu", nv.MaChucVu);
+                    cmd.Parameters.AddWithValue("HinhAnh", nv.HinhAnh);
+                    cmd.Parameters.AddWithValue("Luong", nv.Luong);
+                    cmd.ExecuteNonQuery();
+
+
+                    conn.Close();
+                }
+                catch
+                {
+
+                }
             }
             return null;
 
@@ -2581,44 +2599,110 @@ namespace SE104_QuanLyKhachSan.Models
             }
         }
 
+        public Phong getChosenRoom(string maPhong)
+        {
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(SQLQuery.getChosenRoom, conn);
+                Phong phong = new Phong();
+
+                cmd.Parameters.AddWithValue("MaPhong", maPhong);
+
+
+                using (var result = cmd.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            Phong ph = new Phong();
+                            ph.MaPhong = result["MaPhong"].ToString();
+                            ph.MaLoaiPhong = Convert.ToByte(result["MaLoaiPhong"]);
+                            ph.Tang = Convert.ToByte(result["Tang"]);
+                            ph.SoPhong = Convert.ToByte(result["SoPhong"]);
+                            ph.GhiChu = (result["GhiChu"]).ToString();
+                            ph.TrangThai = Convert.ToByte(result["TrangThai"]);
+                           
+                            phong = ph;
+                        }
+                        conn.Close();
+                        return phong;
+                    }
+                    else
+                    {
+
+                        conn.Close();
+                        return null;
+                    }
+
+                }
+            }
+        }
+
         public int XoaPhong(string MaPhong)
         {
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
-                string str = " DELETE FROM Phong where MaPhong = @MaPhong  ;";
+                string str = " DELETE FROM Phong where MaPhong = @MaPhong";
                            
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("MaPhong", MaPhong);
                 int check = cmd.ExecuteNonQuery();
                 conn.Close();
+                
                 return check;
             }
 
         }
-        public bool UpdatePhong(string maPhong, int maLoaiPhong, int tang, int trangThai, string ghiChu)
+        public int UpdateStaff(NhanVien info_staff)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string str = " UPDATE `nhanvien` SET `CCCD`= @CCCD ,`HoTen`= @HoTen ,`SoDienThoai`= @SoDienThoai,`NgaySinh`= @NgaySinh, Email = @Email, GioiTinh = @GioiTinh, MaChucVu = @MaChucVu, Luong = @Luong, MatKhau = @MatKhau, NgayVaoLam = @NgayVaoLam, MaNhanVien = @MaNhanVien WHERE MaNhanVien = @MaNhanVien ";
+                MySqlCommand cmd = new MySqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("CCCD", info_staff.CCCD);
+                cmd.Parameters.AddWithValue("SoDienThoai", info_staff.SoDienThoai);
+                cmd.Parameters.AddWithValue("NgaySinh", info_staff.NgaySinh);
+                cmd.Parameters.AddWithValue("Email", info_staff.Email);
+                cmd.Parameters.AddWithValue("GioiTinh", info_staff.GioiTinh);
+                cmd.Parameters.AddWithValue("MaNhanVien", info_staff.MaNhanVien);
+                cmd.Parameters.AddWithValue("HoTen", info_staff.HoTen);
+                cmd.Parameters.AddWithValue("Luong", info_staff.Luong);
+                cmd.Parameters.AddWithValue("MaChucVu", info_staff.MaChucVu);
+                cmd.Parameters.AddWithValue("NgayVaoLam", info_staff.NgayVaoLam);
+
+                cmd.Parameters.AddWithValue("MatKhau", info_staff.MatKhau);
+
+
+                int result = cmd.ExecuteNonQuery();
+                return result;
+            }
+          
+            return 0;
+        }
+        public int UpdateRoom(Phong ph)
         {
             using (MySqlConnection connectioncheck = this.GetConnection())
             {
                 connectioncheck.Open();
 
-                string queryString = "UPDATE PHONG " +
-                    "SET maLoaiPhong=@maLoaiPhong, Tang=@tang, TrangThai = @trangThai, GhiChu = @ghiChu" +
+                string queryString = "UPDATE Phong " +
+                    "SET maLoaiPhong=@maLoaiPhong, Tang=@tang, TrangThai = @trangThai, GhiChu = @ghiChu, SoPhong = @soPhong, MaPhong = @maPhong " +
                     "WHERE MaPhong=@maPhong ";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
-                cmd.Parameters.AddWithValue("maLoaiPhong", maLoaiPhong);
-                cmd.Parameters.AddWithValue("maPhong", maPhong);
-                cmd.Parameters.AddWithValue("trangThai", trangThai);
-                cmd.Parameters.AddWithValue("ghiChu", ghiChu);
-                cmd.Parameters.AddWithValue("tang",tang);
+                cmd.Parameters.AddWithValue("maLoaiPhong", ph.MaLoaiPhong);
+                cmd.Parameters.AddWithValue("maPhong", ph.MaPhong);
+                cmd.Parameters.AddWithValue("trangThai", ph.TrangThai);
+                cmd.Parameters.AddWithValue("ghiChu", ph.GhiChu);
+                cmd.Parameters.AddWithValue("tang",ph.Tang);
+                cmd.Parameters.AddWithValue("soPhong", ph.SoPhong);
 
                 int isSuccess = cmd.ExecuteNonQuery();
-                if (isSuccess == 1)
-                {
-                    return true;
-                }
-                return false;
+                return isSuccess;
             }
         }
         //Hiếu - end

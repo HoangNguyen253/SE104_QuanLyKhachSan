@@ -8,7 +8,7 @@
     listPhong = db.getAllDetailRoom();
     listLoaiPhong = db2.getAllRoomStyle();
 }
- <form class="tracuuphong_main_window" method="post">
+ <div class="tracuuphong_main_window" method="post">
 
                 <div id="tracuuphong_tool_bar" class="tracuu_header">
                     <div class="add_role tracuu_header">
@@ -16,7 +16,7 @@
                     </div>
 
                     <select name="" id="TrangThai_">
-                         <option value="">All states</option>
+                         <option value="">Tất cả trạng thái</option>
             @{
 
                 for(int k = 0; k<= 5; k++)
@@ -60,7 +60,7 @@
 
                         }
                     
-                    <option value=@trangThai>@trangThai</option>
+                                                                        <option value=@trangThai>@trangThai</option>
 
                 }
             }
@@ -69,10 +69,10 @@
             </select>
                     <select name="" id="TenLoaiPhong_">
                 @{
-                    <option value="">All types of rooms</option>
+                                                                        <option value="">Tất cả loại phòng</option>
                     foreach (var pi in listLoaiPhong)
                     {
-                    <option value=@pi.TenLoaiPhong>@pi.TenLoaiPhong</option>
+                                                                        <option value=@pi.TenLoaiPhong>@pi.TenLoaiPhong</option>
                 }
             }
 
@@ -112,13 +112,13 @@
 
             <tbody class="list_room_body">
                 @{
-                    int i = 0;
+
                     if (listPhong != null)
                     {
-                        foreach (var pi in listPhong)
+                        for (int k = 0; k <= listPhong.Count - 1; k++)                           
                         {
-                            i++;
-                            var trangThai = "";
+                            var @pi = listPhong[k];
+                            var trangThai = "Phòng trống";
                             switch (@pi.TrangThai)
                             {
 
@@ -155,23 +155,36 @@
 
                             }
 
-                            <tr>
-                                <td class="data_cell">@pi.MaPhong</td>
-                                <td class="data_cell">@pi.TenLoaiPhong</td> 
-                                <td class="data_cell">@pi.Tang</td>
-                                <td class="data_cell">@trangThai</td>
-                                <td class="data_cell">@pi.GhiChu</td>
-                               <!-- <td class="data_cell" id="pi.MaPhong">
-                                    <button class="room_body_item__angle_button btn sua" id="edit_room">
-                                        Sửa
-                                    </button>
-                                </td> -->
-                                <td class="data_cell" id="@pi.MaPhong">
-                                    <button class="room_body_item__angle_button btn xoa" id="del_room">
-                                        Xóa
-                                    </button>
-                                </td> 
-                            </tr>
+                                <tr >
+                                    @{
+                                    if (@pi.MaPhong.Length == 3)
+                                    {
+                                                <td class="data_cell">@(0+pi.MaPhong)</td>
+                                    }
+                                    else
+                                    {
+                                                <td class="data_cell">@pi.MaPhong</td>
+                                    }
+                                    }
+                                                  
+                                                      
+                                                        <td class="data_cell">@pi.TenLoaiPhong</td> 
+                                                        <td class="data_cell">@pi.Tang</td>
+                                                        <td class="data_cell">@trangThai</td>
+                                                        <td class="data_cell">@pi.GhiChu</td>
+                                                                                
+                                                        <td class="data_cell">
+                                                            <button class="room_body_item__angle_button btn sua" onclick="viewInfoRoom(@pi.MaPhong.ToString())"  style="cursor:pointer" >
+                                                                Sửa 
+                                                                                  
+                                                            </button>
+                                                        </td> 
+                                                        <td class="data_cell" id="@pi.MaPhong">
+                                                            <button class="room_body_item__angle_button btn xoa" type="submit" id="del_room" style="cursor:pointer">
+                                                                Xóa
+                                                            </button>
+                                                        </td> 
+                                                    </tr>
                         }
                     }
                 }
@@ -180,22 +193,22 @@
                     </table>
                 </div>
 
-  </form>
+  </div>
 
           <!-- popup_room -->
-        <form class="room_profile_popup_window_container" id="room_profile_popup_window_container_id" onsubmit="return validateForm()"  method = "POST">
+        <div class="room_profile_popup_window_container" id="room_profile_popup_window_container_id"  method = "POST">
           <div class="room_profile_popup_window">
                 <div class="header_room_profile_popup_window">
-                    <div class="header_name_room_profile_popup_window">Thêm phòng</div>
+                    <div class="header_name_room_profile_popup_window">Thông tin phòng</div>
                     <i class="fa fa-close header_close_room_profile_popup_window" style="font-size: 1.5rem;" id="header_close_room_profile_popup_window_id"></i>
                 </div>
 
                 <div class="body_room_profile_popup_window">
                     <div class="content_room_profile_popup_window">
                         <div class="code_room_profile_popup_window" id="code_room_profile_popup_window">
-                            <p>Mã phòng:</p>
+                            <p>Mã phòng</p>
 
-                            <input type="number" name="MaPhong" id="MaPhong" required>
+                            <input type="text" name="MaPhong" id="MaPhong" disabled>
 
                         </div>
                         
@@ -207,14 +220,16 @@
                             <div class="data_info_room_profile_popup_window_container">
 
                                 <div class="data_info_room_profile_popup_window">
-                                    <p>Tầng:</p>
-
-                                    <input type="number" class="input_data_info_room_profile_popup_window" name="Tang" id="Tang" required>
                                 
+                                    <p class="require" id="require_Tang">Tầng</p>
+                                
+                          
+                                    <input type="number" class="input_data_info_room_profile_popup_window" name="Tang" id="Tang" required>
+                                    
                                 </div>
 
                                 <div class="data_info_room_profile_popup_window">
-                                    <p>Trạng thái:</p>
+                                    <p  class="require" id="require_TrangThai">Trạng thái</p>
 
                                     <select class="input_data_info_room_profile_popup_window" name="TrangThai" id="TrangThai"> 
 
@@ -230,97 +245,112 @@
                                 </div>
 
                                 <div class="data_info_room_profile_popup_window">
-                                    <p>Số phòng:</p>
+                       
+                                    <p  class="require" id="require_SoPhong">Số phòng </p>                                  
+                            
+
                                     <input type="number" id="SoPhong" class="input_data_info_room_profile_popup_window" name="SoPhong" required>
                                 </div>
 
                                 <div class="data_info_room_profile_popup_window">
-                                    <p>Ghi chú:</p>
-                                    <input type="text" name="GhiChu" id="GhiChu"  placeholder="Ghi chú" class="input_data_info_room_profile_popup_window" required>
+                                    <p>Ghi chú</p>
+                                    <input type="text" name="GhiChu" id="GhiChu"  placeholder="Ghi chú" class="input_data_info_room_profile_popup_window">
                                 </div>
 
                                 <div class="data_info_room_profile_popup_window">
-                                    <p>Loại phòng:</p>
+                                    <p  class="require" id="require_LoaiPhong">Loại phòng</p>
                                     <select name="LoaiPhong" id="LoaiPhong" class="input_data_info_room_profile_popup_window">
                                 @{
 
                                     foreach (var pi in listLoaiPhong)
                                     {
 
-                                        <option value=@pi.MaLoaiPhong>@pi.TenLoaiPhong</option>
+                                                                                            <option value=@pi.MaLoaiPhong>@pi.TenLoaiPhong</option>
                                                   
                                     }                     
                                 }
      
                                     </select>
                                 </div>
-                                
+                                 <p class="ChuThich"></p>
                             </div>
-
+                               
                         </div>
-
+                    
                     </div>
+                    
                 </div>
 
                 <div class="footer_room_profile_popup_window">
-                    <button  id="add_info_popup_window_room_button"  name="btn_add_room" type="submit"> Thêm </button>
+                    <button  id="add_info_popup_window_room_button"  name="btn_add_room"> Thêm </button>
+                    <button   id="edit_button_room_popup" type="submit" onclick="Update_Info_Room_()"> Sửa </button>
                     <button id = "close_popup_window_room_button">Thoát</button>
                 </div>
             </div>
            
-        </form>
+        </div>
+ <style>
+  .require:after {
+    flex-direction:row;
+    content:"*";
+    color: red;
+     font-style: italic;
+  }
+  .ChuThich:after {
+    flex-direction:row;
+    content:" *: bắt buộc";
+    color: red;
+     font-style: italic;
+  }
+</style>
 
 
- @*<div class='regulation-item'>
-  
-        <p>Phòng</p>
-</div> 
-            <div class='popup-container'>
-                <div class='popup'>
-                    <div class='header-popup'>
-                        <div></div>
-                        <i class='fa fa-close'></i>
-                    </div>
-                    <div class='content-popup'>
-                    </div>
-                    <div class='footer-popup'>
-                        <button class='blue-button'>Thay đổi</button>
-                        <button class='cancel-button'>Hủy</button>
-                    </div>
-                </div>
-                <div class='sub-popup-container'>
-                    <div class='sub-popup'>
-                        <div class='header-popup'>
-                            <div></div>
-                            <i class='fa fa-close'></i>
-                        </div>
-                        <div class='content-popup'>
-                            
-                        </div>
-                        <div class='footer-popup'>
-                            <button class='blue-button'>Thay đổi</button>
-                            <button class='cancel-button'>Hủy</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class='confirm-popup-container'>
-                <div class='confirm-popup'>
-                    <div class='header-popup'>
-                        <div></div>
-                        <i class='fa fa-close'></i>
-                    </div>
-                    <div class='content-popup'>
-                        <div class='message'>
-                        </div>
-                    </div>
-                    <div class='footer-popup'>
-                        <button class='blue-button'>Xóa</button>
-                        <button class='cancel-button'>Hủy</button>
-                    </div>
-                </div>
-            </div>*@
+
   <script src="~/js/ListRoom/ListRoom.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+
+<script>
+       
+    function Update_Info_Room_() {
+    {
+        if ($('#room_profile_popup_window_container_id').hasClass("show")) {
+
+            let thongTinPhong = $('.data_info_room_profile_popup_window input');
+            let maPhong = $('.code_room_profile_popup_window input');
+
+            let selectorPhong = $('.data_info_room_profile_popup_window select');
+
+            let form_DataPhong = new FormData();
+
+            form_DataPhong.append("maPhong", maPhong[0].value);
+
+            form_DataPhong.append("tang", thongTinPhong[0].value);
+            form_DataPhong.append("soPhong", thongTinPhong[1].value);
+            form_DataPhong.append("ghiChu", thongTinPhong[2].value);
+
+            form_DataPhong.append("trangThai", selectorPhong[0].value);
+            form_DataPhong.append("maLoaiPhong", selectorPhong[1].value);
+
+
+            let xhr_Update_Data_Room = new XMLHttpRequest();
+            let url_Update_Data_Room = "https://localhost:5001/Home/UpdateRoom";
+            xhr_Update_Data_Room.open("POST", url_Update_Data_Room, true);
+            xhr_Update_Data_Room.timeout = 5000;
+            xhr_Update_Data_Room.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let result = this.responseText;
+
+                }
+            }
+            xhr_Update_Data_Room.send(form_DataPhong);
+
+
+
+            toastMessage({ title: 'Thành công', message: 'Thông tin phòng đã được cập nhật', type: 'success', duration: 3500 });
+        }
+    }
+}
+        
+ </script>
 
      

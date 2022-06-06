@@ -244,8 +244,10 @@ namespace SE104_QuanLyKhachSan.Controllers
             newRoom.GhiChu = formAdd["GhiChu"].ToString();
             newRoom.MaPhong = formAdd["MaPhong"].ToString();
             newRoom.Tang = Convert.ToByte(formAdd["Tang"]);
+            newRoom.SoPhong = Convert.ToByte(formAdd["SoPhong"]);
             newRoom.TrangThai = Convert.ToByte(formAdd["TrangThai"]);
-            newRoom.MaLoaiPhong = int.Parse(formAdd["LoaiPhong"]);
+            newRoom.MaLoaiPhong = Convert.ToByte(formAdd["MaLoaiPhong"]);
+
             return Json(database.postNewRoom(newRoom));
 
         }
@@ -278,16 +280,53 @@ namespace SE104_QuanLyKhachSan.Controllers
             return isSucces;
         }
 
-        public string UpdatePhong(string maPhong, int maLoaiPhong, int tang, int trangThai, string ghiChu)
-        {
-            Database db = new Database();
-            if (db.UpdatePhong(maPhong, maLoaiPhong, tang, trangThai, ghiChu)) return "true";
-            return "false";
-        }
+       
         public JsonResult GetPhong()
         {
             Database db = new Database();
             return Json(db.getAllDetailRoom());
+        }
+        public JsonResult GetChosenStaff(string MaNhanVien)
+        {
+            Database db = new Database();
+            return Json(db.getChosenStaff(MaNhanVien));
+        }
+        public JsonResult GetChosenRoom(string MaPhong)
+        {
+            Database db = new Database();
+            return Json(db.getChosenRoom(MaPhong));
+        }
+        public int UpdateStaff(IFormCollection form)
+        {
+            Database db = new Database();
+           NhanVien info_Staf = new NhanVien();
+            info_Staf.CCCD = form["CCCD"].ToString();
+            info_Staf.MaNhanVien = (form["MaNhanVien"]).ToString();
+            info_Staf.MatKhau = (form["MatKhau"]).ToString();
+            info_Staf.HoTen = (form["HoTen"]).ToString();
+            info_Staf.SoDienThoai = (form["SoDienThoai"]).ToString();
+            info_Staf.NgaySinh= Convert.ToDateTime(form["NgaySinh"]);
+  
+            info_Staf.Email = (form["Email"]).ToString();
+            info_Staf.GioiTinh = Convert.ToByte(form["GioiTinh"]);
+
+            info_Staf.NgayVaoLam = Convert.ToDateTime(form["NgayVaoLam"]);
+            info_Staf.Luong = Convert.ToInt32(form["Luong"]);
+            info_Staf.MaChucVu = Convert.ToByte(form["MaChucVu"]);
+
+            return db.UpdateStaff(info_Staf);
+        }
+        public int UpdateRoom(IFormCollection form)
+        {
+            Database db = new Database();
+            Phong info_Room = new Phong();
+            info_Room.MaPhong = form["MaPhong"].ToString();
+            info_Room.MaLoaiPhong = Convert.ToByte(form["MaLoaiPhong"]);
+            info_Room.Tang = Convert.ToByte(form["Tang"]);
+            info_Room.SoPhong = Convert.ToByte(form["SoPhong"]);
+            info_Room.TrangThai = Convert.ToByte(form["TrangThai"]);
+            info_Room.GhiChu = form["GhiChu"].ToString();
+            return db.UpdateRoom(info_Room);
         }
 
     }

@@ -28,6 +28,12 @@ namespace SE104_QuanLyKhachSan.Models
             get { return tang; }
             set { tang = value; }
         }
+        private byte soPhong;
+        public byte SoPhong
+        {
+            get { return soPhong; }
+            set { soPhong = value; }
+        }
         private byte trangThai;
         public byte TrangThai
         {
