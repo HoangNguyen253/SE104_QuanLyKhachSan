@@ -237,7 +237,7 @@ namespace SE104_QuanLyKhachSan.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public JsonResult addRoom(IFormCollection formAdd)
+        public string addRoom(IFormCollection formAdd)
         {
             Phong newRoom = new Phong();
             Database database = new Database();
@@ -249,10 +249,10 @@ namespace SE104_QuanLyKhachSan.Controllers
             newRoom.TrangThai = Convert.ToByte(formAdd["TrangThai"]);
             newRoom.MaLoaiPhong = Convert.ToByte(formAdd["MaLoaiPhong"]);
 
-            return Json(database.postNewRoom(newRoom));
+            return database.postNewRoom(newRoom);
 
         }
-        public JsonResult addStaff(IFormCollection formAdd)
+        public string addStaff(IFormCollection formAdd)
         {
             NhanVien newStaff = new NhanVien();
             Database database = new Database();
@@ -269,17 +269,11 @@ namespace SE104_QuanLyKhachSan.Controllers
             newStaff.MaChucVu = Convert.ToByte(formAdd["MaChucVu"]);
             newStaff.Luong = Convert.ToInt32(formAdd["Luong"]);
 
-          
-            return Json(database.postNewStaff(newStaff));
+            return database.postNewStaff(newStaff);
 
         }
 
-        public int RemoveRoom(string MaPhong)
-        {
-            Database db = new Database();
-            int isSucces = db.XoaPhong(MaPhong);
-            return isSucces;
-        }
+   
 
        
         public JsonResult GetPhong()
@@ -297,7 +291,7 @@ namespace SE104_QuanLyKhachSan.Controllers
             Database db = new Database();
             return Json(db.getChosenRoom(MaPhong));
         }
-        public int UpdateStaff(IFormCollection form)
+        public string UpdateStaff(IFormCollection form)
         {
             Database db = new Database();
            NhanVien info_Staf = new NhanVien();
@@ -317,7 +311,7 @@ namespace SE104_QuanLyKhachSan.Controllers
 
             return db.UpdateStaff(info_Staf);
         }
-        public int UpdateRoom(IFormCollection form)
+        public string UpdateRoom(IFormCollection form)
         {
             Database db = new Database();
             Phong info_Room = new Phong();
@@ -334,6 +328,11 @@ namespace SE104_QuanLyKhachSan.Controllers
         {
             Database db = new Database();
             return db.DeleteStaff(MaNV);
+        }
+        public string DeleteRoom(string MaP)
+        {
+            Database db = new Database();
+            return db.DeleteRoom(MaP);
         }
 
     }

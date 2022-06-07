@@ -54,7 +54,29 @@
 
             xhr_add_phong.open("POST", url_add_phong, true);
             xhr_add_phong.send(form);
-            toastMessage({ title: 'Thành công', message: 'Thêm phòng thành công', type: 'success', duration: 3500 });
+
+            xhr_add_phong.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let status = this.response;
+                    if (status == "success")
+                    {
+                        toastMessage({ title: 'Thành công', message: 'Thêm thành công', type: 'success', duration: 3500 });
+                        $.ajax({
+                            url: '/Home/ListRoom',
+                            success: function (data, status) {
+                                $('#main_working_window_id').html(data);
+                                console.log(status);
+                            }
+                        })
+                    }
+
+                    else
+                    {
+                        toastMessage({ title: 'Thât bại', message: 'Thêm thất bại do trùng mã phòng', type: 'fail', duration: 3500 });
+                    }
+                }
+
+            }
 
         }
         else {
@@ -236,7 +258,7 @@
       
 })
 
-var edit = document.querySelectorAll('#del_room');
+/*var edit = document.querySelectorAll('#del_room');
 
 for (let i = 0; i < edit.length; i++) {
     edit[i].addEventListener('click', () => {
@@ -264,6 +286,52 @@ for (let i = 0; i < edit.length; i++) {
             xhr_login.send();
         }
     });
+}*/
+
+
+function deleteInfoRoom(maPhong) {
+
+    var answer = window.confirm("Bạn có muốn xóa");
+    if (answer) {
+        let xhr_del_phong = new XMLHttpRequest();
+        let url_del_phong = "/Home/DeleteRoom?MaP=" + maPhong;
+
+
+        xhr_del_phong.open("POST", url_del_phong, true);
+        xhr_del_phong.send();
+
+        xhr_del_phong.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let status = this.response;
+                if (status == "success") {
+                    toastMessage({ title: 'Success', message: 'Xóa thành công', type: 'success', duration: 3500 });
+                    $.ajax({
+                        url: '/Home/ListRoom',
+                        success: function (data, status) {
+                            $('#main_working_window_id').html(data);
+                            console.log(status);
+                        }
+                    })
+                }
+                else if (status == "fired") {
+                    toastMessage({ title: 'Success', message: 'Xóa thành công', type: 'success', duration: 3500 });
+                    $.ajax({
+                        url: '/Home/ListRoom',
+                        success: function (data, status) {
+                            $('#main_working_window_id').html(data);
+                            console.log(status);
+                        }
+                    })
+                }
+                else {
+                    toastMessage({ title: 'Fail', message: 'Xóa thất bại', type: 'fail', duration: 3500 });
+                }
+            }
+
+        }
+
+    }
+
 }
 
 
@@ -303,6 +371,8 @@ function viewInfoRoom(maPhong) {
         if (this.readyState == 4 && this.status == 200) {
             let dataPhong = JSON.parse(this.response);
 
+
+
             document.getElementById('room_profile_popup_window_container_id').classList.add("show");
             document.getElementById('room_profile_popup_window_container_id').classList.add("suaphong");
             document.getElementById('SoPhong').disabled = true;
@@ -324,13 +394,15 @@ function viewInfoRoom(maPhong) {
             let selecttDataPhong = document.querySelectorAll('.data_info_room_profile_popup_window select');
             selecttDataPhong[0].value = dataPhong["trangThai"];
             selecttDataPhong[1].value = dataPhong["maLoaiPhong"];
+
+         
         }
-
-    }
-
-   
+     }
 
 }
+  
+
+  
 
 
 

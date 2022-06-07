@@ -303,9 +303,9 @@
                                                  "     on lp.MaLoaiPhong = p.MaLoaiPhong; ";
 
 
-        public static string postNewRoom = "insert into phong(MaPhong, MaLoaiPhong, Tang, SoPhong, TrangThai, GhiChu) " +
-            "select @MaPhong, @MaLoaiPhong, @Tang, @SoPhong, @TrangThai, @GhiChu " +
-            "where not exists(select * from phong where MaPhong = @MaPhong);";
+        public static string postNewRoom = "insert into phong(MaPhong, MaLoaiPhong, Tang, SoPhong, TrangThai, GhiChu) values " +
+            "(@MaPhong, @MaLoaiPhong, @Tang, @SoPhong, @TrangThai, @GhiChu)";
+
 
         public static string postNewStaff = "insert into nhanvien(MaNhanVien,MatKhau,CCCD,HoTen,GioiTinh,NgaySinh,Email,SoDienThoai,NgayVaoLam,MaChucVu,Luong) values " +
                                               "(@MaNhanVien,@MatKhau,@CCCD,@HoTen,@GioiTinh,@NgaySinh,@Email,@SoDienThoai,@NgayVaoLam,@MaChucVu,@Luong)";

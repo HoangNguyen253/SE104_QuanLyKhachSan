@@ -180,7 +180,7 @@
                                                             </button>
                                                         </td> 
                                                         <td class="data_cell" id="@pi.MaPhong">
-                                                            <button class="room_body_item__angle_button btn xoa" type="submit" id="del_room" style="cursor:pointer">
+                                                            <button class="room_body_item__angle_button btn xoa" type="submit" onclick="deleteInfoRoom(@pi.MaPhong)" id="del_room" style="cursor:pointer">
                                                                 Xóa
                                                             </button>
                                                         </td> 
@@ -336,17 +336,31 @@
             let url_Update_Data_Room = "https://localhost:5001/Home/UpdateRoom";
             xhr_Update_Data_Room.open("POST", url_Update_Data_Room, true);
             xhr_Update_Data_Room.timeout = 5000;
-            xhr_Update_Data_Room.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    let result = this.responseText;
-
-                }
-            }
+        
             xhr_Update_Data_Room.send(form_DataPhong);
+             xhr_Update_Data_Room.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                let status = this.response;
+                                if (status == "success") {
+                                    toastMessage({ title: 'Thành công', message: 'Cập nhật thông tin phòng thành công', type: 'success', duration: 3500 });
+                                    $.ajax({
+                                        url: '/Home/ListRoom',
+                                        success: function(data, status) {
+                                            $('#main_working_window_id').html(data);
+                                            console.log(status);
+
+                                        }
+                                    })
+                                }
+                                else {
+                                     toastMessage({ title: 'Thất bại', message: 'Cập nhật thông tin phòng thất bại', type: 'fail', duration: 3500 });
+                                }
+            }
+        }
 
 
 
-            toastMessage({ title: 'Thành công', message: 'Thông tin phòng đã được cập nhật', type: 'success', duration: 3500 });
+           
         }
     }
 }

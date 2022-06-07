@@ -73,6 +73,29 @@ $(document).ready(function (e) {
 
             xhr_add_nhanvien.open("POST", url_add_nhanvien, true);
             xhr_add_nhanvien.send(form);
+
+            xhr_add_nhanvien.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let status = this.response;
+                    if (status == "success")
+                    {
+                        toastMessage({ title: 'Success', message: 'Thêm thành công', type: 'success', duration: 3500 });
+                        $.ajax({
+                            url: '/Home/ListStaff',
+                            success: function (data, status) {
+                                $('#main_working_window_id').html(data);
+                                console.log(status);
+                            }
+                        })
+                    }
+                  
+                    else
+                    {
+                        toastMessage({ title: 'Fail', message: 'Thêm thất bại do trùng mã nhân viên', type: 'fail', duration: 3500 });
+                    }
+                }
+
+            }
         }
         else {
     
@@ -110,7 +133,10 @@ $(document).ready(function (e) {
 
 
 function validateForm() {
-   
+    //let listMaNhanVien = document.querySelectorAll('.data_cell manhanvien').values;
+
+
+
     var maNhanVien = document.getElementById("MaNhanVien").value;
     var matKhau = document.getElementById("MatKhau").value;
     var CCCD = document.getElementById("CCCD").value;
@@ -120,6 +146,16 @@ function validateForm() {
     var ngayVaoLam = document.getElementById("NgayVaoLam").value;
     var luong = document.getElementById("Luong").value;
 
+  /*  for (let i = 0; i <= listMaNhanVien.length; i++) {
+        if (maNhanVien == listMaNhanVien[i]) {
+            toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Mã nhân viên đã tồn tại', type: 'fail', duration: 3500 });
+            return false;
+        }
+    }*/
+    if (maNhanVien.length != 6) {
+        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Mã nhân viên phải đủ 6 ký tự', type: 'fail', duration: 3500 });
+        return false;
+    }
     if (matKhau == "" || maNhanVien == "" || hoTen == "" || ngaySinh == "" || ngayVaoLam == "" || luong == "" || CCCD=="") {
         toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Điền đủ vào các trường bắt buộc', type: 'fail', duration: 3500 });
         return false;
@@ -188,7 +224,10 @@ function viewInfoStaff(maNhanVien) {
             let selecttDataNhanVien = document.querySelectorAll('.data_info_staff_profile_popup_add_window select');
             selecttDataNhanVien[0].value = dataNhanVien["gioiTinh"];
             selecttDataNhanVien[1].value = dataNhanVien["maChucVu"];
+
+          
         }
+       
         
     }
 }

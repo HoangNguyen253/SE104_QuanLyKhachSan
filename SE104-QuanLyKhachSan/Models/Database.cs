@@ -2460,7 +2460,7 @@ namespace SE104_QuanLyKhachSan.Models
                                 lp.MaLoaiPhong = Convert.ToInt32(result["MaLoaiPhong"]);
                                 lp.GiaTienCoBan = Convert.ToInt32(result["GiaTienCoBan"]);
                                 lp.TenLoaiPhong = result["TenLoaiPhong"].ToString();
-                                lp.DaXoa = Convert.ToByte(result["DaXoa"]);
+                      
                                 listLoaiPhong.Add(lp);
                             }
                             conn.Close();
@@ -2481,7 +2481,7 @@ namespace SE104_QuanLyKhachSan.Models
             }
         }
 
-        public object postNewRoom(Phong ph)
+        public string postNewRoom(Phong ph)
         {
        
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
@@ -2499,17 +2499,18 @@ namespace SE104_QuanLyKhachSan.Models
                     cmd.Parameters.AddWithValue("GhiChu", ph.GhiChu);
                     cmd.ExecuteNonQuery();
                     conn.Close();
+                    return "success";
                 }
                 catch (Exception ex)
                 {
-                  
+                    return "fail";
                 
                 }
             }
-            return null;
+
 
         }
-        public object postNewStaff(NhanVien nv)
+        public string postNewStaff(NhanVien nv)
         {
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
@@ -2534,13 +2535,14 @@ namespace SE104_QuanLyKhachSan.Models
 
 
                     conn.Close();
+                    return "success";
                 }
                 catch
                 {
-                    
+                    return "fail";
                 }
             }
-            return null;
+
 
         }
         public List<ChucVu> getAllDetailRoles()
@@ -2562,7 +2564,7 @@ namespace SE104_QuanLyKhachSan.Models
                                 ChucVu cv = new ChucVu();
                                 cv.MaChucVu = Convert.ToByte(result["MaChucVu"]);
                                 cv.TenChucVu = result["TenChucVu"].ToString();
-                                cv.DaXoa = Convert.ToByte(result["DaXoa"]);
+                       
 
                                 listChucVu.Add(cv);
                             }
@@ -2624,7 +2626,6 @@ namespace SE104_QuanLyKhachSan.Models
                         }
                         else
                         {
-
                             conn.Close();
                             return null;
                         }
@@ -2688,31 +2689,7 @@ namespace SE104_QuanLyKhachSan.Models
             }
         }
 
-        public int XoaPhong(string MaPhong)
-        {
-            try
-            {
-                using (MySqlConnection conn = new MySqlConnection(ConnectionString))
-                {
-                    conn.Open();
-                    string str = " DELETE FROM Phong where MaPhong = @MaPhong";
-
-                    MySqlCommand cmd = new MySqlCommand(str, conn);
-                    cmd.Parameters.AddWithValue("MaPhong", MaPhong);
-                    int check = cmd.ExecuteNonQuery();
-                    conn.Close();
-
-                    return check;
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-        public int UpdateStaff(NhanVien info_staff)
+        public string UpdateStaff(NhanVien info_staff)
         {
             try
             {
@@ -2735,19 +2712,18 @@ namespace SE104_QuanLyKhachSan.Models
                     cmd.Parameters.AddWithValue("MatKhau", info_staff.MatKhau);
 
 
-                    int result = cmd.ExecuteNonQuery();
-                    return result;
+                   cmd.ExecuteNonQuery();
+                    return "success";
                 }
 
-                return 0;
+               
             }
             catch (Exception)
             {
-
-                throw;
+                return "";
             }
         }
-        public int UpdateRoom(Phong ph)
+        public string UpdateRoom(Phong ph)
         {
             try
             {
@@ -2767,14 +2743,13 @@ namespace SE104_QuanLyKhachSan.Models
                     cmd.Parameters.AddWithValue("tang", ph.Tang);
                     cmd.Parameters.AddWithValue("soPhong", ph.SoPhong);
 
-                    int isSuccess = cmd.ExecuteNonQuery();
-                    return isSuccess;
+                   cmd.ExecuteNonQuery();
+                    return "success";
                 }
             }
             catch (Exception)
             {
-
-                throw;
+                return "";
             }
         }
 
@@ -2788,6 +2763,25 @@ namespace SE104_QuanLyKhachSan.Models
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("manv", MaNhanVien);
+                using (var result = cmd.ExecuteReader())
+                {
+                    if (result.HasRows)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+        }
+
+        public bool IsRoomUsed(string MaPhong)
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+                string queryString = " SELECT DISTINCT cthd.MaPhong FROM chitiethoadon cthd WHERE EXISTS(SELECT MaPhong FROM phong) AND MaPhong = @map ";
+
+                MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
+                cmd.Parameters.AddWithValue("map", MaPhong);
                 using (var result = cmd.ExecuteReader())
                 {
                     if (result.HasRows)
@@ -2842,6 +2836,47 @@ namespace SE104_QuanLyKhachSan.Models
                     MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
                     cmd.Parameters.AddWithValue("manv", MaNhanVien);
                     cmd.Parameters.AddWithValue("machucvu", MaChucVuSaThai);
+                    int check = cmd.ExecuteNonQuery();
+                    if (check >= 1)
+                        return "fired";
+                    else
+                        return "fail";
+                }
+            }
+        }
+
+        public string DeleteRoom(string MaPhong)
+        {
+            //nv chua duoc dung => xoa cmn luon
+            if (!IsRoomUsed(MaPhong))
+            {
+
+                using (MySqlConnection connectioncheck = this.GetConnection())
+                {
+                    connectioncheck.Open();
+                    string str = " DELETE FROM nhanvien WHERE  MaPhong = @maphong ";
+                    MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
+                    cmd.Parameters.AddWithValue("maphong", MaPhong);
+                    int check = cmd.ExecuteNonQuery();
+                    if (check >= 1)
+                        return "success";
+                    else
+                        return "fail";
+                }
+            }
+            //neu da ton tai thi update lai status => chức vụ đã sa thải
+            else
+            {
+       
+               
+
+                using (MySqlConnection connectioncheck = this.GetConnection())
+                {
+                    connectioncheck.Open();
+                    string str = " UPDATE `phong` SET MaTrangThai = @matrangthai WHERE MaPhong = @map ";
+                    MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
+                    cmd.Parameters.AddWithValue("map", MaPhong);
+                    cmd.Parameters.AddWithValue("matrangthai", 0);
                     int check = cmd.ExecuteNonQuery();
                     if (check >= 1)
                         return "fired";
