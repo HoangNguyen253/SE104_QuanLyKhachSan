@@ -2777,7 +2777,80 @@ namespace SE104_QuanLyKhachSan.Models
                 throw;
             }
         }
-   
+
+        //1 đã xài, 0 chưa xài bao giờ
+        public bool IsStaffUsed(string MaNhanVien)
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+                string queryString = " SELECT DISTINCT hoadon.MaNhanVien FROM hoadon WHERE EXISTS(SELECT nhanvien.MaNhanVien FROM nhanvien) AND MaNhanVien = '@manv' ";
+
+                MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
+                cmd.Parameters.AddWithValue("manv", MaNhanVien);
+                using (var result = cmd.ExecuteReader())
+                {
+                    if (result.HasRows)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+        }
+
+        public string DeleteStaff(string MaNhanVien)
+        {
+            //nv chua duoc dung => xoa cmn luon
+            if (!IsStaffUsed(MaNhanVien))
+            {
+
+                using (MySqlConnection connectioncheck = this.GetConnection())
+                {
+                    connectioncheck.Open();
+                    string str = " DELETE FROM nhanvien WHERE  MaNhanVien = @manv ";
+                    MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
+                    cmd.Parameters.AddWithValue("manv", MaNhanVien);
+                    int check = cmd.ExecuteNonQuery();
+                    if (check >= 1)
+                        return "success";
+                    else
+                        return "fail";
+                }
+            }
+            //neu da ton tai thi update lai status => chức vụ đã sa thải
+            else
+            {
+                int MaChucVuSaThai = 0;
+                using (MySqlConnection connectioncheck = this.GetConnection())
+                {
+                    connectioncheck.Open();
+                    string str = " SELECT `MaChucVu` FROM `chucvu` WHERE TenChucVu = 'Đã sa thải' ";
+                    MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
+                    using (var result = cmd.ExecuteReader())
+                    {
+                        while (result.Read())
+                        {
+                            MaChucVuSaThai = Convert.ToInt32(result["MaChucVu"]);
+                        }
+                    }
+                }
+
+                 using (MySqlConnection connectioncheck = this.GetConnection())
+                {
+                    connectioncheck.Open();
+                    string str = " UPDATE `nhanvien` SET MaChucVu = @machucvu WHERE nhanvien.MaNhanVien = @manv ";
+                    MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
+                    cmd.Parameters.AddWithValue("manv", MaNhanVien);
+                    cmd.Parameters.AddWithValue("machucvu", MaChucVuSaThai);
+                    int check = cmd.ExecuteNonQuery();
+                    if (check >= 1)
+                        return "fired";
+                    else
+                        return "fail";
+                }
+            }
+        }
+
         //Hiếu - end
         #endregion
 

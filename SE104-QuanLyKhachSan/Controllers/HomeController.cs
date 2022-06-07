@@ -329,7 +329,13 @@ namespace SE104_QuanLyKhachSan.Controllers
             info_Room.GhiChu = form["GhiChu"].ToString();
             return db.UpdateRoom(info_Room);
         }
-     
+
+        public string DeleteStaff(string MaNV)
+        {
+            Database db = new Database();
+            return db.DeleteStaff(MaNV);
+        }
+
     }
 
 }

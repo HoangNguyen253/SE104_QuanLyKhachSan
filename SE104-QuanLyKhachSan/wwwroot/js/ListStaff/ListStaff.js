@@ -195,42 +195,47 @@ function viewInfoStaff(maNhanVien) {
 
 function deleteInfoStaff(maNhanVien) {
 
-    let xhr_add_nhanvien = new XMLHttpRequest();
-    let url_add_nhanvien = "/Home/GetChosenStaff?MaNhanVien=" + maNhanVien;
+    var answer = window.confirm("Bạn có muốn xóa");
+    if (answer) {
+        let xhr_add_nhanvien = new XMLHttpRequest();
+        let url_add_nhanvien = "/Home/DeleteStaff?MaNV=" + maNhanVien;
 
 
-    xhr_add_nhanvien.open("POST", url_add_nhanvien, true);
-    xhr_add_nhanvien.send();
+        xhr_add_nhanvien.open("POST", url_add_nhanvien, true);
+        xhr_add_nhanvien.send();
 
-    xhr_add_nhanvien.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let dataNhanVien = JSON.parse(this.response);
+        xhr_add_nhanvien.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let status = this.response;
+                if (status == "success") {
+                    toastMessage({ title: 'Success', message: 'Xóa thành công', type: 'success', duration: 3500 });
+                    $.ajax({
+                        url: '/Home/ListStaff',
+                        success: function (data, status) {
+                            $('#main_working_window_id').html(data);
+                            console.log(status);
+                        }
+                    })
+                }
+                else if (status == "fired") {
+                    toastMessage({ title: 'Success', message: 'Sa thải thành công', type: 'success', duration: 3500 });
+                    $.ajax({
+                        url: '/Home/ListStaff',
+                        success: function (data, status) {
+                            $('#main_working_window_id').html(data);
+                            console.log(status);
+                        }
+                    })
+                }
+                else {
+                    toastMessage({ title: 'Fail', message: 'Xóa thất bại', type: 'fail', duration: 3500 });
+                }
+            }
 
-            document.getElementById('staff_profile_popup_add_window_container_id').classList.add("show");
-            document.getElementById('staff_profile_popup_add_window_container_id').classList.add("suanhanvien");
-            document.getElementById('MaNhanVien').disabled = true;
-
-
-            let inputDataNhanVien = document.querySelectorAll('.data_info_staff_profile_popup_add_window input');
-
-            inputDataNhanVien[0].value = dataNhanVien["hoTen"];
-            inputDataNhanVien[1].value = dataNhanVien["maNhanVien"];
-            inputDataNhanVien[2].value = dataNhanVien["matKhau"];
-            inputDataNhanVien[3].value = dataNhanVien["cccd"];
-            inputDataNhanVien[4].value = dataNhanVien["soDienThoai"];
-            inputDataNhanVien[5].value = dataNhanVien["ngaySinh"].substr(0, 10);
-            inputDataNhanVien[6].value = dataNhanVien["email"];
-
-            inputDataNhanVien[7].value = dataNhanVien["ngayVaoLam"].substr(0, 10);
-            inputDataNhanVien[8].value = dataNhanVien["luong"];
-
-            let selecttDataNhanVien = document.querySelectorAll('.data_info_staff_profile_popup_add_window select');
-            selecttDataNhanVien[0].value = dataNhanVien["gioiTinh"];
-            selecttDataNhanVien[1].value = dataNhanVien["maChucVu"];
         }
 
     }
-
+  
 }
 
 
