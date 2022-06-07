@@ -32,7 +32,7 @@ $(document).ready(function (e) {
         document.getElementById("SoDienThoai").value = "";
         document.getElementById("NgayVaoLam").value = "";
 
-        document.getElementById("HinhAnh").value = "";
+  
         document.getElementById("Luong").value="";
 
     })
@@ -50,8 +50,8 @@ $(document).ready(function (e) {
             let soDienThoai = document.getElementById("SoDienThoai").value;
             let ngayVaoLam = document.getElementById("NgayVaoLam").value;
             let maChucVu = document.getElementById("MaChucVu").value;
-            let hinhAnh = document.getElementById("HinhAnh").value;
-            hinhAnh = "abcd";
+       
+   
             let luong = document.getElementById("Luong").value;
 
             let form = new FormData();
@@ -68,7 +68,7 @@ $(document).ready(function (e) {
             form.append("SoDienThoai", soDienThoai);
             form.append("NgayVaoLam", ngayVaoLam);
             form.append("MaChucVu", maChucVu);
-            form.append("HinhAnh", hinhAnh);
+      
             form.append("Luong", luong);
 
             xhr_add_nhanvien.open("POST", url_add_nhanvien, true);
@@ -110,6 +110,7 @@ $(document).ready(function (e) {
 
 
 function validateForm() {
+   
     var maNhanVien = document.getElementById("MaNhanVien").value;
     var matKhau = document.getElementById("MatKhau").value;
     var CCCD = document.getElementById("CCCD").value;
@@ -119,7 +120,8 @@ function validateForm() {
     var ngayVaoLam = document.getElementById("NgayVaoLam").value;
     var luong = document.getElementById("Luong").value;
 
-    if (matKhau == "" || maNhanVien == ""|| hoTen == "" || ngaySinh == "" || ngayVaoLam == "" || luong == "" ) {
+    if (matKhau == "" || maNhanVien == "" || hoTen == "" || ngaySinh == "" || ngayVaoLam == "" || luong == "" || CCCD=="") {
+        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Điền đủ vào các trường bắt buộc', type: 'fail', duration: 3500 });
         return false;
     }
 
@@ -146,6 +148,7 @@ function validateForm() {
     }
     if (matKhau.length < 8) {
         toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Mật khẩu ít nhất 8 ký tự', type: 'fail', duration: 3500 });
+        return false;
     }
     return true;
  
@@ -188,6 +191,46 @@ function viewInfoStaff(maNhanVien) {
         }
         
     }
+}
+
+function deleteInfoStaff(maNhanVien) {
+
+    let xhr_add_nhanvien = new XMLHttpRequest();
+    let url_add_nhanvien = "/Home/GetChosenStaff?MaNhanVien=" + maNhanVien;
+
+
+    xhr_add_nhanvien.open("POST", url_add_nhanvien, true);
+    xhr_add_nhanvien.send();
+
+    xhr_add_nhanvien.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let dataNhanVien = JSON.parse(this.response);
+
+            document.getElementById('staff_profile_popup_add_window_container_id').classList.add("show");
+            document.getElementById('staff_profile_popup_add_window_container_id').classList.add("suanhanvien");
+            document.getElementById('MaNhanVien').disabled = true;
+
+
+            let inputDataNhanVien = document.querySelectorAll('.data_info_staff_profile_popup_add_window input');
+
+            inputDataNhanVien[0].value = dataNhanVien["hoTen"];
+            inputDataNhanVien[1].value = dataNhanVien["maNhanVien"];
+            inputDataNhanVien[2].value = dataNhanVien["matKhau"];
+            inputDataNhanVien[3].value = dataNhanVien["cccd"];
+            inputDataNhanVien[4].value = dataNhanVien["soDienThoai"];
+            inputDataNhanVien[5].value = dataNhanVien["ngaySinh"].substr(0, 10);
+            inputDataNhanVien[6].value = dataNhanVien["email"];
+
+            inputDataNhanVien[7].value = dataNhanVien["ngayVaoLam"].substr(0, 10);
+            inputDataNhanVien[8].value = dataNhanVien["luong"];
+
+            let selecttDataNhanVien = document.querySelectorAll('.data_info_staff_profile_popup_add_window select');
+            selecttDataNhanVien[0].value = dataNhanVien["gioiTinh"];
+            selecttDataNhanVien[1].value = dataNhanVien["maChucVu"];
+        }
+
+    }
+
 }
 
 

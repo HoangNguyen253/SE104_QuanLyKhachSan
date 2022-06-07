@@ -38,6 +38,7 @@
             let trangThai = document.getElementById("TrangThai").value;
             let soPhong = document.getElementById("SoPhong").value;
             let loaiPhong = document.getElementById("LoaiPhong").value;
+            
 
 
             let form = new FormData();
@@ -68,7 +69,7 @@
         document.getElementById("SoPhong").value = "";
 
         document.getElementById("GhiChu").value = "";
-        document.getElementById('MaPhong').disabled = false;
+
         document.getElementById('SoPhong').disabled = false;
         document.getElementById('Tang').disabled = false;
 
@@ -306,6 +307,7 @@ function viewInfoRoom(maPhong) {
             document.getElementById('room_profile_popup_window_container_id').classList.add("suaphong");
             document.getElementById('SoPhong').disabled = true;
             document.getElementById('Tang').disabled = true;
+           
 
 
             let inputDataPhong = document.querySelectorAll('.data_info_room_profile_popup_window input');

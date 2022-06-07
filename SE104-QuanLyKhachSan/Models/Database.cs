@@ -2349,111 +2349,135 @@ namespace SE104_QuanLyKhachSan.Models
         //Hiếu - begin
         public List<NhanVien> getAllDetailStaff()
         {
-            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllDetailStaff, conn);
-                List<NhanVien> listNhanVien = new List<NhanVien>();
-                using (var result = cmd.ExecuteReader())
+                using (MySqlConnection conn = new MySqlConnection(ConnectionString))
                 {
-                    if (result.HasRows)
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllDetailStaff, conn);
+                    List<NhanVien> listNhanVien = new List<NhanVien>();
+                    using (var result = cmd.ExecuteReader())
                     {
-                        while (result.Read())
+                        if (result.HasRows)
                         {
-                            NhanVien nv = new NhanVien();
-                            nv.MaNhanVien = result["MaNhanVien"].ToString();
-                            nv.MatKhau = result["MatKhau"].ToString();
-                            nv.CCCD = result["CCCD"].ToString();
-                            nv.HoTen = result["HoTen"].ToString();
-                            nv.GioiTinh = Convert.ToByte(result["GioiTinh"]);
-                            nv.NgaySinh = Convert.ToDateTime(result["NgaySinh"]);
-                            nv.Email = result["Email"].ToString();
-                            nv.SoDienThoai = result["SoDienThoai"].ToString();
-                            nv.NgayVaoLam = Convert.ToDateTime(result["NgayVaoLam"]);
-                            nv.MaChucVu = Convert.ToUInt16(result["MaChucVu"]);
-                            nv.TenChucVu = result["TenChucVu"].ToString();
-                            nv.HinhAnh = result["HinhAnh"].ToString();
-                            nv.Luong = Convert.ToInt32(result["Luong"]);
-                            listNhanVien.Add(nv);
+                            while (result.Read())
+                            {
+                                NhanVien nv = new NhanVien();
+                                nv.MaNhanVien = result["MaNhanVien"].ToString();
+                                nv.MatKhau = result["MatKhau"].ToString();
+                                nv.CCCD = result["CCCD"].ToString();
+                                nv.HoTen = result["HoTen"].ToString();
+                                nv.GioiTinh = Convert.ToByte(result["GioiTinh"]);
+                                nv.NgaySinh = Convert.ToDateTime(result["NgaySinh"]);
+                                nv.Email = result["Email"].ToString();
+                                nv.SoDienThoai = result["SoDienThoai"].ToString();
+                                nv.NgayVaoLam = Convert.ToDateTime(result["NgayVaoLam"]);
+                                nv.MaChucVu = Convert.ToUInt16(result["MaChucVu"]);
+                                nv.TenChucVu = result["TenChucVu"].ToString();
+
+                                nv.Luong = Convert.ToInt32(result["Luong"]);
+                                listNhanVien.Add(nv);
+                            }
+                            conn.Close();
+                            return listNhanVien;
                         }
-                        conn.Close();
-                        return listNhanVien;
-                    }
-                    else
-                    {
-                        conn.Close();
-                        return null;
+                        else
+                        {
+                            conn.Close();
+                            return null;
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
         public List<Phong> getAllDetailRoom()
         {
-            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllDetailRoom, conn);
-                List<Phong> listPhong = new List<Phong>();
-
-                using (var result = cmd.ExecuteReader())
+                using (MySqlConnection conn = new MySqlConnection(ConnectionString))
                 {
-                    if (result.HasRows)
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllDetailRoom, conn);
+                    List<Phong> listPhong = new List<Phong>();
+
+                    using (var result = cmd.ExecuteReader())
                     {
-                        while (result.Read())
+                        if (result.HasRows)
                         {
-                            Phong p = new Phong();
-                            p.MaPhong = result["MaPhong"].ToString();
-                            p.MaLoaiPhong = Convert.ToInt32(result["MaLoaiPhong"]);
-                            p.Tang = Convert.ToByte(result["Tang"]);
-                            p.TenLoaiPhong = result["TenLoaiPhong"].ToString();
-                            p.TrangThai = Convert.ToByte(result["TrangThai"]);
-                            p.GhiChu = result["GhiChu"].ToString();
+                            while (result.Read())
+                            {
+                                Phong p = new Phong();
+                                p.MaPhong = result["MaPhong"].ToString();
+                                p.MaLoaiPhong = Convert.ToInt32(result["MaLoaiPhong"]);
+                                p.Tang = Convert.ToByte(result["Tang"]);
+                                p.TenLoaiPhong = result["TenLoaiPhong"].ToString();
+                                p.TrangThai = Convert.ToByte(result["TrangThai"]);
+                                p.GhiChu = result["GhiChu"].ToString();
 
 
-                            listPhong.Add(p);
+                                listPhong.Add(p);
+                            }
+                            conn.Close();
+                            return listPhong;
                         }
-                        conn.Close();
-                        return listPhong;
-                    }
-                    else
-                    {
-                        conn.Close();
-                        return null;
+                        else
+                        {
+                            conn.Close();
+                            return null;
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
         public List<LoaiPhong> getAllRoomStyle()
         {
-            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllRoomStyle, conn);
-                List<LoaiPhong> listLoaiPhong = new List<LoaiPhong>();
-
-                using (var result = cmd.ExecuteReader())
+                using (MySqlConnection conn = new MySqlConnection(ConnectionString))
                 {
-                    if (result.HasRows)
-                    {
-                        while (result.Read())
-                        {
-                            LoaiPhong lp = new LoaiPhong();
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllRoomStyle, conn);
+                    List<LoaiPhong> listLoaiPhong = new List<LoaiPhong>();
 
-                            lp.MaLoaiPhong = Convert.ToInt32(result["MaLoaiPhong"]);
-                            lp.GiaTienCoBan = Convert.ToInt32(result["GiaTienCoBan"]);
-                            lp.TenLoaiPhong = result["TenLoaiPhong"].ToString();
-                            lp.DaXoa = Convert.ToByte(result["DaXoa"]);
-                            listLoaiPhong.Add(lp);
-                        }
-                        conn.Close();
-                        return listLoaiPhong;
-                    }
-                    else
+                    using (var result = cmd.ExecuteReader())
                     {
-                        conn.Close();
-                        return null;
+                        if (result.HasRows)
+                        {
+                            while (result.Read())
+                            {
+                                LoaiPhong lp = new LoaiPhong();
+
+                                lp.MaLoaiPhong = Convert.ToInt32(result["MaLoaiPhong"]);
+                                lp.GiaTienCoBan = Convert.ToInt32(result["GiaTienCoBan"]);
+                                lp.TenLoaiPhong = result["TenLoaiPhong"].ToString();
+                                lp.DaXoa = Convert.ToByte(result["DaXoa"]);
+                                listLoaiPhong.Add(lp);
+                            }
+                            conn.Close();
+                            return listLoaiPhong;
+                        }
+                        else
+                        {
+                            conn.Close();
+                            return null;
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
@@ -2504,7 +2528,7 @@ namespace SE104_QuanLyKhachSan.Models
                     cmd.Parameters.AddWithValue("SoDienThoai", nv.SoDienThoai);
                     cmd.Parameters.AddWithValue("NgayVaoLam", nv.NgayVaoLam);
                     cmd.Parameters.AddWithValue("MaChucVu", nv.MaChucVu);
-                    cmd.Parameters.AddWithValue("HinhAnh", nv.HinhAnh);
+               
                     cmd.Parameters.AddWithValue("Luong", nv.Luong);
                     cmd.ExecuteNonQuery();
 
@@ -2513,7 +2537,7 @@ namespace SE104_QuanLyKhachSan.Models
                 }
                 catch
                 {
-
+                    
                 }
             }
             return null;
@@ -2521,190 +2545,239 @@ namespace SE104_QuanLyKhachSan.Models
         }
         public List<ChucVu> getAllDetailRoles()
         {
-            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllDetailRoles, conn);
-                List<ChucVu> listChucVu = new List<ChucVu>();
-
-                using (var result = cmd.ExecuteReader())
+                using (MySqlConnection conn = new MySqlConnection(ConnectionString))
                 {
-                    if (result.HasRows)
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(SQLQuery.getAllDetailRoles, conn);
+                    List<ChucVu> listChucVu = new List<ChucVu>();
+
+                    using (var result = cmd.ExecuteReader())
                     {
-                        while (result.Read())
+                        if (result.HasRows)
                         {
-                            ChucVu cv = new ChucVu();
-                            cv.MaChucVu = Convert.ToByte(result["MaChucVu"]);
-                            cv.TenChucVu = result["TenChucVu"].ToString();
-                            cv.DaXoa = Convert.ToByte(result["DaXoa"]);
+                            while (result.Read())
+                            {
+                                ChucVu cv = new ChucVu();
+                                cv.MaChucVu = Convert.ToByte(result["MaChucVu"]);
+                                cv.TenChucVu = result["TenChucVu"].ToString();
+                                cv.DaXoa = Convert.ToByte(result["DaXoa"]);
 
-                            listChucVu.Add(cv);
+                                listChucVu.Add(cv);
+                            }
+                            conn.Close();
+                            return listChucVu;
                         }
-                        conn.Close();
-                        return listChucVu;
-                    }
-                    else
-                    {
+                        else
+                        {
 
-                        conn.Close();
-                        return null;
-                    }
+                            conn.Close();
+                            return null;
+                        }
 
+                    }
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
         public NhanVien getChosenStaff(string maNhanVien)
         {
-            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SQLQuery.getChosenStaff, conn);
-                NhanVien nhanvien = new NhanVien();
-
-                cmd.Parameters.AddWithValue("MaNhanVien", maNhanVien);
-
-
-                using (var result = cmd.ExecuteReader())
+                using (MySqlConnection conn = new MySqlConnection(ConnectionString))
                 {
-                    if (result.HasRows)
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(SQLQuery.getChosenStaff, conn);
+                    NhanVien nhanvien = new NhanVien();
+
+                    cmd.Parameters.AddWithValue("MaNhanVien", maNhanVien);
+
+
+                    using (var result = cmd.ExecuteReader())
                     {
-                        while (result.Read())
+                        if (result.HasRows)
                         {
-                            NhanVien nv = new NhanVien();
-                            nv.MaNhanVien = result["MaNhanVien"].ToString();
-                            nv.MatKhau = result["MatKhau"].ToString();
-                            nv.CCCD = result["CCCD"].ToString();
-                            nv.HoTen = result["HoTen"].ToString();
-                            nv.GioiTinh = Convert.ToByte(result["GioiTinh"]);
-                            nv.NgaySinh = Convert.ToDateTime(result["NgaySinh"]);
-                            nv.Email = result["Email"].ToString();
-                            nv.SoDienThoai = result["SoDienThoai"].ToString();
-                            nv.NgayVaoLam = Convert.ToDateTime(result["NgayVaoLam"]);
-                            nv.MaChucVu = Convert.ToUInt16(result["MaChucVu"]);
-                            nv.HinhAnh = result["HinhAnh"].ToString();
-                            nv.Luong = Convert.ToInt32(result["Luong"]);
-                            nhanvien = nv;
+                            while (result.Read())
+                            {
+                                NhanVien nv = new NhanVien();
+                                nv.MaNhanVien = result["MaNhanVien"].ToString();
+                                nv.MatKhau = result["MatKhau"].ToString();
+                                nv.CCCD = result["CCCD"].ToString();
+                                nv.HoTen = result["HoTen"].ToString();
+                                nv.GioiTinh = Convert.ToByte(result["GioiTinh"]);
+                                nv.NgaySinh = Convert.ToDateTime(result["NgaySinh"]);
+                                nv.Email = result["Email"].ToString();
+                                nv.SoDienThoai = result["SoDienThoai"].ToString();
+                                nv.NgayVaoLam = Convert.ToDateTime(result["NgayVaoLam"]);
+                                nv.MaChucVu = Convert.ToUInt16(result["MaChucVu"]);
+
+                                nv.Luong = Convert.ToInt32(result["Luong"]);
+                                nhanvien = nv;
+                            }
+                            conn.Close();
+                            return nhanvien;
                         }
-                        conn.Close();
-                        return nhanvien;
-                    }
-                    else
-                    {
+                        else
+                        {
 
-                        conn.Close();
-                        return null;
-                    }
+                            conn.Close();
+                            return null;
+                        }
 
+                    }
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
         public Phong getChosenRoom(string maPhong)
         {
-            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            try
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SQLQuery.getChosenRoom, conn);
-                Phong phong = new Phong();
-
-                cmd.Parameters.AddWithValue("MaPhong", maPhong);
-
-
-                using (var result = cmd.ExecuteReader())
+                using (MySqlConnection conn = new MySqlConnection(ConnectionString))
                 {
-                    if (result.HasRows)
+                    conn.Open();
+                    MySqlCommand cmd = new MySqlCommand(SQLQuery.getChosenRoom, conn);
+                    Phong phong = new Phong();
+
+                    cmd.Parameters.AddWithValue("MaPhong", maPhong);
+
+
+                    using (var result = cmd.ExecuteReader())
                     {
-                        while (result.Read())
+                        if (result.HasRows)
                         {
-                            Phong ph = new Phong();
-                            ph.MaPhong = result["MaPhong"].ToString();
-                            ph.MaLoaiPhong = Convert.ToByte(result["MaLoaiPhong"]);
-                            ph.Tang = Convert.ToByte(result["Tang"]);
-                            ph.SoPhong = Convert.ToByte(result["SoPhong"]);
-                            ph.GhiChu = (result["GhiChu"]).ToString();
-                            ph.TrangThai = Convert.ToByte(result["TrangThai"]);
-                           
-                            phong = ph;
+                            while (result.Read())
+                            {
+                                Phong ph = new Phong();
+                                ph.MaPhong = result["MaPhong"].ToString();
+                                ph.MaLoaiPhong = Convert.ToByte(result["MaLoaiPhong"]);
+                                ph.Tang = Convert.ToByte(result["Tang"]);
+                                ph.SoPhong = Convert.ToByte(result["SoPhong"]);
+                                ph.GhiChu = (result["GhiChu"]).ToString();
+                                ph.TrangThai = Convert.ToByte(result["TrangThai"]);
+
+                                phong = ph;
+                            }
+                            conn.Close();
+                            return phong;
                         }
-                        conn.Close();
-                        return phong;
-                    }
-                    else
-                    {
+                        else
+                        {
 
-                        conn.Close();
-                        return null;
-                    }
+                            conn.Close();
+                            return null;
+                        }
 
+                    }
                 }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
         public int XoaPhong(string MaPhong)
         {
-            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            try
             {
-                conn.Open();
-                string str = " DELETE FROM Phong where MaPhong = @MaPhong";
-                           
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("MaPhong", MaPhong);
-                int check = cmd.ExecuteNonQuery();
-                conn.Close();
-                
-                return check;
+                using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+                {
+                    conn.Open();
+                    string str = " DELETE FROM Phong where MaPhong = @MaPhong";
+
+                    MySqlCommand cmd = new MySqlCommand(str, conn);
+                    cmd.Parameters.AddWithValue("MaPhong", MaPhong);
+                    int check = cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    return check;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
         }
         public int UpdateStaff(NhanVien info_staff)
         {
-            using (MySqlConnection conn = GetConnection())
+            try
             {
-                conn.Open();
-                string str = " UPDATE `nhanvien` SET `CCCD`= @CCCD ,`HoTen`= @HoTen ,`SoDienThoai`= @SoDienThoai,`NgaySinh`= @NgaySinh, Email = @Email, GioiTinh = @GioiTinh, MaChucVu = @MaChucVu, Luong = @Luong, MatKhau = @MatKhau, NgayVaoLam = @NgayVaoLam, MaNhanVien = @MaNhanVien WHERE MaNhanVien = @MaNhanVien ";
-                MySqlCommand cmd = new MySqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("CCCD", info_staff.CCCD);
-                cmd.Parameters.AddWithValue("SoDienThoai", info_staff.SoDienThoai);
-                cmd.Parameters.AddWithValue("NgaySinh", info_staff.NgaySinh);
-                cmd.Parameters.AddWithValue("Email", info_staff.Email);
-                cmd.Parameters.AddWithValue("GioiTinh", info_staff.GioiTinh);
-                cmd.Parameters.AddWithValue("MaNhanVien", info_staff.MaNhanVien);
-                cmd.Parameters.AddWithValue("HoTen", info_staff.HoTen);
-                cmd.Parameters.AddWithValue("Luong", info_staff.Luong);
-                cmd.Parameters.AddWithValue("MaChucVu", info_staff.MaChucVu);
-                cmd.Parameters.AddWithValue("NgayVaoLam", info_staff.NgayVaoLam);
+                using (MySqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    string str = " UPDATE `nhanvien` SET `CCCD`= @CCCD ,`HoTen`= @HoTen ,`SoDienThoai`= @SoDienThoai,`NgaySinh`= @NgaySinh, Email = @Email, GioiTinh = @GioiTinh, MaChucVu = @MaChucVu, Luong = @Luong, MatKhau = @MatKhau, NgayVaoLam = @NgayVaoLam, MaNhanVien = @MaNhanVien WHERE MaNhanVien = @MaNhanVien ";
+                    MySqlCommand cmd = new MySqlCommand(str, conn);
+                    cmd.Parameters.AddWithValue("CCCD", info_staff.CCCD);
+                    cmd.Parameters.AddWithValue("SoDienThoai", info_staff.SoDienThoai);
+                    cmd.Parameters.AddWithValue("NgaySinh", info_staff.NgaySinh);
+                    cmd.Parameters.AddWithValue("Email", info_staff.Email);
+                    cmd.Parameters.AddWithValue("GioiTinh", info_staff.GioiTinh);
+                    cmd.Parameters.AddWithValue("MaNhanVien", info_staff.MaNhanVien);
+                    cmd.Parameters.AddWithValue("HoTen", info_staff.HoTen);
+                    cmd.Parameters.AddWithValue("Luong", info_staff.Luong);
+                    cmd.Parameters.AddWithValue("MaChucVu", info_staff.MaChucVu);
+                    cmd.Parameters.AddWithValue("NgayVaoLam", info_staff.NgayVaoLam);
 
-                cmd.Parameters.AddWithValue("MatKhau", info_staff.MatKhau);
+                    cmd.Parameters.AddWithValue("MatKhau", info_staff.MatKhau);
 
 
-                int result = cmd.ExecuteNonQuery();
-                return result;
+                    int result = cmd.ExecuteNonQuery();
+                    return result;
+                }
+
+                return 0;
             }
-          
-            return 0;
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         public int UpdateRoom(Phong ph)
         {
-            using (MySqlConnection connectioncheck = this.GetConnection())
+            try
             {
-                connectioncheck.Open();
+                using (MySqlConnection connectioncheck = this.GetConnection())
+                {
+                    connectioncheck.Open();
 
-                string queryString = "UPDATE Phong " +
-                    "SET maLoaiPhong=@maLoaiPhong, Tang=@tang, TrangThai = @trangThai, GhiChu = @ghiChu, SoPhong = @soPhong, MaPhong = @maPhong " +
-                    "WHERE MaPhong=@maPhong ";
+                    string queryString = "UPDATE Phong " +
+                        "SET maLoaiPhong=@maLoaiPhong, Tang=@tang, TrangThai = @trangThai, GhiChu = @ghiChu, SoPhong = @soPhong, MaPhong = @maPhong " +
+                        "WHERE MaPhong=@maPhong ";
 
-                MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
-                cmd.Parameters.AddWithValue("maLoaiPhong", ph.MaLoaiPhong);
-                cmd.Parameters.AddWithValue("maPhong", ph.MaPhong);
-                cmd.Parameters.AddWithValue("trangThai", ph.TrangThai);
-                cmd.Parameters.AddWithValue("ghiChu", ph.GhiChu);
-                cmd.Parameters.AddWithValue("tang",ph.Tang);
-                cmd.Parameters.AddWithValue("soPhong", ph.SoPhong);
+                    MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
+                    cmd.Parameters.AddWithValue("maLoaiPhong", ph.MaLoaiPhong);
+                    cmd.Parameters.AddWithValue("maPhong", ph.MaPhong);
+                    cmd.Parameters.AddWithValue("trangThai", ph.TrangThai);
+                    cmd.Parameters.AddWithValue("ghiChu", ph.GhiChu);
+                    cmd.Parameters.AddWithValue("tang", ph.Tang);
+                    cmd.Parameters.AddWithValue("soPhong", ph.SoPhong);
 
-                int isSuccess = cmd.ExecuteNonQuery();
-                return isSuccess;
+                    int isSuccess = cmd.ExecuteNonQuery();
+                    return isSuccess;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
+   
         //Hiếu - end
         #endregion
 

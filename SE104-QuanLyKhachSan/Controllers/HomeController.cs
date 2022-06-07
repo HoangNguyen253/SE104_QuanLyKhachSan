@@ -78,6 +78,7 @@ namespace SE104_QuanLyKhachSan.Controllers
                 HttpContext.Session.Set<NhanVien>(SessionKeyUser, nv);
                 return path;
             }
+            
         }
         public IActionResult LogOutNhanVien()
         {
@@ -268,7 +269,7 @@ namespace SE104_QuanLyKhachSan.Controllers
             newStaff.MaChucVu = Convert.ToByte(formAdd["MaChucVu"]);
             newStaff.Luong = Convert.ToInt32(formAdd["Luong"]);
 
-            newStaff.HinhAnh = (formAdd["NgaySinh"]).ToString();
+          
             return Json(database.postNewStaff(newStaff));
 
         }
@@ -328,6 +329,7 @@ namespace SE104_QuanLyKhachSan.Controllers
             info_Room.GhiChu = form["GhiChu"].ToString();
             return db.UpdateRoom(info_Room);
         }
-
+     
     }
+
 }

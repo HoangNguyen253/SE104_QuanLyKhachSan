@@ -113,7 +113,7 @@
     color: black;
 }
 
-.room_body_item__angle_button {
+.staff_body_item__angle_button {
     background: #9E0909;
     border-radius: 3px;
     width: 51px;
@@ -170,12 +170,18 @@ i.fa-mars {
     }
 
 .staff_profile_popup_add_window {
-    width: 55vw;
+    width: 40vw;
     position: relative;
     max-height: 100vh;
     top: -100vh;
     transition: 0.3s;
 }
+.content_staff_profile_popup_add_window {
+    margin-left: 50px
+}
+
+
+
 
 .staff_profile_popup_add_window_container.show .staff_profile_popup_add_window {
     top: 0;
@@ -207,12 +213,9 @@ i.fa-mars {
     padding-right: 3rem;
 }
 
-.content_staff_profile_popup_add_window {
-    display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
-}
 
-.avatar_field_staff_profile_popup_add_window {
+
+/*.avatar_field_staff_profile_popup_add_window {
     display: flex;
     flex-direction: column;
     margin: 16px 0px;
@@ -221,9 +224,9 @@ i.fa-mars {
 
 #avatar_img_staff_profile_popup_add_window {
     padding-bottom: 1rem;
-}
+}*/
 
-#btn_change_avatar_staff_profile_popup_add_window {
+/*#btn_change_avatar_staff_profile_popup_add_window {
     border: 0.2rem solid #002b49;
     border-radius: 0.6rem;
     padding: 0.3rem;
@@ -233,12 +236,12 @@ i.fa-mars {
     width: 35%;
     background-color: #002b49;
     color: white;
-}
-
+}*/
+/*
     #btn_change_avatar_staff_profile_popup_add_window:active {
         background-color: white;
         color: #002b49;
-    }
+    }*/
 
 .name_part_info_staff_profile_popup_add_window {
     font-weight: 700;
@@ -256,7 +259,7 @@ i.fa-mars {
     .data_info_staff_profile_popup_add_window p {
         font-weight: 500;
         font-size: 0.8rem;
-        width: 25%;
+        width: 85%;
     }
 
 input.input_data_info_staff_profile_popup_add_window {
@@ -309,18 +312,18 @@ input:disabled, select:disabled {
         color: #002b49;
     }
 
-.avatar_field_staff_profile_popup_add_window img {
+/*.avatar_field_staff_profile_popup_add_window img {
     border: 1px solid #000000;
     box-sizing: border-box;
     border-radius: 86px;
     width: 172px;
     height: 172px;
     margin-bottom: 16px;
-}
+}*/
 
 .footer_staff_profile_popup_add_window {
     background-color: white;
-    border-top: 1px solid #C8C8C8;
+    border-top: 2px solid #C8C8C8;
     height: 70px;
     display: flex;
     align-items: center;
