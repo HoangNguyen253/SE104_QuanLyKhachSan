@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 
 namespace SE104_QuanLyKhachSan.Models
 {
@@ -31,7 +32,7 @@ namespace SE104_QuanLyKhachSan.Models
                 conncheck.Open();
                 string str = "SELECT * " +
                     "FROM NhanVien " +
-                    "WHERE (@userName IN (MaNhanVien, CCCD, Email, SoDienThoai)) AND MatKhau = @password;";
+                    "WHERE (@userName IN (MaNhanVien, CCCD, Email, SoDienThoai)) AND MatKhau = @password AND MaChucVu<>0;";
                 MySqlCommand cmd = new MySqlCommand(str, conncheck);
                 cmd.Parameters.AddWithValue("userName", userName);
                 cmd.Parameters.AddWithValue("password", password);
@@ -460,8 +461,6 @@ namespace SE104_QuanLyKhachSan.Models
                     {
                         while (reader.Read())
                         {
-                            byte kt = Convert.ToByte(reader["DaXoa"]);
-                            if (kt == 1) continue;
                             LoaiPhong lp = new LoaiPhong();
                             lp.MaLoaiPhong = Convert.ToInt32(reader["MaLoaiPhong"]);
                             lp.TenLoaiPhong = reader["TenLoaiPhong"].ToString();
@@ -481,9 +480,14 @@ namespace SE104_QuanLyKhachSan.Models
             {
                 connectioncheck.Open();
 
-                string queryString = "UPDATE LOAIPHONG " +
-                    "SET DaXoa=1 " +
-                    "WHERE MaLoaiPhong=@MaLoaiPhong";
+                string queryString = "DELETE FROM loaiphong " +
+                    "WHERE MaLoaiPhong=@maLoaiPhong " +
+                        "AND NOT EXISTS (SELECT * " +
+                                     "FROM phong p " +
+                                     "WHERE @maLoaiPhong=p.MaLoaiPhong) " +
+                        "AND NOT EXISTS (SELECT * " +
+                                        "FROM ctbcdoanhthuthang ct " +
+                                        "WHERE ct.MaLoaiPhong=@maLoaiPhong)";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("MaLoaiPhong", maLoaiPhong);
@@ -507,9 +511,7 @@ namespace SE104_QuanLyKhachSan.Models
                     "SET TenLoaiPhong=@tenLoaiPhong, GiaTienCoBan=@giaTienCoBan " +
                     "WHERE MaLoaiPhong=@maLoaiPhong AND NOT EXISTS(SELECT * " +
                                                                   "FROM loaiphong " +
-                                                                  "WHERE TenLoaiPhong=@tenLoaiPhong " +
-                                                                  "AND GiaTienCoBan=@giaTienCoBan " +
-                                                                  "AND DaXoa = 0) ;";
+                                                                  "WHERE TenLoaiPhong=@tenLoaiPhong) ;";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("maLoaiPhong", maLoaiPhong);
@@ -531,12 +533,11 @@ namespace SE104_QuanLyKhachSan.Models
             {
                 connectioncheck.Open();
 
-                string queryString = "INSERT INTO LOAIPHONG(TenLoaiPhong, GiaTienCoBan, DaXoa) " +
-                                        "SELECT @tenLoaiPhong, @giaTienCoBan, 0 " +
+                string queryString = "INSERT INTO LOAIPHONG(TenLoaiPhong, GiaTienCoBan) " +
+                                        "SELECT @tenLoaiPhong, @giaTienCoBan " +
                                         "WHERE NOT EXISTS(SELECT * " +
                                                                   "FROM loaiphong " +
-                                                                  "WHERE TenLoaiPhong=@tenLoaiPhong " +
-                                                                  "AND DaXoa=0) ;";
+                                                                  "WHERE TenLoaiPhong=@tenLoaiPhong) ;";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("tenLoaiPhong", tenLoaiPhong);
@@ -567,8 +568,6 @@ namespace SE104_QuanLyKhachSan.Models
                     {
                         while (reader.Read())
                         {
-                            byte kt = Convert.ToByte(reader["DaXoa"]);
-                            if (kt == 1) continue;
                             LoaiKhachHang lkh = new LoaiKhachHang();
                             lkh.MaLoaiKhachHang = Convert.ToInt32(reader["MaLoaiKhachHang"]);
                             lkh.TenLoaiKhachHang = reader["TenLoaiKhachHang"].ToString();
@@ -587,9 +586,14 @@ namespace SE104_QuanLyKhachSan.Models
             {
                 connectioncheck.Open();
 
-                string queryString = "UPDATE LOAIKHACHHANG " +
-                    "SET DaXoa=1 " +
-                    "WHERE MaLoaiKhachHang=@maLoaiKhachHang";
+                string queryString = "DELETE FROM loaikhachhang " +
+                    "WHERE MaLoaiKhachHang=@maLoaiKhachHang " +
+                        "AND NOT EXISTS(SELECT * " +
+                                        "FROM khachthue kt " +
+                                        "WHERE kt.MaLoaiKhachHang = @maLoaiKhachHang) " +
+                        "AND NOT EXISTS(SELECT * " +
+                                        "FROM phuthulkh ptlkh " +
+                                        "WHERE ptlkh.MaLoaiKhachHang = @maLoaiKhachHang);";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("maLoaiKhachHang", maLoaiKhachHang);
@@ -609,12 +613,11 @@ namespace SE104_QuanLyKhachSan.Models
             {
                 connectioncheck.Open();
 
-                string queryString = "INSERT INTO LOAIKHACHHANG(TenLoaiKhachHang, DaXoa) " +
-                                    "SELECT @tenLoaiKhachHang, 0 " +
+                string queryString = "INSERT INTO LOAIKHACHHANG(TenLoaiKhachHang) " +
+                                    "SELECT @tenLoaiKhachHang " +
                                     "WHERE NOT EXISTS(SELECT * " +
                                                     "FROM loaikhachhang " +
-                                                    "WHERE TenLoaiKhachHang=@tenLoaiKhachHang " +
-                                                        "AND DaXoa = 0)";
+                                                    "WHERE TenLoaiKhachHang=@tenLoaiKhachHang)";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("tenLoaiKhachHang", tenLoaiKhachHang);
@@ -638,8 +641,7 @@ namespace SE104_QuanLyKhachSan.Models
                     "SET TenLoaiKhachHang=@tenLoaiKhachHang " +
                     "WHERE MaLoaiKhachHang=@maLoaiKhachHang AND NOT EXISTS(SELECT * " +
                                                     "FROM loaikhachhang " +
-                                                    "WHERE TenLoaiKhachHang=@tenLoaiKhachHang " +
-                                                    "AND DaXoa = 0)";
+                                                    "WHERE TenLoaiKhachHang=@tenLoaiKhachHang)";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("maLoaiKhachHang", maLoaiKhachHang);
@@ -662,7 +664,7 @@ namespace SE104_QuanLyKhachSan.Models
 
                 string queryString = "SELECT GiaTri " +
                     "FROM THAMSO " +
-                    "WHERE TenThuocTinh='SoKhachToiDa'";
+                    "WHERE TenThuocTinh='SoKhachToiDa';";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
 
@@ -694,7 +696,15 @@ namespace SE104_QuanLyKhachSan.Models
                                                                         "FROM PHUTHU PT2 " +
                                                                         "WHERE PT2.MaLoaiPhuThu = 1 AND PT1.SoLuongApDung = PT2.SoLuongApDung AND PT2.ThoiGianApDung <= @now) " +
                                                "AND PT1.ThoiGianApDung <= @now) " +
-                                             "OR PT1.ThoiGianApDung > @now)) ";
+                                             "OR PT1.ThoiGianApDung > @now)) " +
+                            "AND NOT EXISTS (SELECT * " +
+                                    "FROM phuthulkh ptlkh " +
+                                    "WHERE ptlkh.SoLuongApDung>@soKhachToiDa " +
+                                        "AND ((ptlkh.ThoiGianApDung >= ALL(SELECT ptlkh2.ThoiGianApDung " +
+                                                                        "FROM phuthulkh ptlkh2 " +
+                                                                        "WHERE ptlkh.SoLuongApDung = ptlkh2.SoLuongApDung AND ptlkh2.ThoiGianApDung <= @now) " +
+                                               "AND ptlkh.ThoiGianApDung <= @now) " +
+                                             "OR ptlkh.ThoiGianApDung > @now)) ";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("soKhachToiDa", soKhachToiDa);
@@ -717,7 +727,7 @@ namespace SE104_QuanLyKhachSan.Models
 
                 string queryString = "SELECT * " +
                                     "FROM PHUTHU PT1 " +
-                                    "WHERE PT1.MaLoaiPhuThu = 1 " +
+                                    "WHERE PT1.MaLoaiPhuThu = 1 AND PT1.TiLePhuThu <> 0 " +
                                         "AND ((PT1.ThoiGianApDung >= ALL(SELECT PT2.ThoiGianApDung " +
                                                                         "FROM PHUTHU PT2 " +
                                                                         "WHERE PT2.MaLoaiPhuThu = 1 AND PT1.SoLuongApDung = PT2.SoLuongApDung AND PT2.ThoiGianApDung <= @now) " +
@@ -734,8 +744,41 @@ namespace SE104_QuanLyKhachSan.Models
                     {
                         while (reader.Read())
                         {
-                            int check = Convert.ToInt32(reader["TiLePhuThu"]);
-                            if (check == 0) continue;
+                            PhuThu pt = new PhuThu();
+                            pt.MaLoaiPhuThu = Convert.ToInt32(reader["MaLoaiPhuThu"]);
+                            pt.SoLuongApDung = Convert.ToInt32(reader["SoLuongApDung"]);
+                            pt.TiLePhuThu = Convert.ToInt32(reader["TiLePhuThu"]);
+                            pt.MaPhuThu = Convert.ToInt32(reader["MaPhuThu"]);
+                            pt.ThoiGianApDung = Convert.ToDateTime(reader["ThoiGianApDung"]).ToString("yyyy-MM-ddTHH:mm:ss");
+                            phuThus.Add(pt);
+                        }
+                        return phuThus;
+                    }
+                    else return null;
+                }
+            }
+        }
+
+        public List<PhuThu> GetLichSuPhuThuSoKhach()
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+
+                string queryString = "SELECT * " +
+                                    "FROM PHUTHU PT1 " +
+                                    "WHERE PT1.MaLoaiPhuThu = 1 AND PT1.TiLePhuThu <> 0 " +
+                                    "ORDER BY `PT1`.`SoLuongApDung` ASC, `PT1`.`ThoiGianApDung` ASC";
+
+                MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
+                cmd.Parameters.AddWithValue("now", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                List<PhuThu> phuThus = new List<PhuThu>();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
                             PhuThu pt = new PhuThu();
                             pt.MaLoaiPhuThu = Convert.ToInt32(reader["MaLoaiPhuThu"]);
                             pt.SoLuongApDung = Convert.ToInt32(reader["SoLuongApDung"]);
@@ -937,6 +980,49 @@ namespace SE104_QuanLyKhachSan.Models
             }
         }
 
+        public List<PhuThuLKH> GetLichSuPhuThuLoaiKhachHang()
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+
+                string queryString = "SELECT MaPhuThuLKH, " +
+                                            "SoLuongApDung, " +
+                                            "HeSoPhuThu, " +
+                                            "ThoiGianApDung, " +
+                                            "PT1.MaLoaiKhachHang, " +
+                                            "LKH.TenLoaiKhachHang " +
+                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang AND LKH.DaXoa = 0) " +
+                                     "WHERE HeSoPhuThu<>0 " +
+                                     "ORDER BY `PT1`.`MaLoaiKhachHang` ASC, `PT1`.`SoLuongApDung` ASC, `PT1`.`ThoiGianApDung` ASC";
+
+                MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
+                cmd.Parameters.AddWithValue("now", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                List<PhuThuLKH> phuThuLKHs = new List<PhuThuLKH>();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            int check = Convert.ToInt32(reader["HeSoPhuThu"]);
+                            if (check == 0) continue;
+                            PhuThuLKH ptlkh = new PhuThuLKH();
+                            ptlkh.MaPhuThuLKH = Convert.ToInt32(reader["MaPhuThuLKH"]);
+                            ptlkh.TenLoaiKhachHang = reader["TenLoaiKhachHang"].ToString();
+                            ptlkh.HeSoPhuThu = (double)System.Math.Round(Convert.ToDouble(reader["HeSoPhuThu"]), 1);
+                            ptlkh.MaLoaiKhachHang = Convert.ToInt32(reader["MaLoaiKhachHang"]);
+                            ptlkh.ThoiGianApDung = Convert.ToDateTime(reader["ThoiGianApDung"]).ToString("yyyy-MM-ddTHH:mm:ss");
+                            ptlkh.SoLuongApDung = Convert.ToInt32(reader["SoLuongApDung"]);
+                            phuThuLKHs.Add(ptlkh);
+                        }
+                        return phuThuLKHs;
+                    }
+                    else return null;
+                }
+            }
+        }
+
         public bool DeleteHeSoPhuThu(int maLoaiKhachHang, int soLuongApDung)
         {
             using (MySqlConnection connectioncheck = this.GetConnection())
@@ -1053,7 +1139,7 @@ namespace SE104_QuanLyKhachSan.Models
                 string queryString = "INSERT INTO `phuthulkh` (`SoLuongApDung`, `HeSoPhuThu`, `ThoiGianApDung`, `MaLoaiKhachHang`) " +
                                     "SELECT @soLuongApDung, @heSoPhuThu, @thoiGianApDung, @maLoaiKhachHang " +
                                     "WHERE NOT EXISTS(SELECT * " +
-                                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang AND LKH.DaXoa = 0) " +
+                                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang) " +
                                                      "WHERE SoLuongApDung = @soLuongApDung AND PT1.MaLoaiKhachHang = @maLoaiKhachHang " +
                                                          "AND ((PT1.ThoiGianApDung >= ALL(SELECT PT2.ThoiGianApDung " +
                                                                                             "FROM phuthulkh PT2 " +
@@ -1130,6 +1216,49 @@ namespace SE104_QuanLyKhachSan.Models
                                                                             "AND PT2.ThoiGianApDung <= @now) " +
                                                 "AND PT1.ThoiGianApDung <= @now) " +
                                             "OR PT1.ThoiGianApDung > @now) " +
+                                     "ORDER BY `PT1`.`MaLoaiPhuThu` ASC, `PT1`.`SoLuongApDung` ASC, `PT1`.`ThoiGianApDung` ASC";
+
+                MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
+                cmd.Parameters.AddWithValue("now", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                List<PhuThu> phuThus = new List<PhuThu>();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            int check = Convert.ToInt32(reader["TiLePhuThu"]);
+                            if (check == 0) continue;
+                            PhuThu pt = new PhuThu();
+                            pt.MaPhuThu = Convert.ToInt32(reader["MaPhuThu"]);
+                            pt.TenLoaiPhuThu = reader["TenLoaiPhuThu"].ToString();
+                            pt.TiLePhuThu = Convert.ToInt32(reader["TiLePhuThu"]);
+                            pt.MaLoaiPhuThu = Convert.ToInt32(reader["MaLoaiPhuThu"]);
+                            pt.ThoiGianApDung = Convert.ToDateTime(reader["ThoiGianApDung"]).ToString("yyyy-MM-ddTHH:mm:ss");
+                            pt.SoLuongApDung = Convert.ToInt32(reader["SoLuongApDung"]);
+                            phuThus.Add(pt);
+                        }
+                        return phuThus;
+                    }
+                    else return null;
+                }
+            }
+        }
+
+        public List<PhuThu> GetLichSuPhuThuCICO()
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+
+                string queryString = "SELECT MaPhuThu, " +
+                                            "SoLuongApDung, " +
+                                            "TiLePhuThu, " +
+                                            "ThoiGianApDung, " +
+                                            "PT1.MaLoaiPhuThu, " +
+                                            "LPT.TenLoaiPhuThu " +
+                                     "FROM phuthu PT1 INNER JOIN loaiphuthu LPT ON PT1.MaLoaiPhuThu = LPT.MaLoaiPhuThu " +
+                                     "WHERE PT1.MaLoaiPhuThu <> 1 " +
                                      "ORDER BY `PT1`.`MaLoaiPhuThu` ASC, `PT1`.`SoLuongApDung` ASC, `PT1`.`ThoiGianApDung` ASC";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
@@ -1381,8 +1510,7 @@ namespace SE104_QuanLyKhachSan.Models
                 conncheck.Open();
 
                 string str = "SELECT * " +
-                    "FROM chucvu " +
-                    "WHERE DaXoa<>1;";
+                    "FROM chucvu;";
                 MySqlCommand cmd = new MySqlCommand(str, conncheck);
                 List<ChucVu> chucVus = new List<ChucVu>();
                 using (var reader = cmd.ExecuteReader())
@@ -1409,9 +1537,17 @@ namespace SE104_QuanLyKhachSan.Models
             {
                 connectioncheck.Open();
 
-                string queryString = "UPDATE chucvu " +
-                    "SET DaXoa=1 " +
-                    "WHERE MaChucVu=@maChucVu";
+                string queryString = "DELETE FROM chucvu " +
+                    "WHERE MaChucVu=@maChucVu " +
+                        "AND NOT EXISTS(SELECT * " +
+                                      "FROM ctbcchitraluong ctbc " +
+                                      "WHERE ctbc.MaChucVu=@maChucVu) " +
+                        "AND NOT EXISTS(SELECT * " +
+                                       "FROM phanquyen pq " +
+                                       "WHERE pq.MaChucVu=@maChucVu) " +
+                        "AND NOT EXISTS(SELECT * " +
+                                       "FROM nhanvien nv " +
+                                       "WHERE nv.MaChucVu=@maChucVu);";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("maChucVu", maChucVu);
@@ -1431,12 +1567,11 @@ namespace SE104_QuanLyKhachSan.Models
             {
                 connectioncheck.Open();
 
-                string queryString = "INSERT INTO chucvu(TenChucVu, DaXoa) " +
-                                    "SELECT @tenChucVu, 0 " +
+                string queryString = "INSERT INTO chucvu(TenChucVu) " +
+                                    "SELECT @tenChucVu " +
                                     "WHERE NOT EXISTS(SELECT * " +
                                                     "FROM chucvu " +
-                                                    "WHERE TenChucVu=@tenChucVu " +
-                                                        "AND DaXoa = 0)";
+                                                    "WHERE TenChucVu=@tenChucVu)";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("tenChucVu", tenChucVu);
@@ -1460,8 +1595,7 @@ namespace SE104_QuanLyKhachSan.Models
                     "SET TenChucVu=@tenChucVu " +
                     "WHERE MaChucVu=@maChucVu AND NOT EXISTS(SELECT * " +
                                                     "FROM chucvu " +
-                                                    "WHERE TenChucVu=@tenChucVu " +
-                                                        "AND DaXoa = 0)";
+                                                    "WHERE TenChucVu=@tenChucVu)";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("maChucVu", maChucVu);
@@ -1528,7 +1662,6 @@ namespace SE104_QuanLyKhachSan.Models
                 string query = "SELECT pq.MaQuyen, quyen.TenQuyen, cv.MaChucVu, cv.TenChucVu " +
                     "FROM (phanquyen pq INNER JOIN chucvu cv on pq.MaChucVu = cv.MaChucVu) " +
                             "INNER JOIN quyen ON quyen.MaQuyen = pq.MaQuyen " +
-                    "WHERE cv.DaXoa = 0 " +
                     "ORDER BY `cv`.`MaChucVu` ASC, `pq`.`MaQuyen` ASC";
 
                 MySqlCommand cmd = new MySqlCommand(query, connectioncheck);
@@ -1636,7 +1769,7 @@ namespace SE104_QuanLyKhachSan.Models
 
                 string query = "SELECT pq.MaQuyen " +
                     "FROM phanquyen pq INNER JOIN chucvu cv on pq.MaChucVu = cv.MaChucVu " +
-                    "WHERE cv.DaXoa = 0 AND pq.MaChucVu = @maChucVu " +
+                    "WHERE pq.MaChucVu = @maChucVu " +
                     "ORDER BY pq.`MaQuyen` ASC";
 
                 MySqlCommand cmd = new MySqlCommand(query, connectioncheck);
@@ -1652,6 +1785,100 @@ namespace SE104_QuanLyKhachSan.Models
                         }
                     }
                     return permissionPerNhanVien;
+                }
+            }
+        }
+
+        public bool SetOTPForNhanVien(string otp, string email)
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+
+                string query = "UPDATE nhanvien " +
+                    "SET OTP=@otp, ThoiGianLayOTP=@now " +
+                    "WHERE Email=@email AND MaChucVu<>0;";
+
+                MySqlCommand cmd = new MySqlCommand(query, connectioncheck);
+                cmd.Parameters.AddWithValue("otp", otp);
+                cmd.Parameters.AddWithValue("now", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("email", email);
+
+                if (cmd.ExecuteNonQuery() == 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        private string GeneratePassword()
+        {
+            int length = 8;
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            return res.ToString();
+        }
+
+        public int ResetPassword(string otp, string email)
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+
+                string str = "SELECT ThoiGianLayOTP, OTP FROM nhanvien WHERE Email=@email";
+                MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
+                cmd.Parameters.AddWithValue("email", email);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        DateTime OTPTime = Convert.ToDateTime(reader["ThoiGianLayOTP"]);
+                        DateTime _now = DateTime.Now;
+                        if ((int)(_now - OTPTime).TotalSeconds > 180)
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            string otpInDatabase= reader["OTP"].ToString();
+                            string matKhau = GeneratePassword();
+                            if (otpInDatabase == otp)
+                            {
+                                reader.Close();
+                                string queryUpdate = "UPDATE nhanvien " +
+                                                    "SET MatKhau=@matKhau " +
+                                                    "WHERE Email=@email;";
+                                MySqlCommand cmdUpdate = new MySqlCommand(queryUpdate, connectioncheck);
+                                cmdUpdate.Parameters.AddWithValue("matKhau", matKhau);
+                                cmdUpdate.Parameters.AddWithValue("email", email);
+                                if (cmdUpdate.ExecuteNonQuery() > 0)
+                                {
+                                    Mailer mail = new Mailer();
+                                    string bodyMail = "<h2>Chào bạn</h2><p>Mật khẩu mới của của bạn là:" + matKhau + "</p>";
+                                    if (mail.Send(email, "Mã OTP", bodyMail) == "OK")
+                                    {
+                                        return 2;
+                                    }
+                                    else
+                                    {
+                                        return 5;
+                                    }
+                                }
+                            }
+                            return 3;
+                        }
+                    }
+                    else
+                    {
+                        return 4;
+                    }
                 }
             }
         }
@@ -1748,7 +1975,6 @@ namespace SE104_QuanLyKhachSan.Models
                     lp.MaLoaiPhong = Convert.ToInt32(result["MaLoaiPhong"]);
                     lp.TenLoaiPhong = result["TenLoaiPhong"].ToString();
                     lp.GiaTienCoBan = Convert.ToInt32(result["GiaTienCoBan"]);
-                    lp.DaXoa = Convert.ToByte(result["DaXoa"]);
                     conn.Close();
                     return lp;
                 }
@@ -2492,7 +2718,6 @@ namespace SE104_QuanLyKhachSan.Models
                             lp.MaLoaiPhong = Convert.ToInt32(result["MaLoaiPhong"]);
                             lp.GiaTienCoBan = Convert.ToInt32(result["GiaTienCoBan"]);
                             lp.TenLoaiPhong = result["TenLoaiPhong"].ToString();
-                            lp.DaXoa = Convert.ToByte(result["DaXoa"]);
                             listLoaiPhong.Add(lp);
                         }
                         conn.Close();
@@ -2580,7 +2805,6 @@ namespace SE104_QuanLyKhachSan.Models
                             ChucVu cv = new ChucVu();
                             cv.MaChucVu = Convert.ToByte(result["MaChucVu"]);
                             cv.TenChucVu = result["TenChucVu"].ToString();
-                            cv.DaXoa = Convert.ToByte(result["DaXoa"]);
 
                             listChucVu.Add(cv);
                         }

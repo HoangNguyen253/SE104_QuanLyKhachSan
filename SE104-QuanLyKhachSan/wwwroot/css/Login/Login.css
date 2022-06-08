@@ -13,7 +13,8 @@
 
 button {
     cursor: pointer;
-    padding: 10px;
+    padding: 8px 15px;
+    font-size: 15px;
     color: white;
     background-color: #002B49;
     border: #002B49;
@@ -106,8 +107,21 @@ main {
 
         main .container .content {
             width: 40%;
-            padding: 0px 50px 0px 0px;
+            margin: 0px 50px 0px 0px;
+            overflow: hidden;
         }
+
+            main .container .content .form-container {
+                display: flex;
+                width: 200%;
+                transition: all 0.3s linear 0s;
+                margin-left: 0;
+            }
+
+                main .container .content .form-container .form {
+                    width: 50%;
+                }
+
 
         main .container .headerform {
             text-align: center;
@@ -124,7 +138,7 @@ main {
                 color: #002B49;
                 margin: 0;
                 margin-top: 10px;
-                margin-bottom: 40px;
+                margin-bottom: 20px;
             }
 
         main .container .field {
@@ -135,6 +149,7 @@ main {
             main .container .field .label {
                 text-align: left;
                 font-size: 15px;
+                margin-bottom: 10px;
             }
 
             main .container .field .getMail {
@@ -154,18 +169,253 @@ main {
             main .container .field input {
                 box-sizing: border-box;
                 width: 100%;
-                margin-top: 10px;
                 font-size: 16px;
                 padding: 10px 10px;
                 border: 1px solid #C5C5C5;
                 border-radius: 4px;
             }
 
-        main .container .content > div:last-child {
-            text-align: center;
+        main .container .content .form {
+            width: 100%;
         }
+
+            main .container .content .form > div:last-child {
+                text-align: center;
+            }
+
+                main .container .content .form > div:last-child .forward {
+                    color: rgb(0, 110, 255);
+                    padding-top: 10px;
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+
+                    main .container .content .form > div:last-child .forward:hover {
+                        color: blue;
+                        cursor: pointer;
+                    }
+
+                    main .container .content .form > div:last-child .forward:active {
+                        color: #002B49;
+                    }
 
         main .container div .validate {
             width: 120px;
-            font-size: 15px;
         }
+
+.form-container .forget-pass .getOTP-container {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 32px;
+}
+
+    .form-container .forget-pass .getOTP-container > div {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        right: 2px;
+    }
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.form-container .forget-pass .getOTP-container > div.waitanimate {
+    display: none;
+    animation-name: rotate;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.form-container .forget-pass .getOTP-container > div.success {
+    display: none;
+}
+
+.form-container .forget-pass .getOTP-container > div.fail {
+    display: none;
+}
+
+.form-container .forget-pass .getOTP-container > div {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 2px;
+    animation-name: example;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+    .form-container .forget-pass .getOTP-container > div img {
+        width: 100%;
+    }
+
+.form-container .forget-pass .getOTP-container input {
+    width: 60%;
+}
+
+/*==============TOAST MESSAGE: begin==============*/
+#toast_container {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    z-index: 100;
+}
+
+.toast_notification {
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 35px 20px 25px;
+    overflow: hidden;
+    transition: all linear 0.5s;
+    margin-bottom: 5px;
+    border-left: 5px solid #fff;
+}
+
+    .toast_notification.toast_success {
+        background-color: #17e500;
+    }
+
+    .toast_notification.toast_fail {
+        background-color: #da0000;
+    }
+/*    .toast_notification.toast_success {
+        border-left: 5px solid #002b49;
+    }
+
+    .toast_notification.toast_fail {
+        border-left: 5px solid #9E0909;
+    }*/
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(calc(100% + 30px));
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+@keyframes slideinRight {
+    to {
+        opacity: 0;
+        transform: translateX(calc(100% + 30px));
+    }
+}
+
+.toast_notification .toast_content {
+    display: flex;
+    align-items: center;
+}
+
+.toast_content .check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    width: 35px;
+    background-color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.toast_notification.toast_success .toast_content .check {
+    color: #185711;
+}
+
+.toast_notification.toast_fail .toast_content .check {
+    color: #9E0909;
+}
+
+.toast_content .toast_message {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+    min-width: 200px;
+    max-width: 250px;
+}
+
+.toast_message .toast_text {
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+}
+
+.toast_message .toast_text_1 {
+    font-weight: 700;
+    color: #fff;
+}
+
+.toast_notification .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+    color: #fff;
+}
+
+    .toast_notification .close:hover {
+        opacity: 1;
+    }
+
+.toast_notification .toast_progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+}
+
+.toast_notification.toast_success .toast_progress {
+    background-color: #185711;
+}
+
+.toast_notification.toast_fail .toast_progress {
+    background-color: #9E0909;
+}
+
+.toast_notification .toast_progress:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #ddd;
+    animation: var(--toastBeforeAnimation, progress 3.5s linear forwards);
+}
+
+@keyframes progress {
+    100% {
+        right: 100%;
+    }
+}
+
+
+/*==============TOAST MESSAGE: end==============*/

@@ -93,5 +93,17 @@ namespace SE104_QuanLyKhachSan.Models
             get { return luong; }
             set { luong = value; }
         }
+        private DateTime thoiGianLayOTP;
+        public DateTime ThoiGianLayOTP
+        {
+            get { return thoiGianLayOTP; }
+            set { thoiGianLayOTP = value; }
+        }
+        private string otp;
+        public string OTP
+        {
+            get { return otp; }
+            set { otp = value; }
+        }
     }
 }

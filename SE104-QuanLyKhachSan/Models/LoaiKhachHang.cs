@@ -17,12 +17,5 @@ namespace SE104_QuanLyKhachSan.Models
             get { return tenLoaiKhachHang; }
             set { tenLoaiKhachHang = value; }
         }
-
-        private byte daXoa;
-        public byte DaXoa
-        {
-            get { return daXoa; }
-            set { daXoa = value; }
-        }
     }
 }

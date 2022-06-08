@@ -87,6 +87,11 @@ namespace SE104_QuanLyKhachSan.Controllers
             Database db = new Database();
             return Json(db.GetPhuThuSoKhach());
         }
+        public JsonResult GetLichSuPhuThuSoKhach()
+        {
+            Database db = new Database();
+            return Json(db.GetLichSuPhuThuSoKhach());
+        }
 
         public string DeletePhuThuSoKhach(int soKhachApDung, string ngayApDung, string maPhuThuSoKhach)
         {
@@ -135,6 +140,12 @@ namespace SE104_QuanLyKhachSan.Controllers
         {
             Database db = new Database();
             return Json(db.GetPhuThuLoaiKhachHang());
+        }
+
+        public JsonResult GetLichSuPhuThuLoaiKhachHang()
+        {
+            Database db = new Database();
+            return Json(db.GetLichSuPhuThuLoaiKhachHang());
         }
 
         public string DeleteHeSoPhuThu(int maLoaiKhachHang, int soLuongApDung, string ngayApDung, int maPhuThuLKH)
@@ -192,6 +203,12 @@ namespace SE104_QuanLyKhachSan.Controllers
         {
             Database db = new Database();
             return Json(db.GetPhuThuCICO());
+        }
+
+        public JsonResult GetLichSuPhuThuCICO()
+        {
+            Database db = new Database();
+            return Json(db.GetLichSuPhuThuCICO());
         }
 
         public string DeletePhuThuCICO(int maLoaiPhuThu, int soLuongApDung, string ngayApDung, int maPhuThu)
