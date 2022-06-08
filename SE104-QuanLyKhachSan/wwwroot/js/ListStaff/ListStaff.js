@@ -153,37 +153,37 @@ function validateForm() {
         }
     }*/
     if (maNhanVien.length != 6) {
-        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Mã nhân viên phải đủ 6 ký tự', type: 'fail', duration: 3500 });
+        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Mã nhân viên phải đủ 6 ký tự', type: 'fail', duration: 3500 });
         return false;
     }
     if (matKhau == "" || maNhanVien == "" || hoTen == "" || ngaySinh == "" || ngayVaoLam == "" || luong == "" || CCCD=="") {
-        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Điền đủ vào các trường bắt buộc', type: 'fail', duration: 3500 });
+        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Điền đủ vào các trường bắt buộc', type: 'fail', duration: 3500 });
         return false;
     }
 
     if (ngaySinh > ngayVaoLam) {
-        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Ngày sinh phải nhỏ hơn ngày vào làm', type: 'fail', duration: 3500 });
+        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Ngày sinh phải nhỏ hơn ngày vào làm', type: 'fail', duration: 3500 });
         return false;
     }
 
     if (soDienThoai != "") {
         if (soDienThoai.length < 10 || soDienThoai.length > 11 || soDienThoai<0) {
-            toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Số điện thoại không hợp lệ', type: 'fail', duration: 3500 });
+            toastMessage({ title: 'Lỗi Nhân Viên', message: 'Số điện thoại không hợp lệ', type: 'fail', duration: 3500 });
             return false;
         }
     }
     if (luong < 0) {
-        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Lương không hợp lệ', type: 'fail', duration: 3500 });
+        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Lương không hợp lệ', type: 'fail', duration: 3500 });
         return false;
     }
     if (CCCD != "") {
         if (CCCD < 0  || (CCCD.length != 12 && CCCD.length !=9)) {
-            toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'CCCD/CMND không hợp lệ (CCCD: đủ 12 chữ số, CMND: đủ 9 chữ số)', type: 'fail', duration: 3500 });
+            toastMessage({ title: 'Lỗi Nhân Viên', message: 'CCCD/CMND không hợp lệ (CCCD: đủ 12 chữ số, CMND: đủ 9 chữ số)', type: 'fail', duration: 3500 });
             return false;
         }
     }
     if (matKhau.length < 8) {
-        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Mật khẩu ít nhất 8 ký tự', type: 'fail', duration: 3500 });
+        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Mật khẩu ít nhất 8 ký tự', type: 'fail', duration: 3500 });
         return false;
     }
     return true;
