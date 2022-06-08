@@ -258,35 +258,6 @@
       
 })
 
-/*var edit = document.querySelectorAll('#del_room');
-
-for (let i = 0; i < edit.length; i++) {
-    edit[i].addEventListener('click', () => {
-        var answer = window.confirm("Bạn có muốn xóa");
-        if (answer) {
-
-            var xhr_login = new XMLHttpRequest();
-            let url_login = "https://localhost:5001/Home/RemoveRoom?MaPhong=" + edit[i].parentElement.id;
-            xhr_login.open("GET", url_login, true);
-            xhr_login.timeout = 20000;
-            xhr_login.onreadystatechange = function () {
-
-                if (xhr_login.readyState == 4 && xhr_login.status == 200) {
-
-                    var result = xhr_login.response;
-                    if (result) {
-                        toastMessage({ title: "Thành công!", message: "Xóa phòng thành công", type: "success" });
-                        edit[i].parentElement.remove();
-                    }
-                    else
-                        toastMessage({ title: "Thất bại!", message: "Xóa phòng thất bại", type: "fail" });
-                }
-
-            }
-            xhr_login.send();
-        }
-    });
-}*/
 
 
 function deleteInfoRoom(maPhong) {
@@ -314,7 +285,7 @@ function deleteInfoRoom(maPhong) {
                     })
                 }
                 else if (status == "fired") {
-                    toastMessage({ title: 'Success', message: 'Xóa thành công', type: 'success', duration: 3500 });
+                    toastMessage({ title: 'Failing', message: 'Không thể xóa hẳn phòng do đã từng có khách thuê. Cập nhật trạng thái phòng không hoạt động nữa.', type: 'fail', duration: 5500 });
                     $.ajax({
                         url: '/Home/ListRoom',
                         success: function (data, status) {

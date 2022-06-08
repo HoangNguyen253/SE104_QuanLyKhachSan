@@ -309,7 +309,7 @@ for (let i = 0; i < listbc.length; i++) {
                         })
                     }
                     else if (status == "fired") {
-                        toastMessage({ title: 'Success', message: 'Sa thải thành công', type: 'success', duration: 3500 });
+                        toastMessage({ title: 'Fail', message: 'Không thể xóa nhân viên. Cập nhật chức vụ nhân viên thành "Đã sa thải".', type: 'fail', duration: 3500 });
                         $.ajax({
                             url: '/Home/ListStaff',
                             success: function (data, status) {

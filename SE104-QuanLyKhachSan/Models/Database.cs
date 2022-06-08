@@ -2879,13 +2879,11 @@ namespace SE104_QuanLyKhachSan.Models
             //neu da ton tai thi update lai status => chức vụ đã sa thải
             else
             {
-       
-               
 
                 using (MySqlConnection connectioncheck = this.GetConnection())
                 {
                     connectioncheck.Open();
-                    string str = " UPDATE `phong` SET MaTrangThai = @matrangthai WHERE MaPhong = @map ";
+                    string str = " UPDATE `phong` SET TrangThai = @matrangthai WHERE MaPhong = @map ";
                     MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
                     cmd.Parameters.AddWithValue("map", MaPhong);
                     cmd.Parameters.AddWithValue("matrangthai", 0);

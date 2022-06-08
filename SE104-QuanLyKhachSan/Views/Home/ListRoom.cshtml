@@ -27,9 +27,9 @@
                         switch (k)
                         {
 
-                            case 0:
+                             case 0:
                                 {
-                                    trangThai = "Phòng trống";
+                                    trangThai = "Không hoạt động";
                                     break;
                                 }
                             case 1:
@@ -52,10 +52,11 @@
                                     trangThai = "Đang dọn dẹp";
                                     break;
                                 }
+                         
                             case 5:
                                 {
-                                    trangThai = "Không hoạt động";
-                                    break;
+                                trangThai = "Phòng trống";
+                                break;
                                 }
 
                         }
@@ -122,7 +123,7 @@
                             switch (@pi.TrangThai)
                             {
 
-                                case 0:
+                                case 5:
                                     {
                                         trangThai = "Phòng trống";
                                         break;
@@ -147,7 +148,7 @@
                                         trangThai = "Đang dọn dẹp";
                                         break;
                                     }
-                                case 5:
+                                case 0:
                                     {
                                         trangThai = "Không hoạt động";
                                         break;
@@ -289,21 +290,6 @@
             </div>
            
         </div>
- <style>
-  .require:after {
-    flex-direction:row;
-    content:"*";
-    color: red;
-     font-style: italic;
-  }
-  .ChuThich:after {
-    flex-direction:row;
-    content:" *: bắt buộc";
-    color: red;
-     font-style: italic;
-  }
-</style>
-
 
 
   <script src="~/js/ListRoom/ListRoom.js"></script>
