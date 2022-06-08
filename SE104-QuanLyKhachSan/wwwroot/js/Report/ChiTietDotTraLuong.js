@@ -30,7 +30,7 @@ for (let i = 0; i < edit_btn.length; i++) {
         var hoten = edit_btn[i].parentElement.parentElement.children[2].innerHTML;
         var thuong = ThuongBanDau = edit_btn[i].parentElement.parentElement.children[5].innerHTML;
         var phat = PhatBanDau = edit_btn[i].parentElement.parentElement.children[6].innerHTML;
-        var sotien = TongLuong = edit_btn[i].parentElement.parentElement.children[7].innerHTML;
+        var sotien = TongLuongBanDau = edit_btn[i].parentElement.parentElement.children[7].innerHTML;
         var ghichu = edit_btn[i].parentElement.parentElement.children[8].innerHTML;
 
         let workStaffInput = $(".Info_Luong_container input");
@@ -101,20 +101,57 @@ $(document).ready(function () {
 
 let ThuongBanDau = 0;
 let PhatBanDau = 0;
-let TongLuong = 0;
+let TongLuongBanDau = 0;
+let ThuongFinal = 0;
+let PhatFinal = 0;
+let TongLuongFinal = 0;
+
+document.getElementById("ThuongInput_id").addEventListener('focusout', () => {
+    ThuongFinal = parseInt(document.getElementById("ThuongInput_id").value);
+    if (!ThuongFinal)
+        document.getElementById("ThuongInput_id").value = 0;
+});
+
+document.getElementById("PhatInput_id").addEventListener('focusout', () => {
+    PhatFinal = parseInt(document.getElementById("PhatInput_id").value);
+    if (!PhatFinal)
+        document.getElementById("PhatInput_id").value = 0;
+});
+
+document.getElementById("ThuongInput_id").addEventListener('focus', () => {
+    ThuongBanDau = parseInt(document.getElementById("ThuongInput_id").value);
+});
+
+document.getElementById("PhatInput_id").addEventListener('focus', () => {
+    PhatBanDau = parseInt(document.getElementById("PhatInput_id").value);
+});
 
 
-function CalcTienLuong(sotien, method) {
-    
-    console.log(ThuongBanDau);
+function CalcTienLuong(valueInput, method) {
     switch (method) {
         case 'thuong':
-            if(document.getElementById("ThuongInput_id").value)
-                document.getElementById("TongLuong_input_id").value = (parseInt(TongLuong) - parseInt(ThuongBanDau) + parseInt(document.getElementById("ThuongInput_id").value) );
+            ThuongFinal = valueInput;
+
+            /*nếu value null thì = 0*/
+            if (!ThuongFinal)
+                ThuongFinal = 0;
+            TongLuongBanDau = parseInt(document.getElementById("TongLuong_input_id").value);
+            document.getElementById("TongLuong_input_id").value = TongLuongBanDau - parseInt(ThuongBanDau) + parseInt(ThuongFinal);
+            if (ThuongFinal != 0)
+                ThuongBanDau = parseInt(document.getElementById("ThuongInput_id").value);
+            else
+                ThuongBanDau = 0;
             break;
         case 'phat':
-            if (document.getElementById("PhatInput_id").value)
-                document.getElementById("TongLuong_input_id").value = (parseInt(TongLuong) + parseInt(PhatBanDau) - parseInt(document.getElementById("PhatInput_id").value));
+            PhatFinal = valueInput;
+            if (!PhatFinal)
+                PhatFinal = 0;
+            TongLuongBanDau = parseInt(document.getElementById("TongLuong_input_id").value);
+            document.getElementById("TongLuong_input_id").value = TongLuongBanDau + parseInt(PhatBanDau) - parseInt(PhatFinal);
+            if (PhatFinal != 0)
+                PhatBanDau = parseInt(document.getElementById("PhatInput_id").value);
+            else
+                PhatBanDau = 0;
             break;
     }
 }

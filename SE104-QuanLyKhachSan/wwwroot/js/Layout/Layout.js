@@ -118,7 +118,6 @@ $(document).ready(function (e) {
         })
     });
 
-
     $('#doanhthutinhluong_selection_name_icon_id').click(function () {
         $.ajax({
             url: '/Home/DotLuong',
