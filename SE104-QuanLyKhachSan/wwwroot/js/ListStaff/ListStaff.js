@@ -153,37 +153,37 @@ function validateForm() {
         }
     }*/
     if (maNhanVien.length != 6) {
-        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Mã nhân viên phải đủ 6 ký tự', type: 'fail', duration: 3500 });
+        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Mã nhân viên phải đủ 6 ký tự', type: 'fail', duration: 3500 });
         return false;
     }
     if (matKhau == "" || maNhanVien == "" || hoTen == "" || ngaySinh == "" || ngayVaoLam == "" || luong == "" || CCCD=="") {
-        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Điền đủ vào các trường bắt buộc', type: 'fail', duration: 3500 });
+        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Điền đủ vào các trường bắt buộc', type: 'fail', duration: 3500 });
         return false;
     }
 
     if (ngaySinh > ngayVaoLam) {
-        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Ngày sinh phải nhỏ hơn ngày vào làm', type: 'fail', duration: 3500 });
+        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Ngày sinh phải nhỏ hơn ngày vào làm', type: 'fail', duration: 3500 });
         return false;
     }
 
     if (soDienThoai != "") {
         if (soDienThoai.length < 10 || soDienThoai.length > 11 || soDienThoai<0) {
-            toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Số điện thoại không hợp lệ', type: 'fail', duration: 3500 });
+            toastMessage({ title: 'Lỗi Nhân Viên', message: 'Số điện thoại không hợp lệ', type: 'fail', duration: 3500 });
             return false;
         }
     }
     if (luong < 0) {
-        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Lương không hợp lệ', type: 'fail', duration: 3500 });
+        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Lương không hợp lệ', type: 'fail', duration: 3500 });
         return false;
     }
     if (CCCD != "") {
         if (CCCD < 0  || (CCCD.length != 12 && CCCD.length !=9)) {
-            toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'CCCD/CMND không hợp lệ (CCCD: đủ 12 chữ số, CMND: đủ 9 chữ số)', type: 'fail', duration: 3500 });
+            toastMessage({ title: 'Lỗi Nhân Viên', message: 'CCCD/CMND không hợp lệ (CCCD: đủ 12 chữ số, CMND: đủ 9 chữ số)', type: 'fail', duration: 3500 });
             return false;
         }
     }
     if (matKhau.length < 8) {
-        toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Mật khẩu ít nhất 8 ký tự', type: 'fail', duration: 3500 });
+        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Mật khẩu ít nhất 8 ký tự', type: 'fail', duration: 3500 });
         return false;
     }
     return true;
@@ -233,7 +233,7 @@ function viewInfoStaff(maNhanVien) {
 }
 
 function deleteInfoStaff(maNhanVien) {
-
+    console.log(maNhanVien);
     var answer = window.confirm("Bạn có muốn xóa");
     if (answer) {
         let xhr_add_nhanvien = new XMLHttpRequest();
@@ -266,6 +266,9 @@ function deleteInfoStaff(maNhanVien) {
                         }
                     })
                 }
+                else if (status == "zxc") {
+                    console.log(123);
+                }
                 else {
                     toastMessage({ title: 'Fail', message: 'Xóa thất bại', type: 'fail', duration: 3500 });
                 }
@@ -275,6 +278,58 @@ function deleteInfoStaff(maNhanVien) {
 
     }
   
+}
+
+//test
+var listbc = document.querySelectorAll('#del_staff');
+
+for (let i = 0; i < listbc.length; i++) {
+    listbc[i].addEventListener('click', () => {
+        let mabc = listbc[i].parentElement.id;
+        var answer = window.confirm("Bạn có muốn xóa");
+        if (answer) {
+            let xhr_add_nhanvien = new XMLHttpRequest();
+            let url_add_nhanvien = "/Home/DeleteStaff?MaNV=" + mabc;
+
+
+            xhr_add_nhanvien.open("POST", url_add_nhanvien, true);
+            xhr_add_nhanvien.send();
+
+            xhr_add_nhanvien.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let status = this.response;
+                    if (status == "success") {
+                        toastMessage({ title: 'Success', message: 'Xóa thành công', type: 'success', duration: 3500 });
+                        $.ajax({
+                            url: '/Home/ListStaff',
+                            success: function (data, status) {
+                                $('#main_working_window_id').html(data);
+                                console.log(status);
+                            }
+                        })
+                    }
+                    else if (status == "fired") {
+                        toastMessage({ title: 'Success', message: 'Sa thải thành công', type: 'success', duration: 3500 });
+                        $.ajax({
+                            url: '/Home/ListStaff',
+                            success: function (data, status) {
+                                $('#main_working_window_id').html(data);
+                                console.log(status);
+                            }
+                        })
+                    }
+                    else if (status == "zxc") {
+                        console.log(123);
+                    }
+                    else {
+                        toastMessage({ title: 'Fail', message: 'Xóa thất bại', type: 'fail', duration: 3500 });
+                    }
+                }
+
+            }
+
+        }
+    });
 }
 
 

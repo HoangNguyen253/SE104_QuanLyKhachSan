@@ -364,4 +364,19 @@ input:disabled, select:disabled {
     display: inline;
 }
 
+.require:after {
+    content: "*";
+    color: red;
+    font-style: italic;
+}
 
+.ChuThich {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+    .ChuThich:after {
+        content: "  * : bắt buộc";
+        color: red;
+        font-style: italic;
+    }

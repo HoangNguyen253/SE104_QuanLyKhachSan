@@ -2759,7 +2759,7 @@ namespace SE104_QuanLyKhachSan.Models
             using (MySqlConnection connectioncheck = this.GetConnection())
             {
                 connectioncheck.Open();
-                string queryString = " SELECT DISTINCT hoadon.MaNhanVien FROM hoadon WHERE EXISTS(SELECT nhanvien.MaNhanVien FROM nhanvien) AND MaNhanVien = '@manv' ";
+                string queryString = " SELECT DISTINCT hoadon.MaNhanVien FROM hoadon WHERE EXISTS(SELECT nhanvien.MaNhanVien FROM nhanvien) AND MaNhanVien = @manv ";
 
                 MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
                 cmd.Parameters.AddWithValue("manv", MaNhanVien);
@@ -2767,10 +2767,22 @@ namespace SE104_QuanLyKhachSan.Models
                 {
                     if (result.HasRows)
                         return true;
-                    else
-                        return false;
                 }
             }
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+                string queryString = " SELECT DISTINCT traluong.MaNhanVien FROM traluong WHERE EXISTS(SELECT nhanvien.MaNhanVien FROM nhanvien) AND MaNhanVien = @Manv ";
+
+                MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
+                cmd.Parameters.AddWithValue("Manv", MaNhanVien);
+                using (var result = cmd.ExecuteReader())
+                {
+                    if (result.HasRows)
+                        return true;
+                }
+            }
+            return false;
         }
 
         public bool IsRoomUsed(string MaPhong)
@@ -2829,7 +2841,7 @@ namespace SE104_QuanLyKhachSan.Models
                     }
                 }
 
-                 using (MySqlConnection connectioncheck = this.GetConnection())
+                using (MySqlConnection connectioncheck = this.GetConnection())
                 {
                     connectioncheck.Open();
                     string str = " UPDATE `nhanvien` SET MaChucVu = @machucvu WHERE nhanvien.MaNhanVien = @manv ";
@@ -2854,7 +2866,7 @@ namespace SE104_QuanLyKhachSan.Models
                 using (MySqlConnection connectioncheck = this.GetConnection())
                 {
                     connectioncheck.Open();
-                    string str = " DELETE FROM nhanvien WHERE  MaPhong = @maphong ";
+                    string str = " DELETE FROM phong WHERE MaPhong = @maphong ";
                     MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
                     cmd.Parameters.AddWithValue("maphong", MaPhong);
                     int check = cmd.ExecuteNonQuery();
