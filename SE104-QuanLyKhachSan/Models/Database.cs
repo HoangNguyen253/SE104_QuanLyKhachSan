@@ -2854,7 +2854,7 @@ namespace SE104_QuanLyKhachSan.Models
                 using (MySqlConnection connectioncheck = this.GetConnection())
                 {
                     connectioncheck.Open();
-                    string str = " DELETE FROM nhanvien WHERE  MaPhong = @maphong ";
+                    string str = " DELETE FROM phong WHERE MaPhong = @maphong ";
                     MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
                     cmd.Parameters.AddWithValue("maphong", MaPhong);
                     int check = cmd.ExecuteNonQuery();
