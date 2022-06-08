@@ -116,6 +116,7 @@ signInButton.addEventListener('click', () => {
     }
 });
 
+
 forgetForward.addEventListener("click", () => {
     formContainer.style.marginLeft = "-100%";
     emailInput.focus();

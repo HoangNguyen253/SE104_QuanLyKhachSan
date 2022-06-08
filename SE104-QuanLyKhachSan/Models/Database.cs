@@ -104,7 +104,7 @@ namespace SE104_QuanLyKhachSan.Models
                 conn.Open();
                 string query = "SELECT P.MaPhong, LP.TenLoaiPhong, P.TrangThai, P.Tang, MAX(ThoiGianNhanPhong) AS 'ThoiGianNhanPhong' " +
                                 "FROM PHONG P INNER JOIN LOAIPHONG LP ON P.MaLoaiPhong = LP.MaLoaiPhong LEFT JOIN CHITIETHOADON CTHD ON P.MaPhong = CTHD.MaPhong " +
-                                "WHERE P.Tang = @tang AND P.TrangThai = @trangThai AND RIGHT(P.MaPhong, 2) = @soPhong " +
+                                "WHERE P.Tang = @tang AND P.TrangThai = @trangThai AND RIGHT(P.MaPhong, 2) LIKE @soPhong " +
                                 "GROUP BY P.MaPhong, LP.TenLoaiPhong, P.TrangThai, P.Tang " +
                                 "ORDER BY P.Tang, P.MaPhong";
                 if (tang == 0)
@@ -115,9 +115,9 @@ namespace SE104_QuanLyKhachSan.Models
                 {
                     query = query.Replace("P.TrangThai = @trangThai AND ", "");
                 }
-                if (soPhong == null)
+                if (soPhong == null || soPhong == "")
                 {
-                    query = query.Replace("AND RIGHT(P.MaPhong, 2) = @soPhong", "");
+                    query = query.Replace("P.MaPhong, 2", "P.MaPhong, 0");
                 }
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 if (tang != 0)
@@ -128,9 +128,13 @@ namespace SE104_QuanLyKhachSan.Models
                 {
                     cmd.Parameters.AddWithValue("trangThai", trangThai);
                 }
-                if (soPhong != null)
+                if (soPhong != null && soPhong != "")
                 {
-                    cmd.Parameters.AddWithValue("soPhong", soPhong);
+                    cmd.Parameters.AddWithValue("soPhong", "%"+soPhong);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("soPhong", "");
                 }
                 using (MySqlDataReader readerResult = cmd.ExecuteReader())
                 {
@@ -437,6 +441,30 @@ namespace SE104_QuanLyKhachSan.Models
                 cmd.Parameters.AddWithValue("pass", pass);
                 int result = cmd.ExecuteNonQuery();
                 return (result >= 1) ? "success" : "fail";
+            }
+        }
+
+        public int GetSoKhachToiDaForThayDoiKhachO()
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+
+                string queryString = "SELECT GiaTri " +
+                    "FROM THAMSO " +
+                    "WHERE TenThuocTinh='SoKhachToiDa'";
+
+                MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        return Convert.ToInt32(reader["GiaTri"]);
+                    }
+                    else return -1;
+                }
             }
         }
 
@@ -2438,162 +2466,162 @@ namespace SE104_QuanLyKhachSan.Models
 
         public List<SoLuongKhachThue> ConvertToSLKT(int maCTHD)
         {
+            return null;
+            //using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            //{
+            //    conn.Open();
+            //    MySqlCommand cmd = new MySqlCommand(SQLQuery.updateCheckOutKhach, conn);
+            //    cmd.Parameters.AddWithValue("thoiGianCO", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            //    cmd.Parameters.AddWithValue("maCTHD", maCTHD);
+            //    cmd.ExecuteNonQuery();
 
-            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
-            {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand(SQLQuery.updateCheckOutKhach, conn);
-                cmd.Parameters.AddWithValue("thoiGianCO", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                cmd.Parameters.AddWithValue("maCTHD", maCTHD);
-                cmd.ExecuteNonQuery();
+            //    cmd = new MySqlCommand(SQLQuery.getCheckInCheckOutDetail, conn);
+            //    cmd.Parameters.AddWithValue("maCTHD", maCTHD);
+            //    var resultTimeRange = cmd.ExecuteReader();
+            //    resultTimeRange.Read();
+            //    DateTime checkIn = Convert.ToDateTime(resultTimeRange["ThoiGianNhanPhong"]);
+            //    DateTime checkOut = Convert.ToDateTime(resultTimeRange["ThoiGianTraPhong"]);
+            //    resultTimeRange.Close();
 
-                cmd = new MySqlCommand(SQLQuery.getCheckInCheckOutDetail, conn);
-                cmd.Parameters.AddWithValue("maCTHD", maCTHD);
-                var resultTimeRange = cmd.ExecuteReader();
-                resultTimeRange.Read();
-                DateTime checkIn = Convert.ToDateTime(resultTimeRange["ThoiGianNhanPhong"]);
-                DateTime checkOut = Convert.ToDateTime(resultTimeRange["ThoiGianTraPhong"]);
-                resultTimeRange.Close();
+            //    TimeSpan diff = checkOut - checkIn;
 
-                TimeSpan diff = checkOut - checkIn;
+            //    List<DateTime> days = new List<DateTime>();
+            //    if (diff.Hours > 10)
+            //    {
+            //        for (int i = 0; i <= diff.Days + 1; i++)
+            //        {
+            //            days.Add(checkIn.Date.AddDays(i));
+            //        }
+            //    }
+            //    else
+            //    {
+            //        for (int i = 0; i <= diff.Days; i++)
+            //        {
+            //            days.Add(checkIn.Date.AddDays(i));
+            //        }
+            //    }
 
-                List<DateTime> days = new List<DateTime>();
-                if (diff.Hours > 10)
-                {
-                    for (int i = 0; i <= diff.Days + 1; i++)
-                    {
-                        days.Add(checkIn.Date.AddDays(i));
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i <= diff.Days; i++)
-                    {
-                        days.Add(checkIn.Date.AddDays(i));
-                    }
-                }
+            //    List<ThongKeKhach> listThongKe = new List<ThongKeKhach>();
 
-                List<ThongKeKhach> listThongKe = new List<ThongKeKhach>();
+            //    // Convert timeCI timeCO
+            //    string checkInString = checkIn.ToString("yyyy-MM-dd HH:mm:ss");
+            //    string checkOutString = checkOut.ToString("yyyy-MM-dd HH:mm:ss");
 
-                // Convert timeCI timeCO
-                string checkInString = checkIn.ToString("yyyy-MM-dd HH:mm:ss");
-                string checkOutString = checkOut.ToString("yyyy-MM-dd HH:mm:ss");
+            //    foreach (DateTime day in days)
+            //    {
+            //        string ngay = day.Year + "-" + day.Month + "-" + day.Day;
+            //        cmd = new MySqlCommand(SQLQuery.countKhachNN, conn);
+            //        cmd.Parameters.AddWithValue("maCTHD", maCTHD);
+            //        cmd.Parameters.AddWithValue("thoiGianCO", ngay);
+            //        var result = cmd.ExecuteReader();
+            //        result.Read();
 
-                foreach (DateTime day in days)
-                {
-                    string ngay = day.Year + "-" + day.Month + "-" + day.Day;
-                    cmd = new MySqlCommand(SQLQuery.countKhachNN, conn);
-                    cmd.Parameters.AddWithValue("maCTHD", maCTHD);
-                    cmd.Parameters.AddWithValue("thoiGianCO", ngay);
-                    var result = cmd.ExecuteReader();
-                    result.Read();
+            //        ThongKeKhach newRecord = new ThongKeKhach();
+            //        newRecord.ngay = ngay;
+            //        newRecord.KhachNN = Convert.ToByte(result["KhachNN"]);
+            //        result.Close();
 
-                    ThongKeKhach newRecord = new ThongKeKhach();
-                    newRecord.ngay = ngay;
-                    newRecord.KhachNN = Convert.ToByte(result["KhachNN"]);
-                    result.Close();
+            //        cmd = new MySqlCommand(SQLQuery.countKhachNoiDia, conn);
+            //        cmd.Parameters.AddWithValue("maCTHD", maCTHD);
+            //        cmd.Parameters.AddWithValue("thoiGianCO", ngay);
+            //        result = cmd.ExecuteReader();
+            //        result.Read();
 
-                    cmd = new MySqlCommand(SQLQuery.countKhachNoiDia, conn);
-                    cmd.Parameters.AddWithValue("maCTHD", maCTHD);
-                    cmd.Parameters.AddWithValue("thoiGianCO", ngay);
-                    result = cmd.ExecuteReader();
-                    result.Read();
+            //        newRecord.KhachNoiDia = Convert.ToByte(result["KhachNoiDia"]);
+            //        result.Close();
+            //        listThongKe.Add(newRecord);
+            //    }
+            //    // Xong bang thong ke luong khach theo ngay
 
-                    newRecord.KhachNoiDia = Convert.ToByte(result["KhachNoiDia"]);
-                    result.Close();
-                    listThongKe.Add(newRecord);
-                }
-                // Xong bang thong ke luong khach theo ngay
+            //    Dictionary<string, byte> dictCount = new Dictionary<string, byte>();
+            //    foreach (ThongKeKhach record in listThongKe)
+            //    {
+            //        // Struct key = KhachNoiDia + KhachNN
+            //        string key = record.KhachNoiDia.ToString() + record.KhachNN.ToString();
 
-                Dictionary<string, byte> dictCount = new Dictionary<string, byte>();
-                foreach (ThongKeKhach record in listThongKe)
-                {
-                    // Struct key = KhachNoiDia + KhachNN
-                    string key = record.KhachNoiDia.ToString() + record.KhachNN.ToString();
+            //        if (dictCount.ContainsKey(key))
+            //        {
+            //            dictCount[key]++;
+            //        }
+            //        else
+            //        {
+            //            dictCount.Add(key, 1);
+            //        }
+            //    }
+            //    // Da co duoc Dict so luong khach theo loai khach va theo so luong ngay
+            //    List<SoLuongKhachThue> kq = new List<SoLuongKhachThue>();
+            //    foreach (KeyValuePair<string, byte> entry in dictCount)
+            //    {
+            //        string key = entry.Key;
+            //        SoLuongKhachThue history = new SoLuongKhachThue();
+            //        history.SoKhachNN = Convert.ToByte(key[1].ToString());
+            //        history.SoKhachThue = Convert.ToByte(history.SoKhachNN + Convert.ToByte(key[0].ToString()));
+            //        history.SoNgayThue = entry.Value;
+            //        history.MaCTHD = maCTHD;
+            //        cmd = new MySqlCommand(SQLQuery.getGiaPhongByDetailID, conn);
+            //        cmd.Parameters.AddWithValue("maCTHD", maCTHD);
+            //        var res = cmd.ExecuteReader();
+            //        res.Read();
+            //        history.DonGia = Convert.ToInt32(res["GiaTienCoBan"]);
+            //        res.Close();
+            //        if (history.SoKhachThue > 2)
+            //        {
+            //            cmd = new MySqlCommand(SQLQuery.getPhuThuTheoSoLuong, conn);
+            //            cmd.Parameters.AddWithValue("soLuong", history.SoKhachThue);
+            //            cmd.Parameters.AddWithValue("thoiGianCI", checkInString);
+            //            var phuthu = cmd.ExecuteReader();
+            //            phuthu.Read();
+            //            if (!phuthu.HasRows)
+            //            {
+            //                history.PhuThu = 0;
+            //            }
+            //            else
+            //            {
+            //                if (phuthu["TiLePhuThu"] == DBNull.Value)
+            //                {
+            //                    history.PhuThu = Convert.ToInt32(0);
+            //                }
+            //                else
+            //                    history.PhuThu = Convert.ToInt32(phuthu["TiLePhuThu"]);
+            //            }
+            //            phuthu.Close();
+            //        }
 
-                    if (dictCount.ContainsKey(key))
-                    {
-                        dictCount[key]++;
-                    }
-                    else
-                    {
-                        dictCount.Add(key, 1);
-                    }
-                }
-                // Da co duoc Dict so luong khach theo loai khach va theo so luong ngay
-                List<SoLuongKhachThue> kq = new List<SoLuongKhachThue>();
-                foreach (KeyValuePair<string, byte> entry in dictCount)
-                {
-                    string key = entry.Key;
-                    SoLuongKhachThue history = new SoLuongKhachThue();
-                    history.SoKhachNN = Convert.ToByte(key[1].ToString());
-                    history.SoKhachThue = Convert.ToByte(history.SoKhachNN + Convert.ToByte(key[0].ToString()));
-                    history.SoNgayThue = entry.Value;
-                    history.MaCTHD = maCTHD;
-                    cmd = new MySqlCommand(SQLQuery.getGiaPhongByDetailID, conn);
-                    cmd.Parameters.AddWithValue("maCTHD", maCTHD);
-                    var res = cmd.ExecuteReader();
-                    res.Read();
-                    history.DonGia = Convert.ToInt32(res["GiaTienCoBan"]);
-                    res.Close();
-                    if (history.SoKhachThue > 2)
-                    {
-                        cmd = new MySqlCommand(SQLQuery.getPhuThuTheoSoLuong, conn);
-                        cmd.Parameters.AddWithValue("soLuong", history.SoKhachThue);
-                        cmd.Parameters.AddWithValue("thoiGianCI", checkInString);
-                        var phuthu = cmd.ExecuteReader();
-                        phuthu.Read();
-                        if (!phuthu.HasRows)
-                        {
-                            history.PhuThu = 0;
-                        }
-                        else
-                        {
-                            if (phuthu["TiLePhuThu"] == DBNull.Value)
-                            {
-                                history.PhuThu = Convert.ToInt32(0);
-                            }
-                            else
-                                history.PhuThu = Convert.ToInt32(phuthu["TiLePhuThu"]);
-                        }
-                        phuthu.Close();
-                    }
+            //        //Tinh he so lkh
+            //        cmd = new MySqlCommand(SQLQuery.getHeSoLKH, conn);
+            //        cmd.Parameters.AddWithValue("thoiGianCI", checkIn);
+            //        cmd.Parameters.AddWithValue("soKhachNN", history.SoKhachNN);
+            //        cmd.Parameters.AddWithValue("soKhachND", Convert.ToByte(key[0].ToString()));
+            //        var heso = cmd.ExecuteReader();
+            //        heso.Read();
+            //        if (heso["HeSo"] != DBNull.Value)
+            //        {
+            //            history.HeSoKhach = (float)Convert.ToDouble(heso["HeSo"]);
+            //        }
+            //        else
+            //        {
+            //            history.HeSoKhach = 1;
+            //        }
+            //        history.ThanhTien = TinhTien(history.DonGia, history.SoNgayThue, history.PhuThu, history.HeSoKhach);
+            //        history.GhiChu = null;
+            //        heso.Close();
 
-                    //Tinh he so lkh
-                    cmd = new MySqlCommand(SQLQuery.getHeSoLKH, conn);
-                    cmd.Parameters.AddWithValue("thoiGianCI", checkIn);
-                    cmd.Parameters.AddWithValue("soKhachNN", history.SoKhachNN);
-                    cmd.Parameters.AddWithValue("soKhachND", Convert.ToByte(key[0].ToString()));
-                    var heso = cmd.ExecuteReader();
-                    heso.Read();
-                    if (heso["HeSo"] != DBNull.Value)
-                    {
-                        history.HeSoKhach = (float)Convert.ToDouble(heso["HeSo"]);
-                    }
-                    else
-                    {
-                        history.HeSoKhach = 1;
-                    }
-                    history.ThanhTien = TinhTien(history.DonGia, history.SoNgayThue, history.PhuThu, history.HeSoKhach);
-                    history.GhiChu = null;
-                    heso.Close();
-
-                    // Insert to DB
-                    cmd = new MySqlCommand(SQLQuery.insertSLKT, conn);
-                    cmd.Parameters.AddWithValue("soLuongKhach", history.SoKhachThue);
-                    cmd.Parameters.AddWithValue("soKhachNN", history.SoKhachNN);
-                    cmd.Parameters.AddWithValue("soNgay", history.SoNgayThue);
-                    cmd.Parameters.AddWithValue("ghiChu", history.GhiChu);
-                    cmd.Parameters.AddWithValue("donGia", history.DonGia);
-                    cmd.Parameters.AddWithValue("phuThu", history.PhuThu);
-                    cmd.Parameters.AddWithValue("heSo", history.HeSoKhach);
-                    cmd.Parameters.AddWithValue("thanhTien", history.ThanhTien);
-                    cmd.Parameters.AddWithValue("maCTHD", history.MaCTHD);
-                    cmd.ExecuteNonQuery();
-                    kq.Add(history);
-                }
-                return kq;
-            }
+            //        // Insert to DB
+            //        cmd = new MySqlCommand(SQLQuery.insertSLKT, conn);
+            //        cmd.Parameters.AddWithValue("soLuongKhach", history.SoKhachThue);
+            //        cmd.Parameters.AddWithValue("soKhachNN", history.SoKhachNN);
+            //        cmd.Parameters.AddWithValue("soNgay", history.SoNgayThue);
+            //        cmd.Parameters.AddWithValue("ghiChu", history.GhiChu);
+            //        cmd.Parameters.AddWithValue("donGia", history.DonGia);
+            //        cmd.Parameters.AddWithValue("phuThu", history.PhuThu);
+            //        cmd.Parameters.AddWithValue("heSo", history.HeSoKhach);
+            //        cmd.Parameters.AddWithValue("thanhTien", history.ThanhTien);
+            //        cmd.Parameters.AddWithValue("maCTHD", history.MaCTHD);
+            //        cmd.ExecuteNonQuery();
+            //        kq.Add(history);
+            //    }
+            //    return kq;
+            //}
         }
 
         public void DeleteDetailById(int maCTHD)
@@ -3958,5 +3986,1641 @@ throw;
         }   
         //Trí - end
         #endregion
+
+
+        // Vinh - Hóa đơn + Tra cứu thuê phòng - Begin
+
+        public List<object> LoadDataForDSHD()
+        {
+            List<object> dsHoaDon = new List<object>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string query = "SELECT HD.MaHoaDon, HD.ThoiGianXuat, NV.HoTen, HD.TongSoTien, HD.DoiTuongThanhToan " +
+                    "FROM HOADON HD, NHANVIEN NV " +
+                    "WHERE NV.MaNhanVien = HD.MaNhanVien ";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                using (MySqlDataReader readerResult = cmd.ExecuteReader())
+                {
+                    while (readerResult.Read())
+                    {
+                        dsHoaDon.Add(new
+                        {
+                            maHoaDon = Convert.ToInt32(readerResult["MaHoaDon"]),
+                            thoiGianXuat = Convert.ToDateTime(readerResult["ThoiGianXuat"]),
+                            hoTenNV = readerResult["HoTen"].ToString(),
+                            tongSoTien = Convert.ToInt32(readerResult["TongSoTien"]),
+                            doiTuongThanhToan = readerResult["DoiTuongThanhToan"]
+                        });
+                    }
+                }
+                return dsHoaDon;
+            }
+        }
+        public CTHD1Phong ThongKeSLKTCho1Phong(string maPhong, DateTime _curTGTraPhong)
+        {
+            List<KhachThue> dsKhachThue = new List<KhachThue>();
+            int _curMaCTHD = 0;
+            int _curGiaPhong = 0;
+            string _curMaPhong = "";
+            DateTime _curTGNhanPhong = DateTime.Now;
+            List<PhuThuLKH> dsPhuThuLKH = new List<PhuThuLKH>();
+            List<PhuThu> dsPhuThuSoKhach = new List<PhuThu>();
+            List<PhuThu> dsPhuThuCheckin = new List<PhuThu>();
+            List<PhuThu> dsPhuThuCheckout = new List<PhuThu>();
+            List<object> dsSoLuongTheoLoaiKhach = new List<object>();
+            string[] checkInTime = { "00", "00" };
+            string[] checkOutTime = { "00", "00" };
+            int overCheckIn = 0;
+            int overCheckOut = 0;
+            int tiLePhuThuChechIn = 0;
+            int tiLePhuThuChechOut = 0;
+
+            CTHD1Phong CTHDPhong = new CTHD1Phong();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                //Lấy chi tiết hóa đơn của phòng
+                string queryCTHD = "SELECT CTHD.MaCTHD, CTHD.MaPhong, CTHD.ThoiGianNhanPhong, CTHD.GiaPhong " +
+                    "FROM CHITIETHOADON CTHD " +
+                    "WHERE CTHD.MaPhong = @maPhong AND CTHD.MaHoaDon IS NULL AND CTHD.TrangThai = 0 ";
+                MySqlCommand cmdCTHD = new MySqlCommand(queryCTHD, conn);
+                cmdCTHD.Parameters.AddWithValue("maPhong", maPhong);
+                using (MySqlDataReader readerCTHD = cmdCTHD.ExecuteReader())
+                {
+                    if (readerCTHD.HasRows)
+                    {
+                        readerCTHD.Read();
+                        _curMaCTHD = Convert.ToInt32(readerCTHD["MaCTHD"]);
+                        _curMaPhong = readerCTHD["MaPhong"].ToString();
+                        _curTGNhanPhong = Convert.ToDateTime(readerCTHD["ThoiGianNhanPhong"]);
+                        _curGiaPhong = Convert.ToInt32(readerCTHD["GiaPhong"]);
+                    }
+                }
+                CTHDPhong.MaCTHD = _curMaCTHD;
+                CTHDPhong.MaPhong = maPhong;
+                CTHDPhong.ThoiGianNhanPhong = _curTGNhanPhong;
+                CTHDPhong.ThoiGianTraPhong = _curTGTraPhong;
+                CTHDPhong.GiaPhong = _curGiaPhong;
+
+                //Lấy quy định về phụ thu checkin
+                string queryPhuThuCheckin = "SELECT PT.MaPhuThu, PT.SoLuongApDung, PT.TiLePhuThu, PT.MaLoaiPhuThu, PT.ThoiGianApDung " +
+                    "FROM PHUTHU PT INNER JOIN LOAIPHUTHU LPT ON PT.MaLoaiPhuThu = LPT.MaLoaiPhuThu " +
+                    "WHERE LPT.TenLoaiPhuThu = N'Check In' AND PT.ThoiGianApDung <= @thoiGianNhanPhong " +
+                    "						AND PT.ThoiGianApDung = (SELECT MAX(ThoiGianApDung)" +
+                    "                                                 FROM PHUTHU PT1" +
+                    "                                                 WHERE PT1.MaLoaiPhuThu = PT.MaLoaiPhuThu AND PT.SoLuongApDung = PT1.SoLuongApDung)";
+                MySqlCommand cmdPhuThuCheckin = new MySqlCommand(queryPhuThuCheckin, conn);
+                cmdPhuThuCheckin.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuCheckin = cmdPhuThuCheckin.ExecuteReader())
+                {
+                    if (readerPhuThuCheckin.HasRows)
+                    {
+                        while (readerPhuThuCheckin.Read())
+                        {
+                            dsPhuThuCheckin.Add(new PhuThu
+                            {
+                                MaLoaiPhuThu = Convert.ToInt32(readerPhuThuCheckin["MaLoaiPhuThu"]),
+                                MaPhuThu = Convert.ToInt32(readerPhuThuCheckin["MaPhuThu"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuCheckin["SoLuongApDung"]),
+                                TenLoaiPhuThu = "Checkin",
+                                ThoiGianApDung = readerPhuThuCheckin["ThoiGianApDung"].ToString(),
+                                TiLePhuThu = Convert.ToInt32(readerPhuThuCheckin["TiLePhuThu"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy quy định về phụ thu checkout
+                string queryPhuThuCheckout = "SELECT PT.MaPhuThu, PT.SoLuongApDung, PT.TiLePhuThu, PT.MaLoaiPhuThu, PT.ThoiGianApDung " +
+                    "FROM PHUTHU PT INNER JOIN LOAIPHUTHU LPT ON PT.MaLoaiPhuThu = LPT.MaLoaiPhuThu " +
+                    "WHERE LPT.TenLoaiPhuThu = N'Check Out' AND PT.ThoiGianApDung <= @thoiGianNhanPhong " +
+                    "						AND PT.ThoiGianApDung = (SELECT MAX(ThoiGianApDung)" +
+                    "                                                 FROM PHUTHU PT1" +
+                    "                                                 WHERE PT1.MaLoaiPhuThu = PT.MaLoaiPhuThu AND PT.SoLuongApDung = PT1.SoLuongApDung)";
+                MySqlCommand cmdPhuThuCheckout = new MySqlCommand(queryPhuThuCheckout, conn);
+                cmdPhuThuCheckout.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuCheckout = cmdPhuThuCheckout.ExecuteReader())
+                {
+                    if (readerPhuThuCheckout.HasRows)
+                    {
+                        while (readerPhuThuCheckout.Read())
+                        {
+                            dsPhuThuCheckout.Add(new PhuThu
+                            {
+                                MaLoaiPhuThu = Convert.ToInt32(readerPhuThuCheckout["MaLoaiPhuThu"]),
+                                MaPhuThu = Convert.ToInt32(readerPhuThuCheckout["MaPhuThu"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuCheckout["SoLuongApDung"]),
+                                TenLoaiPhuThu = "Checkout",
+                                ThoiGianApDung = readerPhuThuCheckout["ThoiGianApDung"].ToString(),
+                                TiLePhuThu = Convert.ToInt32(readerPhuThuCheckout["TiLePhuThu"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy thông tin giờ checkin checkout
+                string queryGioCheckInOut = "SELECT * " +
+                    "FROM THAMSO TS " +
+                    "WHERE TS.TenThuocTinh = 'GioCheckIn' OR TS.TenThuocTinh = 'GioCheckOut'";
+                MySqlCommand cmdGioCheckInOut = new MySqlCommand(queryGioCheckInOut, conn);
+                using (MySqlDataReader readerGioCheckInOut = cmdGioCheckInOut.ExecuteReader())
+                {
+                    if (readerGioCheckInOut.HasRows)
+                    {
+                        while (readerGioCheckInOut.Read())
+                        {
+                            if (readerGioCheckInOut["TenThuocTinh"].ToString() == "GioCheckIn")
+                            {
+                                checkInTime = readerGioCheckInOut["GiaTri"].ToString().Split(":");
+                            }
+                            else if (readerGioCheckInOut["TenThuocTinh"].ToString() == "GioCheckOut")
+                            {
+                                checkOutTime = readerGioCheckInOut["GiaTri"].ToString().Split(":");
+                            }
+                        }
+                    }
+                }
+                //Tính checkin sớm, checkout trễ
+                if (_curTGNhanPhong.Hour < Convert.ToInt32(checkInTime[0]))
+                {
+                    overCheckIn = (int)Math.Round((double)((Convert.ToInt32(checkInTime[0]) - _curTGNhanPhong.Hour) * 60 + (Convert.ToInt32(checkInTime[1]) - _curTGNhanPhong.Minute)) / 60);
+                }
+                if (_curTGTraPhong.Hour > Convert.ToInt32(checkOutTime[0]))
+                {
+                    overCheckOut = (int)Math.Round((double)((_curTGTraPhong.Hour - Convert.ToInt32(checkOutTime[0])) * 60 + (_curTGTraPhong.Minute) - Convert.ToInt32(checkOutTime[1])) / 60);
+                }
+                foreach (PhuThu phuThuCheckIn in dsPhuThuCheckin)
+                {
+                    if (phuThuCheckIn.SoLuongApDung <= overCheckIn && phuThuCheckIn.TiLePhuThu > tiLePhuThuChechIn)
+                    {
+                        tiLePhuThuChechIn = phuThuCheckIn.TiLePhuThu;
+                    }
+                }
+                foreach (PhuThu phuThuCheckOut in dsPhuThuCheckout)
+                {
+                    if (phuThuCheckOut.SoLuongApDung <= overCheckOut && phuThuCheckOut.TiLePhuThu > tiLePhuThuChechOut)
+                    {
+                        tiLePhuThuChechOut = phuThuCheckOut.TiLePhuThu;
+                    }
+                }
+
+                //Lấy danh sách khách thuê của phòng
+                string queryKhachThue = "SELECT KT.MaKhachThue, KT.CCCD, KT.ThoiGianCheckIn, KT.ThoiGianCheckOut, KT.HoTen, KT.MaLoaiKhachHang, KT.DiaChi, KT.MaCTHD " +
+                    "FROM KHACHTHUE KT, CHITIETHOADON CTHD " +
+                    "WHERE KT.MaCTHD = CTHD.MaCTHD AND CTHD.MaPhong = @maPhong AND CTHD.MaHoaDon IS NULL AND CTHD.TrangThai = 0 ";
+                MySqlCommand cmdKhachThue = new MySqlCommand(queryKhachThue, conn);
+                cmdKhachThue.Parameters.AddWithValue("maPhong", maPhong);
+                using (MySqlDataReader readerKhachThue = cmdKhachThue.ExecuteReader())
+                {
+                    if (readerKhachThue.HasRows)
+                    {
+                        while (readerKhachThue.Read())
+                        {
+                            dsKhachThue.Add(new KhachThue
+                            {
+                                MaKhachThue = Convert.ToInt32(readerKhachThue["MaKhachThue"]),
+                                CCCD = readerKhachThue["CCCD"].ToString(),
+                                ThoiGianCheckin = Convert.ToDateTime(readerKhachThue["ThoiGianCheckIn"]),
+                                ThoiGianCheckout = (readerKhachThue["ThoiGianCheckOut"] == DBNull.Value) ? (_curTGTraPhong) : Convert.ToDateTime(readerKhachThue["ThoiGianCheckOut"]),
+                                HoTen = readerKhachThue["HoTen"].ToString(),
+                                MaLoaiKhachHang = Convert.ToInt32(readerKhachThue["MaLoaiKhachHang"]),
+                                DiaChi = readerKhachThue["DiaChi"].ToString(),
+                                MaCTHD = Convert.ToInt32(readerKhachThue["MaCTHD"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy quy định về phụ thu loại khách hàng
+                string queryPhuThuLKH = "SELECT * " +
+                    "FROM PHUTHULKH PTLKH " +
+                    "WHERE PTLKH.ThoiGianApDung <= @thoiGianNhanPhong AND PTLKH.ThoiGianApDung = (SELECT MAX(PT.ThoiGianApDung) " +
+                    "                                                                                FROM PHUTHULKH PT " +
+                    "                                                                                WHERE PT.MaLoaiKhachHang = PTLKH.MaLoaiKhachHang) ";
+                MySqlCommand cmdPhuThuLKH = new MySqlCommand(queryPhuThuLKH, conn);
+                cmdPhuThuLKH.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuLKH = cmdPhuThuLKH.ExecuteReader())
+                {
+                    if (readerPhuThuLKH.HasRows)
+                    {
+                        while (readerPhuThuLKH.Read())
+                        {
+                            dsPhuThuLKH.Add(new PhuThuLKH
+                            {
+                                MaPhuThuLKH = Convert.ToInt32(readerPhuThuLKH["MaPhuThuLKH"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuLKH["SoLuongApDung"]),
+                                HeSoPhuThu = Math.Round(Convert.ToDouble(readerPhuThuLKH["HeSoPhuThu"]), 1),
+                                ThoiGianApDung = "",
+                                MaLoaiKhachHang = Convert.ToInt32(readerPhuThuLKH["MaLoaiKhachHang"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy quy định về phụ thu theo số khách 
+                string queryPhuThuSoKhach = "SELECT PT.MaPhuThu, PT.SoLuongApDung, PT.TiLePhuThu, PT.MaLoaiPhuThu, PT.ThoiGianApDung " +
+                    "FROM PHUTHU PT INNER JOIN LOAIPHUTHU LPT ON PT.MaLoaiPhuThu = LPT.MaLoaiPhuThu " +
+                    "WHERE LPT.TenLoaiPhuThu = N'Theo số khách' AND PT.ThoiGianApDung <= @thoiGianNhanPhong " +
+                    "						AND PT.ThoiGianApDung = (SELECT MAX(ThoiGianApDung)" +
+                    "                                                 FROM PHUTHU PT1" +
+                    "                                                 WHERE PT1.MaLoaiPhuThu = PT.MaLoaiPhuThu AND PT.SoLuongApDung = PT1.SoLuongApDung)";
+                MySqlCommand cmdPhuThuSoKhach = new MySqlCommand(queryPhuThuSoKhach, conn);
+                cmdPhuThuSoKhach.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuSoKhach = cmdPhuThuSoKhach.ExecuteReader())
+                {
+                    if (readerPhuThuSoKhach.HasRows)
+                    {
+                        while (readerPhuThuSoKhach.Read())
+                        {
+                            dsPhuThuSoKhach.Add(new PhuThu
+                            {
+                                MaLoaiPhuThu = Convert.ToInt32(readerPhuThuSoKhach["MaLoaiPhuThu"]),
+                                MaPhuThu = Convert.ToInt32(readerPhuThuSoKhach["MaPhuThu"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuSoKhach["SoLuongApDung"]),
+                                TenLoaiPhuThu = "Theo số khách",
+                                ThoiGianApDung = readerPhuThuSoKhach["ThoiGianApDung"].ToString(),
+                                TiLePhuThu = Convert.ToInt32(readerPhuThuSoKhach["TiLePhuThu"])
+                            });
+                        }
+                    }
+                }
+
+
+
+
+            }
+            double _heSoPhuThuMax = 1;
+            int _phuThuSoKhach = 0;
+
+            List<SoLuongKhachThue> dsSLKTTungNgay = new List<SoLuongKhachThue>();
+            List<SoLuongKhachThue> dsSLKTFinal = new List<SoLuongKhachThue>();
+            if (_curTGNhanPhong.Date < _curTGTraPhong.Date)
+            {
+                for (DateTime date = _curTGNhanPhong; date.Date.CompareTo(_curTGTraPhong.Date) < 0; date = date.AddDays(1.0))
+                {
+                    var resultCount = from kt in dsKhachThue.Where(kt => kt.ThoiGianCheckin.Date <= date.Date && kt.ThoiGianCheckout.Date > date.Date)
+                                                                .GroupBy(kt => kt.MaLoaiKhachHang)
+                                      select new
+                                      {
+                                          count = kt.Count(),
+                                          kt.First().MaLoaiKhachHang
+                                      };
+                    byte _countTongSoKhach = Convert.ToByte(dsKhachThue.Count(kt => kt.ThoiGianCheckin.Date <= date.Date && kt.ThoiGianCheckout.Date > date.Date));
+                    foreach (var _reCount in resultCount)
+                    {
+                        foreach (var phuThuLKH in dsPhuThuLKH)
+                        {
+                            if (phuThuLKH.SoLuongApDung <= _reCount.count && _reCount.MaLoaiKhachHang == phuThuLKH.MaLoaiKhachHang && _heSoPhuThuMax < phuThuLKH.HeSoPhuThu)
+                            {
+                                _heSoPhuThuMax = phuThuLKH.HeSoPhuThu;
+                            }
+                        }
+                    }
+                    foreach (PhuThu phuThu in dsPhuThuSoKhach)
+                    {
+                        if (phuThu.SoLuongApDung <= _countTongSoKhach && phuThu.TiLePhuThu > _phuThuSoKhach)
+                        {
+                            _phuThuSoKhach = phuThu.TiLePhuThu;
+                        }
+                    }
+                    dsSLKTTungNgay.Add(new SoLuongKhachThue
+                    {
+                        SoKhachThue = _countTongSoKhach,
+                        PhuThu = _phuThuSoKhach,
+                        HeSoKhach = _heSoPhuThuMax,
+                    });
+                    _countTongSoKhach = 0;
+                    _heSoPhuThuMax = 1;
+                    _phuThuSoKhach = 0;
+                }
+            }
+            else if (_curTGNhanPhong.Date == _curTGTraPhong.Date)
+            {
+                var resultCount = from kt in dsKhachThue.GroupBy(kt => kt.MaLoaiKhachHang)
+                                  select new
+                                  {
+                                      count = kt.Count(),
+                                      kt.First().MaLoaiKhachHang
+                                  };
+                byte _countTongSoKhach = Convert.ToByte(dsKhachThue.Count());
+                foreach (var _reCount in resultCount)
+                {
+                    foreach (var phuThuLKH in dsPhuThuLKH)
+                    {
+                        if (phuThuLKH.SoLuongApDung <= _reCount.count && _reCount.MaLoaiKhachHang == phuThuLKH.MaLoaiKhachHang && _heSoPhuThuMax < phuThuLKH.HeSoPhuThu)
+                        {
+                            _heSoPhuThuMax = phuThuLKH.HeSoPhuThu;
+                        }
+                    }
+                }
+                foreach (PhuThu phuThu in dsPhuThuSoKhach)
+                {
+                    if (phuThu.SoLuongApDung <= _countTongSoKhach && phuThu.TiLePhuThu > _phuThuSoKhach)
+                    {
+                        _phuThuSoKhach = phuThu.TiLePhuThu;
+                    }
+                }
+                dsSLKTTungNgay.Add(new SoLuongKhachThue
+                {
+                    SoKhachThue = _countTongSoKhach,
+                    PhuThu = _phuThuSoKhach,
+                    HeSoKhach = _heSoPhuThuMax,
+                });
+                _countTongSoKhach = 0;
+                _heSoPhuThuMax = 1;
+                _phuThuSoKhach = 0;
+                tiLePhuThuChechOut = 0;
+            }
+
+            if (dsSLKTTungNgay.Count > 0)
+            {
+                SoLuongKhachThue slktDangXet = new SoLuongKhachThue();
+                int tongTienSLKT = 0;
+                while (dsSLKTTungNgay.Count > 0)
+                {
+                    slktDangXet.SoKhachThue = dsSLKTTungNgay[0].SoKhachThue;
+                    slktDangXet.PhuThu = dsSLKTTungNgay[0].PhuThu;
+                    slktDangXet.HeSoKhach = dsSLKTTungNgay[0].HeSoKhach;
+                    slktDangXet.SoNgayThue = 0;
+                    slktDangXet.DonGia = _curGiaPhong;
+                    slktDangXet.MaCTHD = _curMaCTHD;
+
+
+                    for (int index = 0; index < dsSLKTTungNgay.Count; index++)
+                    {
+                        if (dsSLKTTungNgay[index].SoKhachThue == slktDangXet.SoKhachThue && dsSLKTTungNgay[index].PhuThu == slktDangXet.PhuThu && dsSLKTTungNgay[index].HeSoKhach == slktDangXet.HeSoKhach)
+                        {
+                            slktDangXet.SoNgayThue++;
+                            dsSLKTTungNgay.RemoveAt(index);
+                            index--;
+                        }
+                    }
+                    slktDangXet.ThanhTien = (int)((double)(slktDangXet.HeSoKhach) * (slktDangXet.DonGia + (slktDangXet.DonGia * (slktDangXet.PhuThu / (double)100))) * slktDangXet.SoNgayThue);
+                    tongTienSLKT = tongTienSLKT + slktDangXet.ThanhTien;
+                    dsSLKTFinal.Add(new SoLuongKhachThue {
+                        SoKhachThue = slktDangXet.SoKhachThue,
+                        PhuThu = (int)((slktDangXet.PhuThu / (double)100) * slktDangXet.DonGia),
+                        HeSoKhach = slktDangXet.HeSoKhach,
+                        SoNgayThue = slktDangXet.SoNgayThue,
+                        DonGia = slktDangXet.DonGia,
+                        ThanhTien = slktDangXet.ThanhTien,
+                        MaCTHD = slktDangXet.MaCTHD,
+                        GhiChu = "Phụ thu: " + slktDangXet.PhuThu.ToString() + "%\nHệ số khách: "+ slktDangXet.HeSoKhach.ToString()
+                    });
+                }
+
+
+                CTHDPhong.DsSoLuongKhachThue = dsSLKTFinal;
+                CTHDPhong.PhuThuCICO = (int)(((double)(tiLePhuThuChechIn + tiLePhuThuChechOut) / 100) * CTHDPhong.GiaPhong);
+                CTHDPhong.TongTienPhong = (int)(tongTienSLKT + CTHDPhong.PhuThuCICO);
+                CTHDPhong.GhiChu = "Checkin sớm: " + tiLePhuThuChechIn.ToString() + "%\nCheckout trễ: " + tiLePhuThuChechOut.ToString() + "%";
+
+                return CTHDPhong;
+            }
+            else return null;
+        }
+
+        public object CreateNewReceipt(string strPhongs, string doiTuongThanhToan, string maNhanVien)
+        {
+            List<CTHD1Phong> hoaDons = new List<CTHD1Phong>();
+            object response;
+            strPhongs = strPhongs.Remove(strPhongs.Length - 1);
+            DateTime _curThoiGianTraPhong = DateTime.Now;
+            string[] dsPhong = strPhongs.Split("@");
+            int tongTienHoaDon = 0;
+            foreach (string phong in dsPhong)
+            {
+                CTHD1Phong result = ThongKeSLKTCho1Phong(phong, _curThoiGianTraPhong);
+                hoaDons.Add(result);
+                tongTienHoaDon = tongTienHoaDon + result.TongTienPhong;
+            }
+            if (hoaDons.Count > 0)
+            {
+                int maHoaDon = 0;
+                using (MySqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    string queryInsertHoaDon = "INSERT INTO HOADON(ThoiGianXuat, MaNhanVien, TongSoTien, DoiTuongThanhToan) " +
+                        "VALUES (@thoiGianXuat, @maNhanVien, @tongSoTien, @doiTuongThanhTOan); " +
+                        "SELECT LAST_INSERT_ID() AS 'MaHoaDon';";
+                    MySqlCommand cmdInsertHoaDon = new MySqlCommand(queryInsertHoaDon, conn);
+                    cmdInsertHoaDon.Parameters.AddWithValue("thoiGianXuat", _curThoiGianTraPhong);
+                    cmdInsertHoaDon.Parameters.AddWithValue("maNhanVien", maNhanVien);
+                    cmdInsertHoaDon.Parameters.AddWithValue("tongSoTien", tongTienHoaDon);
+                    cmdInsertHoaDon.Parameters.AddWithValue("doiTuongThanhTOan", doiTuongThanhToan);
+                    using (MySqlDataReader readerInsertHoaDon = cmdInsertHoaDon.ExecuteReader())
+                    {
+                        if (readerInsertHoaDon.HasRows)
+                        {
+                            readerInsertHoaDon.Read();
+                            maHoaDon = Convert.ToInt32(readerInsertHoaDon["MaHoaDon"]);
+                        }
+                    }
+                    foreach (CTHD1Phong hoaDon in hoaDons)
+                    {
+                        if (hoaDon.DsSoLuongKhachThue.Count > 0)
+                        {
+                            string queryInsertSLKT = "INSERT INTO SOLUONGKHACHTHUE(SoKhachThue, PhuThu, HeSoKhach, SoNgayThue, GhiChu, DonGia, ThanhTien, MaCTHD) VALUES ";
+                            foreach (SoLuongKhachThue soLuongKhachThue in hoaDon.DsSoLuongKhachThue)
+                            {
+                                queryInsertSLKT = queryInsertSLKT + "(" + soLuongKhachThue.SoKhachThue + "," + soLuongKhachThue.PhuThu + ","
+                                     + soLuongKhachThue.HeSoKhach + "," + soLuongKhachThue.SoNgayThue + ", N'" + soLuongKhachThue.GhiChu + "',"
+                                     + soLuongKhachThue.DonGia + "," + soLuongKhachThue.ThanhTien + "," + soLuongKhachThue.MaCTHD + "),";
+                            }
+                            queryInsertSLKT = queryInsertSLKT.Remove(queryInsertSLKT.Length - 1);
+                            MySqlCommand cmdInsertSLKT = new MySqlCommand(queryInsertSLKT, conn);
+                            cmdInsertSLKT.ExecuteNonQuery();
+
+                            string queryUpdateCTHD = "UPDATE CHITIETHOADON " +
+                                "SET MaHoaDon = @maHoaDon, ThoiGianTraPhong = @thoiGianTraPhong, PhuThuCICO = @phuThuCICO, GhiChu = @ghiChu, TongTienPhong = @tongTienPhong, TrangThai = 1 " +
+                                "WHERE MaCTHD = @maCTHD";
+                            MySqlCommand cmdUpdateCTHD = new MySqlCommand(queryUpdateCTHD, conn);
+                            cmdUpdateCTHD.Parameters.AddWithValue("maHoaDon", maHoaDon);
+                            cmdUpdateCTHD.Parameters.AddWithValue("thoiGianTraPhong", _curThoiGianTraPhong);
+                            cmdUpdateCTHD.Parameters.AddWithValue("phuThuCICO", hoaDon.PhuThuCICO);
+                            cmdUpdateCTHD.Parameters.AddWithValue("ghiChu", hoaDon.GhiChu);
+                            cmdUpdateCTHD.Parameters.AddWithValue("tongTienPhong", hoaDon.TongTienPhong);
+                            cmdUpdateCTHD.Parameters.AddWithValue("maCTHD", hoaDon.MaCTHD);
+                            cmdUpdateCTHD.ExecuteNonQuery();
+
+                            string queryUpdateStatusRoom = "UPDATE PHONG " +
+                               "SET TrangThai = 4 " +
+                               "WHERE MaPhong = @maPhong";
+                            MySqlCommand cmdUpdateStatusRoom = new MySqlCommand(queryUpdateStatusRoom, conn);
+                            cmdUpdateStatusRoom.Parameters.AddWithValue("maPhong", hoaDon.MaPhong);
+                            cmdUpdateStatusRoom.ExecuteNonQuery();
+                        }
+                    }
+                }
+                response = new
+                {
+                    maHoaDon = maHoaDon,
+                    thoiGianTraPhong = _curThoiGianTraPhong,
+                    doiTuongThanhToan = doiTuongThanhToan,
+                    dsChiTiet = hoaDons
+                };
+                return response;
+            }
+            return null;
+        }
+
+        public object GetCTHDPayRoom(string maPhong)
+        {
+            object infoCTHD;
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string query = "SELECT CTHD.ThoiGianNhanPhong, CTHD.MaPhong, LP.TenLoaiPhong " +
+                    "FROM CHITIETHOADON CTHD, PHONG P, LOAIPHONG LP " +
+                    "WHERE CTHD.MaPhong = @maPhong AND CTHD.MaHoaDon IS NULL AND CTHD.TrangThai = 0 AND CTHD.MaPhong = P.MaPhong AND P.MaLoaiPhong = LP.MaLoaiPhong";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("maphong", maPhong);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        infoCTHD = new
+                        {
+                            maPhong = reader["MaPhong"].ToString(),
+                            tenLoaiPhong = reader["TenLoaiPhong"].ToString(),
+                            thoiGianNhanPhong = Convert.ToDateTime(reader["ThoiGianNhanPhong"])
+                        };
+                    }
+                    else infoCTHD = null;
+                }
+            }
+            return infoCTHD;
+        }
+
+        public object GetDetailOldReceipt(string maHoaDon)
+        {
+            object response;
+            DateTime thoiGianTraPhong = DateTime.Now;
+            string doiTuongThanhToan = "";
+            string nhanVienThanhToan ="";
+            int tongSoTienHD = 0;
+            List<CTHD1Phong> cacCTHDs = new List<CTHD1Phong>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string queryThongTinDauHoaDon = "SELECT HD.ThoiGianXuat, NV.HoTen, HD.TongSoTien, HD.DoiTuongThanhToan " +
+                    "FROM HOADON HD, NHANVIEN NV " +
+                    "WHERE HD.MaNhanVien = NV.MaNhanVien AND HD.MaHoaDon = @maHoaDon ";
+                MySqlCommand cmdThongTinDauHoaDon = new MySqlCommand(queryThongTinDauHoaDon, conn);
+                cmdThongTinDauHoaDon.Parameters.AddWithValue("maHoaDon", maHoaDon);
+                using(MySqlDataReader readerThongTinDauHoaDon = cmdThongTinDauHoaDon.ExecuteReader())
+                {
+                    if (readerThongTinDauHoaDon.HasRows)
+                    {
+                        readerThongTinDauHoaDon.Read();
+                        thoiGianTraPhong = Convert.ToDateTime(readerThongTinDauHoaDon["ThoiGianXuat"]);
+                        doiTuongThanhToan = readerThongTinDauHoaDon["DoiTuongThanhToan"].ToString();
+                        nhanVienThanhToan = readerThongTinDauHoaDon["HoTen"].ToString();
+                        tongSoTienHD = Convert.ToInt32(readerThongTinDauHoaDon["TongSoTien"]);
+                    }    
+                }
+
+                string queryGetCTHDs = "SELECT CTHD.MaCTHD, CTHD.MaPhong, CTHD.MaHoaDon, CTHD.PhuThuCICO, CTHD.GiaPhong, CTHD.GhiChu, CTHD.TongTienPhong " +
+                    "FROM CHITIETHOADON CTHD " +
+                    "WHERE CTHD.MaHoaDon = @maHoaDon ";
+                MySqlCommand cmdGetCTHDs = new MySqlCommand(queryGetCTHDs, conn);
+                cmdGetCTHDs.Parameters.AddWithValue("maHoaDon", maHoaDon);
+                using (MySqlDataReader readerGetCTHDs = cmdGetCTHDs.ExecuteReader())
+                {
+                    if (readerGetCTHDs.HasRows)
+                    {
+                        while(readerGetCTHDs.Read())
+                        {
+                            cacCTHDs.Add(new CTHD1Phong
+                            {
+                                MaCTHD = Convert.ToInt32(readerGetCTHDs["MaCTHD"]),
+                                MaPhong = readerGetCTHDs["MaPhong"].ToString(),
+                                MaHoaDon = Convert.ToInt32(readerGetCTHDs["MaHoaDon"]),
+                                PhuThuCICO = Convert.ToInt32(readerGetCTHDs["PhuThuCICO"]),
+                                GiaPhong = Convert.ToInt32(readerGetCTHDs["GiaPhong"]),
+                                TongTienPhong = Convert.ToInt32(readerGetCTHDs["TongTienPhong"]),
+                                GhiChu = readerGetCTHDs["GhiChu"].ToString(),
+                                DsSoLuongKhachThue = new List<SoLuongKhachThue>()
+                            });
+                        }    
+                    }    
+                }
+                if (cacCTHDs.Count > 0)
+                {
+                    foreach (CTHD1Phong motCTHD in cacCTHDs)
+                    {
+                        string queryGetSLKT = "SELECT SLKT.SoKhachThue, SLKT.PhuThu, SLKT.HeSoKhach, SLKT.SoNgayThue, SLKT.DonGia, SLKT.ThanhTien, SLKT.MaCTHD, SLKT.GhiChu " +
+                            "FROM SOLUONGKHACHTHUE SLKT " +
+                            "WHERE SLKT.MaCTHD = @maCTHD";
+                        MySqlCommand cmdGetSLKT = new MySqlCommand(queryGetSLKT, conn);
+                        cmdGetSLKT.Parameters.AddWithValue("maCTHD", motCTHD.MaCTHD);
+                        using (MySqlDataReader readerGetSLKT = cmdGetSLKT.ExecuteReader())
+                        {
+                            if (readerGetSLKT.HasRows)
+                            {
+                                while (readerGetSLKT.Read())
+                                {
+                                    motCTHD.DsSoLuongKhachThue.Add(new SoLuongKhachThue
+                                    {
+                                        SoKhachThue = Convert.ToByte(readerGetSLKT["SoKhachThue"]),
+                                        PhuThu = Convert.ToInt32(readerGetSLKT["PhuThu"]),
+                                        HeSoKhach = Convert.ToDouble(readerGetSLKT["HeSoKhach"]),
+                                        SoNgayThue = Convert.ToByte(readerGetSLKT["SoNgayThue"]),
+                                        DonGia = Convert.ToInt32(readerGetSLKT["DonGia"]),
+                                        ThanhTien = Convert.ToInt32(readerGetSLKT["ThanhTien"]),
+                                        MaCTHD = Convert.ToInt32(readerGetSLKT["MaCTHD"]),
+                                        GhiChu = readerGetSLKT["GhiChu"].ToString(),
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    response = new
+                    {
+                        maHoaDon = maHoaDon,
+                        thoiGianTraPhong = thoiGianTraPhong,
+                        doiTuongThanhToan = doiTuongThanhToan,
+                        dsChiTiet = cacCTHDs,
+                        nhanVienThanhToan = nhanVienThanhToan,
+                        tongSoTienHD = tongSoTienHD
+                    };
+                    return response;
+                }
+                else return null;
+            }
+        }
+
+        public List<object> LoadDataForDanhSachHoaDonByFilter(DateTime ngayHoaDon, int? maHoaDon)
+        {
+            List<object> dsHoaDon = new List<object>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string query = "SELECT HD.MaHoaDon, HD.ThoiGianXuat, NV.HoTen, HD.TongSoTien, HD.DoiTuongThanhToan " +
+                    "FROM HOADON HD, NHANVIEN NV " +
+                    "WHERE YEAR(@ngayHoaDon) = YEAR(HD.ThoiGianXuat) AND MONTH(@ngayHoaDon) = MONTH(HD.ThoiGianXuat) AND DAY(@ngayHoaDon) = DAY(HD.ThoiGianXuat) AND HD.MaHoaDon = @maHoaDon AND NV.MaNhanVien = HD.MaNhanVien ";
+                if (ngayHoaDon == null)
+                {
+                    query = query.Replace("YEAR(@ngayHoaDon) = YEAR(HD.ThoiGianXuat) AND MONTH(@ngayHoaDon) = MONTH(HD.ThoiGianXuat) AND DAY(@ngayHoaDon) = DAY(HD.ThoiGianXuat) AND ", "");
+                }
+                if (maHoaDon == null)
+                {
+                    query = query.Replace("HD.MaHoaDon = @maHoaDon AND ", "");
+                }
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("ngayHoaDon", ngayHoaDon);
+                cmd.Parameters.AddWithValue("maHoaDon", maHoaDon);
+                using (MySqlDataReader readerResult = cmd.ExecuteReader())
+                {
+                    while (readerResult.Read())
+                    {
+                        dsHoaDon.Add(new
+                        {
+                            maHoaDon = Convert.ToInt32(readerResult["MaHoaDon"]),
+                            thoiGianXuat = Convert.ToDateTime(readerResult["ThoiGianXuat"]),
+                            hoTenNV = readerResult["HoTen"].ToString(),
+                            tongSoTien = Convert.ToInt32(readerResult["TongSoTien"]),
+                            doiTuongThanhToan = readerResult["DoiTuongThanhToan"]
+                        });
+                    }
+                }
+                return dsHoaDon;
+            }
+        }
+
+        //TRA CỨU THUÊ PHÒNG
+        public List<object> LoadDataForDSTP()
+        {
+            List<object> dsThuePhong = new List<object>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string query = "SELECT CTHD.MaCTHD, CTHD.MaPhong, LP.TenLoaiPhong, CTHD.ThoiGianNhanPhong, CTHD.ThoiGianTraPhong, CTHD.TrangThai " +
+                    "FROM CHITIETHOADON CTHD, PHONG P, LOAIPHONG LP " +
+                    "WHERE CTHD.MaPhong = P.MaPhong AND P.MaLoaiPhong = LP.MaLoaiPhong";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                using (MySqlDataReader readerResult = cmd.ExecuteReader())
+                {
+                    while (readerResult.Read())
+                    {
+                        dsThuePhong.Add(new
+                        {
+                            maCTHD = Convert.ToInt32(readerResult["MaCTHD"]),
+                            maPhong = readerResult["MaPhong"].ToString(),
+                            tenLoaiPhong = readerResult["TenLoaiPhong"].ToString(),
+                            thoiGianNhanPhong = Convert.ToDateTime(readerResult["ThoiGianNhanPhong"]),
+                            thoiGianTraPhong = (readerResult["ThoiGianTraPhong"] == DBNull.Value) ? (DateTime?)null : Convert.ToDateTime(readerResult["ThoiGianTraPhong"]),
+                            trangThai = Convert.ToInt32(readerResult["TrangThai"])
+                        });
+                    }
+                }
+                return dsThuePhong;
+            }
+        }
+
+        public List<object> LoadDataForDSTPByFilter(string ngayDenO, string CCCD, string maPhong)
+        {
+            List<object> dsThuePhong = new List<object>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string query = "SELECT CTHD.MaCTHD, CTHD.MaPhong, LP.TenLoaiPhong, CTHD.ThoiGianNhanPhong, CTHD.ThoiGianTraPhong, CTHD.TrangThai " +
+                    "FROM CHITIETHOADON CTHD, PHONG P, LOAIPHONG LP " +
+                    "WHERE CTHD.MaPhong = P.MaPhong AND P.MaLoaiPhong = LP.MaLoaiPhong ";
+                if (ngayDenO != null || ngayDenO != "")
+                {
+                    query = query + " AND ((DATE(CTHD.ThoiGianNhanPhong) <= @ngayDenO AND DATE(CTHD.ThoiGianTraPhong) >= @ngayDenO AND CTHD.ThoiGianTraPhong IS NOT NULL) OR (CTHD.ThoiGianTraPhong IS NULL AND DATE(CTHD.ThoiGianNhanPhong) <= @ngayDenO))";
+                }
+                if (CCCD != null && CCCD != "")
+                {
+                    query = query + " AND EXISTS(SELECT * FROM KHACHTHUE KT WHERE KT.MaCTHD = CTHD.MaCTHD AND KT.CCCD = @CCCD)";
+                }
+                if (maPhong != "" && maPhong != null)
+                {
+                    query = query + " AND CTHD.MaPhong = @maPhong";
+                }
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                if (ngayDenO != null && ngayDenO != "")
+                {
+                    cmd.Parameters.AddWithValue("ngayDenO", ngayDenO);
+                }
+                if (CCCD != null && CCCD != "")
+                {
+                    cmd.Parameters.AddWithValue("CCCD", CCCD);
+                }
+                if (maPhong != "" && maPhong != null)
+                {
+                    cmd.Parameters.AddWithValue("maPhong", maPhong);
+                }
+                using (MySqlDataReader readerResult = cmd.ExecuteReader())
+                {
+                    while (readerResult.Read())
+                    {
+                        dsThuePhong.Add(new
+                        {
+                            maCTHD = Convert.ToInt32(readerResult["MaCTHD"]),
+                            maPhong = readerResult["MaPhong"].ToString(),
+                            tenLoaiPhong = readerResult["TenLoaiPhong"].ToString(),
+                            thoiGianNhanPhong = Convert.ToDateTime(readerResult["ThoiGianNhanPhong"]),
+                            thoiGianTraPhong = (readerResult["ThoiGianTraPhong"] == DBNull.Value) ? (DateTime?)null : Convert.ToDateTime(readerResult["ThoiGianTraPhong"]),
+                            trangThai = Convert.ToInt32(readerResult["TrangThai"])
+                        });
+                    }
+                }
+                return dsThuePhong;
+            }
+        }
+
+        public CTHD1Phong GetPhieuThuePhongDaThanhToan(int maCTHD)
+        {
+            CTHD1Phong phieuThuePhong = new CTHD1Phong();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string queryGetCTHD = "SELECT CTHD.MaCTHD, CTHD.MaPhong, CTHD.MaHoaDon, CTHD.PhuThuCICO, CTHD.GiaPhong, CTHD.GhiChu, CTHD.TongTienPhong, CTHD.ThoiGianNhanPhong, CTHD.ThoiGianTraPhong " +
+                    "FROM CHITIETHOADON CTHD " +
+                    "WHERE CTHD.MaCTHD = @maCTHD ";
+                MySqlCommand cmdGetCTHD = new MySqlCommand(queryGetCTHD, conn);
+                cmdGetCTHD.Parameters.AddWithValue("maCTHD", maCTHD);
+                using (MySqlDataReader readerGetCTHD = cmdGetCTHD.ExecuteReader())
+                {
+                    if (readerGetCTHD.HasRows)
+                    {
+                        readerGetCTHD.Read();
+                        phieuThuePhong.MaCTHD = Convert.ToInt32(readerGetCTHD["MaCTHD"]);
+                        phieuThuePhong.MaPhong = readerGetCTHD["MaPhong"].ToString();
+                        phieuThuePhong.MaHoaDon = Convert.ToInt32(readerGetCTHD["MaHoaDon"]);
+                        phieuThuePhong.PhuThuCICO = Convert.ToInt32(readerGetCTHD["PhuThuCICO"]);
+                        phieuThuePhong.GiaPhong = Convert.ToInt32(readerGetCTHD["GiaPhong"]);
+                        phieuThuePhong.TongTienPhong = Convert.ToInt32(readerGetCTHD["TongTienPhong"]);
+                        phieuThuePhong.GhiChu = readerGetCTHD["GhiChu"].ToString();
+                        phieuThuePhong.DsSoLuongKhachThue = new List<SoLuongKhachThue>();
+                        phieuThuePhong.ThoiGianNhanPhong = Convert.ToDateTime(readerGetCTHD["ThoiGianNhanPhong"]);
+                        phieuThuePhong.ThoiGianTraPhong = Convert.ToDateTime(readerGetCTHD["ThoiGianTraPhong"]);
+                    }    
+                }
+                string queryGetSLKT = "SELECT SLKT.SoKhachThue, SLKT.PhuThu, SLKT.HeSoKhach, SLKT.SoNgayThue, SLKT.DonGia, SLKT.ThanhTien, SLKT.MaCTHD, SLKT.GhiChu " +
+                    "FROM SOLUONGKHACHTHUE SLKT " +
+                    "WHERE SLKT.MaCTHD = @maCTHD";
+                MySqlCommand cmdGetSLKT = new MySqlCommand(queryGetSLKT, conn);
+                cmdGetSLKT.Parameters.AddWithValue("maCTHD", maCTHD);
+                using (MySqlDataReader readerGetSLKT = cmdGetSLKT.ExecuteReader())
+                {
+                    if (readerGetSLKT.HasRows)
+                    {
+                        while (readerGetSLKT.Read())
+                        {
+                            phieuThuePhong.DsSoLuongKhachThue.Add(new SoLuongKhachThue
+                            {
+                                SoKhachThue = Convert.ToByte(readerGetSLKT["SoKhachThue"]),
+                                PhuThu = Convert.ToInt32(readerGetSLKT["PhuThu"]),
+                                HeSoKhach = Convert.ToDouble(readerGetSLKT["HeSoKhach"]),
+                                SoNgayThue = Convert.ToByte(readerGetSLKT["SoNgayThue"]),
+                                DonGia = Convert.ToInt32(readerGetSLKT["DonGia"]),
+                                ThanhTien = Convert.ToInt32(readerGetSLKT["ThanhTien"]),
+                                MaCTHD = Convert.ToInt32(readerGetSLKT["MaCTHD"]),
+                                GhiChu = readerGetSLKT["GhiChu"].ToString(),
+                            });
+                        }
+                    }
+                }
+            }
+            return phieuThuePhong;
+        }
+
+        public CTHD1Phong GetPhieuThuePhongDangThue (int maCTHD)
+        {
+            List<KhachThue> dsKhachThue = new List<KhachThue>();
+            int _curMaCTHD = 0;
+            int _curGiaPhong = 0;
+            string _curMaPhong = "";
+            DateTime _curTGNhanPhong = DateTime.Now;
+            DateTime _curTGTraPhong = DateTime.Now;
+            List<PhuThuLKH> dsPhuThuLKH = new List<PhuThuLKH>();
+            List<PhuThu> dsPhuThuSoKhach = new List<PhuThu>();
+            List<PhuThu> dsPhuThuCheckin = new List<PhuThu>();
+            List<PhuThu> dsPhuThuCheckout = new List<PhuThu>();
+            List<object> dsSoLuongTheoLoaiKhach = new List<object>();
+            string[] checkInTime = { "00", "00" };
+            string[] checkOutTime = { "00", "00" };
+            int overCheckIn = 0;
+            int overCheckOut = 0;
+            int tiLePhuThuChechIn = 0;
+            int tiLePhuThuChechOut = 0;
+
+            CTHD1Phong CTHDPhong = new CTHD1Phong();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                //Lấy chi tiết hóa đơn của phòng
+                string queryCTHD = "SELECT CTHD.MaCTHD, CTHD.MaPhong, CTHD.ThoiGianNhanPhong, CTHD.GiaPhong " +
+                    "FROM CHITIETHOADON CTHD " +
+                    "WHERE CTHD.MaCTHD = @maCTHD ";
+                MySqlCommand cmdCTHD = new MySqlCommand(queryCTHD, conn);
+                cmdCTHD.Parameters.AddWithValue("maCTHD", maCTHD);
+                using (MySqlDataReader readerCTHD = cmdCTHD.ExecuteReader())
+                {
+                    if (readerCTHD.HasRows)
+                    {
+                        readerCTHD.Read();
+                        _curMaCTHD = Convert.ToInt32(readerCTHD["MaCTHD"]);
+                        _curMaPhong = readerCTHD["MaPhong"].ToString();
+                        _curTGNhanPhong = Convert.ToDateTime(readerCTHD["ThoiGianNhanPhong"]);
+                        _curGiaPhong = Convert.ToInt32(readerCTHD["GiaPhong"]);
+                    }
+                }
+                CTHDPhong.MaCTHD = _curMaCTHD;
+                CTHDPhong.MaPhong = _curMaPhong;
+                CTHDPhong.ThoiGianNhanPhong = _curTGNhanPhong;
+                CTHDPhong.ThoiGianTraPhong = _curTGTraPhong;
+                CTHDPhong.GiaPhong = _curGiaPhong;
+
+                //Lấy quy định về phụ thu checkin
+                string queryPhuThuCheckin = "SELECT PT.MaPhuThu, PT.SoLuongApDung, PT.TiLePhuThu, PT.MaLoaiPhuThu, PT.ThoiGianApDung " +
+                    "FROM PHUTHU PT INNER JOIN LOAIPHUTHU LPT ON PT.MaLoaiPhuThu = LPT.MaLoaiPhuThu " +
+                    "WHERE LPT.TenLoaiPhuThu = N'Check In' AND PT.ThoiGianApDung <= @thoiGianNhanPhong " +
+                    "						AND PT.ThoiGianApDung = (SELECT MAX(ThoiGianApDung)" +
+                    "                                                 FROM PHUTHU PT1" +
+                    "                                                 WHERE PT1.MaLoaiPhuThu = PT.MaLoaiPhuThu AND PT.SoLuongApDung = PT1.SoLuongApDung)";
+                MySqlCommand cmdPhuThuCheckin = new MySqlCommand(queryPhuThuCheckin, conn);
+                cmdPhuThuCheckin.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuCheckin = cmdPhuThuCheckin.ExecuteReader())
+                {
+                    if (readerPhuThuCheckin.HasRows)
+                    {
+                        while (readerPhuThuCheckin.Read())
+                        {
+                            dsPhuThuCheckin.Add(new PhuThu
+                            {
+                                MaLoaiPhuThu = Convert.ToInt32(readerPhuThuCheckin["MaLoaiPhuThu"]),
+                                MaPhuThu = Convert.ToInt32(readerPhuThuCheckin["MaPhuThu"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuCheckin["SoLuongApDung"]),
+                                TenLoaiPhuThu = "Checkin",
+                                ThoiGianApDung = readerPhuThuCheckin["ThoiGianApDung"].ToString(),
+                                TiLePhuThu = Convert.ToInt32(readerPhuThuCheckin["TiLePhuThu"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy quy định về phụ thu checkout
+                string queryPhuThuCheckout = "SELECT PT.MaPhuThu, PT.SoLuongApDung, PT.TiLePhuThu, PT.MaLoaiPhuThu, PT.ThoiGianApDung " +
+                    "FROM PHUTHU PT INNER JOIN LOAIPHUTHU LPT ON PT.MaLoaiPhuThu = LPT.MaLoaiPhuThu " +
+                    "WHERE LPT.TenLoaiPhuThu = N'Check Out' AND PT.ThoiGianApDung <= @thoiGianNhanPhong " +
+                    "						AND PT.ThoiGianApDung = (SELECT MAX(ThoiGianApDung)" +
+                    "                                                 FROM PHUTHU PT1" +
+                    "                                                 WHERE PT1.MaLoaiPhuThu = PT.MaLoaiPhuThu AND PT.SoLuongApDung = PT1.SoLuongApDung)";
+                MySqlCommand cmdPhuThuCheckout = new MySqlCommand(queryPhuThuCheckout, conn);
+                cmdPhuThuCheckout.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuCheckout = cmdPhuThuCheckout.ExecuteReader())
+                {
+                    if (readerPhuThuCheckout.HasRows)
+                    {
+                        while (readerPhuThuCheckout.Read())
+                        {
+                            dsPhuThuCheckout.Add(new PhuThu
+                            {
+                                MaLoaiPhuThu = Convert.ToInt32(readerPhuThuCheckout["MaLoaiPhuThu"]),
+                                MaPhuThu = Convert.ToInt32(readerPhuThuCheckout["MaPhuThu"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuCheckout["SoLuongApDung"]),
+                                TenLoaiPhuThu = "Checkout",
+                                ThoiGianApDung = readerPhuThuCheckout["ThoiGianApDung"].ToString(),
+                                TiLePhuThu = Convert.ToInt32(readerPhuThuCheckout["TiLePhuThu"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy thông tin giờ checkin checkout
+                string queryGioCheckInOut = "SELECT * " +
+                    "FROM THAMSO TS " +
+                    "WHERE TS.TenThuocTinh = 'GioCheckIn' OR TS.TenThuocTinh = 'GioCheckOut'";
+                MySqlCommand cmdGioCheckInOut = new MySqlCommand(queryGioCheckInOut, conn);
+                using (MySqlDataReader readerGioCheckInOut = cmdGioCheckInOut.ExecuteReader())
+                {
+                    if (readerGioCheckInOut.HasRows)
+                    {
+                        while (readerGioCheckInOut.Read())
+                        {
+                            if (readerGioCheckInOut["TenThuocTinh"].ToString() == "GioCheckIn")
+                            {
+                                checkInTime = readerGioCheckInOut["GiaTri"].ToString().Split(":");
+                            }
+                            else if (readerGioCheckInOut["TenThuocTinh"].ToString() == "GioCheckOut")
+                            {
+                                checkOutTime = readerGioCheckInOut["GiaTri"].ToString().Split(":");
+                            }
+                        }
+                    }
+                }
+                //Tính checkin sớm, checkout trễ
+                if (_curTGNhanPhong.Hour < Convert.ToInt32(checkInTime[0]))
+                {
+                    overCheckIn = (int)Math.Round((double)((Convert.ToInt32(checkInTime[0]) - _curTGNhanPhong.Hour) * 60 + (Convert.ToInt32(checkInTime[1]) - _curTGNhanPhong.Minute)) / 60);
+                }
+                if (_curTGTraPhong.Hour > Convert.ToInt32(checkOutTime[0]))
+                {
+                    overCheckOut = (int)Math.Round((double)((_curTGTraPhong.Hour - Convert.ToInt32(checkOutTime[0])) * 60 + (_curTGTraPhong.Minute) - Convert.ToInt32(checkOutTime[1])) / 60);
+                }
+                foreach (PhuThu phuThuCheckIn in dsPhuThuCheckin)
+                {
+                    if (phuThuCheckIn.SoLuongApDung <= overCheckIn && phuThuCheckIn.TiLePhuThu > tiLePhuThuChechIn)
+                    {
+                        tiLePhuThuChechIn = phuThuCheckIn.TiLePhuThu;
+                    }
+                }
+                foreach (PhuThu phuThuCheckOut in dsPhuThuCheckout)
+                {
+                    if (phuThuCheckOut.SoLuongApDung <= overCheckOut && phuThuCheckOut.TiLePhuThu > tiLePhuThuChechOut)
+                    {
+                        tiLePhuThuChechOut = phuThuCheckOut.TiLePhuThu;
+                    }
+                }
+
+                //Lấy danh sách khách thuê của phòng
+                string queryKhachThue = "SELECT KT.MaKhachThue, KT.CCCD, KT.ThoiGianCheckIn, KT.ThoiGianCheckOut, KT.HoTen, KT.MaLoaiKhachHang, KT.DiaChi, KT.MaCTHD " +
+                    "FROM KHACHTHUE KT, CHITIETHOADON CTHD " +
+                    "WHERE KT.MaCTHD = CTHD.MaCTHD AND CTHD.MaPhong = @maPhong AND CTHD.MaHoaDon IS NULL AND CTHD.TrangThai = 0 ";
+                MySqlCommand cmdKhachThue = new MySqlCommand(queryKhachThue, conn);
+                cmdKhachThue.Parameters.AddWithValue("maPhong", _curMaPhong);
+                using (MySqlDataReader readerKhachThue = cmdKhachThue.ExecuteReader())
+                {
+                    if (readerKhachThue.HasRows)
+                    {
+                        while (readerKhachThue.Read())
+                        {
+                            dsKhachThue.Add(new KhachThue
+                            {
+                                MaKhachThue = Convert.ToInt32(readerKhachThue["MaKhachThue"]),
+                                CCCD = readerKhachThue["CCCD"].ToString(),
+                                ThoiGianCheckin = Convert.ToDateTime(readerKhachThue["ThoiGianCheckIn"]),
+                                ThoiGianCheckout = (readerKhachThue["ThoiGianCheckOut"] == DBNull.Value) ? (_curTGTraPhong) : Convert.ToDateTime(readerKhachThue["ThoiGianCheckOut"]),
+                                HoTen = readerKhachThue["HoTen"].ToString(),
+                                MaLoaiKhachHang = Convert.ToInt32(readerKhachThue["MaLoaiKhachHang"]),
+                                DiaChi = readerKhachThue["DiaChi"].ToString(),
+                                MaCTHD = Convert.ToInt32(readerKhachThue["MaCTHD"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy quy định về phụ thu loại khách hàng
+                string queryPhuThuLKH = "SELECT * " +
+                    "FROM PHUTHULKH PTLKH " +
+                    "WHERE PTLKH.ThoiGianApDung <= @thoiGianNhanPhong AND PTLKH.ThoiGianApDung = (SELECT MAX(PT.ThoiGianApDung) " +
+                    "                                                                                FROM PHUTHULKH PT " +
+                    "                                                                                WHERE PT.MaLoaiKhachHang = PTLKH.MaLoaiKhachHang) ";
+                MySqlCommand cmdPhuThuLKH = new MySqlCommand(queryPhuThuLKH, conn);
+                cmdPhuThuLKH.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuLKH = cmdPhuThuLKH.ExecuteReader())
+                {
+                    if (readerPhuThuLKH.HasRows)
+                    {
+                        while (readerPhuThuLKH.Read())
+                        {
+                            dsPhuThuLKH.Add(new PhuThuLKH
+                            {
+                                MaPhuThuLKH = Convert.ToInt32(readerPhuThuLKH["MaPhuThuLKH"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuLKH["SoLuongApDung"]),
+                                HeSoPhuThu = Math.Round(Convert.ToDouble(readerPhuThuLKH["HeSoPhuThu"]), 1),
+                                ThoiGianApDung = "",
+                                MaLoaiKhachHang = Convert.ToInt32(readerPhuThuLKH["MaLoaiKhachHang"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy quy định về phụ thu theo số khách 
+                string queryPhuThuSoKhach = "SELECT PT.MaPhuThu, PT.SoLuongApDung, PT.TiLePhuThu, PT.MaLoaiPhuThu, PT.ThoiGianApDung " +
+                    "FROM PHUTHU PT INNER JOIN LOAIPHUTHU LPT ON PT.MaLoaiPhuThu = LPT.MaLoaiPhuThu " +
+                    "WHERE LPT.TenLoaiPhuThu = N'Theo số khách' AND PT.ThoiGianApDung <= @thoiGianNhanPhong " +
+                    "						AND PT.ThoiGianApDung = (SELECT MAX(ThoiGianApDung)" +
+                    "                                                 FROM PHUTHU PT1" +
+                    "                                                 WHERE PT1.MaLoaiPhuThu = PT.MaLoaiPhuThu AND PT.SoLuongApDung = PT1.SoLuongApDung)";
+                MySqlCommand cmdPhuThuSoKhach = new MySqlCommand(queryPhuThuSoKhach, conn);
+                cmdPhuThuSoKhach.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuSoKhach = cmdPhuThuSoKhach.ExecuteReader())
+                {
+                    if (readerPhuThuSoKhach.HasRows)
+                    {
+                        while (readerPhuThuSoKhach.Read())
+                        {
+                            dsPhuThuSoKhach.Add(new PhuThu
+                            {
+                                MaLoaiPhuThu = Convert.ToInt32(readerPhuThuSoKhach["MaLoaiPhuThu"]),
+                                MaPhuThu = Convert.ToInt32(readerPhuThuSoKhach["MaPhuThu"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuSoKhach["SoLuongApDung"]),
+                                TenLoaiPhuThu = "Theo số khách",
+                                ThoiGianApDung = readerPhuThuSoKhach["ThoiGianApDung"].ToString(),
+                                TiLePhuThu = Convert.ToInt32(readerPhuThuSoKhach["TiLePhuThu"])
+                            });
+                        }
+                    }
+                }
+
+
+
+
+            }
+            double _heSoPhuThuMax = 1;
+            int _phuThuSoKhach = 0;
+
+            List<SoLuongKhachThue> dsSLKTTungNgay = new List<SoLuongKhachThue>();
+            List<SoLuongKhachThue> dsSLKTFinal = new List<SoLuongKhachThue>();
+            if (_curTGNhanPhong.Date < _curTGTraPhong.Date)
+            {
+                for (DateTime date = _curTGNhanPhong; date.Date.CompareTo(_curTGTraPhong.Date) < 0; date = date.AddDays(1.0))
+                {
+                    var resultCount = from kt in dsKhachThue.Where(kt => kt.ThoiGianCheckin.Date <= date.Date && kt.ThoiGianCheckout.Date > date.Date)
+                                                                .GroupBy(kt => kt.MaLoaiKhachHang)
+                                      select new
+                                      {
+                                          count = kt.Count(),
+                                          kt.First().MaLoaiKhachHang
+                                      };
+                    byte _countTongSoKhach = Convert.ToByte(dsKhachThue.Count(kt => kt.ThoiGianCheckin.Date <= date.Date && kt.ThoiGianCheckout.Date > date.Date));
+                    foreach (var _reCount in resultCount)
+                    {
+                        foreach (var phuThuLKH in dsPhuThuLKH)
+                        {
+                            if (phuThuLKH.SoLuongApDung <= _reCount.count && _reCount.MaLoaiKhachHang == phuThuLKH.MaLoaiKhachHang && _heSoPhuThuMax < phuThuLKH.HeSoPhuThu)
+                            {
+                                _heSoPhuThuMax = phuThuLKH.HeSoPhuThu;
+                            }
+                        }
+                    }
+                    foreach (PhuThu phuThu in dsPhuThuSoKhach)
+                    {
+                        if (phuThu.SoLuongApDung <= _countTongSoKhach && phuThu.TiLePhuThu > _phuThuSoKhach)
+                        {
+                            _phuThuSoKhach = phuThu.TiLePhuThu;
+                        }
+                    }
+                    dsSLKTTungNgay.Add(new SoLuongKhachThue
+                    {
+                        SoKhachThue = _countTongSoKhach,
+                        PhuThu = _phuThuSoKhach,
+                        HeSoKhach = _heSoPhuThuMax,
+                    });
+                    _countTongSoKhach = 0;
+                    _heSoPhuThuMax = 1;
+                    _phuThuSoKhach = 0;
+                }
+            }
+            else if (_curTGNhanPhong.Date == _curTGTraPhong.Date)
+            {
+                var resultCount = from kt in dsKhachThue.GroupBy(kt => kt.MaLoaiKhachHang)
+                                  select new
+                                  {
+                                      count = kt.Count(),
+                                      kt.First().MaLoaiKhachHang
+                                  };
+                byte _countTongSoKhach = Convert.ToByte(dsKhachThue.Count());
+                foreach (var _reCount in resultCount)
+                {
+                    foreach (var phuThuLKH in dsPhuThuLKH)
+                    {
+                        if (phuThuLKH.SoLuongApDung <= _reCount.count && _reCount.MaLoaiKhachHang == phuThuLKH.MaLoaiKhachHang && _heSoPhuThuMax < phuThuLKH.HeSoPhuThu)
+                        {
+                            _heSoPhuThuMax = phuThuLKH.HeSoPhuThu;
+                        }
+                    }
+                }
+                foreach (PhuThu phuThu in dsPhuThuSoKhach)
+                {
+                    if (phuThu.SoLuongApDung <= _countTongSoKhach && phuThu.TiLePhuThu > _phuThuSoKhach)
+                    {
+                        _phuThuSoKhach = phuThu.TiLePhuThu;
+                    }
+                }
+                dsSLKTTungNgay.Add(new SoLuongKhachThue
+                {
+                    SoKhachThue = _countTongSoKhach,
+                    PhuThu = _phuThuSoKhach,
+                    HeSoKhach = _heSoPhuThuMax,
+                });
+                _countTongSoKhach = 0;
+                _heSoPhuThuMax = 1;
+                _phuThuSoKhach = 0;
+            }
+            tiLePhuThuChechOut = 0;
+
+            if (dsSLKTTungNgay.Count > 0)
+            {
+                SoLuongKhachThue slktDangXet = new SoLuongKhachThue();
+                int tongTienSLKT = 0;
+                while (dsSLKTTungNgay.Count > 0)
+                {
+                    slktDangXet.SoKhachThue = dsSLKTTungNgay[0].SoKhachThue;
+                    slktDangXet.PhuThu = dsSLKTTungNgay[0].PhuThu;
+                    slktDangXet.HeSoKhach = dsSLKTTungNgay[0].HeSoKhach;
+                    slktDangXet.SoNgayThue = 0;
+                    slktDangXet.DonGia = _curGiaPhong;
+                    slktDangXet.MaCTHD = _curMaCTHD;
+
+
+                    for (int index = 0; index < dsSLKTTungNgay.Count; index++)
+                    {
+                        if (dsSLKTTungNgay[index].SoKhachThue == slktDangXet.SoKhachThue && dsSLKTTungNgay[index].PhuThu == slktDangXet.PhuThu && dsSLKTTungNgay[index].HeSoKhach == slktDangXet.HeSoKhach)
+                        {
+                            slktDangXet.SoNgayThue++;
+                            dsSLKTTungNgay.RemoveAt(index);
+                            index--;
+                        }
+                    }
+                    slktDangXet.ThanhTien = (int)((double)(slktDangXet.HeSoKhach) * (slktDangXet.DonGia + (slktDangXet.DonGia * (slktDangXet.PhuThu / (double)100))) * slktDangXet.SoNgayThue);
+                    tongTienSLKT = tongTienSLKT + slktDangXet.ThanhTien;
+                    dsSLKTFinal.Add(new SoLuongKhachThue
+                    {
+                        SoKhachThue = slktDangXet.SoKhachThue,
+                        PhuThu = (int)((slktDangXet.PhuThu / (double)100) * slktDangXet.DonGia),
+                        HeSoKhach = slktDangXet.HeSoKhach,
+                        SoNgayThue = slktDangXet.SoNgayThue,
+                        DonGia = slktDangXet.DonGia,
+                        ThanhTien = slktDangXet.ThanhTien,
+                        MaCTHD = slktDangXet.MaCTHD,
+                        GhiChu = "Phụ thu: " + slktDangXet.PhuThu.ToString() + "%\nHệ số khách: " + slktDangXet.HeSoKhach.ToString()
+                    });
+                }
+
+
+                CTHDPhong.DsSoLuongKhachThue = dsSLKTFinal;
+                CTHDPhong.PhuThuCICO = (int)(((double)(tiLePhuThuChechIn + tiLePhuThuChechOut) / 100) * CTHDPhong.GiaPhong);
+                CTHDPhong.TongTienPhong = (int)(tongTienSLKT + CTHDPhong.PhuThuCICO);
+                CTHDPhong.GhiChu = "Checkin sớm: " + tiLePhuThuChechIn.ToString() + "%\nCheckout trễ: Chưa tính";
+
+                return CTHDPhong;
+            }
+            else return null;
+        }
+        public CTHD1Phong ThongKeSLKTBoPhong(int maCTHD)
+        {
+            List<KhachThue> dsKhachThue = new List<KhachThue>();
+            int _curMaCTHD = 0;
+            int _curGiaPhong = 0;
+            string _curMaPhong = "";
+            DateTime _curTGNhanPhong = DateTime.Now;
+            DateTime _curTGTraPhong = DateTime.Now;
+            List<PhuThuLKH> dsPhuThuLKH = new List<PhuThuLKH>();
+            List<PhuThu> dsPhuThuSoKhach = new List<PhuThu>();
+            List<PhuThu> dsPhuThuCheckin = new List<PhuThu>();
+            List<PhuThu> dsPhuThuCheckout = new List<PhuThu>();
+            List<object> dsSoLuongTheoLoaiKhach = new List<object>();
+            string[] checkInTime = { "00", "00" };
+            string[] checkOutTime = { "00", "00" };
+            int overCheckIn = 0;
+            int overCheckOut = 0;
+            int tiLePhuThuChechIn = 0;
+            int tiLePhuThuChechOut = 0;
+
+            CTHD1Phong CTHDPhong = new CTHD1Phong();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                //Lấy chi tiết hóa đơn của phòng
+                string queryCTHD = "SELECT CTHD.MaCTHD, CTHD.MaPhong, CTHD.ThoiGianNhanPhong, CTHD.ThoiGianTraPhong, CTHD.GiaPhong " +
+                    "FROM CHITIETHOADON CTHD " +
+                    "WHERE CTHD.MaCTHD = @maCTHD ";
+                MySqlCommand cmdCTHD = new MySqlCommand(queryCTHD, conn);
+                cmdCTHD.Parameters.AddWithValue("maCTHD", maCTHD);
+                using (MySqlDataReader readerCTHD = cmdCTHD.ExecuteReader())
+                {
+                    if (readerCTHD.HasRows)
+                    {
+                        readerCTHD.Read();
+                        _curMaCTHD = Convert.ToInt32(readerCTHD["MaCTHD"]);
+                        _curMaPhong = readerCTHD["MaPhong"].ToString();
+                        _curTGNhanPhong = Convert.ToDateTime(readerCTHD["ThoiGianNhanPhong"]);
+                        _curTGTraPhong = Convert.ToDateTime(readerCTHD["ThoiGianTraPhong"]);
+                        _curGiaPhong = Convert.ToInt32(readerCTHD["GiaPhong"]);
+                    }
+                }
+                CTHDPhong.MaCTHD = _curMaCTHD;
+                CTHDPhong.MaPhong = _curMaPhong;
+                CTHDPhong.ThoiGianNhanPhong = _curTGNhanPhong;
+                CTHDPhong.ThoiGianTraPhong = _curTGTraPhong;
+                CTHDPhong.GiaPhong = _curGiaPhong;
+
+                //Lấy quy định về phụ thu checkin
+                string queryPhuThuCheckin = "SELECT PT.MaPhuThu, PT.SoLuongApDung, PT.TiLePhuThu, PT.MaLoaiPhuThu, PT.ThoiGianApDung " +
+                    "FROM PHUTHU PT INNER JOIN LOAIPHUTHU LPT ON PT.MaLoaiPhuThu = LPT.MaLoaiPhuThu " +
+                    "WHERE LPT.TenLoaiPhuThu = N'Check In' AND PT.ThoiGianApDung <= @thoiGianNhanPhong " +
+                    "						AND PT.ThoiGianApDung = (SELECT MAX(ThoiGianApDung)" +
+                    "                                                 FROM PHUTHU PT1" +
+                    "                                                 WHERE PT1.MaLoaiPhuThu = PT.MaLoaiPhuThu AND PT.SoLuongApDung = PT1.SoLuongApDung)";
+                MySqlCommand cmdPhuThuCheckin = new MySqlCommand(queryPhuThuCheckin, conn);
+                cmdPhuThuCheckin.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuCheckin = cmdPhuThuCheckin.ExecuteReader())
+                {
+                    if (readerPhuThuCheckin.HasRows)
+                    {
+                        while (readerPhuThuCheckin.Read())
+                        {
+                            dsPhuThuCheckin.Add(new PhuThu
+                            {
+                                MaLoaiPhuThu = Convert.ToInt32(readerPhuThuCheckin["MaLoaiPhuThu"]),
+                                MaPhuThu = Convert.ToInt32(readerPhuThuCheckin["MaPhuThu"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuCheckin["SoLuongApDung"]),
+                                TenLoaiPhuThu = "Checkin",
+                                ThoiGianApDung = readerPhuThuCheckin["ThoiGianApDung"].ToString(),
+                                TiLePhuThu = Convert.ToInt32(readerPhuThuCheckin["TiLePhuThu"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy quy định về phụ thu checkout
+                string queryPhuThuCheckout = "SELECT PT.MaPhuThu, PT.SoLuongApDung, PT.TiLePhuThu, PT.MaLoaiPhuThu, PT.ThoiGianApDung " +
+                    "FROM PHUTHU PT INNER JOIN LOAIPHUTHU LPT ON PT.MaLoaiPhuThu = LPT.MaLoaiPhuThu " +
+                    "WHERE LPT.TenLoaiPhuThu = N'Check Out' AND PT.ThoiGianApDung <= @thoiGianNhanPhong " +
+                    "						AND PT.ThoiGianApDung = (SELECT MAX(ThoiGianApDung)" +
+                    "                                                 FROM PHUTHU PT1" +
+                    "                                                 WHERE PT1.MaLoaiPhuThu = PT.MaLoaiPhuThu AND PT.SoLuongApDung = PT1.SoLuongApDung)";
+                MySqlCommand cmdPhuThuCheckout = new MySqlCommand(queryPhuThuCheckout, conn);
+                cmdPhuThuCheckout.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuCheckout = cmdPhuThuCheckout.ExecuteReader())
+                {
+                    if (readerPhuThuCheckout.HasRows)
+                    {
+                        while (readerPhuThuCheckout.Read())
+                        {
+                            dsPhuThuCheckout.Add(new PhuThu
+                            {
+                                MaLoaiPhuThu = Convert.ToInt32(readerPhuThuCheckout["MaLoaiPhuThu"]),
+                                MaPhuThu = Convert.ToInt32(readerPhuThuCheckout["MaPhuThu"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuCheckout["SoLuongApDung"]),
+                                TenLoaiPhuThu = "Checkout",
+                                ThoiGianApDung = readerPhuThuCheckout["ThoiGianApDung"].ToString(),
+                                TiLePhuThu = Convert.ToInt32(readerPhuThuCheckout["TiLePhuThu"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy thông tin giờ checkin checkout
+                string queryGioCheckInOut = "SELECT * " +
+                    "FROM THAMSO TS " +
+                    "WHERE TS.TenThuocTinh = 'GioCheckIn' OR TS.TenThuocTinh = 'GioCheckOut'";
+                MySqlCommand cmdGioCheckInOut = new MySqlCommand(queryGioCheckInOut, conn);
+                using (MySqlDataReader readerGioCheckInOut = cmdGioCheckInOut.ExecuteReader())
+                {
+                    if (readerGioCheckInOut.HasRows)
+                    {
+                        while (readerGioCheckInOut.Read())
+                        {
+                            if (readerGioCheckInOut["TenThuocTinh"].ToString() == "GioCheckIn")
+                            {
+                                checkInTime = readerGioCheckInOut["GiaTri"].ToString().Split(":");
+                            }
+                            else if (readerGioCheckInOut["TenThuocTinh"].ToString() == "GioCheckOut")
+                            {
+                                checkOutTime = readerGioCheckInOut["GiaTri"].ToString().Split(":");
+                            }
+                        }
+                    }
+                }
+                //Tính checkin sớm, checkout trễ
+                if (_curTGNhanPhong.Hour < Convert.ToInt32(checkInTime[0]))
+                {
+                    overCheckIn = (int)Math.Round((double)((Convert.ToInt32(checkInTime[0]) - _curTGNhanPhong.Hour) * 60 + (Convert.ToInt32(checkInTime[1]) - _curTGNhanPhong.Minute)) / 60);
+                }
+                if (_curTGTraPhong.Hour > Convert.ToInt32(checkOutTime[0]))
+                {
+                    overCheckOut = (int)Math.Round((double)((_curTGTraPhong.Hour - Convert.ToInt32(checkOutTime[0])) * 60 + (_curTGTraPhong.Minute) - Convert.ToInt32(checkOutTime[1])) / 60);
+                }
+                foreach (PhuThu phuThuCheckIn in dsPhuThuCheckin)
+                {
+                    if (phuThuCheckIn.SoLuongApDung <= overCheckIn && phuThuCheckIn.TiLePhuThu > tiLePhuThuChechIn)
+                    {
+                        tiLePhuThuChechIn = phuThuCheckIn.TiLePhuThu;
+                    }
+                }
+                foreach (PhuThu phuThuCheckOut in dsPhuThuCheckout)
+                {
+                    if (phuThuCheckOut.SoLuongApDung <= overCheckOut && phuThuCheckOut.TiLePhuThu > tiLePhuThuChechOut)
+                    {
+                        tiLePhuThuChechOut = phuThuCheckOut.TiLePhuThu;
+                    }
+                }
+
+                //Lấy danh sách khách thuê của phòng
+                string queryKhachThue = "SELECT KT.MaKhachThue, KT.CCCD, KT.ThoiGianCheckIn, KT.ThoiGianCheckOut, KT.HoTen, KT.MaLoaiKhachHang, KT.DiaChi, KT.MaCTHD " +
+                    "FROM KHACHTHUE KT, CHITIETHOADON CTHD " +
+                    "WHERE KT.MaCTHD = CTHD.MaCTHD AND CTHD.MaCTHD = @maCTHD AND CTHD.MaHoaDon IS NULL AND CTHD.TrangThai = 2 ";
+                MySqlCommand cmdKhachThue = new MySqlCommand(queryKhachThue, conn);
+                cmdKhachThue.Parameters.AddWithValue("maCTHD", maCTHD);
+                using (MySqlDataReader readerKhachThue = cmdKhachThue.ExecuteReader())
+                {
+                    if (readerKhachThue.HasRows)
+                    {
+                        while (readerKhachThue.Read())
+                        {
+                            dsKhachThue.Add(new KhachThue
+                            {
+                                MaKhachThue = Convert.ToInt32(readerKhachThue["MaKhachThue"]),
+                                CCCD = readerKhachThue["CCCD"].ToString(),
+                                ThoiGianCheckin = Convert.ToDateTime(readerKhachThue["ThoiGianCheckIn"]),
+                                ThoiGianCheckout = (readerKhachThue["ThoiGianCheckOut"] == DBNull.Value) ? (_curTGTraPhong) : Convert.ToDateTime(readerKhachThue["ThoiGianCheckOut"]),
+                                HoTen = readerKhachThue["HoTen"].ToString(),
+                                MaLoaiKhachHang = Convert.ToInt32(readerKhachThue["MaLoaiKhachHang"]),
+                                DiaChi = readerKhachThue["DiaChi"].ToString(),
+                                MaCTHD = Convert.ToInt32(readerKhachThue["MaCTHD"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy quy định về phụ thu loại khách hàng
+                string queryPhuThuLKH = "SELECT * " +
+                    "FROM PHUTHULKH PTLKH " +
+                    "WHERE PTLKH.ThoiGianApDung <= @thoiGianNhanPhong AND PTLKH.ThoiGianApDung = (SELECT MAX(PT.ThoiGianApDung) " +
+                    "                                                                                FROM PHUTHULKH PT " +
+                    "                                                                                WHERE PT.MaLoaiKhachHang = PTLKH.MaLoaiKhachHang) ";
+                MySqlCommand cmdPhuThuLKH = new MySqlCommand(queryPhuThuLKH, conn);
+                cmdPhuThuLKH.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuLKH = cmdPhuThuLKH.ExecuteReader())
+                {
+                    if (readerPhuThuLKH.HasRows)
+                    {
+                        while (readerPhuThuLKH.Read())
+                        {
+                            dsPhuThuLKH.Add(new PhuThuLKH
+                            {
+                                MaPhuThuLKH = Convert.ToInt32(readerPhuThuLKH["MaPhuThuLKH"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuLKH["SoLuongApDung"]),
+                                HeSoPhuThu = Math.Round(Convert.ToDouble(readerPhuThuLKH["HeSoPhuThu"]), 1),
+                                ThoiGianApDung = "",
+                                MaLoaiKhachHang = Convert.ToInt32(readerPhuThuLKH["MaLoaiKhachHang"])
+                            });
+                        }
+                    }
+                }
+
+                //Lấy quy định về phụ thu theo số khách 
+                string queryPhuThuSoKhach = "SELECT PT.MaPhuThu, PT.SoLuongApDung, PT.TiLePhuThu, PT.MaLoaiPhuThu, PT.ThoiGianApDung " +
+                    "FROM PHUTHU PT INNER JOIN LOAIPHUTHU LPT ON PT.MaLoaiPhuThu = LPT.MaLoaiPhuThu " +
+                    "WHERE LPT.TenLoaiPhuThu = N'Theo số khách' AND PT.ThoiGianApDung <= @thoiGianNhanPhong " +
+                    "						AND PT.ThoiGianApDung = (SELECT MAX(ThoiGianApDung)" +
+                    "                                                 FROM PHUTHU PT1" +
+                    "                                                 WHERE PT1.MaLoaiPhuThu = PT.MaLoaiPhuThu AND PT.SoLuongApDung = PT1.SoLuongApDung)";
+                MySqlCommand cmdPhuThuSoKhach = new MySqlCommand(queryPhuThuSoKhach, conn);
+                cmdPhuThuSoKhach.Parameters.AddWithValue("thoiGianNhanPhong", _curTGNhanPhong);
+                using (MySqlDataReader readerPhuThuSoKhach = cmdPhuThuSoKhach.ExecuteReader())
+                {
+                    if (readerPhuThuSoKhach.HasRows)
+                    {
+                        while (readerPhuThuSoKhach.Read())
+                        {
+                            dsPhuThuSoKhach.Add(new PhuThu
+                            {
+                                MaLoaiPhuThu = Convert.ToInt32(readerPhuThuSoKhach["MaLoaiPhuThu"]),
+                                MaPhuThu = Convert.ToInt32(readerPhuThuSoKhach["MaPhuThu"]),
+                                SoLuongApDung = Convert.ToInt32(readerPhuThuSoKhach["SoLuongApDung"]),
+                                TenLoaiPhuThu = "Theo số khách",
+                                ThoiGianApDung = readerPhuThuSoKhach["ThoiGianApDung"].ToString(),
+                                TiLePhuThu = Convert.ToInt32(readerPhuThuSoKhach["TiLePhuThu"])
+                            });
+                        }
+                    }
+                }
+
+
+
+
+            }
+            double _heSoPhuThuMax = 1;
+            int _phuThuSoKhach = 0;
+
+            List<SoLuongKhachThue> dsSLKTTungNgay = new List<SoLuongKhachThue>();
+            List<SoLuongKhachThue> dsSLKTFinal = new List<SoLuongKhachThue>();
+            if (_curTGNhanPhong.Date < _curTGTraPhong.Date)
+            {
+                for (DateTime date = _curTGNhanPhong; date.Date.CompareTo(_curTGTraPhong.Date) < 0; date = date.AddDays(1.0))
+                {
+                    var resultCount = from kt in dsKhachThue.Where(kt => kt.ThoiGianCheckin.Date <= date.Date && kt.ThoiGianCheckout.Date > date.Date)
+                                                                .GroupBy(kt => kt.MaLoaiKhachHang)
+                                      select new
+                                      {
+                                          count = kt.Count(),
+                                          kt.First().MaLoaiKhachHang
+                                      };
+                    byte _countTongSoKhach = Convert.ToByte(dsKhachThue.Count(kt => kt.ThoiGianCheckin.Date <= date.Date && kt.ThoiGianCheckout.Date > date.Date));
+                    foreach (var _reCount in resultCount)
+                    {
+                        foreach (var phuThuLKH in dsPhuThuLKH)
+                        {
+                            if (phuThuLKH.SoLuongApDung <= _reCount.count && _reCount.MaLoaiKhachHang == phuThuLKH.MaLoaiKhachHang && _heSoPhuThuMax < phuThuLKH.HeSoPhuThu)
+                            {
+                                _heSoPhuThuMax = phuThuLKH.HeSoPhuThu;
+                            }
+                        }
+                    }
+                    foreach (PhuThu phuThu in dsPhuThuSoKhach)
+                    {
+                        if (phuThu.SoLuongApDung <= _countTongSoKhach && phuThu.TiLePhuThu > _phuThuSoKhach)
+                        {
+                            _phuThuSoKhach = phuThu.TiLePhuThu;
+                        }
+                    }
+                    dsSLKTTungNgay.Add(new SoLuongKhachThue
+                    {
+                        SoKhachThue = _countTongSoKhach,
+                        PhuThu = _phuThuSoKhach,
+                        HeSoKhach = _heSoPhuThuMax,
+                    });
+                    _countTongSoKhach = 0;
+                    _heSoPhuThuMax = 1;
+                    _phuThuSoKhach = 0;
+                }
+            }
+            else if (_curTGNhanPhong.Date == _curTGTraPhong.Date)
+            {
+                var resultCount = from kt in dsKhachThue.GroupBy(kt => kt.MaLoaiKhachHang)
+                                  select new
+                                  {
+                                      count = kt.Count(),
+                                      kt.First().MaLoaiKhachHang
+                                  };
+                byte _countTongSoKhach = Convert.ToByte(dsKhachThue.Count());
+                foreach (var _reCount in resultCount)
+                {
+                    foreach (var phuThuLKH in dsPhuThuLKH)
+                    {
+                        if (phuThuLKH.SoLuongApDung <= _reCount.count && _reCount.MaLoaiKhachHang == phuThuLKH.MaLoaiKhachHang && _heSoPhuThuMax < phuThuLKH.HeSoPhuThu)
+                        {
+                            _heSoPhuThuMax = phuThuLKH.HeSoPhuThu;
+                        }
+                    }
+                }
+                foreach (PhuThu phuThu in dsPhuThuSoKhach)
+                {
+                    if (phuThu.SoLuongApDung <= _countTongSoKhach && phuThu.TiLePhuThu > _phuThuSoKhach)
+                    {
+                        _phuThuSoKhach = phuThu.TiLePhuThu;
+                    }
+                }
+                dsSLKTTungNgay.Add(new SoLuongKhachThue
+                {
+                    SoKhachThue = _countTongSoKhach,
+                    PhuThu = _phuThuSoKhach,
+                    HeSoKhach = _heSoPhuThuMax,
+                });
+                _countTongSoKhach = 0;
+                _heSoPhuThuMax = 1;
+                _phuThuSoKhach = 0;
+                tiLePhuThuChechOut = 0;
+            }
+
+            if (dsSLKTTungNgay.Count > 0)
+            {
+                SoLuongKhachThue slktDangXet = new SoLuongKhachThue();
+                int tongTienSLKT = 0;
+                while (dsSLKTTungNgay.Count > 0)
+                {
+                    slktDangXet.SoKhachThue = dsSLKTTungNgay[0].SoKhachThue;
+                    slktDangXet.PhuThu = dsSLKTTungNgay[0].PhuThu;
+                    slktDangXet.HeSoKhach = dsSLKTTungNgay[0].HeSoKhach;
+                    slktDangXet.SoNgayThue = 0;
+                    slktDangXet.DonGia = _curGiaPhong;
+                    slktDangXet.MaCTHD = _curMaCTHD;
+
+
+                    for (int index = 0; index < dsSLKTTungNgay.Count; index++)
+                    {
+                        if (dsSLKTTungNgay[index].SoKhachThue == slktDangXet.SoKhachThue && dsSLKTTungNgay[index].PhuThu == slktDangXet.PhuThu && dsSLKTTungNgay[index].HeSoKhach == slktDangXet.HeSoKhach)
+                        {
+                            slktDangXet.SoNgayThue++;
+                            dsSLKTTungNgay.RemoveAt(index);
+                            index--;
+                        }
+                    }
+                    slktDangXet.ThanhTien = (int)((double)(slktDangXet.HeSoKhach) * (slktDangXet.DonGia + (slktDangXet.DonGia * (slktDangXet.PhuThu / (double)100))) * slktDangXet.SoNgayThue);
+                    tongTienSLKT = tongTienSLKT + slktDangXet.ThanhTien;
+                    dsSLKTFinal.Add(new SoLuongKhachThue
+                    {
+                        SoKhachThue = slktDangXet.SoKhachThue,
+                        PhuThu = (int)((slktDangXet.PhuThu / (double)100) * slktDangXet.DonGia),
+                        HeSoKhach = slktDangXet.HeSoKhach,
+                        SoNgayThue = slktDangXet.SoNgayThue,
+                        DonGia = slktDangXet.DonGia,
+                        ThanhTien = slktDangXet.ThanhTien,
+                        MaCTHD = slktDangXet.MaCTHD,
+                        GhiChu = "Phụ thu: " + slktDangXet.PhuThu.ToString() + "%\nHệ số khách: " + slktDangXet.HeSoKhach.ToString()
+                    });
+                }
+
+
+                CTHDPhong.DsSoLuongKhachThue = dsSLKTFinal;
+                CTHDPhong.PhuThuCICO = (int)(((double)(tiLePhuThuChechIn + tiLePhuThuChechOut) / 100) * CTHDPhong.GiaPhong);
+                CTHDPhong.TongTienPhong = (int)(tongTienSLKT + CTHDPhong.PhuThuCICO);
+                CTHDPhong.GhiChu = "Checkin sớm: " + tiLePhuThuChechIn.ToString() + "%\nCheckout trễ: " + tiLePhuThuChechOut.ToString()+"%";
+
+                return CTHDPhong;
+            }
+            else return null;
+        }
+
+        public object HoaDonChoBoPhong(int maCTHD, string doiTuongThanhToan, string maNhanVien, string tenNhanVien)
+        {
+            CTHD1Phong hoaDon;
+            object response;
+            DateTime thoiGianXuatHD = DateTime.Now;
+            hoaDon = ThongKeSLKTBoPhong(maCTHD);
+            if (hoaDon != null)
+            {
+                int maHoaDon = 0;
+                using (MySqlConnection conn = GetConnection())
+                {
+                    conn.Open();
+                    string queryInsertHoaDon = "INSERT INTO HOADON(ThoiGianXuat, MaNhanVien, TongSoTien, DoiTuongThanhToan) " +
+                        "VALUES (@thoiGianXuat, @maNhanVien, @tongSoTien, @doiTuongThanhToan); " +
+                        "SELECT LAST_INSERT_ID() AS 'MaHoaDon';";
+                    MySqlCommand cmdInsertHoaDon = new MySqlCommand(queryInsertHoaDon, conn);
+                    cmdInsertHoaDon.Parameters.AddWithValue("thoiGianXuat", thoiGianXuatHD);
+                    cmdInsertHoaDon.Parameters.AddWithValue("maNhanVien", maNhanVien);
+                    cmdInsertHoaDon.Parameters.AddWithValue("tongSoTien", hoaDon.TongTienPhong);
+                    cmdInsertHoaDon.Parameters.AddWithValue("doiTuongThanhToan", doiTuongThanhToan);
+                    using (MySqlDataReader readerInsertHoaDon = cmdInsertHoaDon.ExecuteReader())
+                    {
+                        if (readerInsertHoaDon.HasRows)
+                        {
+                            readerInsertHoaDon.Read();
+                            maHoaDon = Convert.ToInt32(readerInsertHoaDon["MaHoaDon"]);
+                        }
+                    }
+
+                    if (hoaDon.DsSoLuongKhachThue.Count > 0)
+                    {
+                        string queryInsertSLKT = "INSERT INTO SOLUONGKHACHTHUE(SoKhachThue, PhuThu, HeSoKhach, SoNgayThue, GhiChu, DonGia, ThanhTien, MaCTHD) VALUES ";
+                        foreach (SoLuongKhachThue soLuongKhachThue in hoaDon.DsSoLuongKhachThue)
+                        {
+                            queryInsertSLKT = queryInsertSLKT + "(" + soLuongKhachThue.SoKhachThue + "," + soLuongKhachThue.PhuThu + ","
+                                 + soLuongKhachThue.HeSoKhach + "," + soLuongKhachThue.SoNgayThue + ", N'" + soLuongKhachThue.GhiChu + "',"
+                                 + soLuongKhachThue.DonGia + "," + soLuongKhachThue.ThanhTien + "," + soLuongKhachThue.MaCTHD + "),";
+                        }
+                        queryInsertSLKT = queryInsertSLKT.Remove(queryInsertSLKT.Length - 1);
+                        MySqlCommand cmdInsertSLKT = new MySqlCommand(queryInsertSLKT, conn);
+                        cmdInsertSLKT.ExecuteNonQuery();
+
+                        string queryUpdateCTHD = "UPDATE CHITIETHOADON " +
+                            "SET MaHoaDon = @maHoaDon, PhuThuCICO = @phuThuCICO, GhiChu = @ghiChu, TongTienPhong = @tongTienPhong, TrangThai = 1 " +
+                            "WHERE MaCTHD = @maCTHD";
+                        MySqlCommand cmdUpdateCTHD = new MySqlCommand(queryUpdateCTHD, conn);
+                        cmdUpdateCTHD.Parameters.AddWithValue("maHoaDon", maHoaDon);
+                        cmdUpdateCTHD.Parameters.AddWithValue("phuThuCICO", hoaDon.PhuThuCICO);
+                        cmdUpdateCTHD.Parameters.AddWithValue("ghiChu", hoaDon.GhiChu);
+                        cmdUpdateCTHD.Parameters.AddWithValue("tongTienPhong", hoaDon.TongTienPhong);
+                        cmdUpdateCTHD.Parameters.AddWithValue("maCTHD", hoaDon.MaCTHD);
+                        cmdUpdateCTHD.ExecuteNonQuery();
+                    }
+                }
+                response = new
+                {
+                    maHoaDon = maHoaDon,
+                    thoiGianXuat = thoiGianXuatHD,
+                    doiTuongThanhToan = doiTuongThanhToan,
+                    tenNhanVien = tenNhanVien,
+                    dsChiTiet = hoaDon
+                };
+                return response;
+            }
+            return null;
+        }
+
+        public object GetCTHDBoPhong(int maCTHD)
+        {
+            object infoCTHD;
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string query = "SELECT CTHD.ThoiGianNhanPhong, CTHD.MaPhong, CTHD.ThoiGianTraPhong, CTHD.MaCTHD " +
+                    "FROM CHITIETHOADON CTHD " +
+                    "WHERE CTHD.MaCTHD = @maCTHD ";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("maCTHD", maCTHD);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        infoCTHD = new
+                        {
+                            maPhong = reader["MaPhong"].ToString(),
+                            maCTHD = Convert.ToInt32(reader["MaCTHD"]),
+                            thoiGianNhanPhong = Convert.ToDateTime(reader["ThoiGianNhanPhong"]),
+                            thoiGianTraPhong = Convert.ToDateTime(reader["ThoiGianTraPhong"])
+                        };
+                    }
+                    else infoCTHD = null;
+                }
+            }
+            return infoCTHD;
+        }
+
+        public string XoaPhieuThuePhongByID(int maCTHD)
+        {
+            using(MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                string queryDelete = "HuyThuePhong";
+                MySqlCommand cmdDelete = new MySqlCommand(queryDelete, conn);
+                cmdDelete.CommandType = CommandType.StoredProcedure;
+
+                cmdDelete.Parameters.AddWithValue("_maCTHD", maCTHD);
+                cmdDelete.Parameters["_maCTHD"].Direction = ParameterDirection.Input;
+
+                cmdDelete.Parameters.Add("_result", MySqlDbType.VarChar);
+                cmdDelete.Parameters["_result"].Direction = ParameterDirection.Output;
+
+                cmdDelete.ExecuteNonQuery();
+                return cmdDelete.Parameters["_result"].Value.ToString();
+            }
+        }
     }
 }

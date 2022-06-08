@@ -1,0 +1,718 @@
+﻿/* Màn hình làm việc của mục Danh sách thuê phòng - begin */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.filter_dsthuephong {
+    height: 6vh;
+    background-color: #002b49;
+    display: flex;
+    justify-content: end;
+    position: sticky;
+    padding-left: 0.2rem;
+    z-index: 0;
+    align-items: center;
+}
+
+#filter_dsthuephong_info {
+    margin-right: 3rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#date_of_thuephong_filter_dsthuephong_info {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    height: 58%;
+    margin-right: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+#enter_cccd_khachthue_filter_dsthuephong_info {
+    height: 55%;
+    margin-right: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+#enter_maphong_filter_dsthuephong_info {
+    height: 55%;
+    margin-right: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+#search_for_filter_dsthuephong_info {
+    height: 80%;
+    width: 4rem;
+    font-weight: 500;
+    border-radius: 5px;
+}
+#search_for_filter_dsthuephong_info:active {
+    background-color: #c9c9c9;
+}
+
+
+
+.data_window_dsthuephong {
+    height: 86vh;
+    padding: 5px;
+    background-color: #e4e4e4;
+}
+
+.header_list_thuephong_table_data_window_dsthuephong {
+    background: #0666A9;
+    color: white;
+}
+
+.list_thuephong_table_data_window_dsthuephong {
+    background-color: white;
+    border-collapse: collapse;
+    border: 0.1rem solid #002B49;
+    width: 100%;
+}
+
+    .list_thuephong_table_data_window_dsthuephong thead {
+        display: table;
+        width: 100%;
+    }
+
+    .list_thuephong_table_data_window_dsthuephong tbody {
+        display: block;
+        width: 100%;
+        overflow-y: overlay;
+        max-height: 80vh;
+    }
+
+        .list_thuephong_table_data_window_dsthuephong tbody tr {
+            display: table;
+            width: 100%;
+            line-height: 30px;
+        }
+            .list_thuephong_table_data_window_dsthuephong tbody tr:hover {
+                background-color: #c9c9c9;
+            }
+
+.stt_list_thuephong_table_data_window_dsthuephong {
+    width: 5%;
+    pointer-events:none;
+}
+
+.loaiphong_list_thuephong_table_data_window_dsthuephong {
+    width: 19%;
+    pointer-events: none;
+}
+
+.maphong_list_thuephong_table_data_window_dsthuephong {
+    width: 19%;
+    pointer-events: none;
+}
+
+.tungay_list_thuephong_table_data_window_dsthuephong {
+    width: 19%;
+    pointer-events: none;
+}
+
+.denngay_list_thuephong_table_data_window_dsthuephong {
+    width: 19%;
+    pointer-events: none;
+}
+
+.trangthai_list_thuephong_table_data_window_dsthuephong {
+    width: 19%;
+    pointer-events: none;
+}
+
+.list_thuephong_table_data_window_dsthuephong th, .list_thuephong_table_data_window_dsthuephong td {
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.4rem;
+    border-bottom: 0.1rem solid #c9c9c9;
+}
+/* Màn hình làm việc của mục Danh sách thuê phòng - end */
+/* Màn hình popup thông tin thuê phòng - begin */
+.thongtinchitietthuephong_popup_window_container {
+    display: flex;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+    .thongtinchitietthuephong_popup_window_container.show {
+        pointer-events: auto;
+        opacity: 1;
+        transition: 0.3s ease;
+    }
+
+.thongtinchitietthuephong_popup_window {
+    width: 80vw;
+    position: relative;
+    max-height: 100vh;
+    top: -100vh;
+    transition: 0.3s;
+}
+
+.thongtinchitietthuephong_popup_window_container.show .thongtinchitietthuephong_popup_window {
+    top: 0;
+    transition: 0.3s;
+}
+
+.body_thongtinchitietthuephong_popup_window {
+    background-color: white;
+}
+
+    .body_thongtinchitietthuephong_popup_window p, .body_thongtinchitietthuephong_popup_window span {
+        font-size: 0.8rem;
+    }
+
+.content_thongtinchitietthuephong_popup_window {
+    overflow-y: overlay;
+    padding: 2rem;
+    max-height: 80vh;
+}
+
+.header_content_thongtinchitietthuephong_popup_window {
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr;
+    align-items: center;
+    justify-items: center;
+}
+
+    .header_content_thongtinchitietthuephong_popup_window p {
+        margin: 0;
+        padding: 0.5rem;
+    }
+
+#address_header_content_thongtinchitietthuephong_popup_window_id {
+    text-align: left;
+}
+
+.email_sdt_header_content_thongtinchitietthuephong_popup_window {
+    display: flex;
+    justify-content: space-between;
+}
+
+#logo_header_content_thongtinchitietthuephong_popup_window {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#hotel_name_header_content_thongtinchitietthuephong_popup_window_id {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+#title_content_thongtinchitietthuephong_popup_window {
+    text-align: center;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+
+.header_receipt_detail_table_content_thongtinchitietthuephong_popup_window {
+    background: black;
+    color: white;
+}
+
+.receipt_detail_table_content_thongtinchitietthuephong_popup_window {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    .receipt_detail_table_content_thongtinchitietthuephong_popup_window th, .receipt_detail_table_content_thongtinchitietthuephong_popup_window td {
+        text-align: center;
+        font-size: 0.8rem;
+        font-weight: 500;
+        padding: 0.4rem;
+        border-bottom: 0.1rem solid #c9c9c9;
+    }
+
+    .receipt_detail_table_content_thongtinchitietthuephong_popup_window .data_food_none_border {
+        border: none;
+    }
+
+
+.thongtinchung_content_thongtinchitietthuephong_popup_window {
+    display: flex;
+    justify-content: right;
+}
+
+.thongtinchung_detail_content_thongtinchitietthuephong_popup_window {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .thongtinchung_detail_content_thongtinchitietthuephong_popup_window p {
+        font-weight: 700;
+        margin: 0;
+        padding-top: 0.8rem;
+        padding-left: 3rem;
+    }
+
+
+
+
+.function_thongtinchitietthuephong_popup_window_container {
+    text-align: right;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    padding-right: 2rem;
+}
+
+#btn_print_thongtinchitietthuephong_popup_window_container, #btn_cancel_thongtinchitietthuephong_popup_window_container:active {
+    background-color: #002b49;
+    color: white;
+}
+
+    #btn_cancel_thongtinchitietthuephong_popup_window_container, #btn_print_thongtinchitietthuephong_popup_window_container:active {
+        background-color: white;
+        color: #002b49;
+    }
+
+#btn_print_thongtinchitietthuephong_popup_window_container, #btn_cancel_thongtinchitietthuephong_popup_window_container {
+    border: 0.1rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: 10%;
+}
+/* Màn hình popup thông tin chi tiết thuê phòng - end */
+
+/*=================== CONTEXT MENU CỦA DSTP: begin ============*/
+#context_menu_dstp_id {
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 3;
+    width: 150px;
+    height: auto;
+    position: absolute;
+    display: none;
+    border: 2px solid black;
+}
+
+    #context_menu_dstp_id ul {
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+        list-style-type: none;
+        text-indent: 0px;
+    }
+
+        #context_menu_dstp_id ul li {
+            border-bottom: solid 1px #c9c9c9;
+            height: 2rem;
+            line-height: 2rem;
+            cursor: pointer;
+        }
+
+            #context_menu_dstp_id ul li p {
+                padding: 0;
+                margin: 0;
+                font-size: 0.8rem;
+            }
+
+            #context_menu_dstp_id ul li:hover {
+                background-color: #c9c9c9;
+            }
+/*=================== CONTEXT MENU CỦA DSTP: end ============*/
+/* Popup xác nhận thanh toán phiếu bỏ phòng - begin */
+.xacnhanthanhtoanbophong_popup_container {
+    display: flex;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+    .xacnhanthanhtoanbophong_popup_container.show {
+        pointer-events: auto;
+        opacity: 1;
+        transition: 0.3s ease;
+    }
+
+.xacnhanthanhtoanbophong_popup {
+    width: 30vw;
+    position: relative;
+    max-height: 100vh;
+    top: -100vh;
+    transition: 0.3s;
+}
+.xacnhanthanhtoanbophong_popup_container.show .xacnhanthanhtoanbophong_popup {
+    top: 0;
+    transition: 0.3s;
+}
+
+.header_xacnhanthanhtoanbophong_popup {
+    display: flex;
+    background-color: #002b49;
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header_name_xacnhanthanhtoanbophong_popup {
+    font-weight: 500;
+    margin: 0.5rem;
+}
+
+.header_close_xacnhanthanhtoanbophong_popup {
+    margin: 0.5rem;
+    cursor: pointer;
+    color: white;
+}
+
+.body_xacnhanthanhtoanbophong_popup {
+    background-color: white;
+}
+
+.title_name_xacnhanthanhtoanbophong_popup {
+    font-weight: 700;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 1.2rem;
+}
+
+.content_xacnhanthanhtoanbophong_popup {
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+}
+
+    .content_xacnhanthanhtoanbophong_popup input {
+        font-weight: 500;
+        font-size: 0.8rem;
+        border: 0.1rem solid black;
+        height: 1.4rem;
+        width: 80%;
+        line-height: 1.4rem;
+    }
+
+    .content_xacnhanthanhtoanbophong_popup p span {
+        color: red;
+    }
+
+.function_xacnhanthanhtoanbophong_popup {
+    text-align: center;
+    padding: 0.8rem;
+    padding-right: 1rem;
+}
+
+#btn_confirm_xacnhanthanhtoanbophong_popup {
+    background-color: #002b49;
+    color: white;
+    border: 0.1rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: 30%;
+}
+
+    #btn_confirm_xacnhanthanhtoanbophong_popup:active {
+        background-color: white;
+        color: #002b49;
+    }
+/* Popup xác nhận thanh toán phiếu bỏ phòng - end */
+/* Màn hình popup hóa đơn đã xuất - begin */
+.receipt_export_print_popup_window_container {
+    display: flex;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+    .receipt_export_print_popup_window_container.show {
+        pointer-events: auto;
+        opacity: 1;
+        transition: 0.3s ease;
+    }
+
+.receipt_export_print_popup_window {
+    width: 80vw;
+    position: relative;
+    max-height: 100vh;
+    top: -100vh;
+    transition: 0.3s;
+}
+
+.receipt_export_print_popup_window_container.show .receipt_export_print_popup_window {
+    top: 0;
+    transition: 0.3s;
+}
+
+.body_receipt_export_print_popup_window {
+    background-color: white;
+}
+
+    .body_receipt_export_print_popup_window p, .body_receipt_export_print_popup_window span {
+        font-size: 0.8rem;
+    }
+
+.content_receipt_export_print_popup_window {
+    overflow-y: overlay;
+    padding: 2rem;
+    max-height: 80vh;
+}
+
+.header_content_receipt_export_print_popup_window {
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr;
+    align-items: center;
+    justify-items: center;
+}
+
+    .header_content_receipt_export_print_popup_window p {
+        margin: 0;
+        padding: 0.5rem;
+    }
+
+#address_header_content_receipt_export_print_popup_window_id {
+    text-align: left;
+}
+
+.email_sdt_header_content_receipt_export_print_popup_window {
+    display: flex;
+    justify-content: space-between;
+}
+
+#logo_header_content_receipt_export_print_popup_window {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#hotel_name_header_content_receipt_export_print_popup_window_id {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+#title_content_receipt_export_print_popup_window {
+    text-align: center;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.info_content_receipt_export_print_popup_window {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+    .info_content_receipt_export_print_popup_window p {
+        margin: 0;
+        padding-bottom: 0.5rem;
+    }
+
+
+.header_receipt_detail_table_content_receipt_export_print_popup_window {
+    background: black;
+    color: white;
+}
+
+.receipt_detail_table_content_receipt_export_print_popup_window {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    .receipt_detail_table_content_receipt_export_print_popup_window th, .receipt_detail_table_content_receipt_export_print_popup_window td {
+        text-align: center;
+        font-size: 0.8rem;
+        font-weight: 500;
+        padding: 0.4rem;
+        border-bottom: 0.1rem solid #c9c9c9;
+    }
+
+    .receipt_detail_table_content_receipt_export_print_popup_window .data_food_none_border {
+        border: none;
+    }
+
+
+.cal_price_content_receipt_export_print_popup_window {
+    display: flex;
+    justify-content: right;
+}
+
+.cal_price_detail_content_receipt_export_print_popup_window {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .cal_price_detail_content_receipt_export_print_popup_window p {
+        font-weight: 700;
+        margin: 0;
+        padding-top: 0.8rem;
+        padding-left: 3rem;
+    }
+
+
+
+
+.function_receipt_export_print_popup_window_container {
+    text-align: right;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    padding-right: 2rem;
+}
+
+#btn_print_receipt_export_print_popup_window_container, #btn_cancel_receipt_export_print_popup_window_container:active {
+    background-color: #002b49;
+    color: white;
+}
+
+    #btn_cancel_receipt_export_print_popup_window_container, #btn_print_receipt_export_print_popup_window_container:active {
+        background-color: white;
+        color: #002b49;
+    }
+
+#btn_print_receipt_export_print_popup_window_container, #btn_cancel_receipt_export_print_popup_window_container {
+    border: 0.1rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: 10%;
+}
+/* Màn hình popup hóa đơn đã xuất - end */
+
+/*Confirm hủy phiếu thuê phòng - begin */
+.notification_confirm_delete_phieuthue_window_container {
+    display: flex;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+    .notification_confirm_delete_phieuthue_window_container.show {
+        pointer-events: auto;
+        opacity: 1;
+        transition: 0.3s ease;
+    }
+
+.notification_confirm_delete_phieuthue_window {
+    width: 25vw;
+    position: relative;
+    max-height: 100vh;
+    top: -100vh;
+    transition: 0.3s;
+}
+
+.notification_confirm_delete_phieuthue_window_container.show .notification_confirm_delete_phieuthue_window {
+    top: 0;
+    transition: 0.3s;
+}
+
+.header_notification_confirm_delete_phieuthue_window {
+    display: flex;
+    background-color: #002b49;
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header_name_notification_confirm_delete_phieuthue_window {
+    font-weight: 500;
+    margin: 0.5rem;
+}
+
+.header_close_notification_confirm_delete_phieuthue_window {
+    margin: 0.5rem;
+    cursor: pointer;
+    color: white;
+}
+
+.body_notification_confirm_delete_phieuthue_window {
+    background-color: white;
+}
+
+.content_notification_confirm_delete_phieuthue_window {
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 1rem;
+}
+
+.function_notification_confirm_delete_phieuthue_window {
+    text-align: right;
+    padding: 0.8rem;
+    padding-right: 1rem;
+}
+
+#btn_confirm_notification_delete_phieuthue_window, #btn_cancel_notification_delete_phieuthue_window:active {
+    background-color: #002b49;
+    color: white;
+}
+
+    #btn_cancel_notification_delete_phieuthue_window, #btn_confirm_notification_delete_phieuthue_window:active {
+        background-color: white;
+        color: #002b49;
+    }
+
+#btn_confirm_notification_delete_phieuthue_window, #btn_cancel_notification_delete_phieuthue_window {
+    border: 0.1rem solid #002b49;
+    border-radius: 0.6rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: 30%;
+}
+/*Confirm hủy phiếu thuê phòng - end */

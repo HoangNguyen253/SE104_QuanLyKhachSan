@@ -42,10 +42,12 @@ function getTodayTimeLocal() {
 function Add_Event_For_SDP() {
     // Context menu của sơ đồ phòng - begin
     document.body.addEventListener('click', function () {
-        document.getElementById("context_menu_sdp_id").style.display = "none";
+        if (document.getElementById("context_menu_sdp_id"))
+            document.getElementById("context_menu_sdp_id").style.display = "none";
     })
     document.body.addEventListener('contextmenu', function () {
-        document.getElementById("context_menu_sdp_id").style.display = "none";
+        if (document.getElementById("context_menu_sdp_id"))
+            document.getElementById("context_menu_sdp_id").style.display = "none";
     })
     document.querySelectorAll(".occupied_room").forEach(e => {
         e.addEventListener('contextmenu', function (ev) {
@@ -821,27 +823,53 @@ function Delete_Customer_Info(e) {
         return i + 1;
     });
 }
+
+function CheckDieuKienSoKhachToiDa() {
+    return new Promise(function (myResolve) {
+        let dataResponse = 0;
+        let xhr_Get_SoKhachToiDa = new XMLHttpRequest();
+        let url_Get_SoKhachToiDa = "https://localhost:5001/SoDoPhong/GetSoKhachToiDa";
+        xhr_Get_SoKhachToiDa.open("GET", url_Get_SoKhachToiDa, true);
+        xhr_Get_SoKhachToiDa.timeout = 5000;
+        xhr_Get_SoKhachToiDa.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                dataResponse = this.response;
+                myResolve(dataResponse)
+            }
+        }
+        xhr_Get_SoKhachToiDa.send();
+    })
+}
 function Add_Info_Customer_Table() {
-    let info_elements = document.querySelectorAll(".mini_grid input");
-    if (info_elements[0].value == "" || info_elements[1].value == "" || info_elements[2].value == "" || info_elements[3].value == "") {
-        toastMessage({ title: "Thông báo", message: "Vui lòng điền đầy đủ thông tin", type: "fail" });
-    }
-    else {
-        let loaikhachhang = document.querySelector(".mini_grid select");
-        let stt = document.querySelectorAll(".info_customer_table_green tbody tr").length + 1;
-        $('<tr class = "new_Insert"><td class = "order">' + stt + '</td>' +
-            '<td>' + info_elements[1].value + '</td>' +
-            '<td>' + info_elements[0].value + '</td>' +
-            '<td maloai = ' + loaikhachhang.value + '>' + loaikhachhang.options[loaikhachhang.selectedIndex].text + '</td>' +
-            '<td>' + info_elements[2].value + '</td>' +
-            '<td>' + info_elements[3].value.replace("T", " ") + '</td>' +
-            '<td>' + "----/--/-- --:--" + '</td>' +
-            '<td onclick="Delete_Customer_Info(this)"><i class="fa fa-trash" style="cursor: pointer; font-size: 1.2rem;"></i></td></tr>').insertAfter(document.querySelector(".info_customer_table_green tbody").lastChild)
-        info_elements.forEach(e => {
-            e.value = '';
-        })
-        info_elements[3].value = getTodayTimeLocal();
-    }
+    let soKhachTrongPhong = document.querySelectorAll(".info_customer_table_green tbody tr.new_Insert").length + document.querySelectorAll(".info_customer_table_green tbody tr td i.fa-sign-out").length;
+    CheckDieuKienSoKhachToiDa().then(function (value) {
+        let result = value;
+        if (Number(result) > Number(soKhachTrongPhong)) {
+            let info_elements = document.querySelectorAll(".mini_grid input");
+            if (info_elements[0].value == "" || info_elements[1].value == "" || info_elements[2].value == "" || info_elements[3].value == "") {
+                toastMessage({ title: "Thông báo", message: "Vui lòng điền đầy đủ thông tin", type: "fail" });
+            }
+            else {
+                let loaikhachhang = document.querySelector(".mini_grid select");
+                let stt = document.querySelectorAll(".info_customer_table_green tbody tr").length + 1;
+                $('<tr class = "new_Insert"><td class = "order">' + stt + '</td>' +
+                    '<td>' + info_elements[1].value + '</td>' +
+                    '<td>' + info_elements[0].value + '</td>' +
+                    '<td maloai = ' + loaikhachhang.value + '>' + loaikhachhang.options[loaikhachhang.selectedIndex].text + '</td>' +
+                    '<td>' + info_elements[2].value + '</td>' +
+                    '<td>' + info_elements[3].value.replace("T", " ") + '</td>' +
+                    '<td>' + "----/--/-- --:--" + '</td>' +
+                    '<td onclick="Delete_Customer_Info(this)"><i class="fa fa-trash" style="cursor: pointer; font-size: 1.2rem;"></i></td></tr>').insertAfter(document.querySelector(".info_customer_table_green tbody").lastChild)
+                info_elements.forEach(e => {
+                    e.value = '';
+                })
+                info_elements[3].value = getTodayTimeLocal();
+            }
+        }
+        else {
+            toastMessage({ title: "Thất bại!", message: "Vượt quá số khách tối đa: " + result + "!", type: "fail" });
+        }
+    })
 }
 
 function Render_Data_For_SDP_By_Filter(data) {
