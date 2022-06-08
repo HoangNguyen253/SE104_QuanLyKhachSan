@@ -14,11 +14,5 @@
             get { return tenQuyen; }
             set { tenQuyen = value; }
         }
-        private string tenManHinhDuocLoad;
-        public string TenManHinhDuocLoad
-        {
-            get { return tenManHinhDuocLoad; }
-            set { tenManHinhDuocLoad = value; }
-        }
     }
 }

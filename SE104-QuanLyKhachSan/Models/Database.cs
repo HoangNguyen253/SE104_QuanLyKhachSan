@@ -1571,7 +1571,6 @@ namespace SE104_QuanLyKhachSan.Models
                             Quyen quyen = new Quyen();
                             quyen.MaQuyen = Convert.ToInt32(reader["MaQuyen"]);
                             quyen.TenQuyen = reader["TenQuyen"].ToString();
-                            quyen.TenManHinhDuocLoad = reader["TenManHinhDuocLoad"].ToString();
                             quyens.Add(quyen);
                         }
                         return quyens;
@@ -1627,6 +1626,33 @@ namespace SE104_QuanLyKhachSan.Models
                 cmd.Parameters["@isSucccess"].Direction = ParameterDirection.Output;
                 cmd.ExecuteNonQuery();
                 return Convert.ToBoolean(cmd.Parameters["@isSucccess"].Value);
+            }
+        }
+        public string GetPhanQuyenForSession(int maChucVu)
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+
+                string query = "SELECT pq.MaQuyen " +
+                    "FROM phanquyen pq INNER JOIN chucvu cv on pq.MaChucVu = cv.MaChucVu " +
+                    "WHERE cv.DaXoa = 0 AND pq.MaChucVu = @maChucVu " +
+                    "ORDER BY pq.`MaQuyen` ASC";
+
+                MySqlCommand cmd = new MySqlCommand(query, connectioncheck);
+                cmd.Parameters.AddWithValue("maChucVu", maChucVu);
+                string permissionPerNhanVien = "";
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            permissionPerNhanVien += reader["MaQuyen"].ToString();
+                        }
+                    }
+                    return permissionPerNhanVien;
+                }
             }
         }
         //Nguyên - end
@@ -1866,7 +1892,14 @@ namespace SE104_QuanLyKhachSan.Models
                     ct.LoaiPhong = lp;
                     ct.MaHoaDon = null;
                     ct.ThoiGianNhanPhong = Convert.ToDateTime(result["ThoiGianNhanPhong"]);
-                    ct.ThoiGianTraPhong = Convert.ToDateTime(result["ThoiGianTraPhong"]);
+                    if (result["ThoiGianTraPhong"] == DBNull.Value)
+                    {
+                        ct.ThoiGianTraPhong = Convert.ToDateTime(null);
+                    }
+                    else
+                    {
+                        ct.ThoiGianTraPhong = Convert.ToDateTime(result["ThoiGianTraPhong"]);
+                    }
                     ct.GiaPhong = Convert.ToInt32(result["GiaPhong"]);
                     ct.GhiChu = result["GhiChu"].ToString();
                     ct.TongTienPhong = Convert.ToInt32(result["TongTienPhong"]);
@@ -1999,10 +2032,15 @@ namespace SE104_QuanLyKhachSan.Models
                     {
                         int totalDetail = 0;
                         int mact = detail.MaCTHD;
+                        string maPhong = detail.MaPhong;
                         MySqlCommand cmdUpdateCO = new MySqlCommand(SQLQuery.updateTimeCO, conn);
                         cmdUpdateCO.Parameters.AddWithValue("thoiGianCO", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         cmdUpdateCO.Parameters.AddWithValue("maCT", mact);
                         cmdUpdateCO.ExecuteNonQuery();
+
+                        MySqlCommand cmdUpdatePayRoom = new MySqlCommand(SQLQuery.updatePayRoom, conn);
+                        cmdUpdatePayRoom.Parameters.AddWithValue("maPhong", maPhong);
+                        cmdUpdatePayRoom.ExecuteNonQuery();
 
                         List<SoLuongKhachThue> listSLKT = ConvertToSLKT(mact);
                         foreach (SoLuongKhachThue luongKhach in listSLKT)
@@ -2279,7 +2317,19 @@ namespace SE104_QuanLyKhachSan.Models
                         cmd.Parameters.AddWithValue("thoiGianCI", checkInString);
                         var phuthu = cmd.ExecuteReader();
                         phuthu.Read();
-                        history.PhuThu = Convert.ToInt32(phuthu["TiLePhuThu"]);
+                        if (!phuthu.HasRows)
+                        {
+                            history.PhuThu = 0;
+                        }
+                        else
+                        {
+                            if (phuthu["TiLePhuThu"] == DBNull.Value)
+                            {
+                                history.PhuThu = Convert.ToInt32(0);
+                            }
+                            else
+                                history.PhuThu = Convert.ToInt32(phuthu["TiLePhuThu"]);
+                        }
                         phuthu.Close();
                     }
 
@@ -2290,7 +2340,7 @@ namespace SE104_QuanLyKhachSan.Models
                     cmd.Parameters.AddWithValue("soKhachND", Convert.ToByte(key[0].ToString()));
                     var heso = cmd.ExecuteReader();
                     heso.Read();
-                    if (heso != null)
+                    if (heso["HeSo"] != DBNull.Value)
                     {
                         history.HeSoKhach = (float)Convert.ToDouble(heso["HeSo"]);
                     }
