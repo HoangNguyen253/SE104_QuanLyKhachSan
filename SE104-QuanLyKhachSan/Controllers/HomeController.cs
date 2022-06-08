@@ -78,6 +78,7 @@ namespace SE104_QuanLyKhachSan.Controllers
                 HttpContext.Session.Set<NhanVien>(SessionKeyUser, nv);
                 return path;
             }
+            
         }
         public IActionResult LogOutNhanVien()
         {
@@ -236,7 +237,7 @@ namespace SE104_QuanLyKhachSan.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public JsonResult addRoom(IFormCollection formAdd)
+        public string addRoom(IFormCollection formAdd)
         {
             Phong newRoom = new Phong();
             Database database = new Database();
@@ -244,18 +245,20 @@ namespace SE104_QuanLyKhachSan.Controllers
             newRoom.GhiChu = formAdd["GhiChu"].ToString();
             newRoom.MaPhong = formAdd["MaPhong"].ToString();
             newRoom.Tang = Convert.ToByte(formAdd["Tang"]);
+            newRoom.SoPhong = Convert.ToByte(formAdd["SoPhong"]);
             newRoom.TrangThai = Convert.ToByte(formAdd["TrangThai"]);
-            newRoom.MaLoaiPhong = int.Parse(formAdd["LoaiPhong"]);
-            return Json(database.postNewRoom(newRoom));
+            newRoom.MaLoaiPhong = Convert.ToByte(formAdd["MaLoaiPhong"]);
+
+            return database.postNewRoom(newRoom);
 
         }
-        public JsonResult addStaff(IFormCollection formAdd)
+        public string addStaff(IFormCollection formAdd)
         {
             NhanVien newStaff = new NhanVien();
             Database database = new Database();
 
-            newStaff.MaNhanVien = formAdd["MaNhanVien"].ToString();
-            newStaff.MatKhau = formAdd["MatKhau"].ToString();
+            /*  newStaff.MaNhanVien = ;
+            newStaff.MatKhau =;*/
             newStaff.CCCD = formAdd["CCCD"].ToString();
             newStaff.HoTen = formAdd["HoTen"].ToString();
             newStaff.GioiTinh = Convert.ToByte(formAdd["GioiTinh"]);
@@ -266,30 +269,85 @@ namespace SE104_QuanLyKhachSan.Controllers
             newStaff.MaChucVu = Convert.ToByte(formAdd["MaChucVu"]);
             newStaff.Luong = Convert.ToInt32(formAdd["Luong"]);
 
-            newStaff.HinhAnh = (formAdd["NgaySinh"]).ToString();
-            return Json(database.postNewStaff(newStaff));
+            return database.postNewStaff(newStaff);
 
         }
-        /* public JsonResult getStaff(IFormCollection formAdd)
-         {
-             NhanVien getStaff = new NhanVien();
-             Database database = new Database();
 
-             getStaff.MaNhanVien = formAdd["MaNhanVien"].ToString();
-
-             return Json(database.getChosenStaff(getStaff.MaNhanVien));
-
-         }*/
-
-       /* public JsonResult delPhong(IFormCollection formAdd)
+        public string Reset_Password(string email)
         {
-            Phong phong = new Phong();
-            Database database = new Database();
+            Database db = new Database();
+            int check = db.Reset_Password(email);
+            if(check ==  1)
+            {
+                return "success";
+            }    
+            else if(check == 2)
+            {
+                return "Địa chỉ mail bị lỗi";
+            }    
+            return "Đối mật khẩu không thành công.";
+        }
 
-            phong.MaPhong = formAdd["MaPhong"].ToString();
+       
+        public JsonResult GetPhong()
+        {
+            Database db = new Database();
+            return Json(db.getAllDetailRoom());
+        }
+        public JsonResult GetChosenStaff(string MaNhanVien)
+        {
+            Database db = new Database();
+            return Json(db.getChosenStaff(MaNhanVien));
+        }
+        public JsonResult GetChosenRoom(string MaPhong)
+        {
+            Database db = new Database();
+            return Json(db.getChosenRoom(MaPhong));
+        }
+        public string UpdateStaff(IFormCollection form)
+        {
+            Database db = new Database();
+           NhanVien info_Staf = new NhanVien();
+            info_Staf.CCCD = form["CCCD"].ToString();
+            info_Staf.MaNhanVien = (form["MaNhanVien"]).ToString();
+            info_Staf.MatKhau = (form["MatKhau"]).ToString();
+            info_Staf.HoTen = (form["HoTen"]).ToString();
+            info_Staf.SoDienThoai = (form["SoDienThoai"]).ToString();
+            info_Staf.NgaySinh= Convert.ToDateTime(form["NgaySinh"]);
+  
+            info_Staf.Email = (form["Email"]).ToString();
+            info_Staf.GioiTinh = Convert.ToByte(form["GioiTinh"]);
 
-            return Json(database.deleteRoom(phong.MaPhong));
+            info_Staf.NgayVaoLam = Convert.ToDateTime(form["NgayVaoLam"]);
+            info_Staf.Luong = Convert.ToInt32(form["Luong"]);
+            info_Staf.MaChucVu = Convert.ToByte(form["MaChucVu"]);
 
-        }*/
+            return db.UpdateStaff(info_Staf);
+        }
+        public string UpdateRoom(IFormCollection form)
+        {
+            Database db = new Database();
+            Phong info_Room = new Phong();
+            info_Room.MaPhong = form["MaPhong"].ToString();
+            info_Room.MaLoaiPhong = Convert.ToByte(form["MaLoaiPhong"]);
+            info_Room.Tang = Convert.ToByte(form["Tang"]);
+            info_Room.SoPhong = Convert.ToByte(form["SoPhong"]);
+            info_Room.TrangThai = Convert.ToByte(form["TrangThai"]);
+            info_Room.GhiChu = form["GhiChu"].ToString();
+            return db.UpdateRoom(info_Room);
+        }
+
+        public string DeleteStaff(string MaNV)
+        {
+            Database db = new Database();
+            return db.DeleteStaff(MaNV);
+        }
+        public string DeleteRoom(string MaP)
+        {
+            Database db = new Database();
+            return db.DeleteRoom(MaP);
+        }
+
     }
+
 }

@@ -15,11 +15,5 @@
             get { return tenChucVu; }
             set { tenChucVu = value; }
         }
-        private byte daXoa;
-        public byte DaXoa
-        {
-            get { return daXoa; }
-            set { daXoa = value; }
-        }
     }
 }

@@ -11,6 +11,8 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='~/css/Login/Login.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='~/css/Loading/Loading.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <script>
@@ -54,6 +56,8 @@
             i++;
         }
     </script>
+    <div id="toast_container">
+    </div>
     <main>
         <div class="container">
             <div class="background">
@@ -61,25 +65,58 @@
             </div>
             <div class="content">
                 <div class="headerform">
-                    <img src="~/image/LoginPage/logo.png " alt="logo">
+                    <img src="~/image/LoginPage/logo.png" alt="logo">
                     <p>Gloria</p>
                 </div>
-                <div class="field username">
-                    <div class="label">Mã nhân viên/CCCD/Email/SDT</div>
-                    <input type="text" placeholder="Tên đăng nhập" id="username">
-                    <div id="error-username"></div>
+                <div class="form-container">
+                    <div class="form login">
+                        <div class="field username">
+                            <div class="label">Mã nhân viên/CCCD/Email/SDT</div>
+                            <input type="text" placeholder="Tên đăng nhập" id="username">
+                            <div id="error-username"></div>
+                        </div>
+                        <div class="field password">
+                            <div class="label">Mật khẩu</div>
+                            <input type="password" placeholder="Mật khẩu" id="password">
+                            <div id="error-password"></div>
+                        </div>
+                        <div>
+                            <button class="validate" id="loginButton">Đăng nhập</button>
+                            <div class="forget forward" id="forgetForward">Quên mật khẩu</div>
+                        </div>
+                    </div>
+                    <div class="form forget-pass">
+                        <div class="field email">
+                            <div class="label">Email</div>
+                            <div class="getOTP-container">
+                                <input type="text" placeholder="Email" id="email">
+                                <button class="getOTP" id="getOTPButton">Lấy OTP</button>
+                                <div class="waitanimate">
+                                    <img src="~/image/LoginPage/sending.png">
+                                </div>
+                                <div class="success">
+                                    <img src="~/image/LoginPage/tick.png">
+                                </div>
+                                <div class="fail">
+                                    <img src="~/image/LoginPage/close.png">
+                                </div>
+                            </div>
+                            <div id="error-email"></div>
+                        </div>
+                        <div class="field otp">
+                            <div class="label">Mã OTP</div>
+                            <input type="text" placeholder="Mã OTP" id="otp">
+                            <div id="error-otp"></div>
+                        </div>
+                        <div>
+                            <button class="forget-submit"  id="forgetButton">Quên mật khẩu</button>
+                            <div class="forget forward" id="loginForward">Đăng nhập</div>
+                        </div>
+
+                    </div>
                 </div>
-                <div class="field password">
-                    <div class="label">Mật khẩu</div>
-                    <input type="password" placeholder="Mật khẩu" id="password">
-                    <div id="error-password"></div>
-                </div>
-                <div>
-                    <button class="validate">Đăng nhập</button>
-                </div>
+                
             </div>
-            
-            
         </div>
     </main>
     <script src="~/js/Loading/Loading.js"></script>

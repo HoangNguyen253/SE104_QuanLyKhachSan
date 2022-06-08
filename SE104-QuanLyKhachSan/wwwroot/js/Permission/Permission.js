@@ -29,7 +29,7 @@ submitButton.addEventListener("click", () => {
     let count = 0;
     let stringPermission = "";
     listChucVu.forEach(tr => {
-        if (count != 0) {
+        if (count != 0 && count != 1) {
             let machucvu = tr.getAttribute("machucvu");
             let onePosition = machucvu + "$$"
             let listTD = tr.querySelectorAll("input");
@@ -49,10 +49,10 @@ submitButton.addEventListener("click", () => {
             if (success == "true") {
                 toastMessage({ title: 'Thành công', message: 'Phân quyền thành công', type: 'success', duration: 3500 });
             } else {
-                toastMessage({ title: 'Lỗi', message: 'Phân quyền thất bại', type: 'success', duration: 3500 });
+                toastMessage({ title: 'Lỗi', message: 'Phân quyền thất bại', type: 'fail', duration: 3500 });
             }
         }, function (error) {
-            toastMessage({ title: 'Lỗi đường truyền', message: 'Phân quyền thất bại', type: 'success', duration: 3500 });
+            toastMessage({ title: 'Lỗi đường truyền', message: 'Phân quyền thất bại', type: 'fail', duration: 3500 });
         }
     );
 })

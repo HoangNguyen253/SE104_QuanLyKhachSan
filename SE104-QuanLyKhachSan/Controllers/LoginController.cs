@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using SE104_QuanLyKhachSan.Models;
 using Newtonsoft.Json;
+using System.Text;
+using System;
 
 namespace SE104_QuanLyKhachSan.Controllers
 {
@@ -33,6 +35,67 @@ namespace SE104_QuanLyKhachSan.Controllers
             HttpContext.Session.SetString(SessionKeyPermission, permissionPerNhanVien);
             ViewData["permissionPerNhanVien"] = permissionPerNhanVien;
             return Json(true);
+        }
+        private string GenerateOTP()
+        {
+            int length = 6;
+            const string valid = "1234567890";
+            //const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            return res.ToString();
+        }
+
+        public string GetOTP(string email)
+        {
+            Database db = new Database();
+            string otp = GenerateOTP();
+            if (db.SetOTPForNhanVien(otp, email))
+            {
+                Mailer mail = new Mailer();
+                string bodyMail = "<h2>Chào bạn</h2><p>Mã OTP của bạn là:" + otp + "</p>";
+                if (mail.Send(email, "Mã OTP", bodyMail) == "OK")
+                {
+                    return "true";
+                }
+                else
+                {
+                    return "Lỗi máy chủ. Vui lòng thử lại.";
+                }
+            } else
+            {
+                return "Email sai hoặc không tồn tại";
+            }
+        }
+
+        public string ResetPassword(IFormCollection formData)
+        {
+            string otp = formData["otp"].ToString();
+            string email = formData["email"].ToString();
+            Database db = new Database();
+            int resultStatus = db.ResetPassword(otp, email);
+
+            if(resultStatus == 1)
+            {
+                return "Mã OTP hết hạn";
+            }
+            if (resultStatus == 2)
+            {
+                return "true";
+            }
+            if (resultStatus == 3)
+            {
+                return "Mã OTP không hợp lệ";
+            }
+            if (resultStatus == 5)
+            {
+                return "Lỗi máy chủ gửi mật khẩu mới qua email không thành công";
+            }
+            return "Địa chỉ email không hợp lệ";
         }
     }
     public static class SessionExtensions
