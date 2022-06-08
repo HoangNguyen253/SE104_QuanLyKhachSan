@@ -283,13 +283,13 @@
     z-index: 3;
     opacity: 0;
     pointer-events: none;
-    transition: 0.5s ease;
+    transition: 0.3s ease;
 }
 
     .receive_room_window_green_container.show {
         pointer-events: auto;
         opacity: 1;
-        transition: 0.5s ease;
+        transition: 0.3s ease;
     }
 
 .receive_room_window_green {

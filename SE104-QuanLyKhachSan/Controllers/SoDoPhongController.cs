@@ -94,5 +94,10 @@ namespace SE104_QuanLyKhachSan.Controllers
             string dsKhachThue = formData["thongTinKhachThue_Str"].ToString();
             return database.ThayDoiKhachOFromSDP(maPhong, dsKhachThue);
         }
+        public int GetSoKhachToiDa()
+        {
+            Database database = new Database();
+            return database.GetSoKhachToiDaForThayDoiKhachO();
+        }
     }
 }

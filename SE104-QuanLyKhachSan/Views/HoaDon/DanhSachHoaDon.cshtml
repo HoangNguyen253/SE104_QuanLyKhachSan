@@ -1,0 +1,185 @@
+﻿<link rel='stylesheet' type='text/css' media='screen' href='~/css/HoaDon/DanhSachHoaDon.css'>
+<div id="dshoadon_main_working_window_id" class="working_window_by_option">
+    <div class="filter_dshoadon">
+        <button id="btn_create_new_receipt_dshoadon_main_working_window" onclick="Open_ThemMoiHoaDon_Popup()">Thêm mới <i class="fa fa-plus" style="font-size:1rem; color: #002b49;"></i></button>
+        <form id="filter_dshoadon_info" action="/HoaDon/LoadDataForDanhSachHoaDonByFilter">
+            <input id="date_of_receipt_filter_dshoadon_info" type="date" name="ngayHoaDon">
+            <input id="enter_receipt_code_filter_dshoadon_info" type="number" placeholder="Mã hóa đơn" name="maHoaDon">
+            <button id="search_for_filter_dshoadon_info" type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+    <div class="data_window_dshoadon">
+        <table class="list_receipt_table_data_window_dshoadon">
+            <thead>
+                <tr class="header_list_receipt_table_data_window_dshoadon">
+                    <th class="mahoadon_list_receipt_table_data_window_dshoadon">Mã hóa đơn</th>
+                    <th class="nhanvienthanhtoan_list_receipt_table_data_window_dshoadon">Nhân viên thanh toán</th>
+                    <th class="thoigianxuat_list_receipt_table_data_window_dshoadon">Thời gian xuất</th>
+                    <th class="khachthanhtoan_list_receipt_table_data_window_dshoadon">Khách thanh toán</th>
+                    <th class="tongsotien_list_receipt_table_data_window_dshoadon">Tổng số tiền (VNĐ)</th>
+                    <th class="print_btn_list_receipt_table_data_window_dshoadon"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td style="column-span: 6">Không có hóa đơn nào</td>
+            </tbody>
+        </table>
+    </div>
+    <!-- Pop up thêm mới hóa đơn - begin -->
+    <div class="add_receipt_window_popup_container" id="add_receipt_window_popup_container_id">
+        <div class="add_receipt_window_popup">
+            <div class="header_add_receipt_window_popup">
+                <div class="header_name_add_receipt_window_popup">THÊM MỚI HÓA ĐƠN</div>
+                <i class="fa fa-close header_close_add_receipt_window_popup" style="font-size: 1.5rem;" id="header_close_add_receipt_window_popup_id"
+                   onclick="Close_ThemMoiHoaDon_Popup()"></i>
+            </div>
+            <div class="body_add_receipt_window_popup">
+                <p class="title_body_add_receipt_window_popup">HÓA ĐƠN THANH TOÁN DỊCH VỤ</p>
+                <div class="info_body_add_receipt_window_popup">
+                    <div class="field_name_in_info_body_add_receipt_window_popup">Thông tin hóa đơn</div>
+                    <div class="thongtinhoadon_info_body_add_receipt_window_popup">
+                        <div class="data_field_in_thongtinhoadon_info_body_add_receipt_window_popup">
+                            <p>Nhân viên thu ngân: </p>
+                            <input disabled type="text">
+                        </div>
+                        <div class="data_field_in_thongtinhoadon_info_body_add_receipt_window_popup">
+                            <p>Ngày hóa đơn: </p>
+                            <input disabled type="text">
+                        </div>
+                        <div class="data_field_in_thongtinhoadon_info_body_add_receipt_window_popup">
+                            <p>Khách thanh toán (<span style="color: red;">*</span>): </p>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="field_name_in_info_body_add_receipt_window_popup">Chi tiết hóa đơn</div>
+                    <div class="search_idphong_info_body_add_receipt_window_popup">
+                        <p>Mã phòng:</p>
+                        <input type="text" id="idphong_need_paid_id">
+                        <button id="add_idphong_need_paid_into_receipt_id" onclick="Add_Pay_Room_Table()">Thêm</button>
+                    </div>
+                    <div class="receipt_table_field_in_info_body_add_receipt_window_popup">
+                        <table class="receipt_table_in_info_body_add_receipt_window_popup">
+                            <thead>
+                                <tr class="header_table_in_info_body_add_receipt_window_popup">
+                                    <th class="stt_receipt_table_field_in_add_receipt_window_popup">#</th>
+                                    <th class="service_receipt_table_field_in_add_receipt_window_popup">Phòng</th>
+                                    <th class="roomtype_receipt_table_field_in_add_receipt_window_popup">Loại phòng</th>
+                                    <th class="checkin_receipt_table_field_in_add_receipt_window_popup">Checkin</th>
+                                    <th class="checkout_receipt_table_field_in_add_receipt_window_popup">Checkout</th>
+                                    <th class="function_receipt_table_field_in_add_receipt_window_popup"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="function_add_receipt_window_field">
+                        <button id="btn_export_add_receipt_window" onclick="Create_New_Receipt()">Xuất</button>
+                        <button id="btn_cancel_add_receipt_window" onclick="Close_ThemMoiHoaDon_Popup()">Hủy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pop up thêm mới hóa đơn - end -->
+    <!-- Pop up hóa đơn bản pdf để in - begin -->
+    <div class="receipt_export_print_popup_window_container" id="receipt_export_print_popup_window_container_id">
+        <div class="receipt_export_print_popup_window">
+            <div class="body_receipt_export_print_popup_window">
+                <div class="content_receipt_export_print_popup_window"
+                     id="content_receipt_export_print_popup_window_id">
+                    <div class="header_content_receipt_export_print_popup_window">
+                        <img id="logo_header_content_receipt_export_print_popup_window" src="~/image/Layout/background.jpg"
+                             alt="Del Lunar Logo">
+                        <div>
+                            <div id="hotel_name_header_content_receipt_export_print_popup_window_id">Gloria</div>
+                            <p id="address_header_content_receipt_export_print_popup_window_id">
+                                Địa chỉ: Khu phố 6, Linh Trung, Thủ Đức, TP Hồ Chí Minh
+                            </p>
+                            <div class="email_sdt_header_content_receipt_export_print_popup_window">
+                                <p>SĐT: 702.590.7111</p>
+                                <p>Email: gloria@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="title_content_receipt_export_print_popup_window">HÓA ĐƠN THANH TOÁN DỊCH VỤ</div>
+                    <div class="info_content_receipt_export_print_popup_window">
+                        <div>
+                            <p>Ngày <span id="receipt_date_receipt_export_print_popup_window_id">@*05/01/2021*@</span></p>
+                            <p>Khách hàng: <span id="receipt_customer_receipt_export_print_popup_window_id">@*Nguyễn Lê Vinh*@</span></p>
+                            <p>Thu ngân: <span id="receipt_staff_receipt_export_print_popup_window_id">@*Nguyễn Văn A*@</span></p>
+                        </div>
+                        <p>Hóa đơn số: <span id="number_receipt_receipt_export_print_popup_window_id">@*100*@</span></p>
+                    </div>
+                    <table class="receipt_detail_table_content_receipt_export_print_popup_window">
+                        <colgroup>
+                            <col span="1" width="3%">
+                            <col span="1" width="7%">
+                            <col span="1" width="10%">
+                            <col span="1" width="10%">
+                            <col span="1" width="12%">
+                            <col span="1" width="12%">
+                            <col span="1" width="12%">
+                            <col span="1" width="10%">
+                            <col span="1" width="12%">
+                            <col span="1" width="12%">
+                        </colgroup>
+                        <thead>
+                            <tr class="header_receipt_detail_table_content_receipt_export_print_popup_window">
+                                <th>#</th>
+                                <th>Phòng</th>
+                                <th>Số người thuê</th>
+                                <th>Số ngày thuê</th>
+                                <th>Phụ thu</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                                <th>Ghi chú</th>
+                                <th>PT CICO</th>
+                                <th>Tổng cộng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*<tr>
+                                <td rowspan="2">1</td>
+                                <td rowspan="2">0101</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>100.000</td>
+                                <td>1.000.000</td>
+                                <td>1.000.000</td>
+                                <td>Phụ thu: 20%<br>Hệ số: 1.5</td>
+                                <td rowspan="2">500.000</td>
+                                <td rowspan="2">500.000</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>100.000</td>
+                                <td>1.000.000</td>
+                                <td>1.000.000</td>
+                                <td>Phụ thu: 20%<br>Hệ số: 1.5</td>
+                            </tr>*@
+                        </tbody>
+                    </table>
+                    <div class="cal_price_content_receipt_export_print_popup_window">
+                        <div>
+                            <div class="cal_price_detail_content_receipt_export_print_popup_window">
+                                <p>Tổng số tiền:</p>
+                                <p id="cal_price_value_receipt_export_print_popup_window_id">@*2.350.000 VNĐ*@</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="function_receipt_export_print_popup_window_container">
+                    <button id="btn_cancel_receipt_export_print_popup_window_container" onclick="Close_HoaDon_Printed()">Hủy</button>
+                    <button id="btn_print_receipt_export_print_popup_window_container" onclick="Export_Receipt_ToPDF()">
+                        In <i class="fa fa-print"
+                              style="font-size:1rem"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pop up hóa đơn bản pdf để in - end -->
+</div>
+<script src="~/js/HoaDon/HoaDon.js"></script>

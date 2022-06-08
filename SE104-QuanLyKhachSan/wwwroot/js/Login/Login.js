@@ -59,3 +59,10 @@ signInButton.addEventListener('click', () => {
         xhr_login.send(formLogin);
     }
 });
+userNameInput.focus();
+passwordInput.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        signInButton.click();
+    }
+});

@@ -1,0 +1,280 @@
+﻿<link rel='stylesheet' type='text/css' media='screen' href='~/css/PhieuThuePhong/DanhSachThuePhong.css'>
+<div id="dsthuephong_main_working_window_id">
+    <div class="filter_dsthuephong">
+        <form id="filter_dsthuephong_info" action="/PhieuThuePhong/LoadDataForDSTPByFilter">
+            <input id="date_of_thuephong_filter_dsthuephong_info" type="date" name="ngayDenO">
+            <input id="enter_cccd_khachthue_filter_dsthuephong_info" type="number" placeholder="CCCD khách thuê" name="CCCD">
+            <input id="enter_maphong_filter_dsthuephong_info" type="text" placeholder="Mã phòng" name="maPhong">
+            <button id="search_for_filter_dsthuephong_info" type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+    <div class="data_window_dsthuephong">
+        <table class="list_thuephong_table_data_window_dsthuephong">
+            <thead>
+                <tr class="header_list_thuephong_table_data_window_dsthuephong">
+                    <th class="stt_list_thuephong_table_data_window_dsthuephong">#</th>
+                    <th class="maphong_list_thuephong_table_data_window_dsthuephong">Mã phòng</th>
+                    <th class="loaiphong_list_thuephong_table_data_window_dsthuephong">Loại phòng</th>
+                    <th class="tungay_list_thuephong_table_data_window_dsthuephong">Từ ngày</th>
+                    <th class="denngay_list_thuephong_table_data_window_dsthuephong">Đến ngày</th>
+                    <th class="trangthai_list_thuephong_table_data_window_dsthuephong">Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="stt_list_thuephong_table_data_window_dsthuephong">1</td>
+                    <td class="maphong_list_thuephong_table_data_window_dsthuephong">0101</td>
+                    <td class="loaiphong_list_thuephong_table_data_window_dsthuephong">Standard Room</td>
+                    <td class="tungay_list_thuephong_table_data_window_dsthuephong">02/01/2021 12:00 AM</td>
+                    <td class="denngay_list_thuephong_table_data_window_dsthuephong">02/01/2021 12:00 AM</td>
+                    <td class="trangthai_list_thuephong_table_data_window_dsthuephong">Đang thuê</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pop up hóa đơn bản pdf để in - begin -->
+    <div class="thongtinchitietthuephong_popup_window_container" id="thongtinchitietthuephong_popup_window_container_id">
+        <div class="thongtinchitietthuephong_popup_window">
+            <div class="body_thongtinchitietthuephong_popup_window">
+                <div class="content_thongtinchitietthuephong_popup_window"
+                     id="content_thongtinchitietthuephong_popup_window_id">
+                    <div class="header_content_thongtinchitietthuephong_popup_window">
+                        <img id="logo_header_content_thongtinchitietthuephong_popup_window" src="~/image/Layout/background.jpg"
+                             alt="Gloria Logo">
+                        <div>
+                            <div id="hotel_name_header_content_thongtinchitietthuephong_popup_window_id">Gloria</div>
+                            <p id="address_header_content_thongtinchitietthuephong_popup_window_id">Địa chỉ: Khu phố 6, Linh Trung, Thủ Đức, Hồ Chí Minh</p>
+                            <div class="email_sdt_header_content_thongtinchitietthuephong_popup_window">
+                                <p>SĐT: 702.590.7111</p>
+                                <p>Email: gloria@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="title_content_thongtinchitietthuephong_popup_window">THÔNG TIN DỊCH VỤ THUÊ PHÒNG</div>
+                    <table class="receipt_detail_table_content_thongtinchitietthuephong_popup_window">
+                        <colgroup>
+                            <col span="1" width="7%">
+                            <col span="1" width="10%">
+                            <col span="1" width="10%">
+                            <col span="1" width="12%">
+                            <col span="1" width="12%">
+                            <col span="1" width="12%">
+                            <col span="1" width="12%">
+                            <col span="1" width="15%">
+                        </colgroup>
+                        <thead>
+                            <tr class="header_receipt_detail_table_content_thongtinchitietthuephong_popup_window">
+                                <th>Phòng</th>
+                                <th>Số người thuê</th>
+                                <th>Số ngày thuê</th>
+                                <th>Phụ thu</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                                <th>Ghi chú</th>
+                                <th>PT CICO</th>
+                                <th>Tổng cộng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*<tr>
+                                    <td rowspan="2">0101</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>100.000</td>
+                                    <td>1.000.000</td>
+                                    <td>1.000.000</td>
+                                    <td>Phụ thu: 20%<br>Hệ số: 1.5</td>
+                                    <td rowspan="2">500.000</td>
+                                    <td rowspan="2">500.000</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>100.000</td>
+                                    <td>1.000.000</td>
+                                    <td>1.000.000</td>
+                                    <td>Phụ thu: 20%<br>Hệ số: 1.5</td>
+                                </tr>*@
+                        </tbody>
+                    </table>
+                    <div class="thongtinchung_content_thongtinchitietthuephong_popup_window">
+                        <div>
+                            @*<div class="thongtinchung_detail_content_thongtinchitietthuephong_popup_window">
+                                    <p>Từ ngày:</p>
+                                    <p>22/08/2022</p>
+                                </div>
+                                <div class="thongtinchung_detail_content_thongtinchitietthuephong_popup_window">
+                                    <p>Đến ngày:</p>
+                                    <p>22/08/2022</p>
+                                </div>
+                                <div class="thongtinchung_detail_content_thongtinchitietthuephong_popup_window">
+                                    <p>Trạng thái:</p>
+                                    <p>Đã thanh toán</p>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="function_thongtinchitietthuephong_popup_window_container">
+                    <button id="btn_cancel_thongtinchitietthuephong_popup_window_container" onclick="Close_Detail_PhieuThuePhong()">Đóng</button>
+                    <button id="btn_print_thongtinchitietthuephong_popup_window_container" onclick="Export_PhieuThuePhong_ToPDF()">
+                        In <i class="fa fa-print"
+                              style="font-size:1rem"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pop up hóa đơn bản pdf để in - end -->
+    <!-- Menu context - begin -->
+    <div id="context_menu_dstp_id">
+        <ul>
+        </ul>
+    </div>
+    <!-- Menu context - end -->
+    @*Xác nhận thanh toán phiếu thuê bỏ phòng - begin*@
+    <div class="xacnhanthanhtoanbophong_popup_container" id="xacnhanthanhtoanbophong_popup_container_id">
+        <div class="xacnhanthanhtoanbophong_popup">
+            <div class="header_xacnhanthanhtoanbophong_popup">
+                <div class="header_name_xacnhanthanhtoanbophong_popup">XÁC NHẬN THANH TOÁN</div>
+                <i class="fa fa-close header_close_xacnhanthanhtoanbophong_popup" style="font-size: 1.5rem;" id="header_close_xacnhanthanhtoanbophong_popup_id"
+                   onclick="Close_XacNhanThanhToanBoPhong_Popup()"></i>
+            </div>
+            <div class="body_xacnhanthanhtoanbophong_popup">
+                <div class="title_name_xacnhanthanhtoanbophong_popup">THANH TOÁN PHIẾU THUÊ BỎ PHÒNG</div>
+                <div class="content_xacnhanthanhtoanbophong_popup">
+                    <p>Mã phòng: </p>
+                    <input type="text" disabled>
+                    <p>Từ ngày: </p>
+                    <input type="text" disabled>
+                    <p>Đến ngày: </p>
+                    <input type="text" disabled>
+                    <p>Khách thanh toán(<span>*</span>): </p>
+                    <input type="text">
+                </div>
+                <div class="function_xacnhanthanhtoanbophong_popup">
+                    <button id="btn_confirm_xacnhanthanhtoanbophong_popup" onclick="Open_Receipt_PhieuBoPhong(this)">Thanh toán</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Xác nhận thanh toán phiếu thuê bỏ phòng - end*@
+    <!-- Pop up hóa đơn bản pdf để in - begin -->
+    <div class="receipt_export_print_popup_window_container" id="receipt_export_print_popup_window_container_id">
+        <div class="receipt_export_print_popup_window">
+            <div class="body_receipt_export_print_popup_window">
+                <div class="content_receipt_export_print_popup_window"
+                     id="content_receipt_export_print_popup_window_id">
+                    <div class="header_content_receipt_export_print_popup_window">
+                        <img id="logo_header_content_receipt_export_print_popup_window" src="~/image/Layout/background.jpg"
+                             alt="Del Lunar Logo">
+                        <div>
+                            <div id="hotel_name_header_content_receipt_export_print_popup_window_id">Gloria</div>
+                            <p id="address_header_content_receipt_export_print_popup_window_id">
+                                Địa chỉ: 3730 South Las
+                                Vegas Boulevard Las Vegas, NV 18915
+                            </p>
+                            <div class="email_sdt_header_content_receipt_export_print_popup_window">
+                                <p>SĐT: 702.590.7111</p>
+                                <p>Email: gloria@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="title_content_receipt_export_print_popup_window">HÓA ĐƠN THANH TOÁN DỊCH VỤ</div>
+                    <div class="info_content_receipt_export_print_popup_window">
+                        <div>
+                            <p>Ngày <span id="receipt_date_receipt_export_print_popup_window_id">@*05/01/2021*@</span></p>
+                            <p>Khách hàng: <span id="receipt_customer_receipt_export_print_popup_window_id">@*Nguyễn Lê Vinh*@</span></p>
+                            <p>Thu ngân: <span id="receipt_staff_receipt_export_print_popup_window_id">@*Nguyễn Văn A*@</span></p>
+                        </div>
+                        <p>Hóa đơn số: <span id="number_receipt_receipt_export_print_popup_window_id">@*100*@</span></p>
+                    </div>
+                    <table class="receipt_detail_table_content_receipt_export_print_popup_window">
+                        <colgroup>
+                            <col span="1" width="3%">
+                            <col span="1" width="7%">
+                            <col span="1" width="10%">
+                            <col span="1" width="10%">
+                            <col span="1" width="12%">
+                            <col span="1" width="12%">
+                            <col span="1" width="12%">
+                            <col span="1" width="10%">
+                            <col span="1" width="12%">
+                            <col span="1" width="12%">
+                        </colgroup>
+                        <thead>
+                            <tr class="header_receipt_detail_table_content_receipt_export_print_popup_window">
+                                <th>#</th>
+                                <th>Phòng</th>
+                                <th>Số người thuê</th>
+                                <th>Số ngày thuê</th>
+                                <th>Phụ thu</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                                <th>Ghi chú</th>
+                                <th>PT CICO</th>
+                                <th>Tổng cộng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*<tr>
+                                    <td rowspan="2">1</td>
+                                    <td rowspan="2">0101</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>100.000</td>
+                                    <td>1.000.000</td>
+                                    <td>1.000.000</td>
+                                    <td>Phụ thu: 20%<br>Hệ số: 1.5</td>
+                                    <td rowspan="2">500.000</td>
+                                    <td rowspan="2">500.000</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>100.000</td>
+                                    <td>1.000.000</td>
+                                    <td>1.000.000</td>
+                                    <td>Phụ thu: 20%<br>Hệ số: 1.5</td>
+                                </tr>*@
+                        </tbody>
+                    </table>
+                    <div class="cal_price_content_receipt_export_print_popup_window">
+                        <div>
+                            <div class="cal_price_detail_content_receipt_export_print_popup_window">
+                                <p>Tổng số tiền:</p>
+                                <p id="cal_price_value_receipt_export_print_popup_window_id">@*2.350.000 VNĐ*@</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="function_receipt_export_print_popup_window_container">
+                    <button id="btn_cancel_receipt_export_print_popup_window_container" onclick="Close_HoaDonBoPhong_Printed()">Hủy</button>
+                    <button id="btn_print_receipt_export_print_popup_window_container" onclick="Export_HoaDonBoPhong_ToPDF()">
+                        In <i class="fa fa-print"
+                              style="font-size:1rem"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pop up hóa đơn bản pdf để in - end -->
+    @*Confirm hủy phiếu thuê phòng - begin*@
+    <div class="notification_confirm_delete_phieuthue_window_container" id="notification_confirm_delete_phieuthue_window_container_id">
+        <div class="notification_confirm_delete_phieuthue_window">
+            <div class="header_notification_confirm_delete_phieuthue_window">
+                <div class="header_name_notification_confirm_delete_phieuthue_window">XÓA NHÂN VIÊN</div>
+                <i class="fa fa-close header_close_notification_confirm_delete_phieuthue_window" style="font-size: 1.5rem;" id="header_close_notification_confirm_delete_phieuthue_window_id" onclick="Close_Confirm_HuyPhieuThue_Popup()"></i>
+            </div>
+            <div class="body_notification_confirm_delete_phieuthue_window">
+                <div class="content_notification_confirm_delete_phieuthue_window">@*Bạn chắc chắn muốn hủy phiếu thuê phòng?<br>Mã phòng: 0203*@</div>
+                <div class="function_notification_confirm_delete_phieuthue_window">
+                    <button id="btn_confirm_notification_delete_phieuthue_window" onclick="XacNhan_HuyPhieuThuePhong(this)">Xóa</button>
+                    <button id="btn_cancel_notification_delete_phieuthue_window" onclick="Close_Confirm_HuyPhieuThue_Popup()">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Confirm hủy phiếu thuê phòng - end*@
+</div>
+<script src="~/js/PhieuThuePhong/DanhSachThuePhong.js"></script>

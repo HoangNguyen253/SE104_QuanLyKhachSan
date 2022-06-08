@@ -52,8 +52,8 @@
             set { phuThu = value; }
         }
 
-        private float heSoKhach;
-        public float HeSoKhach
+        private double heSoKhach;
+        public double HeSoKhach
         {
             get { return heSoKhach; }
             set { heSoKhach = value; }

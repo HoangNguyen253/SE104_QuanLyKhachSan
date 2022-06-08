@@ -23,6 +23,7 @@
     height: 36px; 
     background-color: var(--background-button);
     border: none;
+
 }
 
 .taskbar__add_button {

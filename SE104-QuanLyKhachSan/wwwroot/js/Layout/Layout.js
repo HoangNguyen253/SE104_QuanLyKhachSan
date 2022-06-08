@@ -35,7 +35,18 @@ $(document).ready(function (e) {
             arrow_option_burger_menu.classList.toggle("rotate_90_icon_arrow");
         });
     });
-
+    var selection_menu_burger = document.querySelectorAll(".selection_name_icon");
+    selection_menu_burger.forEach(function (selection) {
+        selection.addEventListener("click", function (e) {
+            for (let s of selection_menu_burger) {
+                if (s.classList.contains("chosen_selection_menu_burger")) {
+                    s.classList.remove("chosen_selection_menu_burger");
+                    break;
+                }
+            }
+            e.target.classList.add("chosen_selection_menu_burger");
+        })
+    })
     let qltpSelectionField = document.querySelector("#selection_field_qltp_menu_burger_id");
     if (qltpSelectionField != null) {
         $('#selection_field_qltp_menu_burger_id').hide();
@@ -55,7 +66,7 @@ $(document).ready(function (e) {
 
         $('#dshoadon_selection_name_icon_id').click(function () {
             $.ajax({
-                url: '/Home/ListBill',
+                url: '/HoaDon/DanhSachHoaDon',
                 success: function (data, status) {
                     $('#main_working_window_id').html(data);
                 }
@@ -64,10 +75,9 @@ $(document).ready(function (e) {
 
         $('#tracuuthuephong_selection_name_icon_id').click(function () {
             $.ajax({
-                url: '/Home/ListDetail',
+                url: '/PhieuThuePhong/DanhSachThuePhong',
                 success: function (data, status) {
                     $('#main_working_window_id').html(data);
-
                 }
             })
         });
