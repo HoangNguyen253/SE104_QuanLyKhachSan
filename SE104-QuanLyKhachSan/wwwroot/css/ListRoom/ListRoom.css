@@ -171,7 +171,7 @@ i.fa-mars {
     width: 100vw;
     top: 0;
     left: 0;
-    z-index: 1001;
+    z-index: 10;
     opacity: 0;
     pointer-events: none;
     transition: 0.5s ease;
@@ -184,6 +184,39 @@ i.fa-mars {
         opacity: 1;
         transition: 0.5s ease;
     }
+.room_profile_popup_window_container.show.suaphong #edit_button_room_popup {
+    display: inline;
+}
+.room_profile_popup_window_container.show #add_info_popup_window_room_button {
+    display: inline;
+}
+.room_profile_popup_window_container.show #edit_button_room_popup {
+    display: none;
+}
+.room_profile_popup_window_container.show.suaphong #add_info_popup_window_room_button {
+    display: none;
+}
+.room_profile_popup_window_container.show.suaphong #edit_button_room_popup {
+    display: inline;
+}
+
+.require:after {
+    content: "*";
+    color: red;
+    font-style: italic;
+}
+
+.ChuThich {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+    .ChuThich:after {
+        content: "  * : bắt buộc";
+        color: red;
+        font-style: italic;
+    }
+
 
 .room_profile_popup_window {
     width: 50vw;
