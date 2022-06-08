@@ -18,6 +18,7 @@ $(document).ready(function (e) {
         {
             document.getElementById("staff_profile_popup_add_window_container_id").classList.remove('suanhanvien');
             document.getElementById('MaNhanVien').disabled = false;
+            document.getElementById('MatKhau').hidden;
        
             }
     })
@@ -136,6 +137,7 @@ function validateForm() {
     //let listMaNhanVien = document.querySelectorAll('.data_cell manhanvien').values;
 
 
+    var email = document.getElementById("Email").value;
 
     var maNhanVien = document.getElementById("MaNhanVien").value;
     var matKhau = document.getElementById("MatKhau").value;
@@ -146,17 +148,12 @@ function validateForm() {
     var ngayVaoLam = document.getElementById("NgayVaoLam").value;
     var luong = document.getElementById("Luong").value;
 
-  /*  for (let i = 0; i <= listMaNhanVien.length; i++) {
-        if (maNhanVien == listMaNhanVien[i]) {
-            toastMessage({ title: 'Lỗi Thêm Nhân Viên', message: 'Mã nhân viên đã tồn tại', type: 'fail', duration: 3500 });
-            return false;
-        }
-    }*/
-    if (maNhanVien.length != 6) {
+
+  /*  if (maNhanVien.length != 6) {
         toastMessage({ title: 'Lỗi Nhân Viên', message: 'Mã nhân viên phải đủ 6 ký tự', type: 'fail', duration: 3500 });
         return false;
-    }
-    if (matKhau == "" || maNhanVien == "" || hoTen == "" || ngaySinh == "" || ngayVaoLam == "" || luong == "" || CCCD=="") {
+    }*/
+    if ( hoTen == "" || ngaySinh == "" || ngayVaoLam == "" || luong == "" || CCCD=="" || email=="") {
         toastMessage({ title: 'Lỗi Nhân Viên', message: 'Điền đủ vào các trường bắt buộc', type: 'fail', duration: 3500 });
         return false;
     }
@@ -182,10 +179,10 @@ function validateForm() {
             return false;
         }
     }
-    if (matKhau.length < 8) {
+  /*  if (matKhau.length < 8) {
         toastMessage({ title: 'Lỗi Nhân Viên', message: 'Mật khẩu ít nhất 8 ký tự', type: 'fail', duration: 3500 });
         return false;
-    }
+    }*/
     return true;
  
 }
@@ -322,7 +319,7 @@ for (let i = 0; i < listbc.length; i++) {
                         console.log(123);
                     }
                     else {
-                        toastMessage({ title: 'Fail', message: 'Xóa thất bại', type: 'fail', duration: 3500 });
+                        toastMessage({ title: 'Thất bại', message: 'Xóa thất bại', type: 'fail', duration: 3500 });
                     }
                 }
 
@@ -331,6 +328,42 @@ for (let i = 0; i < listbc.length; i++) {
         }
     });
 }
+function Reset_Password() {
+    let email = document.getElementById('Email').value;
+    loadingElement.show();
+
+
+
+    let xhr = new XMLHttpRequest();
+    let url = "https://localhost:5001/Home/Reset_Password?email=" + email;
+    xhr.open("GET", url, true);
+    xhr.timeout = 20000;
+    xhr.onreadystatechange = function () {
+
+
+
+        loadingElement.hide();
+
+
+
+        if (xhr.readyState == 4 && xhr.status == 200) {
+
+            let result = xhr.responseText;
+            if (result == "success") {
+                toastMessage({ title: 'Thành công', message: 'Đổi mật khẩu thành công', type: 'success', duration: 3500 });
+            }
+            else {
+                toastMessage({ title: 'Thất bại', message: result, type: 'fail', duration: 3500 });
+            }
+        }
+
+    }
+    xhr.send();
+
+}
+
+
+
 
 
 

@@ -257,8 +257,8 @@ namespace SE104_QuanLyKhachSan.Controllers
             NhanVien newStaff = new NhanVien();
             Database database = new Database();
 
-            newStaff.MaNhanVien = formAdd["MaNhanVien"].ToString();
-            newStaff.MatKhau = formAdd["MatKhau"].ToString();
+            /*  newStaff.MaNhanVien = ;
+            newStaff.MatKhau =;*/
             newStaff.CCCD = formAdd["CCCD"].ToString();
             newStaff.HoTen = formAdd["HoTen"].ToString();
             newStaff.GioiTinh = Convert.ToByte(formAdd["GioiTinh"]);
@@ -273,7 +273,20 @@ namespace SE104_QuanLyKhachSan.Controllers
 
         }
 
-   
+        public string Reset_Password(string email)
+        {
+            Database db = new Database();
+            int check = db.Reset_Password(email);
+            if(check ==  1)
+            {
+                return "success";
+            }    
+            else if(check == 2)
+            {
+                return "Địa chỉ mail bị lỗi";
+            }    
+            return "Đối mật khẩu không thành công.";
+        }
 
        
         public JsonResult GetPhong()
