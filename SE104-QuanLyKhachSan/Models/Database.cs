@@ -3198,7 +3198,7 @@ throw;
                     string str = " UPDATE `phong` SET TrangThai = @matrangthai WHERE MaPhong = @map ";
                     MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
                     cmd.Parameters.AddWithValue("map", MaPhong);
-                    cmd.Parameters.AddWithValue("matrangthai", 0);
+                    cmd.Parameters.AddWithValue("matrangthai", 5);
                     int check = cmd.ExecuteNonQuery();
                     if (check >= 1)
                         return "fired";

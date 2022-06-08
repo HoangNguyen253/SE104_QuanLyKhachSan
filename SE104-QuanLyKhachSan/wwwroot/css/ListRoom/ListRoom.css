@@ -42,8 +42,8 @@
 .main_working_window select {
     width: 152px;
     height: 33px;
-    text-align: center;
-    font-size: 20px;
+    font-size: 18px;
+    text-align: left;
 }
 
 
@@ -243,6 +243,7 @@ i.fa-mars {
 .header_name_room_profile_popup_window {
     font-weight: 500;
     margin: 0.5rem;
+  
 }
 
 .header_close_room_profile_popup_window {
@@ -280,8 +281,14 @@ i.fa-mars {
     .code_room_profile_popup_window input {
         border: 1px solid #000000;
         box-sizing: border-box;
-        padding-left: 11px;
+     
         width: 197px;
+        text-align: left;
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-size: 13px;
+        line-height: 16px;
+      
     }
 
 #code_room_profile_popup_window {
@@ -298,6 +305,7 @@ i.fa-mars {
     line-height: 16px;
     padding-left: 2rem;
 }
+
 
 .data_info_room_profile_popup_window_container {
     display: grid;
@@ -323,7 +331,10 @@ input.input_data_info_room_profile_popup_window {
     background: #FFFFFF;
     border: 1px solid #000000;
     box-sizing: border-box;
-
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-size: 13px;
+    line-height: 16px;
 }
 
 select.input_data_info_room_profile_popup_window {
@@ -333,7 +344,11 @@ select.input_data_info_room_profile_popup_window {
     border: 1px solid #000000;
     box-sizing: border-box;
     margin-left: 10px;
- 
+    text-align: left;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-size: 13px;
+    line-height: 16px;
 }
 
 .footer_room_profile_popup_window {
