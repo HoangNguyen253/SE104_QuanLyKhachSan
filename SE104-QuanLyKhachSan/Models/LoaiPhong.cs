@@ -23,12 +23,5 @@ namespace SE104_QuanLyKhachSan.Models
             get { return giaTienCoBan; }
             set { giaTienCoBan = value; }
         }
-
-        private byte daXoa;
-        public byte DaXoa
-        {
-            get { return daXoa; }
-            set { daXoa = value; }
-        }
     }
 }

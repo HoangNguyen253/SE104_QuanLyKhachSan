@@ -35,6 +35,9 @@ let subPopup = popupContainer.querySelector(".sub-popup-container .sub-popup");
 let confirmPopupContainer = document.querySelector(".main_working_window .confirm-popup-container");
 let confirmPopup = document.querySelector(".main_working_window .confirm-popup-container .confirm-popup");
 
+let historyPopupContainer = document.querySelector(".main_working_window .history-popup-container");
+let historyPopup = document.querySelector(".main_working_window .history-popup-container .history-popup");
+
 let buttonChangeInPopup = popup.querySelector(".footer-popup button.blue-button");
 
 function resetEventListenerForChangeButtonInPopup() {
@@ -55,6 +58,11 @@ function SHOWbuttonChangeInPopup() {
 function showPopup() {
     popupContainer.style.display = "flex";
     popup.style.display = "block";
+}
+
+function showHistoryPopup() {
+    historyPopupContainer.style.display = "flex";
+    historyPopup.style.display = "block";
 }
 
 function resetEventListenerForChangeButton() {
@@ -275,18 +283,17 @@ function updateAndAddLoaiPhongClick(item, isUpdate) {
     let buttonSubmit = subPopup.querySelector(".footer-popup .blue-button");
     buttonSubmit.disabled = false;
 
-    inputTenLoaiPhong.focus();
     if (isUpdate == true) {
         buttonSubmit.disabled = true;
         inputTenLoaiPhong.addEventListener("input", () => {
-            if (inputTenLoaiPhong.value == baseTenLoaiPhong && inputGiaTienCoBan.value == baseGiaTienCoBan) {
+            if (inputTenLoaiPhong.value.trim() == baseTenLoaiPhong && inputGiaTienCoBan.value == baseGiaTienCoBan) {
                 buttonSubmit.disabled = true;
                 return;
             }
             buttonSubmit.disabled = false;
         })
         inputGiaTienCoBan.addEventListener("input", () => {
-            if (inputTenLoaiPhong.value == baseTenLoaiPhong && inputGiaTienCoBan.value == baseGiaTienCoBan) {
+            if (inputTenLoaiPhong.value.trim() == baseTenLoaiPhong && inputGiaTienCoBan.value == baseGiaTienCoBan) {
                 buttonSubmit.disabled = true;
                 return;
             }
@@ -297,8 +304,8 @@ function updateAndAddLoaiPhongClick(item, isUpdate) {
     //add event for change button
     buttonSubmit.addEventListener("click", (e) => {
         let maLoaiPhong = subPopup.querySelector(".content-popup .table-container table").getAttribute("maloaiphong");
-        let tenLoaiPhong = inputTenLoaiPhong.value;
-        let giaTienCoBan = inputGiaTienCoBan.value;
+        let tenLoaiPhong = inputTenLoaiPhong.value.trim();
+        let giaTienCoBan = inputGiaTienCoBan.value.trim();
         if (tenLoaiPhong == "" || giaTienCoBan == 0) {
             toastMessage({ title: 'Lỗi', message: 'Trường giá tiền và tên loại phòng không được phép trống!', type: 'fail', duration: 3500 })
         } else {
@@ -318,7 +325,6 @@ function updateAndAddLoaiPhongClick(item, isUpdate) {
                     function (value) {
                         if (value == "true") {
                             loadPopupLoaiPhong();
-                            
                             closeSubPopup();
                         } else {
                             toastMessage({ title: 'Thêm thất bại', message: 'Đã có loại phòng ' + tenLoaiPhong + ' trong hệ thống.', type: 'fail', duration: 3500 })
@@ -471,23 +477,17 @@ function loadPopupLoaiPhong() {
 
                     let confirmButton = confirmPopup.querySelector(".footer-popup .blue-button");
                     confirmButton.addEventListener('click', () => {
-                        deleteLoaiPhongConfirm(DRB.parentElement.parentElement.parentElement.getAttribute("maloaiphong")).then(
+                        let child = DRB.parentElement.parentElement.parentElement;
+                        let tenLoaiPhong = child.querySelectorAll("td")[1].innerHTML;
+                        deleteLoaiPhongConfirm(child.getAttribute("maloaiphong")).then(
                             function (value) {
                                 closeConfirmPopup();
                                 if (value == "true") {
-                                    let child = DRB.parentElement.parentElement.parentElement;
-                                    let tenLoaiPhong = child.querySelectorAll("td")[1].innerHTML;
-                                    let parent = child.parentElement;
-                                    parent.removeChild(child);
-
-                                    if (parent.querySelectorAll(".item-table").length == 0) {
-                                        DontHaveRoomType();
-                                    }
-                                    resetSTT(parent);
-                                    toastMessage({ title: 'Thành công', message: 'Xóa thành công loại phòng ' + tenLoaiPhong, type: 'success', duration: 3500 });
+                                    loadPopupLoaiPhong();
+                                    toastMessage({ title: 'Xóa thành công', message: 'Xóa thành công loại phòng ' + tenLoaiPhong, type: 'success', duration: 3500 });
                                 }
                                 else {
-                                    toastMessage({ title: 'Lỗi', message: 'Xóa không thành công', type: 'fail', duration: 3500 });
+                                    toastMessage({ title: 'Xóa thất bại', message: 'Loại phòng ' + tenLoaiPhong + ' đang được sử dụng trong hệ thống (phòng, báo cáo theo loại phòng)', type: 'fail', duration: 3500 });
                                 }
                             }
                         );
@@ -621,11 +621,10 @@ function updateAndAddLoaiKhachHangClick(item, isUpdate) {
     let buttonSubmit = subPopup.querySelector(".footer-popup .blue-button");
     buttonSubmit.disabled = false;
 
-    inputTenLoaiLoaiKH.focus();
     if (isUpdate == true) {
         buttonSubmit.disabled = true;
         inputTenLoaiLoaiKH.addEventListener("input", () => {
-            if (inputTenLoaiLoaiKH.value == baseTenLoaiKH) {
+            if (inputTenLoaiLoaiKH.value.trim() == baseTenLoaiKH) {
                 buttonSubmit.disabled = true;
                 return;
             }
@@ -636,7 +635,7 @@ function updateAndAddLoaiKhachHangClick(item, isUpdate) {
     //add event for change button
     buttonSubmit.addEventListener("click", (e) => {
         let maLoaiKhachHang = subPopup.querySelector(".content-popup .table-container table").getAttribute("maloaikhachhang");
-        let tenLoaiKhachHang = subPopup.querySelector(".content-popup .table-container table input.ten-loai-khach-hang").value;
+        let tenLoaiKhachHang = subPopup.querySelector(".content-popup .table-container table input.ten-loai-khach-hang").value.trim();
         if (tenLoaiKhachHang == "") {
             toastMessage({ title: 'Lỗi', message: 'Trường tên loại phòng không được phép trống!', type: 'fail', duration: 3500 });
         } else {
@@ -804,21 +803,15 @@ function loadPopupLoaiKhachHang() {
                         deleteLoaiKhachHangConfirm(DRB.parentElement.parentElement.parentElement.getAttribute("maloaikhachhang")).then(
                             function (value) {
                                 closeConfirmPopup();
+                                let child = DRB.parentElement.parentElement.parentElement;
+                                let tenLoaiKhachHang = child.querySelectorAll("td")[1].innerHTML;
                                 if (value == "true") {
-                                    let child = DRB.parentElement.parentElement.parentElement;
-                                    let tenLoaiKhachHang = child.querySelectorAll("td")[1].innerHTML;
-                                    let parent = child.parentElement;
-                                    parent.removeChild(child);
-
-                                    if (parent.querySelectorAll(".item-table").length == 0) {
-                                        DontHaveCustomerType();
-                                    }
-                                    resetSTT(parent);
-                                    toastMessage({ title: 'Thành công', message: 'Xóa thành công loại khách hàng ' + tenLoaiKhachHang, type: 'success', duration: 3500 });
+                                    loadPopupLoaiKhachHang();
+                                    toastMessage({ title: 'Xóa thành công', message: 'Xóa thành công loại khách hàng ' + tenLoaiKhachHang, type: 'success', duration: 3500 });
 
                                 }
                                 else {
-                                    toastMessage({ title: 'Lỗi', message: 'Xóa không thành công.', type: 'fail', duration: 3500 });
+                                    toastMessage({ title: 'Xóa thất bại', message: 'Loại khách hàng ' + tenLoaiKhachHang + ' đã được sử dụng trong hệ thống (hệ số phụ thu, khách thuê).', type: 'fail', duration: 3500 });
 
                                 }
                             }
@@ -955,13 +948,12 @@ listRegulation[2].addEventListener("click", (e) => {
                 updateSoKhachToiDa(soKhachToiDaNew).then(
                     function (value) {
                         if (value * 1 == 1) {
-                            toastMessage({ title: 'Sửa thành công', message: 'Sửa số khách tối đa thành công', type: 'success', duration: 3500 });
+                            toastMessage({ title: 'Sửa thành công', message: 'Số khách tối đa được sửa thành: ' + soKhachToiDaNew, type: 'success', duration: 3500 });
                             closePopup();
                         } else {
                             if (value * 1 == 2) {
-                                toastMessage({ title: 'Sửa thất bại', message: 'Tồn tại loại phụ thu có số khách áp dụng lớn hơn số khách tối đa mới', type: 'fail', duration: 3500 });
+                                toastMessage({ title: 'Sửa thất bại', message: 'Tồn tại loại (phụ thu, hệ số phụ thu) có số khách áp dụng lớn hơn số khách tối đa mới', type: 'fail', duration: 3500 });
                             } else {
-
                                 toastMessage({ title: 'Lỗi', message: 'Sửa không thành công.', type: 'fail', duration: 3500 });
                             }
                         }
@@ -982,13 +974,18 @@ function DontHavePhuThuSoKhach(soKhachToiDa) {
     let contentPopupHTML = "<div class='information'>Chưa có loại phụ thu nào!</div>" +
         "<div class='add-new'>" +
         "<button class='blue-button'>+ Thêm mới</button>" +
-        "</div>";
+        "</div>" +
+        "<div class='history-link'>Lịch sử phụ thu</div>";
     popup.querySelector(".content-popup").innerHTML = contentPopupHTML;
 
     //add event for add new
     popup.querySelector(".content-popup .add-new .blue-button").addEventListener("click", () => {
         showSubPopup();
         updateAndAddPhuThuClick(null, false, soKhachToiDa);
+    });
+    //add event for add new
+    popup.querySelector(".content-popup .history-link").addEventListener("click", () => {
+        loadHisoryPopupChangePhuThu(0);
     });
 }
 
@@ -1114,6 +1111,7 @@ function updateAndAddPhuThuClick(item, isUpdate, soKhachToiDa) {
                                     "</table>" + 
                                 "</div>";
     subPopup.querySelector(".content-popup").innerHTML = subPopupContentHTML;
+
 
     let inputTiLePhuThu = subPopup.querySelector(".content-popup .table-container table input.ti-le-phu-thu");
     let inputNgayApDung = subPopup.querySelector(".input-check");
@@ -1355,9 +1353,9 @@ function loadPopupChangePhuThu(soKhachToiDa) {
             contentPopupHTML += "</table>" +
                 "<div class='add-new'>" +
                 "<button class='blue-button'>+ Thêm mới</button>" +
-                "</div>";
+                "</div>" +
+                "<div class='history-link'>Lịch sử phụ thu</div>";
             popup.querySelector(".content-popup").innerHTML = contentPopupHTML;
-
             //add event for update button
             let listUpdateRoomButton = popup.querySelectorAll(".content-popup table td button.green-button");
             listUpdateRoomButton.forEach((UB) => {
@@ -1387,14 +1385,7 @@ function loadPopupChangePhuThu(soKhachToiDa) {
                             function (value) {
                                 closeConfirmPopup();
                                 if (value == "true") {
-                                    let child = itemTable;
-                                    let parent = child.parentElement;
-                                    parent.removeChild(child);
-
-                                    if (parent.querySelectorAll(".item-table").length == 0) {
-                                        DontHavePhuThuSoKhach();
-                                    }
-                                    resetSTT(parent);
+                                    loadPopupChangePhuThu(soKhachToiDa);
                                     toastMessage({ title: 'Xóa thành công', message: 'Xóa phụ thu thành công', type: 'success', duration: 3500 });
                                 }
                                 else {
@@ -1410,6 +1401,9 @@ function loadPopupChangePhuThu(soKhachToiDa) {
             popup.querySelector(".content-popup .add-new .blue-button").addEventListener("click", () => {
                 showSubPopup();
                 updateAndAddPhuThuClick(null, false, soKhachToiDa);
+            });
+            popup.querySelector(".content-popup .history-link").addEventListener("click", () => {
+                loadHisoryPopupChangePhuThu(0);
             });
 
             dataSave = dtpt;
@@ -1435,6 +1429,125 @@ listRegulation[3].addEventListener("click", () => {
     );
     
 });
+
+
+function getLichSuPhuThuSoKhach() {
+
+    loadingElement.show();
+
+    let xhr = new XMLHttpRequest();
+    let url = "https://localhost:5001/Regulation/GetLichSuPhuThuSoKhach";
+    xhr.timeout = 20000;
+    xhr.open("GET", url, true);
+
+    return new Promise((resolve, reject) => {
+        xhr.onreadystatechange = () => {
+            loadingElement.hide();
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let result = JSON.parse(xhr.responseText);
+                resolve(result);
+            }
+        }
+        xhr.send();
+    });
+}
+
+function loadHisoryPopupChangePhuThu(soLuongApDung) {
+    getLichSuPhuThuSoKhach().then(
+        function (dtpt) {
+            let dataPhuThu = dtpt;
+            if (soLuongApDung != 0) {
+                let dataNew = [];
+                dataPhuThu.forEach(PT => {
+                    if (PT["soLuongApDung"] == soLuongApDung) {
+                        dataNew.push(PT);
+                    }
+                })
+                dataPhuThu = dataNew;
+            }
+            showHistoryPopup();
+            //title in header popup
+            historyPopup.querySelector(".header-popup div").innerHTML = "LỊCH SỬ PHỤ THU THEO SỐ KHÁCH";
+
+            //set width for popup
+            historyPopup.style.width = "40%";
+
+            let contentPopupHTML = "<div class ='filter'>" +
+                "<div class='so-luong-ap-dung'>" +
+                "<div style='margin-right: 10px;'>Số khách áp dụng:</div>" +
+                "<div class='buttonStep' minVal='1'>" +
+                "<button class='subtractVal'>-</button>" +
+                "<span>" + ((soLuongApDung == 0) ? 1 : soLuongApDung) + "</span>" +
+                "<button class='addVal'>+</button>" +
+                "</div>" +
+                "</div>" +
+                "<div class='validate'>" +
+                "<button class='blue-button'>Lọc</button><button class='cancel-button'>Xóa bộ lọc</button>" +
+                "</div>" +
+                "</div> ";
+
+            if (dataPhuThu == null || dataPhuThu.length == 0) {
+                historyPopup.querySelector(".content-popup").innerHTML = contentPopupHTML + "<div class ='information'>Chưa có phụ thu nào</div>";
+                addEventForButtonStep(historyPopup.querySelector(".buttonStep"));
+                let filterClick = historyPopup.querySelector(".validate .blue-button");
+                filterClick.addEventListener("click", () => {
+                    loadHisoryPopupChangePhuThu(historyPopup.querySelector(".buttonStep span").innerHTML * 1);
+                });
+
+                let cancelFilterClick = historyPopup.querySelector(".validate .cancel-button");
+                cancelFilterClick.addEventListener("click", () => {
+                    loadHisoryPopupChangePhuThu(0);
+                });
+                return;
+            }
+
+            //content popup
+            contentPopupHTML += "<table>" +
+                "<tr class='header-table'>" +
+                "<td>STT</td>" +
+                "<td>Số khách áp dụng</td>" +
+                "<td>Tỉ lệ phụ thu (%)</td>" +
+                "<td>Ngày áp dụng</td>" +
+                "</tr>";
+
+            //render loai phong
+            let count = 1;
+            dataPhuThu.forEach(PT => {
+                let date = new Date(PT["thoiGianApDung"]);
+                let isFuture = "";
+                let maPhuThuSoKhach = "";
+                if (date > new Date()) {
+                    isFuture = "future";
+                    maPhuThuSoKhach = "maphuthusokhach='" + PT["maPhuThu"] + "'";
+                }
+
+                contentPopupHTML += "<tr class='item-table " + isFuture + "' " + maPhuThuSoKhach + ">" +
+                    "<td>" + count + "</td>" +
+                    "<td>" + PT["soLuongApDung"] + "</td>" +
+                    "<td>" + PT["tiLePhuThu"] + "</td>" +
+                    "<td>" + (date).toLocaleString('en-GB') + "</td>" +
+                    "</tr>";
+                count++;
+            });
+
+            //footer popup
+            contentPopupHTML += "</table>";
+            historyPopup.querySelector(".content-popup").innerHTML = contentPopupHTML;
+            addEventForButtonStep(historyPopup.querySelector(".buttonStep"));
+            let filterClick = historyPopup.querySelector(".validate .blue-button");
+            filterClick.addEventListener("click", () => {
+                loadHisoryPopupChangePhuThu(historyPopup.querySelector(".buttonStep span").innerHTML * 1);
+            });
+
+            let cancelFilterClick = historyPopup.querySelector(".validate .cancel-button");
+            cancelFilterClick.addEventListener("click", () => {
+                loadHisoryPopupChangePhuThu(0);
+            });
+        }, function (error) {
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy danh sách phụ thu thất bại', type: 'fail', duration: 3500 });
+        }
+    );
+}
 //----4. phu thu theo so khach: end
 
 
@@ -1790,12 +1903,17 @@ function DontHaveHeSoPhuThu(soKhachToiDa) {
     let contentPopupHTML = "<div class='information'>Chưa có hệ số phụ thu nào!</div>" +
         "<div class='add-new'>" +
         "<button class='blue-button'>+ Thêm mới</button>" +
-        "</div>";
+        "</div>" + 
+        "<div class='history-link'>Lịch sử phụ thu</div>";
     popup.querySelector(".content-popup").innerHTML = contentPopupHTML;
 
     popup.querySelector(".content-popup .add-new .blue-button").addEventListener("click", () => {
         showSubPopup();
         updateAndAddHeSoPhuThuClick(null, false, soKhachToiDa, null);
+    });
+
+    popup.querySelector(".content-popup .history-link").addEventListener("click", () => {
+        loadLichSuChangeHeSoPhuThu(0, 0);
     });
 }
 let dataHeSoSave = null;
@@ -1931,7 +2049,8 @@ function loadChangeHeSoPhuThu(soKhachToiDa){
             contentPopupHTML += "</table>" +
                 "<div class='add-new'>" +
                 "<button class='blue-button'>+ Thêm mới</button>" +
-                "</div>";
+                "</div>" +
+                "<div class='history-link'>Lịch sử phụ thu</div>";
             popup.querySelector(".content-popup").innerHTML = contentPopupHTML;
 
             //add event for update button
@@ -1980,6 +2099,11 @@ function loadChangeHeSoPhuThu(soKhachToiDa){
                 showSubPopup();
                 updateAndAddHeSoPhuThuClick(null, false, soKhachToiDa, null);
             });
+
+            popup.querySelector(".content-popup .history-link").addEventListener("click", () => {
+                loadLichSuChangeHeSoPhuThu(0, 0);
+            });
+
             dataHeSoSave = dths;
         }, function (error) {
             toastMessage({ title: 'Lỗi kết nối', message: 'Lấy về danh sách hệ số phụ thu thất bại', type: 'fail', duration: 3500 });
@@ -2000,6 +2124,195 @@ listRegulation[4].addEventListener("click", (e) => {
         }
     );
 });
+
+
+function getLichSuPhuThuLoaiKhachHang() {
+
+    loadingElement.show();
+
+    let xhr = new XMLHttpRequest();
+    let url = "https://localhost:5001/Regulation/GetLichSuPhuThuLoaiKhachHang";
+    xhr.timeout = 20000;
+    xhr.open("GET", url, true);
+
+    return new Promise((resolve, reject) => {
+        xhr.onreadystatechange = () => {
+            loadingElement.hide();
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let result = JSON.parse(xhr.responseText);
+                resolve(result);
+            }
+        }
+        xhr.send();
+    });
+}
+
+function loadLichSuChangeHeSoPhuThu(soLuongApDung, maLoaiKhachHang) {
+    getLichSuPhuThuLoaiKhachHang().then(
+        function (dths) {
+            getLoaiKhachHang().then(
+                function (dtlkh) {
+                    let dataLoaiKhachHang = dtlkh;
+                    let selectElement = "";
+                    selectElement += "<select>";
+                    dataLoaiKhachHang.forEach(LKH => {
+                        let isSelected = "";
+                        if (maLoaiKhachHang == LKH["maLoaiKhachHang"]) {
+                            isSelected = "selected";
+                        }
+                        selectElement += "<option " + isSelected + " value='" + LKH["maLoaiKhachHang"] + "'>" + LKH["tenLoaiKhachHang"] + "</option>";
+                    });
+                    selectElement += "</select>";
+
+                    let dataHeSoPhuThu = dths;
+
+                    if (soLuongApDung != 0) {
+                        let dataNew = [];
+                        dataHeSoPhuThu.forEach(PT => {
+                            if (PT["soLuongApDung"] == soLuongApDung) {
+                                dataNew.push(PT);
+                            }
+                        })
+                        dataHeSoPhuThu = dataNew;
+                    }
+
+                    if (maLoaiKhachHang != 0) {
+                        let dataNew = [];
+                        dataHeSoPhuThu.forEach(PT => {
+                            if (PT["maLoaiKhachHang"] == maLoaiKhachHang) {
+                                dataNew.push(PT);
+                            }
+                        })
+                        dataHeSoPhuThu = dataNew;
+                    }
+
+
+                    showHistoryPopup();
+                    //title in header popup
+                    historyPopup.querySelector(".header-popup div").innerHTML = "LỊCH SỬ HỆ SỐ PHỤ THU THEO LOẠI KHÁCH";
+
+                    //set width for popup
+                    historyPopup.style.width = "50%";
+
+
+
+                    let contentPopupHTML = "<div class ='filter'>" +
+                        "<div class='so-luong-ap-dung'>" +
+                        "<div style='margin-right: 10px;'>Số khách áp dụng:</div>" +
+                        "<div class='buttonStep' minVal='1'>" +
+                        "<button class='subtractVal'>-</button>" +
+                        "<span>" + ((soLuongApDung == 0) ? 1 : soLuongApDung) + "</span>" +
+                        "<button class='addVal'>+</button>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='type'>" +
+                        "<div style='margin-right: 10px;'>Loại khách hàng:</div>" +
+                        selectElement +
+                        "</div>" +
+                        "<div class='validate' style='display: flex;'>" +
+                        "<button class='blue-button'>Lọc</button><button class='cancel-button'>Xóa bộ lọc</button>" +
+                        "</div>" +
+                        "</div> ";
+
+                    if (dataHeSoPhuThu == null || dataHeSoPhuThu.length == 0) {
+                        historyPopup.querySelector(".content-popup").innerHTML = contentPopupHTML + "<div class ='information'>Chưa có hệ số phụ thu nào</div>";
+                        addEventForButtonStep(historyPopup.querySelector(".buttonStep"));
+                        let filterClick = historyPopup.querySelector(".validate .blue-button");
+                        filterClick.addEventListener("click", () => {
+                            loadLichSuChangeHeSoPhuThu(historyPopup.querySelector(".buttonStep span").innerHTML * 1, historyPopup.querySelector("select").value);
+                        });
+
+                        let cancelFilterClick = historyPopup.querySelector(".validate .cancel-button");
+                        cancelFilterClick.addEventListener("click", () => {
+                            loadLichSuChangeHeSoPhuThu(0, 0);
+                        });
+                        return;
+                    }
+
+                    //content popup
+                    contentPopupHTML += "<table>" +
+                        "<tr class='header-table'>" +
+                        "<td>Loại khách</td>" +
+                        "<td>Số khách áp dụng</td>" +
+                        "<td>Hệ số phụ thu </td>" +
+                        "<td>Ngày áp dụng</td>" +
+                        "</tr>";
+
+                    //render loai phong
+                    let count = 0;
+                    let items = "";
+                    let oneTypeOfLKH = "";
+                    let firstItemofType = "";
+                    let firstIsFuture = "";
+                    let firstMaPTLKH = "";
+                    let lengthArr = dataHeSoPhuThu.length;
+
+                    for (let i = 0; i < lengthArr; i++) {
+                        let date = new Date(dataHeSoPhuThu[i]["thoiGianApDung"]);
+                        let isFuture = "";
+
+                        let maHeSoPhuThuSoKhach = "";
+
+                        if (date > new Date()) {
+                            isFuture = "future";
+                            maHeSoPhuThuSoKhach = "mahesophuthu='" + dataHeSoPhuThu[i]["maPhuThuLKH"] + "'";
+                        }
+                        count++;
+                        if (count == 1) {
+                            firstItemofType = ">" + dataHeSoPhuThu[i]["tenLoaiKhachHang"] + "</td>" +
+                                "<td class='content-item'>" + dataHeSoPhuThu[i]["soLuongApDung"] + "</td>" +
+                                "<td class='content-item'>" + dataHeSoPhuThu[i]["heSoPhuThu"] + "</td>" +
+                                "<td class='content-item'>" + (date).toLocaleString('en-GB') + "</td>" +
+                                "</tr>";
+
+                            firstIsFuture = isFuture;
+                            firstMaPTLKH = maHeSoPhuThuSoKhach;
+                        }
+                        else {
+                            oneTypeOfLKH += "<tr class='item-table " + isFuture + "' " + maHeSoPhuThuSoKhach + " >" +
+                                "<td class='content-item'>" + dataHeSoPhuThu[i]["soLuongApDung"] + "</td>" +
+                                "<td class='content-item'>" + dataHeSoPhuThu[i]["heSoPhuThu"] + "</td>" +
+                                "<td class='content-item'>" + (date).toLocaleString('en-GB') + "</td>" +
+                                "</tr>"
+                        }
+
+                        if (i != lengthArr - 1) {
+                            if (dataHeSoPhuThu[i]["maLoaiKhachHang"] != dataHeSoPhuThu[i + 1]["maLoaiKhachHang"]) {
+                                oneTypeOfLKH = "<tr class='item-table " + firstIsFuture + "' " + firstMaPTLKH + "'> <td style='background-color: #fff!important' rowspan='" + count + "'" + firstItemofType + oneTypeOfLKH;
+                                items += oneTypeOfLKH;
+
+                                count = 0;
+                                oneTypeOfLKH = "";
+                            }
+                        }
+                        else {
+                            oneTypeOfLKH = "<tr class='item-table " + firstIsFuture + "' " + firstMaPTLKH + "' > <td style='background-color: #fff!important' rowspan='" + count + "'" + firstItemofType + oneTypeOfLKH;
+                            items += oneTypeOfLKH;
+                        }
+                    }
+
+                    contentPopupHTML += items;
+                    //footer popup
+                    contentPopupHTML += "</table>";
+                    historyPopup.querySelector(".content-popup").innerHTML = contentPopupHTML;
+
+                    addEventForButtonStep(historyPopup.querySelector(".buttonStep"));
+                    let filterClick = historyPopup.querySelector(".validate .blue-button");
+                    filterClick.addEventListener("click", () => {
+                        loadLichSuChangeHeSoPhuThu(historyPopup.querySelector(".buttonStep span").innerHTML * 1, historyPopup.querySelector("select").value);
+                    });
+
+                    let cancelFilterClick = historyPopup.querySelector(".validate .cancel-button");
+                    cancelFilterClick.addEventListener("click", () => {
+                        loadLichSuChangeHeSoPhuThu(0, 0);
+                    });
+                }
+            );
+        }, function (error) {
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy về danh sách hệ số phụ thu thất bại', type: 'fail', duration: 3500 });
+        }
+    );
+}
 //----5. he so phu thu: end
 
 
@@ -2464,7 +2777,8 @@ function DontHavePhuThuCICO(gioCheckIn, gioCheckOut) {
         "<div class='information'>Chưa có phụ thu check in/out nào!</div>" +
         "<div class='add-new'>" +
         "<button class='blue-button'>+ Thêm mới</button>" +
-        "</div>";
+        "</div>" +
+        "<div class='history-link'>Lịch sử phụ thu</div>";
     popup.querySelector(".content-popup").innerHTML = contentPopupHTML;
 
     //add event for add new
@@ -2477,6 +2791,10 @@ function DontHavePhuThuCICO(gioCheckIn, gioCheckOut) {
     popup.querySelector(".content-popup .CICO").addEventListener("click", () => {
         showSubPopup();
         updateTimeCheckInCheckOut(gioCheckIn, gioCheckOut);
+    });
+
+    popup.querySelector(".content-popup .history-link").addEventListener("click", () => {
+        loadLichSuChangePhuThuCICO(0, 0);
     });
 }
 
@@ -2642,7 +2960,8 @@ function loadChangeCICO() {
                     contentPopupHTML += "</table>" +
                         "<div class='add-new'>" +
                         "<button class='blue-button'>+ Thêm mới</button>" +
-                        "</div>";
+                        "</div>" +
+                        "<div class='history-link'>Lịch sử phụ thu</div>";
                     popup.querySelector(".content-popup").innerHTML = contentPopupHTML;
 
                     //add event for update button
@@ -2697,6 +3016,9 @@ function loadChangeCICO() {
                         showSubPopup();
                         updateTimeCheckInCheckOut(dataCICO["gioCheckIn"], dataCICO["gioCheckOut"]);
                     });
+                    popup.querySelector(".content-popup .history-link").addEventListener("click", () => {
+                        loadLichSuChangePhuThuCICO(0, 0);
+                    });
 
                     dataCICOSave = dataPhuThuCICO;
 
@@ -2716,6 +3038,197 @@ listRegulation[5].addEventListener("click", (e) => {
 
     loadChangeCICO();
 });
+
+function getLichSuPhuThuCICO() {
+
+    loadingElement.show();
+
+    let xhr = new XMLHttpRequest();
+    let url = "https://localhost:5001/Regulation/GetLichSuPhuThuCICO";
+    xhr.timeout = 20000;
+    xhr.open("GET", url, true);
+
+    return new Promise((resolve, reject) => {
+        xhr.onreadystatechange = () => {
+            loadingElement.hide();
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let result = JSON.parse(xhr.responseText);
+                resolve(result);
+            }
+        }
+        xhr.send();
+    });
+}
+
+function loadLichSuChangePhuThuCICO(soLuongApDung, maLoaiPhuThu) {
+    getLichSuPhuThuCICO().then(
+        function (dtptcico) {
+            getLoaiPhuThuCICO().then(
+                function (dtcico) {
+
+                    let dataLoaiPhuThu = dtcico;
+
+                    let selectElement = "";
+                    selectElement += "<select>";
+                    dataLoaiPhuThu.forEach(LPT => {
+                        let isSelected = "";
+                        if (maLoaiPhuThu == LPT["maLoaiPhuThu"]) {
+                            isSelected = "selected";
+                        }
+                        selectElement += "<option " + isSelected + " value='" + LPT["maLoaiPhuThu"] + "'>" + LPT["tenLoaiPhuThu"] + "</option>";
+                    });
+                    selectElement += "</select>";
+
+
+                    let dataPhuThuCICO = dtptcico;
+
+                    if(soLuongApDung != 0) {
+                        let dataNew = [];
+                        dataPhuThuCICO.forEach(PT => {
+                            if (PT["soLuongApDung"] == soLuongApDung) {
+                                dataNew.push(PT);
+                            }
+                        })
+                        dataPhuThuCICO = dataNew;
+                    }
+
+                    if (maLoaiPhuThu != 0) {
+                        let dataNew = [];
+                        dataPhuThuCICO.forEach(PT => {
+                            if (PT["maLoaiPhuThu"] == maLoaiPhuThu) {
+                                dataNew.push(PT);
+                            }
+                        })
+                        dataPhuThuCICO = dataNew;
+                    }
+
+                    showHistoryPopup();
+                    //title in header popup
+                    historyPopup.querySelector(".header-popup div").innerHTML = "LỊCH SỬ PHỤ THU CHECK IN/OUT";
+
+                    //set width for popup
+                    historyPopup.style.width = "50%";
+
+                    let contentPopupHTML = "<div class ='filter'>" +
+                        "<div class='so-luong-ap-dung'>" +
+                        "<div style='margin-right: 10px;'>Số khách áp dụng:</div>" +
+                        "<div class='buttonStep' minVal='1'>" +
+                        "<button class='subtractVal'>-</button>" +
+                        "<span>" + ((soLuongApDung == 0) ? 1 : soLuongApDung) + "</span>" +
+                        "<button class='addVal'>+</button>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='type'>" +
+                        "<div style='margin-right: 10px;'>Loại khách hàng:</div>" +
+                        selectElement +
+                        "</div>" +
+                        "<div class='validate' style='display: flex;'>" +
+                        "<button class='blue-button'>Lọc</button><button class='cancel-button'>Xóa bộ lọc</button>" +
+                        "</div>" +
+                        "</div> ";
+
+                    if (dataPhuThuCICO == null || dataPhuThuCICO.length == 0) {
+                        historyPopup.querySelector(".content-popup").innerHTML = contentPopupHTML + "<div class ='information'>Chưa có phụ thu check in/out nào</div>";
+                        addEventForButtonStep(historyPopup.querySelector(".buttonStep"));
+                        let filterClick = historyPopup.querySelector(".validate .blue-button");
+                        filterClick.addEventListener("click", () => {
+                            loadLichSuChangePhuThuCICO(historyPopup.querySelector(".buttonStep span").innerHTML * 1, historyPopup.querySelector("select").value);
+                        });
+
+                        let cancelFilterClick = historyPopup.querySelector(".validate .cancel-button");
+                        cancelFilterClick.addEventListener("click", () => {
+                            loadLichSuChangePhuThuCICO(0, 0);
+                        });
+                        return;
+                    }
+
+                    //content popup
+                    contentPopupHTML += "<table>" +
+                        "<tr class='header-table'>" +
+                        "<td>Loại phụ thu</td>" +
+                        "<td>Số giờ sớm/trễ</td>" +
+                        "<td>Tỉ lệ phụ thu </td>" +
+                        "<td>Ngày áp dụng</td>" +
+                        "</tr>";
+
+                    //render loai phong
+                    let count = 0;
+                    let items = "";
+                    let oneTypeOfCICO = "";
+                    let firstItemofType = "";
+                    let firstIsFuture = "";
+                    let firstMaPhuThu = "";
+                    let lengthArr = dataPhuThuCICO.length;
+
+                    for (let i = 0; i < lengthArr; i++) {
+
+                        let date = new Date(dataPhuThuCICO[i]["thoiGianApDung"]);
+                        let isFuture = "";
+
+                        let maPhuThuCICO = "";
+
+                        if (date > new Date()) {
+                            isFuture = "future";
+                            maPhuThuCICO = "maphuthu='" + dataPhuThuCICO[i]["maPhuThu"] + "'";
+                        }
+
+                        count++;
+                        if (count == 1) {
+                            firstItemofType = ">" + dataPhuThuCICO[i]["tenLoaiPhuThu"] + "</td>" +
+                                "<td class='content-item'>" + dataPhuThuCICO[i]["soLuongApDung"] + "</td>" +
+                                "<td class='content-item'>" + dataPhuThuCICO[i]["tiLePhuThu"] + "</td>" +
+                                "<td class='content-item'>" + (date).toLocaleString("en-GB") + "</td>" +
+                                "</tr>";
+
+                            firstIsFuture = isFuture;
+                            firstMaPhuThu = maPhuThuCICO;
+                        }
+                        else {
+                            oneTypeOfCICO += "<tr class='item-table " + isFuture  + "' " + maPhuThuCICO + " >" +
+                                "<td class='content-item'>" + dataPhuThuCICO[i]["soLuongApDung"] + "</td>" +
+                                "<td class='content-item'>" + dataPhuThuCICO[i]["tiLePhuThu"] + "</td>" +
+                                "<td class='content-item'>" + (date).toLocaleString("en-GB") + "</td>" +
+                                "</tr>"
+                        }
+
+                        if (i != lengthArr - 1) {
+                            if (dataPhuThuCICO[i]["maLoaiPhuThu"] != dataPhuThuCICO[i + 1]["maLoaiPhuThu"]) {
+                                oneTypeOfCICO = "<tr class='item-table " + firstIsFuture + "' " + firstMaPhuThu + "> <td style='background-color: #fff!important' rowspan='" + count + "'" + firstItemofType + oneTypeOfCICO;
+                                items += oneTypeOfCICO;
+
+                                count = 0;
+                                oneTypeOfCICO = "";
+                            }
+                        }
+                        else {
+                            oneTypeOfCICO = "<tr class='item-table " + firstIsFuture + "' " + firstMaPhuThu + "> <td style='background-color: #fff!important' rowspan='" + count + "'" + firstItemofType + oneTypeOfCICO;
+                            items += oneTypeOfCICO;
+                        }
+                    }
+
+                    contentPopupHTML += items;
+                    //footer popup
+                    contentPopupHTML += "</table>";
+                    historyPopup.querySelector(".content-popup").innerHTML = contentPopupHTML;
+
+                    addEventForButtonStep(historyPopup.querySelector(".buttonStep"));
+                    let filterClick = historyPopup.querySelector(".validate .blue-button");
+                    filterClick.addEventListener("click", () => {
+                        loadLichSuChangePhuThuCICO(historyPopup.querySelector(".buttonStep span").innerHTML * 1, historyPopup.querySelector("select").value);
+                    });
+
+                    let cancelFilterClick = historyPopup.querySelector(".validate .cancel-button");
+                    cancelFilterClick.addEventListener("click", () => {
+                        loadLichSuChangePhuThuCICO(0, 0);
+                    });
+                }
+            );
+
+        }, function (error) {
+            toastMessage({ title: 'Lỗi kết nối', message: 'Lấy về danh sách hệ số phụ thu thất bại', type: 'fail', duration: 3500 });
+        }
+    );
+}
 //----6. phu thu checkin checkout: end
 
 
@@ -2821,7 +3334,6 @@ function updateAndAddChucVuClick(item, isUpdate) {
     let buttonSubmit = subPopup.querySelector(".footer-popup .blue-button");
     buttonSubmit.disabled = false;
 
-    inputTenChucVu.focus();
     if (isUpdate == true) {
         buttonSubmit.disabled = true;
         inputTenChucVu.addEventListener("input", () => {
@@ -2959,7 +3471,7 @@ function loadPopupChucVu() {
                 if (checkChangeAfterUpdateInsertChucVu(CV["maChucVu"], CV["tenChucVu"])) {
                     justAdd= "just-add"
                 }
-                if (CV["maChucVu"] == 1) {
+                if (CV["maChucVu"] == 1 || CV["maChucVu"] == 0) {
                     isDisabled = "disabled";
                 }
 
@@ -3015,7 +3527,7 @@ function loadPopupChucVu() {
                                     toastMessage({ title: 'Xóa thành công', message: 'Xóa chức vụ ' + tenChucVu + ' thành công', type: 'success', duration: 3500 });
                                 }
                                 else {
-                                    toastMessage({ title: 'Lỗi', message: 'Xóa chức vụ ' + tenChucVu + ' thất bại', type: 'fail', duration: 3500 });
+                                    toastMessage({ title: 'Xóa thất bại', message: 'Chức vụ ' + tenChucVu + ' đang được sử dụng trong hệ thống (báo cáo chi trả lương, nhân viên, phân quyền)', type: 'fail', duration: 3500 });
                                 }
                             }
                         );
@@ -3047,8 +3559,6 @@ listRegulation[6].addEventListener("click", (e) => {
 //----7. chuc vu: end
 
 //----8. luong toi thieu vung: start
-
-let dataLuongToiThieuVung = 5000000;
 
 function getLuongToiThieuVung() {
     loadingElement.show();
@@ -3116,7 +3626,7 @@ listRegulation[7].addEventListener("click", (e) => {
             let inputLuongToiThieuVung = popup.querySelector(".content-popup input");
             let buttonSubmit = popup.querySelector(".footer-popup button.blue-button");
             buttonSubmit.disabled = true;
-            inputLuongToiThieuVung.focus();
+
             inputLuongToiThieuVung.addEventListener("input", () => {
                 if (inputLuongToiThieuVung.value == lttv) {
                     buttonSubmit.disabled = true;
