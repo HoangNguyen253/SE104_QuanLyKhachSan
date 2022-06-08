@@ -312,8 +312,8 @@
             "(@MaPhong, @MaLoaiPhong, @Tang, @SoPhong, @TrangThai, @GhiChu)";
 
 
-        public static string postNewStaff = "insert into nhanvien(MaNhanVien,MatKhau,CCCD,HoTen,GioiTinh,NgaySinh,Email,SoDienThoai,NgayVaoLam,MaChucVu,Luong) values " +
-                                              "(@MaNhanVien,@MatKhau,@CCCD,@HoTen,@GioiTinh,@NgaySinh,@Email,@SoDienThoai,@NgayVaoLam,@MaChucVu,@Luong)";
+        public static string postNewStaff = "insert into nhanvien(MaNhanVien,MatKhau,CCCD,HoTen,GioiTinh,NgaySinh,Email,SoDienThoai,NgayVaoLam,MaChucVu,HinhAnh,Luong) values " +
+                                              "(@MaNhanVien,@MatKhau,@CCCD,@HoTen,@GioiTinh,@NgaySinh,@Email,@SoDienThoai,@NgayVaoLam,@MaChucVu,@HinhAnh,@Luong)";
         public static string getAllRoomStyle = "select * from loaiphong";
         public static string getAllDetailRoles = "select * from chucvu";
         public static string getChosenStaff = "select * from nhanvien where MaNhanVien = @MaNhanVien";

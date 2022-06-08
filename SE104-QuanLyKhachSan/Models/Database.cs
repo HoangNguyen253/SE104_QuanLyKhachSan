@@ -2799,10 +2799,30 @@ throw;
                 try
                 {
                     conn.Open();
+                    string queryGetmanv = "TaoMaNhanVien";
+                    MySqlCommand cmdGetNV = new MySqlCommand(queryGetmanv, conn);
+                    cmdGetNV.CommandType = CommandType.StoredProcedure;
+
+
+
+                    cmdGetNV.Parameters.AddWithValue("_ngayVaoLam", nv.NgayVaoLam);
+                    cmdGetNV.Parameters["_ngayVaoLam"].Direction = ParameterDirection.Input;
+
+
+
+                    cmdGetNV.Parameters.Add("_maNhanVien", MySqlDbType.VarChar);
+                    cmdGetNV.Parameters["_maNhanVien"].Direction = ParameterDirection.Output;
+
+
+
+                    cmdGetNV.ExecuteNonQuery();
+                    nv.MaNhanVien = cmdGetNV.Parameters["_maNhanVien"].Value.ToString();
+
+                    string mk = GeneratePassword();
                     MySqlCommand cmd = new MySqlCommand(SQLQuery.postNewStaff, conn);
 
                     cmd.Parameters.AddWithValue("MaNhanVien", nv.MaNhanVien);
-                    cmd.Parameters.AddWithValue("MatKhau", nv.MatKhau);
+                    cmd.Parameters.AddWithValue("MatKhau", mk);
                     cmd.Parameters.AddWithValue("CCCD", nv.CCCD);
                     cmd.Parameters.AddWithValue("HoTen", nv.HoTen);
                     cmd.Parameters.AddWithValue("GioiTinh", nv.GioiTinh);
@@ -2811,6 +2831,7 @@ throw;
                     cmd.Parameters.AddWithValue("SoDienThoai", nv.SoDienThoai);
                     cmd.Parameters.AddWithValue("NgayVaoLam", nv.NgayVaoLam);
                     cmd.Parameters.AddWithValue("MaChucVu", nv.MaChucVu);
+                    cmd.Parameters.AddWithValue("HinhAnh", "/image/NhanVien/account.png");
                
                     cmd.Parameters.AddWithValue("Luong", nv.Luong);
                     cmd.ExecuteNonQuery();
@@ -3187,6 +3208,34 @@ throw;
             }
         }
 
+        public int Reset_Password(string email)
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+                string matKhau = GeneratePassword();
+                string queryUpdate = "UPDATE nhanvien " +
+                                                   "SET MatKhau=@matKhau " +
+                                                   "WHERE Email=@email;";
+                MySqlCommand cmdUpdate = new MySqlCommand(queryUpdate, connectioncheck);
+                cmdUpdate.Parameters.AddWithValue("matKhau", matKhau);
+                cmdUpdate.Parameters.AddWithValue("email", email);
+                if (cmdUpdate.ExecuteNonQuery() > 0)
+                {
+                    Mailer mail = new Mailer();
+                    string bodyMail = "<h2>Chào bạn</h2><p>Mật khẩu mới của của bạn là:" + matKhau + "</p>";
+                    if (mail.Send(email, "Mã OTP", bodyMail) == "OK")
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+                }
+                return 3;
+            }
+        }
         //Hiếu - end
         #endregion
 
