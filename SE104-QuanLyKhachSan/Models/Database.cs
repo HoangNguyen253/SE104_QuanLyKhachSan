@@ -2847,6 +2847,7 @@ throw;
                     nv.MaNhanVien = cmdGetNV.Parameters["_maNhanVien"].Value.ToString();
 
                     string mk = GeneratePassword();
+                    Send_Password(nv.Email, mk);
                     MySqlCommand cmd = new MySqlCommand(SQLQuery.postNewStaff, conn);
 
                     cmd.Parameters.AddWithValue("MaNhanVien", nv.MaNhanVien);
@@ -2860,7 +2861,7 @@ throw;
                     cmd.Parameters.AddWithValue("NgayVaoLam", nv.NgayVaoLam);
                     cmd.Parameters.AddWithValue("MaChucVu", nv.MaChucVu);
                     cmd.Parameters.AddWithValue("HinhAnh", "/image/NhanVien/account.png");
-               
+                    
                     cmd.Parameters.AddWithValue("Luong", nv.Luong);
                     cmd.ExecuteNonQuery();
 
@@ -3226,7 +3227,7 @@ throw;
                     string str = " UPDATE `phong` SET TrangThai = @matrangthai WHERE MaPhong = @map ";
                     MySqlCommand cmd = new MySqlCommand(str, connectioncheck);
                     cmd.Parameters.AddWithValue("map", MaPhong);
-                    cmd.Parameters.AddWithValue("matrangthai", 0);
+                    cmd.Parameters.AddWithValue("matrangthai", 5);
                     int check = cmd.ExecuteNonQuery();
                     if (check >= 1)
                         return "fired";
@@ -3262,6 +3263,26 @@ throw;
                     }
                 }
                 return 3;
+            }
+        }
+        public int Send_Password(string email, string matkhau)
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+             
+                    Mailer mail = new Mailer();
+                    string bodyMail = "<h2>Chào bạn</h2><p>Mật khẩu của của bạn là:" + matkhau + "</p>";
+                    if (mail.Send(email, "Mã OTP", bodyMail) == "OK")
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+                
+         
             }
         }
         //Hiếu - end
