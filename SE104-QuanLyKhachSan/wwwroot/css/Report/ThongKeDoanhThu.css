@@ -41,8 +41,8 @@
 }
 
 .avatar_img_staff_profile_popup_window {
-    width: 1rem;
-    height: 1rem;
+    width: 50px;
+    height: 50px;
 }
 
 .ChiTietDoanhThu_container {
@@ -231,7 +231,7 @@
 }
 
 .font_size_template {
-    font-size: x-large;
+    font-size: 16px;
     margin-top: 10px;
 }
 
@@ -334,7 +334,7 @@ header, nav {
 }
 
 .Report_main .Title {
-    font-size: x-large;
+    font-size: large;
     font-weight: bold;
     margin-left: -600px;
     margin-top: 15px;
@@ -369,7 +369,7 @@ header, nav {
 
 .list_content {
     border: 1px solid #000;
-    font-size: 200;
+    font-size: 150;
 }
 
     .list_content .report-date {
@@ -411,8 +411,6 @@ header, nav {
     /* background-color: aqua;*/
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .name_hotel {
@@ -427,7 +425,7 @@ header, nav {
 
 .title {
     font-family: 'Serif';
-    font-size: 2rem;
+    font-size: 30px;
     font-weight: 700;
     text-transform: uppercase;
     font-weight: bold;
@@ -490,7 +488,7 @@ header, nav {
 }
 
     .ChiTietDoanhThu_container .table_doanhthu_container .table_doanhthu thead th {
-        font-size: larger;
+        font-size: large;
         font-weight: bold;
     }
 
@@ -511,9 +509,9 @@ header, nav {
     grid-template-columns: 0.7fr 1.3fr;
 }
 
-.avatar_img_staff_profile_popup_window {
-    width: 1rem;
-    height: 1rem;
+#avatar_img_staff_profile_popup_window {
+    width: 150px;
+    height: 150px;
 }
 
 .print_btn {

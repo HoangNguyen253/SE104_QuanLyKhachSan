@@ -24,8 +24,8 @@
             set { _TongLuong = value;}
         }
 
-        private int _TiLe;
-        public int TiLe
+        private double _TiLe;
+        public double TiLe
         {
             get { return _TiLe; }
             set { _TiLe = value; }

@@ -297,8 +297,8 @@ namespace SE104_QuanLyKhachSan.Models
             {
                 conn.Open();
                 string query = "SELECT MaLoaiKhachHang, TenLoaiKhachHang " +
-                    "FROM LOAIKHACHHANG " +
-                    "WHERE DaXoa = 0 ";
+                    "FROM LOAIKHACHHANG ";
+                  
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -971,7 +971,7 @@ namespace SE104_QuanLyKhachSan.Models
                                             "ThoiGianApDung, " +
                                             "PT1.MaLoaiKhachHang, " +
                                             "LKH.TenLoaiKhachHang " +
-                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang AND LKH.DaXoa = 0) " +
+                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang  " +
                                      "WHERE (PT1.ThoiGianApDung >= ALL(SELECT PT2.ThoiGianApDung " +
                                                                         "FROM phuthulkh PT2 " +
                                                                         "WHERE PT1.SoLuongApDung = PT2.SoLuongApDung " +
@@ -1020,7 +1020,7 @@ namespace SE104_QuanLyKhachSan.Models
                                             "ThoiGianApDung, " +
                                             "PT1.MaLoaiKhachHang, " +
                                             "LKH.TenLoaiKhachHang " +
-                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang AND LKH.DaXoa = 0) " +
+                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang " +
                                      "WHERE HeSoPhuThu<>0 " +
                                      "ORDER BY `PT1`.`MaLoaiKhachHang` ASC, `PT1`.`SoLuongApDung` ASC, `PT1`.`ThoiGianApDung` ASC";
 
@@ -3448,7 +3448,7 @@ throw;
 
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
-                string str = "  SELECT dottraluong.MaDotTraLuong , traluong.MaNhanVien , nhanvien.HoTen , chucvu.TenChucVu, nhanvien.CCCD , `Thuong`, `Phat`, `GhiChu`, `SoTien` ,nhanvien.GioiTinh FROM traluong, nhanvien, chucvu, dottraluong WHERE traluong.MaDotTraLuong = dottraluong.MaDotTraLuong AND nhanvien.MaNhanVien = traluong.MaNhanVien AND traluong.MaChucVu = chucvu.MaChucVu AND Month(dottraluong.NgayTraLuong) = @thang AND YEAR(dottraluong.NgayTraLuong) = @nam ";
+                string str = "  SELECT dottraluong.MaDotTraLuong , traluong.MaNhanVien , nhanvien.HoTen , chucvu.TenChucVu, nhanvien.CCCD , `Thuong`, `Phat`, `GhiChu`, `SoTien` ,nhanvien.GioiTinh FROM traluong, nhanvien, chucvu, dottraluong WHERE traluong.MaDotTraLuong = dottraluong.MaDotTraLuong AND nhanvien.MaNhanVien = traluong.MaNhanVien AND traluong.MaChucVu = chucvu.MaChucVu AND Month(dottraluong.NgayTraLuong) = @thang AND YEAR(dottraluong.NgayTraLuong) = @nam AND TenChucVu != 'Đã sa thải' ";
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("nam", dt.Year);
@@ -3618,7 +3618,7 @@ throw;
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
-                string str = "SELECT `MaLoaiPhong`, `TenLoaiPhong` FROM `loaiphong` WHERE loaiphong.DaXoa = 0 ";
+                string str = " SELECT `MaLoaiPhong`, `TenLoaiPhong` FROM `loaiphong`  ";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd = new MySqlCommand(str, conn);
                 using (var result = cmd.ExecuteReader())
@@ -3684,12 +3684,13 @@ throw;
 
         public List<BaoCaoLuongChucVu> getAllBaoCaoLuongChucVu(DateTime dt)
         {
+
             //lấy list chức vụ còn xài
             List<BaoCaoLuongChucVu> list_chucvu = new List<BaoCaoLuongChucVu>();
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
-                string str = " SELECT `MaChucVu`, `TenChucVu` FROM `chucvu` WHERE chucvu.DaXoa = 0 ";
+                string str = " SELECT `MaChucVu`, `TenChucVu` FROM `chucvu` ";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 using (var result = cmd.ExecuteReader())
                 {
@@ -3729,6 +3730,7 @@ throw;
                             bil.TiLe = 0;
                             list_chucvucotraluong.Add(bil);
                         }
+                        
                         int TongTien = 0;
                         foreach (var item in list_chucvucotraluong)
                         {
@@ -3739,23 +3741,23 @@ throw;
                             for (int j = 0; j < list_chucvucotraluong.Count; j++)
                             {
                                 if (list_chucvu[i].MaChucVu == list_chucvucotraluong[j].MaChucVu)
-                                {
+                                { 
                                     list_chucvu[i].TongLuong = list_chucvucotraluong[j].TongLuong;
-                                    list_chucvu[i].TiLe = list_chucvucotraluong[j].TongLuong/ TongTien * 100;
-                                }
-                                else
-                                {
-                                    list_chucvu[i].TongLuong = 0;
-                                    list_chucvu[i].TiLe = 0;
+                                    if(TongTien == 0)
+                                        list_chucvu[i].TiLe = 0;
+                                    else
+                                    {
+                                        double tt = list_chucvu[i].TongLuong * 1.0 / TongTien * 100;
+                                        list_chucvu[i].TiLe = Math.Round(tt,2);
+                                    }
+
                                 }
                             }
                         }
-                        conn.Close();
                         return list_chucvu;
                     }
                     else
                     {
-                        conn.Close();
                         return null;
                     }
                 }
