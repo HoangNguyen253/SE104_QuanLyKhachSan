@@ -15,7 +15,7 @@
                         <button type="button" class="tracuu_btn" id="tracuuphong"> + Thêm mới</button>
                     </div>
 
-                    <select name="" id="TrangThai_">
+                    <select name="" id="TrangThai_" >
                          <option value="">Tất cả trạng thái</option>
             @{
 
@@ -29,7 +29,7 @@
 
                              case 0:
                                 {
-                                    trangThai = "Không hoạt động";
+                                    trangThai = "Phòng trống";
                                     break;
                                 }
                             case 1:
@@ -53,15 +53,11 @@
                                     break;
                                 }
                          
-                            case 5:
-                                {
-                                trangThai = "Phòng trống";
-                                break;
-                                }
+                         
 
                         }
                     
-                                                                        <option value=@trangThai>@trangThai</option>
+                                                                                                <option value=@trangThai>@trangThai</option>
 
                 }
             }
@@ -70,10 +66,10 @@
             </select>
                     <select name="" id="TenLoaiPhong_">
                 @{
-                                                                        <option value="">Tất cả loại phòng</option>
+                                                                                                <option value="">Tất cả loại phòng</option>
                     foreach (var pi in listLoaiPhong)
                     {
-                                                                        <option value=@pi.TenLoaiPhong>@pi.TenLoaiPhong</option>
+                                                                                                <option value=@pi.TenLoaiPhong>@pi.TenLoaiPhong</option>
                 }
             }
 
@@ -113,17 +109,16 @@
 
             <tbody class="list_room_body">
                 @{
-
                     if (listPhong != null)
                     {
-                        for (int k = 0; k <= listPhong.Count - 1; k++)                           
+                        for (int k = 0; k <= listPhong.Count - 1; k++)
                         {
                             var @pi = listPhong[k];
                             var trangThai = "Phòng trống";
                             switch (@pi.TrangThai)
                             {
 
-                                case 5:
+                                case 0:
                                     {
                                         trangThai = "Phòng trống";
                                         break;
@@ -148,47 +143,55 @@
                                         trangThai = "Đang dọn dẹp";
                                         break;
                                     }
-                                case 0:
-                                    {
-                                        trangThai = "Không hoạt động";
-                                        break;
-                                    }
+                            
 
                             }
+                        
 
-                                <tr >
-                                    @{
-                                    if (@pi.MaPhong.Length == 3)
+                                  
+                                    if (@pi.TrangThai != 5)
+                                       
                                     {
-                                                <td class="data_cell">@(0+pi.MaPhong)</td>
-                                    }
-                                    else
-                                    {
-                                                <td class="data_cell">@pi.MaPhong</td>
-                                    }
-                                    }
-                                                  
-                                                      
-                                                        <td class="data_cell">@pi.TenLoaiPhong</td> 
-                                                        <td class="data_cell">@pi.Tang</td>
-                                                        <td class="data_cell">@trangThai</td>
-                                                        <td class="data_cell">@pi.GhiChu</td>
-                                                                                
-                                                        <td class="data_cell">
-                                                            <button class="room_body_item__angle_button btn sua" onclick="viewInfoRoom(@pi.MaPhong.ToString())"  style="cursor:pointer" >
-                                                                Sửa 
-                                                                                  
-                                                            </button>
-                                                        </td> 
-                                                        <td class="data_cell" id="@pi.MaPhong">
-                                                            <button class="room_body_item__angle_button btn xoa" type="submit" onclick="deleteInfoRoom(@pi.MaPhong)" id="del_room" style="cursor:pointer">
-                                                                Xóa
-                                                            </button>
-                                                        </td> 
-                                                    </tr>
+                                                 <tr >
+                                                @{
+                                            if (@pi.MaPhong.Length == 3)
+                                        {
+                                                            <td class="data_cell">@(0+pi.MaPhong)</td>
+                                        }
+                                        else
+                                        {
+                                                            <td class="data_cell">@pi.MaPhong</td>
+                                        }
+                                                }
+                                                <td class="data_cell">@pi.TenLoaiPhong</td> 
+                                                <td class="data_cell">@pi.Tang</td>
+                                                <td class="data_cell">@trangThai</td>
+                                                <td class="data_cell">@pi.GhiChu</td>
+
+                                                <td class="data_cell">
+                                                    <button class="room_body_item__angle_button btn sua"  onclick="@(Html.Raw(String.Format("viewInfoRoom('{0}')",
+                                                                                               @pi.MaPhong )))"  style="cursor:pointer" >
+                                                        Sửa 
+                                                       
+                                                    </button>
+                                                </td> 
+                                                <td class="data_cell" id="@pi.MaPhong">
+                                                    <button class="room_body_item__angle_button btn xoa" type="submit" onclick="@(Html.Raw(String.Format("deleteInfoRoom('{0}')",
+                                                                                               @pi.MaPhong )))"  style="cursor:pointer" id="del_room">
+                                                        Xóa
+                                                    </button>
+                                                </td>
+                                                   </tr>
+                                    }  
+                                    
+                                    
+                                }
+                             
+                                    
                         }
-                    }
-                }
+                   
+                  }
+        
                          
                         </tbody>
                     </table>
@@ -232,14 +235,14 @@
                                 <div class="data_info_room_profile_popup_window">
                                     <p  class="require" id="require_TrangThai">Trạng thái</p>
 
-                                    <select class="input_data_info_room_profile_popup_window" name="TrangThai" id="TrangThai"> 
+                                    <select class="input_data_info_room_profile_popup_window select_" name="TrangThai" id="TrangThai" > 
 
-                                        <option value=0>Phòng trống</option>
+                                        <option selected value=0>Phòng trống</option>
                                         <option value=1>Đang thuê </option>
                                         <option value=2>Đang sửa chữa </option>
                                         <option value=3>Khách ra ngoài </option>
                                         <option value=4>Đang dọn dẹp </option>
-                                        <option value=5>Không hoạt động </option>
+                                       
 
                                     </select>
                                  
@@ -260,13 +263,13 @@
 
                                 <div class="data_info_room_profile_popup_window">
                                     <p  class="require" id="require_LoaiPhong">Loại phòng</p>
-                                    <select name="LoaiPhong" id="LoaiPhong" class="input_data_info_room_profile_popup_window">
+                                    <select name="LoaiPhong" id="LoaiPhong" class="input_data_info_room_profile_popup_window select_">
                                 @{
 
                                     foreach (var pi in listLoaiPhong)
                                     {
 
-                                                                                            <option value=@pi.MaLoaiPhong>@pi.TenLoaiPhong</option>
+                                        <option selected value=@pi.MaLoaiPhong>@pi.TenLoaiPhong</option>
                                                   
                                     }                     
                                 }
