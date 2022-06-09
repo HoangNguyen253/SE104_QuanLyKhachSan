@@ -159,8 +159,10 @@ $(document).ready(function (e) {
         });
 
         $('#doanhthubaocaotong_selection_name_icon_id').click(function () {
+            var timeElapsed = Date.now();
+            var today = new Date(timeElapsed);
             $.ajax({
-                url: '/Home/ThongKeDoanhThu',
+                url: '/Home/ThongKeDoanhThu?ThangBaoCao=' + today.toDateString(),
                 success: function (data, status) {
                     $('#main_working_window_id').html(data);
                     console.log(status);

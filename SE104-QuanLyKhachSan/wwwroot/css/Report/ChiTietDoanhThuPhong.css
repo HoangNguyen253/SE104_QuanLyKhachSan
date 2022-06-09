@@ -188,3 +188,15 @@
 .main_working_window {
     overflow: scroll;
 }
+
+.avatar_field_staff_profile_popup_window {
+    /* background-color: #000; */
+    /* background-color: aqua;*/
+    display: flex;
+    flex-direction: column;
+}
+
+#avatar_img_staff_profile_popup_window {
+    width: 150px;
+    height: 150px;
+}
