@@ -1,6 +1,8 @@
 ﻿@{
     List<ChiTietBaoCaoDoanhThuThang> list_dt = ViewData["list_dt"] as List<ChiTietBaoCaoDoanhThuThang>;
+
     string ThangBaoCao = ViewData["ThangBaoCao"] as string;
+
 }
 
 <link rel='stylesheet' type='text/css' media='screen' href='~/css/Report/ChiTietDoanhThuPhong.css'>
@@ -53,8 +55,10 @@
                                         <tr>
                                             <td>@(i+1)</td>
                                             <td>@list_dt[i].TenLoaiPhong</td>
-                                            <td>@list_dt[i].SoTien.ToString() VNĐ</td>
-                                            <td>@list_dt[i].TiLe.ToString()</td>
+                                            <td id="GiaTien_format">
+                                            @string.Format("{0:n0}",list_dt[i].SoTien) VNĐ</td>
+
+                                            <td>@list_dt[i].TiLe.ToString("")</td>
                                         </tr>
                                     }
                                 }

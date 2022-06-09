@@ -157,5 +157,17 @@ function CalcTienLuong(valueInput, method) {
 }
 
 
+function formatGiaTien(giaTien) {
+    let giaTienAfter = "";
+    let len = giaTien.length;
+    for (let j = 1; j <= len; j++) {
+        giaTienAfter = giaTien[len - j] + giaTienAfter;
+        if (j % 3 == 0 && j != len) {
+            giaTienAfter = "." + giaTienAfter;
+        }
+    }
+    return giaTienAfter;
+}
+
 
 
