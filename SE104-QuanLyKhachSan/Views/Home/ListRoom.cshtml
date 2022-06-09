@@ -1,12 +1,8 @@
 ﻿<link rel='stylesheet' type='text/css' media='screen' href='~/css/ListRoom/ListRoom.css'>
 
 @{
-    Database db = new Database();
-    Database db2 = new Database();
     List<LoaiPhong> listLoaiPhong = ViewData["listLoaiPhong"] as List<LoaiPhong>;
     List<Phong> listPhong = ViewData["listPhong"] as List<Phong>;
-    listPhong = db.getAllDetailRoom();
-    listLoaiPhong = db2.getAllRoomStyle();
 }
  <div class="tracuuphong_main_window" method="post">
 
@@ -243,7 +239,7 @@
                                 <div class="data_info_room_profile_popup_window">
                                     <p  class="require" id="require_TrangThai">Trạng thái</p>
 
-                                    <select class="input_data_info_room_profile_popup_window select_" name="TrangThai" id="TrangThai" > 
+                                    <select class="input_data_info_room_profile_popup_window select_" name="TrangThai" id="TrangThai" disabled> 
 
                                         <option selected value=0>Phòng trống</option>
                                         <option value=1>Đang thuê </option>

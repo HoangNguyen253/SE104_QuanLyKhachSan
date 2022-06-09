@@ -17,6 +17,8 @@
 
             document.getElementById('SoPhong').disabled = false;
             document.getElementById('Tang').disabled = false;
+            document.getElementById('TrangThai').disabled = true;
+          
 
         }
     })
@@ -27,6 +29,8 @@
 
             document.getElementById('SoPhong').disabled = false;
             document.getElementById('Tang').disabled = false;
+            document.getElementById('TrangThai').disabled = true;
+        
 
         }
     })
@@ -38,6 +42,8 @@
             let trangThai = document.getElementById("TrangThai").value;
             let soPhong = document.getElementById("SoPhong").value;
             let loaiPhong = document.getElementById("LoaiPhong").value;
+
+        
             
 
 
@@ -275,6 +281,8 @@ function deleteInfoRoom(maPhong) {
         let xhr_del_phong = new XMLHttpRequest();
         let url_del_phong = "/Home/DeleteRoom?MaP=" + maPhong;
 
+         
+          
 
         xhr_del_phong.open("POST", url_del_phong, true);
         xhr_del_phong.send();
@@ -356,6 +364,8 @@ function viewInfoRoom(maPhong) {
             document.getElementById('room_profile_popup_window_container_id').classList.add("suaphong");
             document.getElementById('SoPhong').disabled = true;
             document.getElementById('Tang').disabled = true;
+            document.getElementById('TrangThai').disabled = false;
+
            
 
 
