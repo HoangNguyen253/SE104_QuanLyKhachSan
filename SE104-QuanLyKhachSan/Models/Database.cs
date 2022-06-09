@@ -297,8 +297,7 @@ namespace SE104_QuanLyKhachSan.Models
             {
                 conn.Open();
                 string query = "SELECT MaLoaiKhachHang, TenLoaiKhachHang " +
-                    "FROM LOAIKHACHHANG " +
-                    "WHERE DaXoa = 0 ";
+                    "FROM LOAIKHACHHANG ";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -971,7 +970,7 @@ namespace SE104_QuanLyKhachSan.Models
                                             "ThoiGianApDung, " +
                                             "PT1.MaLoaiKhachHang, " +
                                             "LKH.TenLoaiKhachHang " +
-                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang AND LKH.DaXoa = 0) " +
+                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang) " +
                                      "WHERE (PT1.ThoiGianApDung >= ALL(SELECT PT2.ThoiGianApDung " +
                                                                         "FROM phuthulkh PT2 " +
                                                                         "WHERE PT1.SoLuongApDung = PT2.SoLuongApDung " +
@@ -1020,7 +1019,7 @@ namespace SE104_QuanLyKhachSan.Models
                                             "ThoiGianApDung, " +
                                             "PT1.MaLoaiKhachHang, " +
                                             "LKH.TenLoaiKhachHang " +
-                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang AND LKH.DaXoa = 0) " +
+                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang) " +
                                      "WHERE HeSoPhuThu<>0 " +
                                      "ORDER BY `PT1`.`MaLoaiKhachHang` ASC, `PT1`.`SoLuongApDung` ASC, `PT1`.`ThoiGianApDung` ASC";
 
@@ -3618,7 +3617,7 @@ throw;
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
-                string str = "SELECT `MaLoaiPhong`, `TenLoaiPhong` FROM `loaiphong` WHERE loaiphong.DaXoa = 0 ";
+                string str = "SELECT `MaLoaiPhong`, `TenLoaiPhong` FROM `loaiphong` ";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd = new MySqlCommand(str, conn);
                 using (var result = cmd.ExecuteReader())
@@ -3689,7 +3688,7 @@ throw;
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
-                string str = " SELECT `MaChucVu`, `TenChucVu` FROM `chucvu` WHERE chucvu.DaXoa = 0 ";
+                string str = " SELECT `MaChucVu`, `TenChucVu` FROM `chucvu` ";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 using (var result = cmd.ExecuteReader())
                 {
