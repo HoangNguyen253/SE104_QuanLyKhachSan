@@ -3,19 +3,12 @@
     transition: all 0.5s;
     margin-left: 20.5%;
     height: 100%;
-    background-image: url(Icon/background.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-clip: content-box;
     overflow: auto
 }
 
 .tracuunv_main_window {
     display: block;
-}
-
-.tracuuphong_main_window {
-    display: block;
+    background-color:white;
 }
 
 .main_working_window .tracuu_header {
@@ -36,7 +29,7 @@
     width: 152px;
     height: 33px;
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .main_working_window select {
