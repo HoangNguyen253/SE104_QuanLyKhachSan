@@ -298,7 +298,6 @@ namespace SE104_QuanLyKhachSan.Models
                 conn.Open();
                 string query = "SELECT MaLoaiKhachHang, TenLoaiKhachHang " +
                     "FROM LOAIKHACHHANG ";
-                  
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -1020,6 +1019,7 @@ namespace SE104_QuanLyKhachSan.Models
                                             "ThoiGianApDung, " +
                                             "PT1.MaLoaiKhachHang, " +
                                             "LKH.TenLoaiKhachHang " +
+
                                      "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang " +
                                      "WHERE HeSoPhuThu<>0 " +
                                      "ORDER BY `PT1`.`MaLoaiKhachHang` ASC, `PT1`.`SoLuongApDung` ASC, `PT1`.`ThoiGianApDung` ASC";
@@ -2847,6 +2847,7 @@ throw;
                     nv.MaNhanVien = cmdGetNV.Parameters["_maNhanVien"].Value.ToString();
 
                     string mk = GeneratePassword();
+                    Send_Password(nv.Email, mk);
                     MySqlCommand cmd = new MySqlCommand(SQLQuery.postNewStaff, conn);
 
                     cmd.Parameters.AddWithValue("MaNhanVien", nv.MaNhanVien);
@@ -2860,7 +2861,7 @@ throw;
                     cmd.Parameters.AddWithValue("NgayVaoLam", nv.NgayVaoLam);
                     cmd.Parameters.AddWithValue("MaChucVu", nv.MaChucVu);
                     cmd.Parameters.AddWithValue("HinhAnh", "/image/NhanVien/account.png");
-               
+                    
                     cmd.Parameters.AddWithValue("Luong", nv.Luong);
                     cmd.ExecuteNonQuery();
 
@@ -3264,6 +3265,26 @@ throw;
                 return 3;
             }
         }
+        public int Send_Password(string email, string matkhau)
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+             
+                    Mailer mail = new Mailer();
+                    string bodyMail = "<h2>Chào bạn</h2><p>Mật khẩu của của bạn là:" + matkhau + "</p>";
+                    if (mail.Send(email, "Mã OTP", bodyMail) == "OK")
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+                
+         
+            }
+        }
         //Hiếu - end
         #endregion
 
@@ -3619,6 +3640,7 @@ throw;
             {
                 conn.Open();
                 string str = " SELECT `MaLoaiPhong`, `TenLoaiPhong` FROM `loaiphong`  ";
+
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd = new MySqlCommand(str, conn);
                 using (var result = cmd.ExecuteReader())

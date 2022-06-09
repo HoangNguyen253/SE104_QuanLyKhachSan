@@ -22,38 +22,42 @@
                 for(int k = 0; k<= 5; k++)
                 {
 
-                    
-                        var trangThai = "";
-                        switch (k)
-                        {
 
-                             case 0:
-                                {
-                                    trangThai = "Phòng trống";
-                                    break;
-                                }
-                            case 1:
-                                {
-                                    trangThai = "Đang thuê";
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    trangThai = "Đang sửa chữa";
-                                    break;
-                                }
-                            case 3:
-                                {
-                                    trangThai = "Khách ra ngoài";
-                                    break;
-                                }
-                            case 4:
-                                {
-                                    trangThai = "Đang dọn dẹp";
-                                    break;
-                                }
-                         
-                         
+                    var trangThai = "";
+                    switch (k)
+                    {
+
+                        case 0:
+                            {
+                                trangThai = "Phòng trống";
+                                break;
+                            }
+                        case 1:
+                            {
+                                trangThai = "Đang thuê";
+                                break;
+                            }
+                        case 2:
+                            {
+                                trangThai = "Đang sửa chữa";
+                                break;
+                            }
+                        case 3:
+                            {
+                                trangThai = "Khách ra ngoài";
+                                break;
+                            }
+                        case 4:
+                            {
+                                trangThai = "Đang dọn dẹp";
+                                break;
+                            }
+                        case 5:
+                            {
+                                trangThai = "Phòng không còn hoạt động";
+                                break;
+                            }
+
 
                         }
                     
@@ -143,15 +147,19 @@
                                         trangThai = "Đang dọn dẹp";
                                         break;
                                     }
-                            
+                                case 5:
+                                    {
+                                        trangThai = "Phòng không còn hoạt động";
+                                        break;
+                                    }
+
+
 
                             }
                         
 
-                                  
-                                    if (@pi.TrangThai != 5)
-                                       
-                                    {
+
+                                
                                                  <tr >
                                                 @{
                                             if (@pi.MaPhong.Length == 3)
@@ -184,8 +192,8 @@
                                                    </tr>
                                     }  
                                     
-                                    
-                                }
+
+                                 
                              
                                     
                         }

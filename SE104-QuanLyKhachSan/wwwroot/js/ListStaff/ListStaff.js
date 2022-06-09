@@ -80,7 +80,7 @@ $(document).ready(function (e) {
                     let status = this.response;
                     if (status == "success")
                     {
-                        toastMessage({ title: 'Thành công', message: 'Thêm thành công', type: 'success', duration: 3500 });
+                        toastMessage({ title: 'Thành công', message: 'Thêm thành công. Đã gửi mật khẩu về mail.', type: 'success', duration: 3500 });
                         $.ajax({
                             url: '/Home/ListStaff',
                             success: function (data, status) {
@@ -344,7 +344,7 @@ function Reset_Password() {
 
             let result = xhr.responseText;
             if (result == "success") {
-                toastMessage({ title: 'Thành công', message: 'Đổi mật khẩu thành công', type: 'success', duration: 3500 });
+                toastMessage({ title: 'Thành công', message: 'Đã gửi mật khẩu về mail', type: 'success', duration: 3500 });
             }
             else {
                 toastMessage({ title: 'Thất bại', message: result, type: 'fail', duration: 3500 });
@@ -355,6 +355,7 @@ function Reset_Password() {
     xhr.send();
 
 }
+
 
 
 
