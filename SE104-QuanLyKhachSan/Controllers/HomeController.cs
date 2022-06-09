@@ -17,9 +17,11 @@ namespace SE104_QuanLyKhachSan.Controllers
 
         private readonly ILogger<HomeController> _logger;
 
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+           
         }
 
         public IActionResult Index()
@@ -61,6 +63,7 @@ namespace SE104_QuanLyKhachSan.Controllers
         }
         public JsonResult GetStaffOnBoard()
         {
+         
             return Json(HttpContext.Session.Get<NhanVien>(SessionKeyUser));
         }
         public string UploadImage(IFormFile file)
@@ -110,10 +113,19 @@ namespace SE104_QuanLyKhachSan.Controllers
         }
         public IActionResult ListStaff()
         {
+            Database db = new Database();
+
+            ViewData["listChucVu"] = db.getAllDetailRoles();
+            ViewData["NhanVienOnBoard"] = HttpContext.Session.Get<NhanVien>(SessionKeyUser);         
+            ViewData["listNhanVien"] = db.getAllDetailStaff();
             return PartialView();
+           
         }
         public IActionResult ListRoom()
         {
+            Database db = new Database();
+            ViewData["listPhong"] = db.getAllDetailRoom();
+            ViewData["listLoaiPhong"] = db.getAllRoomStyle();
             return PartialView();
         }
 
