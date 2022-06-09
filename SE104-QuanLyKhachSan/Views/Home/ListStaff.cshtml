@@ -14,7 +14,7 @@
                 <div id="tracuunhanvien_tool_bar" class="tracuu_header">
                     <div class="add_role tracuu_header">
                         <button type="button" class="tracuu_btn" id="tracuunv"> + Thêm mới</button>
-                        <select name="" id="TenChucVu_">
+                        <select name="" id="TenChucVu_" >
                 @{
                                                                                                 <option value="">Tất cả chức vụ</option>
                     foreach (var pi in listChucVu)
@@ -58,7 +58,7 @@
                     <th scope="col" class="heading_cell"></th>
                     <th scope="col" class="heading_cell">Mã nhân viên</th>
                     <th scope="col" class="heading_cell">Tên nhân viên</th>
-                   <th scope="col" class="heading_cell">CCCD/CMND</th>
+                    <th scope="col" class="heading_cell">CCCD/CMND</th>
                     <th scope="col" class="heading_cell">Ngày sinh</th>
                     <th scope="col" class="heading_cell">Email</th>
                     <th scope="col" class="heading_cell">Chức vụ</th>
@@ -103,7 +103,8 @@
 
 
                                                                                                  <td class="data_cell">
-                                                                                            <button class="staff_body_item__angle_button btn sua" onclick="viewInfoStaff(@pi.MaNhanVien.ToString())"  style="cursor:pointer" >
+                                                                                            <button class="staff_body_item__angle_button btn sua" onclick="@(Html.Raw(String.Format("viewInfoStaff('{0}')",
+                                                                                               @pi.MaNhanVien )))"  style="cursor:pointer" >
                                                                                                 Sửa 
                                                                                                                   
                                                                                             </button>
@@ -135,11 +136,7 @@
 
                 <div class="body_staff_profile_popup_add_window">
                     <div class="content_staff_profile_popup_add_window">
-                       <!-- <div class="avatar_field_staff_profile_popup_add_window">
-                            <img id="avatar_img_staff_profile_popup_add_window">
-                            <input type='file' onchange="readURL_add(this);" id="fileUpload_add" style="display: none;" />
-                            <button id="btn_change_avatar_staff_profile_popup_add_window">Đổi</button>
-                        </div> -->
+        
                        
 
                         <div class="information_field_staff_profile_popup_add_window">
@@ -183,13 +180,13 @@
                                     <input type="date" class="input_data_info_staff_profile_popup_add_window" name="NgaySinh" id="NgaySinh" required>
                                 </div>                                
                                 <div class="data_info_staff_profile_popup_add_window">
-                                    <p>Email</p>
+                                    <p class="require">Email</p>
                                     <input type="email" class="input_data_info_staff_profile_popup_add_window" name="Email" id="Email" required>
                                 </div>
                                 <div class="data_info_staff_profile_popup_add_window">
                                     <p class="require" id="require_GioiTinh">Giới tính</p>
-                                    <select class="input_data_info_staff_profile_popup_add_window" name="GioiTinh" id="GioiTinh">
-                                        <option value="1">Nam</option>
+                                    <select class="input_data_info_staff_profile_popup_add_window select__" name="GioiTinh" id="GioiTinh">
+                                        <option selected value="1">Nam</option>
                                         <option value="0">Nữ</option>
                                     </select>
                                 </div>
@@ -198,11 +195,11 @@
                                 <div class="name_part_info_staff_profile_popup_add_window">Thông tin nhân viên</div>
                                 <div class="data_info_staff_profile_popup_add_window">
                                     <p  class="require" id="require_ChucVu">Chức vụ</p>
-                                    <select class="input_data_info_staff_profile_popup_add_window" name="MaChucVu" id="MaChucVu" required>
+                                    <select class="input_data_info_staff_profile_popup_add_window select__" name="MaChucVu" id="MaChucVu" required>
                                            @{
                                                 foreach (var pi in listChucVu)
                                                 {
-                                                                                 <option value=@pi.MaChucVu>@pi.TenChucVu</option>
+                                                  <option selected value=@pi.MaChucVu>@pi.TenChucVu</option>
                                                 }
                                             }
                                     </select>

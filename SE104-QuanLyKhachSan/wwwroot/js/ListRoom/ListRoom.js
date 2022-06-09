@@ -117,6 +117,8 @@
             if (document.getElementById("Tang").value < 10)
                 if (document.getElementById("Tang").value == 0)
                     tang = "00";
+                else
+                    tang = 0 + tang;
          
 
             let maPhong = document.querySelector('#MaPhong')
@@ -142,6 +144,8 @@
             if (document.getElementById("Tang").value < 10)
                 if (document.getElementById("Tang").value == 0)
                     tang = "00";
+                else
+                    tang = 0 + tang;
                
 
             let maPhong = document.querySelector('#MaPhong')
@@ -169,6 +173,8 @@
             if (document.getElementById("Tang").value < 10)
                 if (document.getElementById("Tang").value == 0)
                     tang = "00";
+                else
+                    tang = 0 + tang;
              
 
 
@@ -196,6 +202,8 @@
             if (document.getElementById("Tang").value < 10)
                 if (document.getElementById("Tang").value == 0)
                     tang = "00";
+                else
+                    tang = 0 + tang;
               
 
             let maPhong = document.querySelector('#MaPhong')
@@ -285,7 +293,7 @@ function deleteInfoRoom(maPhong) {
                     })
                 }
                 else if (status == "fired") {
-                    toastMessage({ title: 'Failing', message: 'Không thể xóa hẳn phòng do đã từng có khách thuê. Cập nhật trạng thái phòng không hoạt động nữa.', type: 'fail', duration: 5500 });
+                    toastMessage({ title: 'Fail', message: 'Không thể xóa hẳn phòng do đã từng có khách thuê. Cập nhật trạng thái phòng không hoạt động nữa.', type: 'fail', duration: 5500 });
                     $.ajax({
                         url: '/Home/ListRoom',
                         success: function (data, status) {
@@ -330,11 +338,11 @@ function validateFormRoom() {
 
 function viewInfoRoom(maPhong) {
 
-
+   
     let xhr_edit_room = new XMLHttpRequest();
     let url_edit_room = "/Home/GetChosenRoom/?MaPhong=" + maPhong;
 
-
+ 
     xhr_edit_room.open("POST", url_edit_room, true);
     xhr_edit_room.send();
 

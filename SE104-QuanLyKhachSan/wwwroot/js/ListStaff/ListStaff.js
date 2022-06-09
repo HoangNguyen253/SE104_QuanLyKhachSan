@@ -80,7 +80,7 @@ $(document).ready(function (e) {
                     let status = this.response;
                     if (status == "success")
                     {
-                        toastMessage({ title: 'Success', message: 'Thêm thành công', type: 'success', duration: 3500 });
+                        toastMessage({ title: 'Thành công', message: 'Thêm thành công', type: 'success', duration: 3500 });
                         $.ajax({
                             url: '/Home/ListStaff',
                             success: function (data, status) {
@@ -92,7 +92,7 @@ $(document).ready(function (e) {
                   
                     else
                     {
-                        toastMessage({ title: 'Fail', message: 'Thêm thất bại do trùng mã nhân viên', type: 'fail', duration: 3500 });
+                        toastMessage({ title: 'Thất bại', message: 'Xảy ra lỗi trùng dữ liệu (email, số điện thoại, cmnd/cccd không được trùng)', type: 'fail', duration: 3500 });
                     }
                 }
 
@@ -134,7 +134,7 @@ $(document).ready(function (e) {
 
 
 function validateForm() {
-    //let listMaNhanVien = document.querySelectorAll('.data_cell manhanvien').values;
+   
 
 
     var email = document.getElementById("Email").value;
@@ -149,10 +149,7 @@ function validateForm() {
     var luong = document.getElementById("Luong").value;
 
 
-  /*  if (maNhanVien.length != 6) {
-        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Mã nhân viên phải đủ 6 ký tự', type: 'fail', duration: 3500 });
-        return false;
-    }*/
+
     if ( hoTen == "" || ngaySinh == "" || ngayVaoLam == "" || luong == "" || CCCD=="" || email=="") {
         toastMessage({ title: 'Lỗi Nhân Viên', message: 'Điền đủ vào các trường bắt buộc', type: 'fail', duration: 3500 });
         return false;
@@ -179,10 +176,7 @@ function validateForm() {
             return false;
         }
     }
-  /*  if (matKhau.length < 8) {
-        toastMessage({ title: 'Lỗi Nhân Viên', message: 'Mật khẩu ít nhất 8 ký tự', type: 'fail', duration: 3500 });
-        return false;
-    }*/
+
     return true;
  
 }
@@ -254,7 +248,7 @@ function deleteInfoStaff(maNhanVien) {
                     })
                 }
                 else if (status == "fired") {
-                    toastMessage({ title: 'Success', message: 'Sa thải thành công', type: 'success', duration: 3500 });
+                    toastMessage({ title: 'Thành công', message: 'Sa thải thành công', type: 'success', duration: 3500 });
                     $.ajax({
                         url: '/Home/ListStaff',
                         success: function (data, status) {
@@ -267,7 +261,7 @@ function deleteInfoStaff(maNhanVien) {
                     console.log(123);
                 }
                 else {
-                    toastMessage({ title: 'Fail', message: 'Xóa thất bại', type: 'fail', duration: 3500 });
+                    toastMessage({ title: 'Thất bại', message: 'Xóa thất bại', type: 'fail', duration: 3500 });
                 }
             }
 
@@ -296,7 +290,7 @@ for (let i = 0; i < listbc.length; i++) {
                 if (this.readyState == 4 && this.status == 200) {
                     let status = this.response;
                     if (status == "success") {
-                        toastMessage({ title: 'Success', message: 'Xóa thành công', type: 'success', duration: 3500 });
+                        toastMessage({ title: 'Thành công', message: 'Xóa thành công', type: 'success', duration: 3500 });
                         $.ajax({
                             url: '/Home/ListStaff',
                             success: function (data, status) {
@@ -306,7 +300,7 @@ for (let i = 0; i < listbc.length; i++) {
                         })
                     }
                     else if (status == "fired") {
-                        toastMessage({ title: 'Fail', message: 'Không thể xóa nhân viên. Cập nhật chức vụ nhân viên thành "Đã sa thải".', type: 'fail', duration: 3500 });
+                        toastMessage({ title: 'Thất bại', message: 'Không thể xóa nhân viên. Cập nhật chức vụ nhân viên thành "Đã sa thải".', type: 'fail', duration: 3500 });
                         $.ajax({
                             url: '/Home/ListStaff',
                             success: function (data, status) {
