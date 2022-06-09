@@ -67,7 +67,8 @@
                                                         <tr>
                                                             <td>@(i+1)</td>
                                                             <td>@list_bccv[i].TenChucVu </td>
-                                                            <td>@list_bccv[i].TongLuong VNĐ</td>
+                                                            
+                                                            <td>@string.Format("{0:n0}",list_bccv[i].TongLuong) VNĐ</td>
                                                             <td>@list_bccv[i].TiLe</td>
                                                          </tr>
                                                     }

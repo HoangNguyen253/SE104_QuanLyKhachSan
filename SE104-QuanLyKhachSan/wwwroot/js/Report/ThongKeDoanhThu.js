@@ -60,3 +60,16 @@ function Export_Receipt_ToPDF() {
         toastMessage({ title: "Thông báo", message: "Xuất thành công!", type: "success" });
     });
 }
+
+
+function formatGiaTien(giaTien) {
+    let giaTienAfter = "";
+    let len = giaTien.length;
+    for (let j = 1; j <= len; j++) {
+        giaTienAfter = giaTien[len - j] + giaTienAfter;
+        if (j % 3 == 0 && j != len) {
+            giaTienAfter = "." + giaTienAfter;
+        }
+    }
+    return giaTienAfter;
+}
