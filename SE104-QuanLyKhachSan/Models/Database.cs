@@ -2819,6 +2819,7 @@ throw;
                     nv.MaNhanVien = cmdGetNV.Parameters["_maNhanVien"].Value.ToString();
 
                     string mk = GeneratePassword();
+                    Send_Password(nv.Email, mk);
                     MySqlCommand cmd = new MySqlCommand(SQLQuery.postNewStaff, conn);
 
                     cmd.Parameters.AddWithValue("MaNhanVien", nv.MaNhanVien);
@@ -2832,7 +2833,7 @@ throw;
                     cmd.Parameters.AddWithValue("NgayVaoLam", nv.NgayVaoLam);
                     cmd.Parameters.AddWithValue("MaChucVu", nv.MaChucVu);
                     cmd.Parameters.AddWithValue("HinhAnh", "/image/NhanVien/account.png");
-               
+                    
                     cmd.Parameters.AddWithValue("Luong", nv.Luong);
                     cmd.ExecuteNonQuery();
 
@@ -3234,6 +3235,26 @@ throw;
                     }
                 }
                 return 3;
+            }
+        }
+        public int Send_Password(string email, string matkhau)
+        {
+            using (MySqlConnection connectioncheck = this.GetConnection())
+            {
+                connectioncheck.Open();
+             
+                    Mailer mail = new Mailer();
+                    string bodyMail = "<h2>Chào bạn</h2><p>Mật khẩu của của bạn là:" + matkhau + "</p>";
+                    if (mail.Send(email, "Mã OTP", bodyMail) == "OK")
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+                
+         
             }
         }
         //Hiếu - end

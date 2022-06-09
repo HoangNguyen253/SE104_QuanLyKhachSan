@@ -257,8 +257,8 @@ namespace SE104_QuanLyKhachSan.Controllers
             NhanVien newStaff = new NhanVien();
             Database database = new Database();
 
-            /*  newStaff.MaNhanVien = ;
-            newStaff.MatKhau =;*/
+           /*string mk = GeneratePassword();
+            newStaff.MatKhau =*/ 
             newStaff.CCCD = formAdd["CCCD"].ToString();
             newStaff.HoTen = formAdd["HoTen"].ToString();
             newStaff.GioiTinh = Convert.ToByte(formAdd["GioiTinh"]);
@@ -288,7 +288,9 @@ namespace SE104_QuanLyKhachSan.Controllers
             return "Đối mật khẩu không thành công.";
         }
 
-       
+   
+
+
         public JsonResult GetPhong()
         {
             Database db = new Database();
