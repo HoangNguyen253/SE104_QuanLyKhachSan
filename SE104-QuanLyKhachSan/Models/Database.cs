@@ -2957,7 +2957,7 @@ throw;
                                 nv.SoDienThoai = result["SoDienThoai"].ToString();
                                 nv.NgayVaoLam = Convert.ToDateTime(result["NgayVaoLam"]);
                                 nv.MaChucVu = Convert.ToUInt16(result["MaChucVu"]);
-
+                               
                                 nv.Luong = Convert.ToInt32(result["Luong"]);
                                 nhanvien = nv;
                             }
@@ -3003,7 +3003,7 @@ throw;
                                 ph.MaPhong = result["MaPhong"].ToString();
                                 ph.MaLoaiPhong = Convert.ToByte(result["MaLoaiPhong"]);
                                 ph.Tang = Convert.ToByte(result["Tang"]);
-                    
+                                ph.SoPhong = Convert.ToByte(ph.MaPhong.Substring(2,2));
                                 ph.GhiChu = (result["GhiChu"]).ToString();
                                 ph.TrangThai = Convert.ToByte(result["TrangThai"]);
 
@@ -3081,9 +3081,10 @@ throw;
                     cmd.Parameters.AddWithValue("trangThai", ph.TrangThai);
                     cmd.Parameters.AddWithValue("ghiChu", ph.GhiChu);
                     cmd.Parameters.AddWithValue("tang", ph.Tang);
-             
+                    cmd.Parameters.AddWithValue("soPhong", ph.MaPhong.Substring(2,2));
 
-                   cmd.ExecuteNonQuery();
+
+                    cmd.ExecuteNonQuery();
                     return "success";
                 }
             }
