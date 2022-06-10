@@ -86,9 +86,9 @@
                                     <td>@item.TenNhanVien</td>
                                     <td>@item.CCCD</td>
                                     <td>@item.TenChucVu</td>
-                                    <td>@item.Thuong</td>
-                                    <td>@item.Phat</td>
-                                    <td>@item.SoTien</td>
+                                    <td>@string.Format("{0:n0}", item.Thuong)</td>
+                                    <td>@string.Format("{0:n0}", item.Phat)</td>
+                                    <td>@string.Format("{0:n0}", item.SoTien)</td>
                                     <td>@item.GhiChu</td>
                                     <td id="@item.MaDotTraLuong">
                                         <button id="Edit_btn" type="button">
@@ -146,7 +146,7 @@
                 <div class="TongLuong_Container">
                     <div class="LuongLabel">Lương</div>
                     <div class="input_container">
-                        <input id="TongLuong_input_id" type="number" disabled />
+                        <input id="TongLuong_input_id" disabled />
                     </div> 
                 </div>
 

@@ -1,4 +1,4 @@
-﻿var back_btn = document.getElementById("back_btn_id");
+﻿    var back_btn = document.getElementById("back_btn_id");
 back_btn.addEventListener('click', () => {
     $.ajax({
         url: '/Home/DotLuong',
@@ -21,6 +21,7 @@ print_btn.addEventListener('click', () => {
 var edit_btn = document.querySelectorAll('#Edit_btn');
 var madottraluong;
 var manhanvien;
+
 for (let i = 0; i < edit_btn.length; i++) {
     edit_btn[i].addEventListener('click', () => {
         document.getElementById("staff_info_container_id").classList.add('show');
@@ -28,16 +29,15 @@ for (let i = 0; i < edit_btn.length; i++) {
         madottraluong = edit_btn[i].parentElement.id;
         manhanvien = edit_btn[i].parentElement.parentElement.children[1].innerHTML;
         var hoten = edit_btn[i].parentElement.parentElement.children[2].innerHTML;
-        var thuong = ThuongBanDau = edit_btn[i].parentElement.parentElement.children[5].innerHTML;
-        var phat = PhatBanDau = edit_btn[i].parentElement.parentElement.children[6].innerHTML;
-        var sotien = TongLuongBanDau = edit_btn[i].parentElement.parentElement.children[7].innerHTML;
+        var thuong = ThuongBanDau = giaTienGoc(edit_btn[i].parentElement.parentElement.children[5].innerHTML);
+        var phat = PhatBanDau = giaTienGoc(edit_btn[i].parentElement.parentElement.children[6].innerHTML);
+        var sotien = TongLuongBanDau = giaTienGoc(edit_btn[i].parentElement.parentElement.children[7].innerHTML);
         var ghichu = edit_btn[i].parentElement.parentElement.children[8].innerHTML;
-
         let workStaffInput = $(".Info_Luong_container input");
         workStaffInput[0].value = parseInt(thuong);
         workStaffInput[1].value = parseInt(phat);
         workStaffInput[2].value = parseInt(sotien);
-
+        
         $("#manhanvien_id").html(manhanvien);
         $("#tennhanvien_id").html(hoten);
 
@@ -136,7 +136,9 @@ function CalcTienLuong(valueInput, method) {
             if (!ThuongFinal)
                 ThuongFinal = 0;
             TongLuongBanDau = parseInt(document.getElementById("TongLuong_input_id").value);
-            document.getElementById("TongLuong_input_id").value = TongLuongBanDau - parseInt(ThuongBanDau) + parseInt(ThuongFinal);
+            let tien = TongLuongBanDau - parseInt(ThuongBanDau) + parseInt(ThuongFinal);
+            
+            document.getElementById("TongLuong_input_id").value = tien;
             if (ThuongFinal != 0)
                 ThuongBanDau = parseInt(document.getElementById("ThuongInput_id").value);
             else
@@ -165,6 +167,19 @@ function formatGiaTien(giaTien) {
         if (j % 3 == 0 && j != len) {
             giaTienAfter = "." + giaTienAfter;
         }
+    }
+    return giaTienAfter;
+}
+
+function giaTienGoc(giatien) {
+    let giaTienAfter = "";
+    let arrGiaTien;
+    if (giatien.includes(","))
+        arrGiaTien = giatien.split(",");
+    else
+        arrGiaTien = giatien.split(".");
+    for (let j = 0; j < arrGiaTien.length; j++) {
+        giaTienAfter += arrGiaTien[j];
     }
     return giaTienAfter;
 }
