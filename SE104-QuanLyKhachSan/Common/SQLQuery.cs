@@ -308,8 +308,8 @@
                                                  "     on lp.MaLoaiPhong = p.MaLoaiPhong; ";
 
 
-        public static string postNewRoom = "insert into phong(MaPhong, MaLoaiPhong, Tang, SoPhong, TrangThai, GhiChu) values " +
-            "(@MaPhong, @MaLoaiPhong, @Tang, @SoPhong, @TrangThai, @GhiChu)";
+        public static string postNewRoom = "insert into phong (MaPhong, MaLoaiPhong, Tang, TrangThai, GhiChu) values " +
+            "(@MaPhong, @MaLoaiPhong, @Tang, @TrangThai, @GhiChu)";
 
 
         public static string postNewStaff = "insert into nhanvien(MaNhanVien,MatKhau,CCCD,HoTen,GioiTinh,NgaySinh,Email,SoDienThoai,NgayVaoLam,MaChucVu,HinhAnh,Luong) values " +
@@ -317,7 +317,7 @@
         public static string getAllRoomStyle = "select * from loaiphong";
         public static string getAllDetailRoles = "select * from chucvu";
         public static string getChosenStaff = "select * from nhanvien where MaNhanVien = @MaNhanVien";
-        public static string getChosenRoom = "select * from phong where MaPhong = @MaPhong";
+        public static string getChosenRoom = "select MaPhong, MaLoaiPhong, Tang, RIGHT(MaPhong,2) AS SoPhong, TrangThai, GhiChu from phong where MaPhong = @MaPhong";
         public static string deleteRoom = "delete from phong where MaPhong = @MaPhong";
         //Hiếu - end
 

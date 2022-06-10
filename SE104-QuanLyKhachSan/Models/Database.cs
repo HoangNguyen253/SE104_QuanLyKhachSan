@@ -2804,7 +2804,6 @@ throw;
                     cmd.Parameters.AddWithValue("MaPhong", ph.MaPhong);
                     cmd.Parameters.AddWithValue("MaLoaiPhong", ph.MaLoaiPhong);
                     cmd.Parameters.AddWithValue("Tang", ph.Tang);
-                    cmd.Parameters.AddWithValue("SoPhong", ph.SoPhong);
                     cmd.Parameters.AddWithValue("TrangThai", ph.TrangThai);
                     cmd.Parameters.AddWithValue("GhiChu", ph.GhiChu);
                     cmd.ExecuteNonQuery();
@@ -3004,7 +3003,7 @@ throw;
                                 ph.MaPhong = result["MaPhong"].ToString();
                                 ph.MaLoaiPhong = Convert.ToByte(result["MaLoaiPhong"]);
                                 ph.Tang = Convert.ToByte(result["Tang"]);
-                                ph.SoPhong = Convert.ToByte(result["SoPhong"]);
+                    
                                 ph.GhiChu = (result["GhiChu"]).ToString();
                                 ph.TrangThai = Convert.ToByte(result["TrangThai"]);
 
@@ -3073,7 +3072,7 @@ throw;
                     connectioncheck.Open();
 
                     string queryString = "UPDATE Phong " +
-                        "SET maLoaiPhong=@maLoaiPhong, Tang=@tang, TrangThai = @trangThai, GhiChu = @ghiChu, SoPhong = @soPhong, MaPhong = @maPhong " +
+                        "SET maLoaiPhong=@maLoaiPhong, Tang=@tang, TrangThai = @trangThai, GhiChu = @ghiChu, MaPhong = @maPhong " +
                         "WHERE MaPhong=@maPhong ";
 
                     MySqlCommand cmd = new MySqlCommand(queryString, connectioncheck);
@@ -3082,7 +3081,7 @@ throw;
                     cmd.Parameters.AddWithValue("trangThai", ph.TrangThai);
                     cmd.Parameters.AddWithValue("ghiChu", ph.GhiChu);
                     cmd.Parameters.AddWithValue("tang", ph.Tang);
-                    cmd.Parameters.AddWithValue("soPhong", ph.SoPhong);
+             
 
                    cmd.ExecuteNonQuery();
                     return "success";
