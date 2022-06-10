@@ -718,7 +718,7 @@ namespace SE104_QuanLyKhachSan.Models
                     "WHERE TenThuocTinh='SoKhachToiDa' " +
                             "AND NOT EXISTS (SELECT * " +
                                     "FROM PHUTHU PT1 " +
-                                    "WHERE PT1.MaLoaiPhuThu = 1 AND PT1.SoLuongApDung>@soKhachToiDa " +
+                                    "WHERE PT1.MaLoaiPhuThu = 1 AND PT1.SoLuongApDung>@soKhachToiDa AND PT1.TiLePhuThu <> 0 " +
                                         "AND ((PT1.ThoiGianApDung >= ALL(SELECT PT2.ThoiGianApDung " +
                                                                         "FROM PHUTHU PT2 " +
                                                                         "WHERE PT2.MaLoaiPhuThu = 1 AND PT1.SoLuongApDung = PT2.SoLuongApDung AND PT2.ThoiGianApDung <= @now) " +
@@ -726,7 +726,7 @@ namespace SE104_QuanLyKhachSan.Models
                                              "OR PT1.ThoiGianApDung > @now)) " +
                             "AND NOT EXISTS (SELECT * " +
                                     "FROM phuthulkh ptlkh " +
-                                    "WHERE ptlkh.SoLuongApDung>@soKhachToiDa " +
+                                    "WHERE ptlkh.SoLuongApDung>@soKhachToiDa AND ptlkh.HeSoPhuThu <> 0 " +
                                         "AND ((ptlkh.ThoiGianApDung >= ALL(SELECT ptlkh2.ThoiGianApDung " +
                                                                         "FROM phuthulkh ptlkh2 " +
                                                                         "WHERE ptlkh.SoLuongApDung = ptlkh2.SoLuongApDung AND ptlkh2.ThoiGianApDung <= @now) " +
@@ -970,7 +970,7 @@ namespace SE104_QuanLyKhachSan.Models
                                             "ThoiGianApDung, " +
                                             "PT1.MaLoaiKhachHang, " +
                                             "LKH.TenLoaiKhachHang " +
-                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang  " +
+                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang ) " +
                                      "WHERE (PT1.ThoiGianApDung >= ALL(SELECT PT2.ThoiGianApDung " +
                                                                         "FROM phuthulkh PT2 " +
                                                                         "WHERE PT1.SoLuongApDung = PT2.SoLuongApDung " +
@@ -1020,7 +1020,7 @@ namespace SE104_QuanLyKhachSan.Models
                                             "PT1.MaLoaiKhachHang, " +
                                             "LKH.TenLoaiKhachHang " +
 
-                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang " +
+                                     "FROM phuthulkh PT1 INNER JOIN loaikhachhang LKH ON (PT1.MaLoaiKhachHang = LKH.MaLoaiKhachHang ) " +
                                      "WHERE HeSoPhuThu<>0 " +
                                      "ORDER BY `PT1`.`MaLoaiKhachHang` ASC, `PT1`.`SoLuongApDung` ASC, `PT1`.`ThoiGianApDung` ASC";
 
@@ -3678,12 +3678,7 @@ throw;
                         if(list_lp[i].MaLoaiPhong == list_CTBC[j].MaLoaiPhong)
                         {
                             list_lp[i].SoTien = list_CTBC[j].SoTien;
-                            list_lp[i].TiLe = list_lp[i].SoTien / tongTien * 100;
-                        }
-                        else
-                        {
-                            list_lp[i].SoTien = 0;
-                            list_lp[i].TiLe = 0;
+                            list_lp[i].TiLe = (int)(Math.Round(((double)(list_lp[i].SoTien) / tongTien * 100),0));
                         }
                     }
                 }
@@ -3890,11 +3885,12 @@ throw;
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
                 conn.Open();
-                string str = " SELECT nv.MaNhanVien, nv.MaChucVu, nv.Luong FROM nhanvien nv ";
+                string str = " SELECT nv.MaNhanVien, nv.MaChucVu, nv.Luong FROM nhanvien nv WHERE nv.NgayVaoLam < @ngaybaocao ";
                 MySqlCommand cmd = new MySqlCommand(str, conn);
                 cmd = new MySqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("nam", ThangBaoCao.Year);
                 cmd.Parameters.AddWithValue("thang", ThangBaoCao.Month);
+                cmd.Parameters.AddWithValue("ngaybaocao", ThangBaoCao.AddMonths(1).ToString("yyyy-MM-dd"));
                 using (var result = cmd.ExecuteReader())
                 {
                     if (result.HasRows)
