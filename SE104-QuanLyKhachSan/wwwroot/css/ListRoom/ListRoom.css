@@ -372,3 +372,13 @@ select.input_data_info_room_profile_popup_window {
             background-color: #002B49;
             color: white;
         }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
