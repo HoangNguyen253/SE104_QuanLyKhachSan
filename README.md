@@ -18,13 +18,17 @@ Website quản lý các thông tin về phòng thuê, nhân viên, lương và d
 - Database: MySQL (sử dụng phpMyAdmin của XAMPP)
 ### Một số hình ảnh của website
 > *Trang đăng nhập*
+
 ![image](https://user-images.githubusercontent.com/90995578/196736950-e72e6668-5c4e-4510-96cb-ec242deb435f.png)
 
 > *Trang quy định*
+
 ![image](https://user-images.githubusercontent.com/90995578/196736481-712911d5-958a-443c-9830-640a335f0e2a.png)
 
 > *Trang sơ đồ các phòng*
+
 ![image](https://user-images.githubusercontent.com/90995578/196736618-a88ee873-8233-4e04-badf-bce636f80d26.png)
 
 > *Trang phân quyền*
+
 ![image](https://user-images.githubusercontent.com/90995578/196736721-b96275ab-2acc-4a35-86eb-f77bb057040d.png)
